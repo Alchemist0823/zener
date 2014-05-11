@@ -1,0 +1,30 @@
+package com.n8lm.zener.graphics;
+
+import com.n8lm.zener.math.Vector3f;
+
+public class LightUniforms extends UniformGroup {
+
+	public LightUniforms() {
+		super();
+    	uniforms.put("Light.La", new UniformVariable("Light.La", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
+    	uniforms.put("Light.Ld", new UniformVariable("Light.Ld", VarType.Vector3f, new Vector3f(0.8f, 0.8f, 0.8f)));
+    	uniforms.put("Light.Ls", new UniformVariable("Light.Ls", VarType.Vector3f, new Vector3f(1.0f, 1.0f, 1.0f)));
+    	uniforms.put("Light.Position", new UniformVariable("Light.Position", VarType.Vector4f));
+	}
+
+    public void setAmbientColor(float x, float y, float z) {
+    	setVector3f("Light.La", x, y, z);
+    }
+
+    public void setDiffuseColor(float x, float y, float z) {
+    	setVector3f("Light.Ld", x, y, z);
+    }
+
+    public void setSpecularColor(float x, float y, float z) {
+    	setVector3f("Light.Ls", x, y, z);
+    }
+    
+    public void setPosition(float x, float y, float z, float isPoint) {
+    	setVector4f("Light.Position", x, y, z, isPoint);
+    }
+}

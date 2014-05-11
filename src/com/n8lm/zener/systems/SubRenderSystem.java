@@ -1,0 +1,388 @@
+package com.n8lm.zener.systems;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL31.*;
+
+import java.util.*;
+import java.util.Map.Entry;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+import com.n8lm.zener.math.*;
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.EntitySystem;
+import com.artemis.annotations.Mapper;
+import com.artemis.managers.TagManager;
+import com.artemis.utils.Bag;
+import com.artemis.utils.ImmutableBag;
+import com.n8lm.zener.components.*;
+import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.graphics.*;
+import com.n8lm.zener.graphics.geom.Geometry;
+import com.n8lm.zener.graphics.geom.InstancingGeometry;
+
+public class SubRenderSystem extends EntitySystem{
+
+	protected @Mapper ComponentMapper<GeometryComponent> dm;
+	protected @Mapper ComponentMapper<MaterialComponent> mm;
+	protected @Mapper ComponentMapper<SkeletonComponent> sm;
+	protected @Mapper ComponentMapper<TransformComponent> pm;
+	protected @Mapper ComponentMapper<RenderEffectComponent> em;
+	
+	protected Matrix4f projectionMat;
+	protected Matrix4f viewMat;
+	protected Matrix4f modelMat;
+	
+	protected ViewComponent vc;
+	protected TransformComponent vp;
+    
+    protected LightUniforms lightUniforms;
+    protected GlobalUniforms globalUniforms;
+
+    protected Bag<Entity> transEntities;
+    protected Bag<Entity> opaqueEntities;
+
+	private Stack<Entity> tmpTransQueue;
+    
+    protected RenderMode renderMode;
+	private ViewRenderSystem vrs;
+    
+    public RenderMode getRenderMode() {
+		return renderMode;
+	}
+    
+	public void setRenderMode(RenderMode renderMode) {
+		this.renderMode = renderMode;
+	}
+
+	enum RenderMode {
+    	DepthRender,
+    	NormalRender;
+    }
+
+	SubRenderSystem(ViewRenderSystem vrs) {
+		super(Aspect.getAspectForAll(TransformComponent.class, GeometryComponent.class));
+		
+		this.vrs = vrs;
+		//setPassive(true);
+		
+		lightUniforms = new LightUniforms();
+		globalUniforms = new GlobalUniforms();
+		
+		viewMat = new Matrix4f();
+		modelMat = new Matrix4f();
+		projectionMat = new Matrix4f();
+
+		globalUniforms.setViewMatrix(viewMat);
+		globalUniforms.setModelMatrix(modelMat);
+		globalUniforms.setProjectionMatrix(projectionMat);
+		
+		opaqueEntities = new Bag<Entity>();
+		transEntities = new Bag<Entity>();
+		
+		tmpTransQueue = new Stack<Entity>();
+	}
+	
+	
+	@Override
+	protected void processEntities(ImmutableBag<Entity> entities) { 
+		
+		if (renderMode == RenderMode.NormalRender) {
+			for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
+				Entity e = opaqueEntities.get(i);
+
+				if (dm.get(e).isVisible()) {
+					if (em.has(e) && 
+							em.get(e).getAlpha() != 1.0f)
+						tmpTransQueue.push(e);
+					else
+						render(e);
+				}
+			}
+			
+	        glEnable(GL_BLEND);
+	        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	        glDepthMask(false);
+	
+			for (int i = 0, s = transEntities.size(); s > i; i++) {
+				render(transEntities.get(i));
+			}
+			
+			while (!tmpTransQueue.empty())
+				render(tmpTransQueue.pop());
+				
+	        glDepthMask(true);
+			glDisable(GL_BLEND);
+			
+		} else if (renderMode == RenderMode.DepthRender) {
+			for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
+				Entity e = opaqueEntities.get(i);
+
+				if (dm.get(e).isShadowCaster()) {
+					if (!em.has(e) || em.get(e).getAlpha() == 1.0f)
+						render(e);
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	protected void inserted(Entity e) {
+		super.inserted(e);
+		if (mm.get(e).isTransparent()) {
+			transEntities.add(e);
+		} else {
+			opaqueEntities.add(e);
+		}
+	}
+
+	@Override
+	protected void removed(Entity e) {
+		super.removed(e);
+		if (mm.get(e).isTransparent()) {
+			transEntities.remove(e);
+		} else {
+			opaqueEntities.remove(e);
+		}
+		ResourceManager.getInstance().getGeometryManager().reduceInvokeCount(dm.get(e).getGeometry());
+		//dm.get(e).getDs().deleteObject();
+	}
+
+	
+	@Override
+	protected boolean checkProcessing() {
+		if (vc != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void setView(Entity vce) {
+		this.vc = vce.getComponent(ViewComponent.class);
+		this.vp = vce.getComponent(TransformComponent.class);
+	}
+	
+	@Override
+	protected void initialize() {
+		super.initialize();
+
+        /*
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
+		//standard
+		
+	}
+
+	@Override
+	protected void begin() {
+		Rectangle2D viewPort = vc.getViewport();
+		if (vc.isRenderToScreen()) {
+			viewPort.x0 = 0;
+			viewPort.y0 = 0;
+			viewPort.x1 = Display.getWidth();
+			viewPort.y1 = Display.getHeight();
+		}
+		
+		GL11.glViewport((int)viewPort.x0, (int)viewPort.y0, (int)(viewPort.x1 - viewPort.x0), 
+				(int)(viewPort.y1 - viewPort.y0));
+		vc.getProjection().setAspectRatio((viewPort.x1 - viewPort.x0) / (viewPort.y1  - viewPort.y0));
+		
+		vc.getProjection().getProjectionMatrix(projectionMat);
+		vp.getWorldTransform().getViewMatrix(viewMat);
+
+		Entity light = world.getManager(TagManager.class).getEntity("MainLight");
+		
+		if (light != null && light.getComponent(LightComponent.class) != null) {
+			
+			LightComponent lightInfo = light.getComponent(LightComponent.class);
+			
+			float isPoint;
+			if (lightInfo.isPoint())
+				isPoint = 1.0f;
+			else
+				isPoint = 0.0f;
+			
+			Transform lightTransform = pm.get(light).getWorldTransform();
+			
+			lightUniforms.setAmbientColor(lightInfo.getAmbient()[0], lightInfo.getAmbient()[1], lightInfo.getAmbient()[2]);
+			lightUniforms.setDiffuseColor(lightInfo.getDiffuse()[0], lightInfo.getDiffuse()[1], lightInfo.getDiffuse()[2]);
+			lightUniforms.setSpecularColor(lightInfo.getDiffuse()[0], lightInfo.getDiffuse()[1], lightInfo.getDiffuse()[2]);
+			lightUniforms.setPosition(lightTransform.getTranslation().x, 
+					lightTransform.getTranslation().y, lightTransform.getTranslation().z, 
+					isPoint);
+
+		}
+		/*
+		if (renderMode == RenderMode.DepthRender) {
+			glCullFace(GL_FRONT);
+		} else if (renderMode == RenderMode.NormalRender) {
+			glCullFace(GL_BACK);
+		}*/
+		/*
+		if (renderMode == RenderMode.NormalRender) {
+			System.out.println(vrs.getDepthPV());
+			//System.out.println(vrs.getDepthP());
+			System.out.println(projectionMat.mult(viewMat));
+			//System.out.println(projectionMat);
+			//System.out.println(vrs.getDepthV());
+			//System.out.println(viewMat);
+			//System.out.println("aaa");
+			
+		} else 
+			if (renderMode == RenderMode.DepthRender) {
+			//System.out.println(projectionMat.mult(viewMat));
+		}
+		*/
+		//glViewport(0, 0, 700, 700);
+	}
+
+	@Override
+	protected void end() {
+
+	}
+
+	protected void render(Entity e) {
+
+		Geometry geometry = dm.get(e).getGeometry();
+
+		TransformComponent tc = pm.get(e);
+    	tc.getWorldTransform().getModelMatrix(modelMat);
+    	//setModelMatrix(pm.get(e));
+		
+		GLProgram program = null;
+		
+		ResourceManager rm = ResourceManager.getInstance();
+		
+		if (!geometry.isCreatedGL())
+			geometry.createGL();
+		
+		geometry.update(this);
+		
+		if (renderMode == RenderMode.NormalRender){
+			if(sm.has(e)) {
+				program = rm.getShader("skinning");
+				program.bind();
+				
+				Matrix4f[] m4a = sm.get(e).getCurrentPoseMatrices();
+				program.setUniform(new UniformVariable("BoneMatrices", VarType.Matrix4Array,
+						m4a));
+					
+			} else {
+				if(geometry.getShaderName().equals("tiledmap"))
+					program = rm.getShader("tiledmap_shadow");
+				else
+					program = rm.getShader(geometry.getShaderName());
+				
+				//	System.out.println(e.getComponent(TransformComponent.class).getTranslation());
+				//if(ds.getShaderName().equals("simple"))
+				//	System.out.println("aa");
+	
+				program.bind();
+			}
+			//System.out.println(e.getComponent(TransformComponent.class).getTranslation());
+		} else if (renderMode == RenderMode.DepthRender) {
+			if(sm.has(e)) {
+				program = rm.getShader("skinning");
+				program.bind();
+				
+				Matrix4f[] m4a = sm.get(e).getCurrentPoseMatrices();
+				program.setUniform(new UniformVariable("BoneMatrices", VarType.Matrix4Array,
+						m4a));
+					
+			} else {
+				if(geometry.getShaderName().equals("shadow"))
+					return;
+				
+				program = rm.getShader(geometry.getShaderName());
+				
+				
+				//	System.out.println(e.getComponent(TransformComponent.class).getTranslation());
+				//if(ds.getShaderName().equals("simple"))
+				//	System.out.println("aa");
+	
+				program.bind();
+			}
+			//System.out.println(e.getComponent(TransformComponent.class).getTranslation());
+		} 
+		
+		program.initTextureGroup();
+		
+		
+		if (renderMode == RenderMode.NormalRender){
+			//projectionMat.mult(viewMat.mult(modelMat));
+			Matrix4f depthBiasMVP = vrs.getDepthPV();
+			//depthBiasMVP.multLocal(modelMat);
+			//System.out.println(depthBiasMVP);
+			//depthBiasMVP = biasMatrix.mult(depthBiasMVP);
+			program.setUniform(new UniformVariable("depthMap", VarType.Texture2D, vrs.getDepthTexture()));
+			program.setUniform(new UniformVariable("depthBiasMVP", VarType.Matrix4, depthBiasMVP));
+		}
+
+		
+		if (renderMode == RenderMode.NormalRender){
+			if (em.has(e)) {
+				Vector4f multipleColor = em.get(e).getMultiplyColor();
+				program.setUniform(new UniformVariable("MultipleColor", VarType.Vector4f, multipleColor));
+				Vector4f addColor = em.get(e).getAddColor();
+				program.setUniform(new UniformVariable("AddColor", VarType.Vector4f, addColor));
+			} else {
+				program.setUniform(new UniformVariable("MultipleColor", VarType.Vector4f, Vector4f.UNIT_XYZW));
+				program.setUniform(new UniformVariable("AddColor", VarType.Vector4f, Vector4f.ZERO));	
+			}
+		}
+
+			for (UniformVariable uv : mm.get(e).getMaterial().getUniforms())
+				program.setUniform(uv);
+			
+		if (renderMode == RenderMode.NormalRender){
+			for (UniformVariable uv : lightUniforms.getUniforms())
+				program.setUniform(uv);
+		}
+		
+		for (UniformVariable uv : globalUniforms.getUniforms())
+			program.setUniform(uv);
+		// Uniform Matrix
+		// glPushMatrix(); applyTranslations(pm.get(e));
+		
+		renderVAO(geometry);
+		
+		// Vertex Array
+		// draw
+		// glPopMatrix();
+
+		program.unbind();
+	}
+    
+	private void renderVAO(Geometry ds) {
+		/*
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+		*/
+		glBindVertexArray(ds.getID());
+		
+		for (Entry<VertexBuffer.Type, VertexBuffer> vb: ds.getVertexBuffers().entrySet()) {
+			glEnableVertexAttribArray(vb.getKey().id);
+		}
+		
+		//GL11.glDrawElements(GL_TRIANGLES, ds.getTriangleCount(), GL_UNSIGNED_INT, null);
+		if (ds instanceof InstancingGeometry) {
+			glDrawArraysInstanced(ds.getPrimitiveType().getGLCode(), 0, ds.getVertexCount(), ((InstancingGeometry) ds).getInstancesCount());
+		} else {
+			glDrawArrays(ds.getPrimitiveType().getGLCode(), 0, ds.getVertexCount());	
+		}
+		glBindVertexArray(0);
+		/*
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		*/
+	}
+	
+	public Matrix4f getModelViewProjectionMatrix() {
+		return projectionMat.mult(viewMat.mult(modelMat));
+	}
+
+}

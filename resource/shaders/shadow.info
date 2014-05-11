@@ -1,0 +1,14 @@
+MultipleColor
+AddColor
+Material.DiffuseMap
+Material.Ka
+Material.Kd
+Material.Ks
+Material.Shininess
+Light.Position
+Light.La
+Light.Ld
+Light.Ls
+g_ViewMatrix
+g_ModelMatrix
+g_ProjectionMatrix
