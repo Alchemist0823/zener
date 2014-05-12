@@ -1,11 +1,10 @@
 package com.n8lm.zener.app;
 
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
-
 import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -14,16 +13,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.CursorLoader;
-import org.newdawn.slick.opengl.ImageData;
-import org.newdawn.slick.opengl.ImageIOImageData;
-import org.newdawn.slick.opengl.InternalTextureLoader;
-import org.newdawn.slick.opengl.LoadableImageData;
-import org.newdawn.slick.opengl.TGAImageData;
-import org.newdawn.slick.util.Log;
 
+import com.n8lm.zener.assets.PNGLoader;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.utils.ZenerException;
 
 
 
@@ -34,13 +27,18 @@ import com.n8lm.zener.data.ResourceManager;
  * @author kevin
  */
 public class AppGameContainer extends GameContainer {
+	
+
+	  private final static Logger LOGGER = Logger.getLogger(AppGameContainer.class
+	      .getName());
+	
 	static {
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
         		try {
         			Display.getDisplayMode();
         		} catch (Exception e) {
-        			Log.error(e);
+        			LOGGER.severe(e.toString());
         		}
 				return null;
             }});
@@ -63,9 +61,9 @@ public class AppGameContainer extends GameContainer {
 	 * Create a new container wrapping a game
 	 * 
 	 * @param game The game to be wrapped
-	 * @throws SlickException Indicates a failure to initialise the display
+	 * @throws ZenerException Indicates a failure to initialise the display
 	 */
-	public AppGameContainer(BasicGame game) throws SlickException {
+	public AppGameContainer(BasicGame game) throws ZenerException {
 		this(game,640,480,false);
 	}
 
@@ -76,9 +74,9 @@ public class AppGameContainer extends GameContainer {
 	 * @param width The width of the display required
 	 * @param height The height of the display required
 	 * @param fullscreen True if we want fullscreen mode
-	 * @throws SlickException Indicates a failure to initialise the display
+	 * @throws ZenerException Indicates a failure to initialise the display
 	 */
-	public AppGameContainer(BasicGame game,int width,int height,boolean fullscreen) throws SlickException {
+	public AppGameContainer(BasicGame game,int width,int height,boolean fullscreen) throws ZenerException {
 		super(game);
 		
 		originalDisplayMode = Display.getDisplayMode();
@@ -136,7 +134,7 @@ public class AppGameContainer extends GameContainer {
 	 * @param width The width of the display required
 	 * @param height The height of the display required
 	 * @param fullscreen True if we want fullscreen mode
-	 * @throws SlickException Indicates a failure to initialise the display
+	 * @throws ZenerException Indicates a failure to initialise the display
 	 */
 	public void setDisplayMode(int width, int height, boolean fullscreen) {
 		if ((this.width == width) && (this.height == height) && (isFullscreen() == fullscreen)) {
@@ -182,9 +180,9 @@ public class AppGameContainer extends GameContainer {
 			}
 			
 			if (targetDisplayMode == null) {
-				Log.error("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
+				LOGGER.severe("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
 				return;
-				//throw new SlickException("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
+				//throw new ZenerException("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
 			}
 			
 			this.width = width;
@@ -204,12 +202,12 @@ public class AppGameContainer extends GameContainer {
 				g.setBackground(oldBG);
 			}*/
 				
-			
+			/*
 			if (targetDisplayMode.getBitsPerPixel() == 16) {
 				InternalTextureLoader.get().set16BitMode();
-			}
+			}*/
 		} catch (LWJGLException e) {
-			Log.error("Unable to setup mode "+width+"x"+height+" fullscreen="+fullscreen, e);
+			LOGGER.log(Level.SEVERE, "Unable to setup mode "+width+"x"+height+" fullscreen="+fullscreen, e);
 			return;
 		}
 		
@@ -230,7 +228,7 @@ public class AppGameContainer extends GameContainer {
 	 * display mode must be valid as a fullscreen mode for this to work
 	 * 
 	 * @param fullscreen True if we want to be in fullscreen mode
-	 * @throws SlickException Indicates we failed to change the display mode
+	 * @throws ZenerException Indicates we failed to change the display mode
 	 */
 	public void setFullscreen(boolean fullscreen) throws Exception {
 		if (isFullscreen() == fullscreen) {
@@ -241,7 +239,7 @@ public class AppGameContainer extends GameContainer {
 			try {
 				Display.setFullscreen(fullscreen);
 			} catch (LWJGLException e) {
-				throw new SlickException("Unable to set fullscreen="+fullscreen, e);
+				throw new ZenerException("Unable to set fullscreen="+fullscreen, e);
 			}
 		} else {
 			setDisplayMode(width, height, fullscreen);
@@ -251,42 +249,45 @@ public class AppGameContainer extends GameContainer {
 
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#setMouseCursor(java.lang.String, int, int)
+	 * @see com.n8lm.zener..GameContainer#setMouseCursor(java.lang.String, int, int)
 	 */
-	public void setMouseCursor(String ref, int hotSpotX, int hotSpotY) throws SlickException {
+	/*
+	public void setMouseCursor(String ref, int hotSpotX, int hotSpotY) throws ZenerException {
 		try {
 			Cursor cursor = CursorLoader.get().getCursor(ref, hotSpotX, hotSpotY);
 			Mouse.setNativeCursor(cursor);
 		} catch (Throwable e) {
-			Log.error("Failed to load and apply cursor.", e);
-			throw new SlickException("Failed to set mouse cursor", e);
+			LOGGER.log(Level.SEVERE, "Failed to load and apply cursor.", e);
+			throw new ZenerException("Failed to set mouse cursor", e);
 		}
-	}
+	}*/
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#setMouseCursor(org.newdawn.slick.opengl.ImageData, int, int)
+	 * @see com.n8lm.zener..GameContainer#setMouseCursor(com.n8lm.zener..opengl.ImageData, int, int)
 	 */
-	public void setMouseCursor(ImageData data, int hotSpotX, int hotSpotY) throws SlickException {
+	/*
+	public void setMouseCursor(ImageData data, int hotSpotX, int hotSpotY) throws ZenerException {
 		try {
 			Cursor cursor = CursorLoader.get().getCursor(data, hotSpotX, hotSpotY);
 			Mouse.setNativeCursor(cursor);
 		} catch (Throwable e) {
-			Log.error("Failed to load and apply cursor.", e);
-			throw new SlickException("Failed to set mouse cursor", e);
+			LOGGER.log(Level.SEVERE, "Failed to load and apply cursor.", e);
+			throw new ZenerException("Failed to set mouse cursor", e);
 		}
-	}
+	}*/
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#setMouseCursor(org.lwjgl.input.Cursor, int, int)
+	 * @see com.n8lm.zener..GameContainer#setMouseCursor(org.lwjgl.input.Cursor, int, int)
 	 */
-	public void setMouseCursor(Cursor cursor, int hotSpotX, int hotSpotY) throws SlickException {
+	/*
+	public void setMouseCursor(Cursor cursor, int hotSpotX, int hotSpotY) throws ZenerException {
 		try {
 			Mouse.setNativeCursor(cursor);
 		} catch (Throwable e) {
-			Log.error("Failed to load and apply cursor.", e);
-			throw new SlickException("Failed to set mouse cursor", e);
+			LOGGER.log(Level.SEVERE, "Failed to load and apply cursor.", e);
+			throw new ZenerException("Failed to set mouse cursor", e);
 		}
-	}
+	}*/
 
     /**
      * Get the closest greater power of 2 to the fold number
@@ -304,10 +305,10 @@ public class AppGameContainer extends GameContainer {
     }*/
     
 	/**
-	 * @see org.newdawn.slick.GameContainer#setMouseCursor(org.newdawn.slick.Image, int, int)
+	 * @see com.n8lm.zener..GameContainer#setMouseCursor(com.n8lm.zener..Image, int, int)
 	 */
     /*
-	public void setMouseCursor(Image image, int hotSpotX, int hotSpotY) throws SlickException {
+	public void setMouseCursor(Image image, int hotSpotX, int hotSpotY) throws ZenerException {
 		try {
 			Image temp = new Image(get2Fold(image.getWidth()), get2Fold(image.getHeight()));
 			Graphics g = temp.getGraphics();
@@ -320,22 +321,22 @@ public class AppGameContainer extends GameContainer {
 			Cursor cursor = CursorLoader.get().getCursor(buffer, hotSpotX, hotSpotY,temp.getWidth(),image.getHeight());
 			Mouse.setNativeCursor(cursor);
 		} catch (Throwable e) {
-			Log.error("Failed to load and apply cursor.", e);
-			throw new SlickException("Failed to set mouse cursor", e);
+			LOGGER.severe("Failed to load and apply cursor.", e);
+			throw new ZenerException("Failed to set mouse cursor", e);
 		}
 	}*/
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#reinit()
+	 * @see com.n8lm.zener..GameContainer#reinit()
 	 */
-	public void reinit() throws SlickException {
+	public void reinit() throws ZenerException {
 		destroy();
 		initSystem();
 		
 		//try {
 			game.init(this);
-		/*} catch (SlickException e) {
-			Log.error(e);
+		/*} catch (ZenerException e) {
+			LOGGER.severe(e);
 			running = false;
 		}*/
 	}
@@ -361,9 +362,9 @@ public class AppGameContainer extends GameContainer {
 	/**
 	 * Start running the game
 	 * 
-	 * @throws SlickException Indicates a failure to initialise the system
+	 * @throws ZenerException Indicates a failure to initialise the system
 	 */
-	public void start() throws SlickException {
+	public void start() throws ZenerException {
 		try {
 			setup();
 			
@@ -383,19 +384,19 @@ public class AppGameContainer extends GameContainer {
 	/**
 	 * Setup the environment 
 	 * 
-	 * @throws SlickException Indicates a failure
+	 * @throws ZenerException Indicates a failure
 	 */
-	protected void setup() throws SlickException {
+	protected void setup() throws ZenerException {
 		if (targetDisplayMode == null) {
 			setDisplayMode(640,480,false);
 		}
 
 		Display.setTitle(game.getTitle());
 
-		Log.info("LWJGL Version: "+Sys.getVersion());
-		Log.info("OriginalDisplayMode: "+originalDisplayMode);
-		Log.info("TargetDisplayMode: "+targetDisplayMode);
-		Log.info("TargetSamples: "+samples);
+		LOGGER.info("LWJGL Version: "+Sys.getVersion());
+		LOGGER.info("OriginalDisplayMode: "+originalDisplayMode);
+		LOGGER.info("TargetDisplayMode: "+targetDisplayMode);
+		LOGGER.info("TargetSamples: "+samples);
 		
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
@@ -404,7 +405,7 @@ public class AppGameContainer extends GameContainer {
         			
         			tryCreateDisplay(format);
         			supportsMultiSample = true;
-        			Log.info("Multi-Samples: "+samples);
+        			LOGGER.info("Multi-Samples: "+samples);
         		} catch (Exception e) {
         			Display.destroy();
         			
@@ -419,7 +420,7 @@ public class AppGameContainer extends GameContainer {
 		        		try {
 		        			tryCreateDisplay(new PixelFormat());
 		        		} catch (Exception e3) {
-		        			Log.error(e3);
+		        			LOGGER.log(Level.SEVERE, "exception" ,e3);
 		        		}
         			}
         		}
@@ -428,23 +429,23 @@ public class AppGameContainer extends GameContainer {
             }});
 		
 		if (!Display.isCreated()) {
-			throw new SlickException("Failed to initialise the LWJGL display");
+			throw new ZenerException("Failed to initialise the LWJGL display");
 		}
 		
 		initSystem();
 		
 		try {
 			getInput().initControllers();
-		} catch (SlickException e) {
-			Log.info("Controllers not available");
+		} catch (ZenerException e) {
+			LOGGER.info("Controllers not available");
 		} catch (Throwable e) {
-			Log.info("Controllers not available");
+			LOGGER.info("Controllers not available");
 		}
 		
 		//try {
 			game.init(this);
-		/*} catch (SlickException e) {
-			Log.error(e);
+		/*} catch (ZenerException e) {
+			LOGGER.severe(e);
 			running = false;
 		}*/
 	}
@@ -452,9 +453,9 @@ public class AppGameContainer extends GameContainer {
 	/**
 	 * Strategy for overloading game loop context handling
 	 * 
-	 * @throws SlickException Indicates a game failure
+	 * @throws ZenerException Indicates a game failure
 	 */
-	protected void gameLoop() throws SlickException {
+	protected void gameLoop() throws ZenerException {
 		int delta = getDelta();
 		if (!Display.isVisible() && updateOnlyOnVisible) {
 			try { Thread.sleep(100); } catch (Exception e) {}
@@ -466,8 +467,8 @@ public class AppGameContainer extends GameContainer {
 			}
 			try {
 				updateAndRender(delta);
-			} catch (SlickException e) {
-				Log.error(e);
+			} catch (ZenerException e) {
+				LOGGER.log(Level.SEVERE, "Exception", e);
 				running = false;
 				return;
 			}
@@ -484,42 +485,42 @@ public class AppGameContainer extends GameContainer {
 	}
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#setUpdateOnlyWhenVisible(boolean)
+	 * @see com.n8lm.zener..GameContainer#setUpdateOnlyWhenVisible(boolean)
 	 */
 	public void setUpdateOnlyWhenVisible(boolean updateOnlyWhenVisible) {
 		updateOnlyOnVisible = updateOnlyWhenVisible;
 	}
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#isUpdatingOnlyWhenVisible()
+	 * @see com.n8lm.zener..GameContainer#isUpdatingOnlyWhenVisible()
 	 */
 	public boolean isUpdatingOnlyWhenVisible() {
 		return updateOnlyOnVisible;
 	}
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#setIcon(java.lang.String)
+	 * @see com.n8lm.zener..GameContainer#setIcon(java.lang.String)
 	 */
-	public void setIcon(String ref) throws SlickException {
+	public void setIcon(String ref) throws ZenerException {
 		setIcons(new String[] {ref});
 	}
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#setMouseGrabbed(boolean)
+	 * @see com.n8lm.zener..GameContainer#setMouseGrabbed(boolean)
 	 */
 	public void setMouseGrabbed(boolean grabbed) {
 		Mouse.setGrabbed(grabbed);
 	}
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#isMouseGrabbed()
+	 * @see com.n8lm.zener..GameContainer#isMouseGrabbed()
 	 */
 	public boolean isMouseGrabbed() {
 		return Mouse.isGrabbed();
 	}
 	
 	/**
-	 * @see org.newdawn.slick.GameContainer#hasFocus()
+	 * @see com.n8lm.zener..GameContainer#hasFocus()
 	 */
 	public boolean hasFocus() {
 		// hmm, not really the right thing, talk to the LWJGL guys
@@ -527,14 +528,14 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#getScreenHeight()
+	 * @see com.n8lm.zener..GameContainer#getScreenHeight()
 	 */
 	public int getScreenHeight() {
 		return originalDisplayMode.getHeight();
 	}
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#getScreenWidth()
+	 * @see com.n8lm.zener..GameContainer#getScreenWidth()
 	 */
 	public int getScreenWidth() {
 		return originalDisplayMode.getWidth();
@@ -554,9 +555,10 @@ public class AppGameContainer extends GameContainer {
 	}*/
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#setIcons(java.lang.String[])
+	 * @see com.n8lm.zener..GameContainer#setIcons(java.lang.String[])
 	 */
-	public void setIcons(String[] refs) throws SlickException {
+	/*
+	public void setIcons(String[] refs) throws ZenerException {
 		ByteBuffer[] bufs = new ByteBuffer[refs.length];
 		for (int i=0;i<refs.length;i++) {
 			LoadableImageData data;
@@ -572,8 +574,25 @@ public class AppGameContainer extends GameContainer {
 			try {
 				bufs[i] = data.loadImage(ResourceManager.getInstance().getResourceAsStream(refs[i]), flip, false, null);
 			} catch (Exception e) {
-				Log.error(e);
-				throw new SlickException("Failed to set the icon");
+				LOGGER.log(Level.SEVERE, "Exception", e);
+				throw new ZenerException("Failed to set the icon");
+			}
+		}
+		
+		Display.setIcon(bufs);
+	}*/
+	
+
+	public void setIcons(String[] refs) throws ZenerException {
+		ByteBuffer[] bufs = new ByteBuffer[refs.length];
+		for (int i=0;i<refs.length;i++) {
+			
+			try {
+				bufs[i] = PNGLoader.loadPNGImage(ResourceManager.getInstance().getResourceAsStream(refs[i])).getData();
+				//bufs[i] = data.loadImage(ResourceManager.getInstance().getResourceAsStream(refs[i]), flip, false, null);
+			} catch (Exception e) {
+				LOGGER.log(Level.SEVERE, "Exception", e);
+				throw new ZenerException("Failed to set the icon");
 			}
 		}
 		
@@ -581,13 +600,13 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see org.newdawn.slick.GameContainer#setDefaultMouseCursor()
+	 * @see com.n8lm.zener..GameContainer#setDefaultMouseCursor()
 	 */
 	public void setDefaultMouseCursor() {
 		try {
 			Mouse.setNativeCursor(null);
 		} catch (LWJGLException e) {
-			Log.error("Failed to reset mouse cursor", e);
+			LOGGER.log(Level.SEVERE, "Failed to reset mouse cursor", e);
 		}
 	}
 }

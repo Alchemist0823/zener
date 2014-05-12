@@ -128,7 +128,7 @@ public class InputAdapter implements InputListener {
 	}
 
 	/**
-	 * @see com.n8lm.zener.input.InputListener#setInput(org.newdawn.slick.Input)
+	 * @see com.n8lm.zener.input.InputListener#setInput(com.n8lm.zener..Input)
 	 */
 	public void setInput(Input input) {
 	}
@@ -143,7 +143,7 @@ public class InputAdapter implements InputListener {
 	}
 
 	/**
-	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
+	 * @see com.n8lm.zener..ControlledInputReciever#inputStarted()
 	 */
 	public void inputStarted() {
 		

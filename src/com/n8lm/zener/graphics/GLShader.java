@@ -5,9 +5,13 @@ import static org.lwjgl.opengl.GL20.*;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class GLShader extends GLObject{
 
+	private final static Logger LOGGER = Logger.getLogger(GLShader.class
+	      .getName());
+	
     public static HashMap<String, GLShader> shaders = new HashMap<String, GLShader>();
     
     public static enum ShaderType {
@@ -59,7 +63,7 @@ public class GLShader extends GLObject{
      */
     public void printInformationLog() {
     	int loglength = glGetShaderi(id, GL_INFO_LOG_LENGTH);
-        System.out.println(glGetShaderInfoLog(id, loglength));
+        LOGGER.warning(glGetShaderInfoLog(id, loglength));
     }
 
 	@Override

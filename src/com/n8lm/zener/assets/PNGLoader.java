@@ -3,9 +3,9 @@ package com.n8lm.zener.assets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.logging.Logger;
 
 import org.lwjgl.BufferUtils;
-import org.newdawn.slick.util.Log;
 
 import com.n8lm.zener.math.MathUtil;
 
@@ -13,6 +13,9 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 
 
 public class PNGLoader {
+	
+	private final static Logger LOGGER = Logger.getLogger(PNGLoader.class
+		      .getName());
 
 	public static Image loadPNGImage() {
 		return null;
@@ -96,11 +99,11 @@ public class PNGLoader {
 			final int components = format.getComponents();
 
             if (transparent.length != components - 1) {
-                Log.warn("The amount of color components of the transparent color does not fit the number of color components of the actual image.");
+            	LOGGER.warning("The amount of color components of the transparent color does not fit the number of color components of the actual image.");
             }
 
             if (transparent.length < components - 1) {
-                Log.error("Failed to apply transparent color, not enough color values in color definition.");
+                LOGGER.severe("Failed to apply transparent color, not enough color values in color definition.");
             } else {
 
                 final int size = texWidth * texHeight * components;

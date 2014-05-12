@@ -3,11 +3,16 @@ package com.n8lm.zener.data;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.newdawn.slick.util.Log;
+import com.n8lm.zener.assets.PNGLoader;
 
 public class GameInfoManager {
 
+
+	private final static Logger LOGGER = Logger.getLogger(GameInfoManager.class
+		      .getName());
+	
 	static private GameInfoManager instance;
 	
 	private Map<Class<? extends UniqueGameInfo>, UniqueGameInfo> gamedata;
@@ -47,7 +52,7 @@ public class GameInfoManager {
 				data.write(output);
 	    	}
 	    	output.close();
-	    	Log.info("game saved successfully");
+	    	LOGGER.info("game saved successfully");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,10 +111,10 @@ public class GameInfoManager {
 	    			str = "";
 				}
 	    		
-	    		Log.info(str);
+	    		LOGGER.info(str);
 	    	}
 	    	input.close();
-	    	Log.info("game loaded successfully");
+	    	LOGGER.info("game loaded successfully");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

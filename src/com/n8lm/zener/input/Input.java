@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controller;
@@ -13,22 +14,20 @@ import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.Log;
 
-import com.n8lm.zener.math.MathUtil;
-import com.n8lm.zener.math.Matrix4f;
-import com.n8lm.zener.math.Ray;
-import com.n8lm.zener.math.Rectangle2D;
-import com.n8lm.zener.math.Vector2f;
-import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.utils.ZenerException;
 
 /**
  * A wrapped for all keyboard, mouse and controller input
  *
- * @author kevin
+ * @author kevin, Alchemist
  */
 public class Input {
+	
+
+	  private final static Logger LOGGER = Logger.getLogger(Input.class
+	      .getName());
+	
 	/** The controller index to pass to check all controllers */
 	public static final int ANY_CONTROLLER = -1;
 	
@@ -835,7 +834,7 @@ public class Input {
 	public int getControllerCount() {
 		try {
 			initControllers();
-		} catch (SlickException e) {
+		} catch (ZenerException e) {
 			throw new RuntimeException("Failed to initialise controllers");
 		}
 		
@@ -1032,9 +1031,9 @@ public class Input {
 	/**
 	 * Initialise the controllers system
 	 * 
-	 * @throws SlickException Indicates a failure to use the hardware
+	 * @throws ZenerException Indicates a failure to use the hardware
 	 */
-	public void initControllers() throws SlickException {
+	public void initControllers() throws ZenerException {
 		if (controllersInited) {
 			return;
 		}
@@ -1052,15 +1051,15 @@ public class Input {
 				}
 			}
 			
-			Log.info("Found "+controllers.size()+" controllers");
+			LOGGER.info("Found "+controllers.size()+" controllers");
 			for (int i=0;i<controllers.size();i++) {
-				Log.info(i+" : "+((Controller) controllers.get(i)).getName());
+				LOGGER.info(i+" : "+((Controller) controllers.get(i)).getName());
 			}
 		} catch (LWJGLException e) {
 			if (e.getCause() instanceof ClassNotFoundException) {
-				throw new SlickException("Unable to create controller - no jinput found - add jinput.jar to your classpath");
+				throw new ZenerException("Unable to create controller - no jinput found - add jinput.jar to your classpath");
 			}
-			throw new SlickException("Unable to create controllers");
+			throw new ZenerException("Unable to create controllers");
 		} catch (NoClassDefFoundError e) {
 			// forget it, no jinput availble
 		}

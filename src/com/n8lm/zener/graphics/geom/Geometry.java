@@ -8,16 +8,21 @@ import static org.lwjgl.opengl.GL30.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
-import org.newdawn.slick.util.Log;
+
 
 import com.n8lm.zener.graphics.GLObject;
 import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
+import com.n8lm.zener.input.Input;
 import com.n8lm.zener.systems.SubRenderSystem;
 
 public abstract class Geometry extends GLObject{
+	
+	  private final static Logger LOGGER = Logger.getLogger(Geometry.class
+	      .getName());
 	
 	public enum PrimitiveType {
 		Triangles(GL_TRIANGLES),
@@ -98,10 +103,10 @@ public abstract class Geometry extends GLObject{
 	protected void log() {
 
 		for (VertexBuffer vb: vbs.values()) {
-			Log.info("VBO: ID "+ vb.getID() + " " + vb.getType() + " " + vb.getSize() + " " + vb.getComponents() + " ");	
+			LOGGER.info("VBO: ID "+ vb.getID() + " " + vb.getType() + " " + vb.getSize() + " " + vb.getComponents() + " ");	
 		}
-		Log.info("VAO: ID " + id);
-		//Log.info("Uniform: " + uniformGroup);
+		LOGGER.info("VAO: ID " + id);
+		//LOGGER.info("Uniform: " + uniformGroup);
 	}
 	
 	public int getVertexCount() {

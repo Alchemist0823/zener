@@ -5,10 +5,10 @@ import static org.lwjgl.opengl.GL30.*;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.util.Log;
+
+
 
 import com.n8lm.zener.graphics.Texture.Format;
-import com.n8lm.zener.utils.GLHelper;
 
 public class FrameBuffer extends GLObject{
 

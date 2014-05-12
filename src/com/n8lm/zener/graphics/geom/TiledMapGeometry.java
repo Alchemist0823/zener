@@ -241,7 +241,7 @@ public class TiledMapGeometry extends Geometry {
             
         textureIndices.flip();
         vbs.put(VertexBuffer.Type.Custom, new VertexBuffer(VertexBuffer.Type.Custom, VertexBuffer.Usage.Static, VertexBuffer.DataType.Byte, 4, vertexCount, textureIndices));
-		//Log.info("model load successfully [vertex:" + vertices.size() + "], [normals:" + normals.size() + "], [faces:" + faces.size() + "]");
+		//LOGGER.info("model load successfully [vertex:" + vertices.size() + "], [normals:" + normals.size() + "], [faces:" + faces.size() + "]");
         colorBuffer.flip();
 		vbs.put(VertexBuffer.Type.Color, new VertexBuffer(VertexBuffer.Type.Color, VertexBuffer.Usage.Dynamic, VertexBuffer.DataType.Float, 4, vertexCount, colorBuffer));
 	

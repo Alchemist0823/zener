@@ -18,7 +18,7 @@ public class ClasspathLocation implements ResourceLocation {
 	}
 	
 	/**
-	 * @see org.newdawn.slick.util.ResourceLocation#getResource(java.lang.String)
+	 * @see com.n8lm.zener..util.ResourceLocation#getResource(java.lang.String)
 	 */
 	public URL getResource(String ref) {
 		String cpRef = root + ref.replace('\\', '/');
@@ -26,7 +26,7 @@ public class ClasspathLocation implements ResourceLocation {
 	}
 
 	/**
-	 * @see org.newdawn.slick.util.ResourceLocation#getResourceAsStream(java.lang.String)
+	 * @see com.n8lm.zener..util.ResourceLocation#getResourceAsStream(java.lang.String)
 	 */
 	public InputStream getResourceAsStream(String ref) {
 		String cpRef = root + ref.replace('\\', '/');

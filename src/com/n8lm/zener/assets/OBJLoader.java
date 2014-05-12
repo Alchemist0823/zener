@@ -2,18 +2,20 @@ package com.n8lm.zener.assets;
 
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
-
-import org.newdawn.slick.util.Log;
-
 import com.n8lm.zener.data.ResourceManager;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 import static org.lwjgl.opengl.GL11.*;
 //import static org.lwjgl.opengl.GL15.*;
 
 public class OBJLoader {
 
+	private final static Logger LOGGER = Logger.getLogger(OBJLoader.class
+		      .getName());
+
+	
     public static int createDisplayList(Mesh m) {
         int displayList = glGenLists(1);
         glNewList(displayList, GL_COMPILE);
@@ -98,7 +100,7 @@ public class OBJLoader {
             }
         }
         reader.close();
-        Log.info("model load successfully [vertex:" + m.vertices.size() + "], [normals:" + m.normals.size() + "], [faces:" + m.faces.size() + "]");
+        LOGGER.info("model load successfully [vertex:" + m.vertices.size() + "], [normals:" + m.normals.size() + "], [faces:" + m.faces.size() + "]");
         return m;
     }
     /*
@@ -263,7 +265,7 @@ public class OBJLoader {
             }
         }
         reader.close();
-        Log.info("model load successfully [vertex:" + mesh.vertices.size() + "], [textureCoord: " + mesh.textureCoordinates.size() + "], [normals:" + mesh.normals.size() + "], [faces:" + mesh.faces.size() + "]");
+        LOGGER.info("model load successfully [vertex:" + mesh.vertices.size() + "], [textureCoord: " + mesh.textureCoordinates.size() + "], [normals:" + mesh.normals.size() + "], [faces:" + mesh.faces.size() + "]");
         return mdl;
     }
 }

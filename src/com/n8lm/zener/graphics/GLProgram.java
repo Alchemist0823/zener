@@ -12,6 +12,7 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -22,6 +23,10 @@ import com.n8lm.zener.math.*;
 
 public class GLProgram extends GLObject{
 
+
+	private final static Logger LOGGER = Logger.getLogger(GLProgram.class
+	      .getName());
+	
     public static GLProgram current = null;
     /*
     private String vertexShaderName = null;
@@ -81,15 +86,15 @@ public class GLProgram extends GLObject{
                         
                         //createUniformVariable(content);
                         
-                        System.out.println(name + ":" + shader.getID() + " compiled");
+                        LOGGER.info(name + ":" + shader.getID() + " compiled");
                     } else {
-                        System.out.println("******** start shader info log*********");
+                    	LOGGER.severe("******** start shader info log*********");
                         shader.printInformationLog();
-                        System.out.println("********end shader info log*********");
+                        LOGGER.severe("********end shader info log*********");
                     }
                 }
             } catch (Exception ex) {
-                System.out.println("error:" + name);
+            	LOGGER.severe("error:" + name);
             }
         }
     }
@@ -162,20 +167,20 @@ public class GLProgram extends GLObject{
 
 	public void linkProgram() {
 
-        System.out.println(getVersion());
+		LOGGER.info(getVersion());
 
         glLinkProgram(id);
 
         int status = glGetProgrami(id, GL_LINK_STATUS);
 
-        System.out.println("id link status " + status);
+        LOGGER.info("id link status " + status);
 
         if (status == 0) {
-            System.out.println("Link unsuccessful!");
-            System.out.println("******** start Link info log*********");
+        	LOGGER.severe("Link unsuccessful!");
+        	LOGGER.severe("******** start Link info log*********");
         	int loglength = glGetProgrami(id, GL_INFO_LOG_LENGTH);
-            System.out.println(glGetProgramInfoLog(id, loglength));
-            System.out.println("********end Link info log*********");
+        	LOGGER.severe(glGetProgramInfoLog(id, loglength));
+        	LOGGER.severe("********end Link info log*********");
         }
     }
     
@@ -213,7 +218,7 @@ public class GLProgram extends GLObject{
     	for (String name : names) {
     		UniformVariable uniform = new UniformVariable(name);
     		uniform.setLocation(glGetUniformLocation(id, name));
-    		//Log.info(name);
+    		//LOGGER.info(name);
     		uniforms.put(name, uniform);
     	}
     }
@@ -280,9 +285,6 @@ public class GLProgram extends GLObject{
     	        matrix4.fillFloatBuffer(buffer, true);
     	        buffer.position(0);
     	        
-    	        //System.out.println(matrix4);
-    	        //System.out.println(var.name);
-    	        //System.out.println(location);
     	        glUniformMatrix4(location, false, buffer);
 
     	        break;
@@ -339,7 +341,7 @@ public class GLProgram extends GLObject{
 
        glGetProgram(id, GL_ATTACHED_SHADERS, shaderCount);
 
-       System.out.println("delete " + shaderCount.get(0) + " shaders");
+       //System.out.println("delete " + shaderCount.get(0) + " shaders");
 
        IntBuffer shaders = BufferUtils.createIntBuffer(shaderCount.get(0));
 

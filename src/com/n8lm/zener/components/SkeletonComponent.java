@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.n8lm.zener.math.Matrix4f;
-
 import com.artemis.Component;
 import com.n8lm.zener.animation.Pose;
 import com.n8lm.zener.animation.Skeleton;
-import com.n8lm.zener.utils.SkeletonHelper;
+import com.n8lm.zener.animation.SkeletonHelper;
 
 public class SkeletonComponent extends Component {
 

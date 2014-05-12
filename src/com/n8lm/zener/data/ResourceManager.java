@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.util.Log;
+import com.n8lm.zener.audio.Audio;
+import com.n8lm.zener.audio.AudioLoader;
 
 import com.n8lm.zener.assets.IQELoader;
 import com.n8lm.zener.assets.Image;
@@ -35,7 +35,10 @@ import com.n8lm.zener.graphics.Texture;
  *
  */
 public class ResourceManager {
-	
+
+	private final static Logger LOGGER = Logger.getLogger(ResourceManager.class
+		      .getName());
+
 
 	private ArrayList<ResourceLocation> locations;
 
@@ -139,7 +142,7 @@ public class ResourceManager {
 				add(name, model);
 			}
 			
-			Log.info("Loaded :" + filename);
+			LOGGER.info("Loaded :" + filename);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -168,7 +171,7 @@ public class ResourceManager {
 		program.initUniforms(uniforms);
 		shaders.put(name, program);
 
-		Log.info("Loaded : " + name + " " + strs[0] + " " + strs[1] + " " + strs[2]);
+		LOGGER.info("Loaded : " + name + " " + strs[0] + " " + strs[1] + " " + strs[2]);
 	}
 	
 	private String readText(String filename) {
@@ -204,8 +207,8 @@ public class ResourceManager {
 			
 			add(name, new Texture(image));
 			
-			Log.info("Loaded :" + filename);
-			//Log.info(texture.getFormat() + "");
+			LOGGER.info("Loaded :" + filename);
+			//LOGGER.info(texture.getFormat() + "");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -279,7 +282,7 @@ public class ResourceManager {
 						if (GameDatabase.class.isAssignableFrom(cls)) {
 							getDatabase((Class<? extends GameDatabase>) cls).load(ResourceManager.getInstance().getResourceAsStream(strs[2]));
 						} else
-							Log.error("Database Class " + strs[1] + " not found");
+							LOGGER.severe("Database Class " + strs[1] + " not found");
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -293,7 +296,7 @@ public class ResourceManager {
 				}
 			}
 		} catch (IOException e) {
-			Log.error("Config file error: io error");
+			LOGGER.severe("Config file error: io error");
 		}
 	}
 	

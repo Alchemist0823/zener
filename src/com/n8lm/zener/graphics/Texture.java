@@ -12,7 +12,6 @@ import org.lwjgl.opengl.Util;
 
 import com.n8lm.zener.assets.Image;
 import com.n8lm.zener.math.MathUtil;
-import com.n8lm.zener.utils.GLHelper;
 
 public class Texture extends GLObject{
 	

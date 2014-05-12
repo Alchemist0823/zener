@@ -1,6 +1,8 @@
 package com.n8lm.zener.utils;
 
-import org.newdawn.slick.util.Log;
+import java.util.logging.Logger;
+
+
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -19,6 +21,9 @@ import com.n8lm.zener.math.Vector3f;
 
 public class EntityFactory {
 
+	  private final static Logger LOGGER = Logger.getLogger(EntityFactory.class
+	      .getName());
+
 	protected static World world;
 	
 	public static void setWorld(World wor) {
@@ -29,8 +34,8 @@ public class EntityFactory {
 		Entity e = world.createEntity();
 		e.addComponent(new TransformComponent(attached, bone, pos, rot, Vector3f.UNIT_XYZ));
 		//e.addComponent(new VelocityComponent());
-		Log.info("ID: " + e.getId());
-		Log.info("Position: " + pos.toString());
+		LOGGER.info("ID: " + e.getId());
+		LOGGER.info("Position: " + pos.toString());
 		return e;
 	}
 	
@@ -81,7 +86,7 @@ public class EntityFactory {
 		e.addComponent(new GeometryComponent(geometry, shadowCaster));
 		e.addComponent(new MaterialComponent(material));
 		//e.addComponent(new VelocityComponent());
-		Log.info("Geometry: " + geometry.toString());
+		LOGGER.info("Geometry: " + geometry.toString());
 		return e;
 	}
 
@@ -101,7 +106,7 @@ public class EntityFactory {
 		e.addComponent(new MaterialComponent(new NormalMaterialUniforms(model.getMaterial())));
 		if (model.getSkeleton().getJoints().size() > 0)
 			e.addComponent(new SkeletonComponent(model.getSkeleton()));
-		Log.info("Model: " + model.toString());
+		LOGGER.info("Model: " + model.toString());
 		return e;
 	}
 	

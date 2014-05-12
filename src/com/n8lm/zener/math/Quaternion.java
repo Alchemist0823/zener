@@ -1299,7 +1299,6 @@ public final class Quaternion implements Cloneable, Serializable {
         }
 
         float rotAngle = (float)Math.acos(dot);
-        System.out.println(rotAngle + "" + dot);
         Vector3f rotAxis = source.cross(dest);
         rotAxis.normalizeLocal();
         fromAngleAxis(-rotAngle, rotAxis);

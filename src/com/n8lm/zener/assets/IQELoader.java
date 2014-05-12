@@ -6,12 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
-
-import org.newdawn.slick.util.Log;
-
 import com.n8lm.zener.animation.Animation;
 import com.n8lm.zener.animation.Joint;
 import com.n8lm.zener.animation.Pose;
@@ -22,6 +20,10 @@ import com.n8lm.zener.utils.Byte4;
 
 public class IQELoader {
 
+	private final static Logger LOGGER = Logger.getLogger(IQELoader.class
+		      .getName());
+
+	
 	public IQELoader() {
 		// TODO Auto-generated constructor stub
 	}
@@ -84,7 +86,7 @@ public class IQELoader {
             	mesh.faces.add(readFace(strs));
             } else if (strs[0].equals("mesh")) {
             	
-            	System.out.println(line);
+            	LOGGER.info(line);
             	if((line = reader.readLine()) != null) {
                     strs = line.trim().split(" +");
             		if (strs[0].equals("material")) {
@@ -99,7 +101,7 @@ public class IQELoader {
             } else if (strs[0].equals("animation")) {
             	if (anim != null)
             	{
-            		Log.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
+            		LOGGER.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
             		mdl.add(anim);
             		frame = null;
             	}
@@ -126,7 +128,7 @@ public class IQELoader {
     	
         if (anim != null)
     	{
-    		Log.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
+        	LOGGER.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
     		mdl.add(anim);
     	}
 

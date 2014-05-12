@@ -1,12 +1,8 @@
-package com.n8lm.zener.utils;
+package com.n8lm.zener.animation;
 
 import java.util.List;
 
 import com.n8lm.zener.math.Matrix4f;
-
-import com.n8lm.zener.animation.Joint;
-import com.n8lm.zener.animation.Pose;
-import com.n8lm.zener.animation.Skeleton;
 
 public class SkeletonHelper {
 
