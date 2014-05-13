@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.nifty;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -10,8 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.artemis.systems.VoidEntitySystem;
 import com.n8lm.zener.app.BasicGame;
 import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.input.InputIntentGenerator;
-import com.n8lm.zener.nifty.GameCallback;
+import com.n8lm.zener.intent.InputIntentGenerator;
 import com.n8lm.zener.nifty.input.ZenerInputSystem;
 import com.n8lm.zener.nifty.input.ZenerZenerInputSystem;
 

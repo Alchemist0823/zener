@@ -4,8 +4,6 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import com.n8lm.zener.nifty.ConsoleScreenController;
-
 import de.lessvoid.nifty.controls.Console;
 import de.lessvoid.nifty.tools.Color;
 

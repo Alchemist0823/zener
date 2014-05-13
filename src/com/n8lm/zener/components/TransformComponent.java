@@ -3,6 +3,7 @@ package com.n8lm.zener.components;
 import java.util.List;
 
 import com.n8lm.zener.animation.Joint;
+import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;

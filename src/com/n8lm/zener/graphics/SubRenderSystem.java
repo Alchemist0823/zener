@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -20,6 +20,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
+import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.components.*;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.graphics.*;

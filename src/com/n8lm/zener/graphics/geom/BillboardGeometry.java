@@ -1,6 +1,6 @@
 package com.n8lm.zener.graphics.geom;
 
-import com.n8lm.zener.systems.SubRenderSystem;
+import com.n8lm.zener.graphics.SubRenderSystem;
 
 public class BillboardGeometry extends Geometry {
 

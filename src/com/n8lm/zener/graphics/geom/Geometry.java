@@ -12,12 +12,13 @@ import java.util.logging.Logger;
 
 
 
+
 import com.n8lm.zener.graphics.GLObject;
+import com.n8lm.zener.graphics.SubRenderSystem;
 import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
 import com.n8lm.zener.input.Input;
-import com.n8lm.zener.systems.SubRenderSystem;
 
 public abstract class Geometry extends GLObject{
 	

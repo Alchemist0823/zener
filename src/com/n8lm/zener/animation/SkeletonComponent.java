@@ -1,13 +1,10 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.animation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.n8lm.zener.math.Matrix4f;
 import com.artemis.Component;
-import com.n8lm.zener.animation.Pose;
-import com.n8lm.zener.animation.Skeleton;
-import com.n8lm.zener.animation.SkeletonHelper;
 
 public class SkeletonComponent extends Component {
 

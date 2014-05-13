@@ -1,10 +1,9 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.animation;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.artemis.Component;
-import com.n8lm.zener.animation.AnimationController;
 
 public class AnimationComponent extends Component {
 

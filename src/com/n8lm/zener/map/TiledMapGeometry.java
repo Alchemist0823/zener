@@ -1,4 +1,4 @@
-package com.n8lm.zener.graphics.geom;
+package com.n8lm.zener.map;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -11,14 +11,13 @@ import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.graphics.SubRenderSystem;
 import com.n8lm.zener.graphics.VarType;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.DataType;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
 import com.n8lm.zener.graphics.VertexBuffer.Usage;
-import com.n8lm.zener.map.TileSet;
-import com.n8lm.zener.map.TiledMap;
-import com.n8lm.zener.systems.SubRenderSystem;
+import com.n8lm.zener.graphics.geom.Geometry;
 import com.n8lm.zener.utils.BufferTools;
 import com.n8lm.zener.utils.Byte4;
 

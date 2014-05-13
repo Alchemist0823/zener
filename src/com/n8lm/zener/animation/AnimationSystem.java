@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.animation;
 
 import java.util.Iterator;
 
@@ -7,8 +7,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.n8lm.zener.animation.AnimationController;
-import com.n8lm.zener.components.AnimationComponent;
 
 public class AnimationSystem extends EntityProcessingSystem {
 

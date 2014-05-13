@@ -6,7 +6,6 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.n8lm.zener.collision.*;
-import com.n8lm.zener.components.CollidableComponent;
 import com.n8lm.zener.components.TransformComponent;
 import com.n8lm.zener.math.Ray;
 import com.n8lm.zener.math.Vector3f;

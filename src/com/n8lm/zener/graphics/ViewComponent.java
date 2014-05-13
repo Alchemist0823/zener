@@ -1,9 +1,6 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
-import com.n8lm.zener.graphics.FrameBuffer;
-import com.n8lm.zener.graphics.PerspectiveProjection;
-import com.n8lm.zener.graphics.Projection;
 import com.n8lm.zener.math.Rectangle2D;
 
 public class ViewComponent extends Component {

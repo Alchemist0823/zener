@@ -1,9 +1,8 @@
-package com.n8lm.zener.graphics.material;
+package com.n8lm.zener.map;
 
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.VarType;
-import com.n8lm.zener.map.TileSet;
 
 public class TiledMapMaterialUniforms extends UniformGroup {
 	

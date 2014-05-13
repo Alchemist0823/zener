@@ -1,4 +1,4 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
 import com.n8lm.zener.graphics.geom.Geometry;

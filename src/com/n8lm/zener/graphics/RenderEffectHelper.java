@@ -1,9 +1,8 @@
-package com.n8lm.zener.utils;
+package com.n8lm.zener.graphics;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.n8lm.zener.components.RenderEffectComponent;
 import com.n8lm.zener.math.Vector4f;
 
 public class RenderEffectHelper {

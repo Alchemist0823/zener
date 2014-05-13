@@ -1,7 +1,6 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
-import com.n8lm.zener.graphics.UniformGroup;
 
 public class MaterialComponent extends Component {
 	

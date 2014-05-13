@@ -1,10 +1,6 @@
-package com.n8lm.zener.graphics.material;
+package com.n8lm.zener.graphics;
 
 import com.n8lm.zener.assets.Material;
-import com.n8lm.zener.graphics.Texture;
-import com.n8lm.zener.graphics.UniformGroup;
-import com.n8lm.zener.graphics.UniformVariable;
-import com.n8lm.zener.graphics.VarType;
 import com.n8lm.zener.math.Vector3f;
 
 public class NormalMaterialUniforms extends UniformGroup{

@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
@@ -20,10 +20,8 @@ import com.artemis.World;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import com.n8lm.zener.components.*;
-import com.n8lm.zener.graphics.FrameBuffer;
-import com.n8lm.zener.graphics.Texture;
+import com.n8lm.zener.graphics.SubRenderSystem.RenderMode;
 import com.n8lm.zener.math.Matrix4f;
-import com.n8lm.zener.systems.SubRenderSystem.RenderMode;
 
 public class ViewRenderSystem extends EntitySystem {
 

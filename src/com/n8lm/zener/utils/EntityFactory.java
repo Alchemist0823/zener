@@ -4,18 +4,22 @@ import java.util.logging.Logger;
 
 
 
+
+
+
+
 import com.artemis.Entity;
 import com.artemis.World;
+import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.assets.Model;
-import com.n8lm.zener.components.GeometryComponent;
-import com.n8lm.zener.components.MaterialComponent;
-import com.n8lm.zener.components.SkeletonComponent;
 import com.n8lm.zener.components.TransformComponent;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.graphics.GeometryComponent;
+import com.n8lm.zener.graphics.MaterialComponent;
+import com.n8lm.zener.graphics.NormalMaterialUniforms;
 import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.geom.Geometry;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
-import com.n8lm.zener.graphics.material.NormalMaterialUniforms;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Vector3f;
 

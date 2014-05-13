@@ -1,8 +1,6 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.particle;
 
 import com.artemis.Component;
-import com.n8lm.zener.particle.Particle;
-import com.n8lm.zener.particle.ParticleController;
 
 public class ParticleSystemComponent extends Component {
 

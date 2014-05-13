@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.intent;
 
 import com.artemis.Aspect;
 import com.artemis.systems.EntityProcessingSystem;

@@ -7,12 +7,12 @@ import org.lwjgl.BufferUtils;
 
 import com.n8lm.zener.assets.Face;
 import com.n8lm.zener.assets.Mesh;
+import com.n8lm.zener.graphics.NormalMaterialUniforms;
+import com.n8lm.zener.graphics.SubRenderSystem;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.DataType;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
 import com.n8lm.zener.graphics.VertexBuffer.Usage;
-import com.n8lm.zener.graphics.material.NormalMaterialUniforms;
-import com.n8lm.zener.systems.SubRenderSystem;
 import com.n8lm.zener.utils.BufferTools;
 
 public class ModelGeometry extends Geometry {

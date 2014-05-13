@@ -1,7 +1,6 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.collision;
 
 import com.artemis.Component;
-import com.n8lm.zener.collision.Collidable;
 
 public class CollidableComponent extends Component {
 

@@ -1,14 +1,11 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.particle;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.n8lm.zener.components.ParticleSystemComponent;
 import com.n8lm.zener.components.TransformComponent;
-import com.n8lm.zener.particle.Particle;
-import com.n8lm.zener.particle.ParticleController;
 
 public class ParticleProcessingSystem extends EntityProcessingSystem {
 

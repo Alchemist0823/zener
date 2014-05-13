@@ -2,7 +2,7 @@ package com.n8lm.zener.math;
 
 import com.artemis.Entity;
 import com.n8lm.zener.components.TransformComponent;
-import com.n8lm.zener.components.ViewComponent;
+import com.n8lm.zener.graphics.ViewComponent;
 
 public class MathUtil {
 

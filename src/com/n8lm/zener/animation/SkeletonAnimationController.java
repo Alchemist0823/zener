@@ -1,7 +1,6 @@
 package com.n8lm.zener.animation;
 
 import com.artemis.Entity;
-import com.n8lm.zener.components.SkeletonComponent;
 
 public class SkeletonAnimationController extends AnimationController<PosesKeyFrame> {
 
