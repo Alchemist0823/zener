@@ -1,4 +1,4 @@
-package com.n8lm.zener.components;
+package com.n8lm.zener.general;
 
 import com.artemis.Component;
 

@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.general;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -6,7 +6,6 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.n8lm.zener.collision.*;
-import com.n8lm.zener.components.TransformComponent;
 import com.n8lm.zener.math.Ray;
 import com.n8lm.zener.math.Vector3f;
 

@@ -2,7 +2,7 @@ package com.n8lm.zener.collision;
 
 import java.nio.FloatBuffer;
 
-import com.n8lm.zener.components.TransformComponent;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.*;
 
 public class AABBBoundingBox implements Collidable {

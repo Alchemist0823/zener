@@ -1,11 +1,10 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.general;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.DelayedEntityProcessingSystem;
-import com.n8lm.zener.components.ExpireComponent;
 
 public class ExpirationSystem extends DelayedEntityProcessingSystem {
 

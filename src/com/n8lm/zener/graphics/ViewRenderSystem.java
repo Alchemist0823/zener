@@ -1,10 +1,6 @@
 package com.n8lm.zener.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL14.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL32.*;
 
@@ -19,7 +15,7 @@ import com.artemis.EntitySystem;
 import com.artemis.World;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
-import com.n8lm.zener.components.*;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.SubRenderSystem.RenderMode;
 import com.n8lm.zener.math.Matrix4f;
 

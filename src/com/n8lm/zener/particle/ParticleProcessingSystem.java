@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.n8lm.zener.components.TransformComponent;
+import com.n8lm.zener.general.TransformComponent;
 
 public class ParticleProcessingSystem extends EntityProcessingSystem {
 

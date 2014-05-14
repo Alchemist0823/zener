@@ -1,7 +1,7 @@
 package com.n8lm.zener.animation;
 
 import com.artemis.Entity;
-import com.n8lm.zener.components.TransformComponent;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Transform;
 
 public class TransformAnimationController extends

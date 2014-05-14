@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.artemis.Entity;
+import com.n8lm.zener.script.AnimationEvent;
+import com.n8lm.zener.script.ScriptHelper;
 import com.n8lm.zener.utils.EndEventListener;
 
 public abstract class AnimationController<T extends KeyFrame>{
@@ -15,7 +17,7 @@ public abstract class AnimationController<T extends KeyFrame>{
 	protected boolean isLoop;
 	protected boolean isDeleted;
 	
-	private List<EndEventListener> listeners;
+	//private List<EndEventListener> listeners;
 	
 	public AnimationController(Animation<T> anim) {
 		this(anim, false);
@@ -25,7 +27,7 @@ public abstract class AnimationController<T extends KeyFrame>{
 		if (anim == null)
 			throw new IllegalArgumentException("Animation is empty");
 		this.anim = anim;
-		listeners = new ArrayList<EndEventListener>();
+		//listeners = new ArrayList<EndEventListener>();
 		time = 0;
 		frameIndex  = -1;
 		this.isLoop = isLoop;
@@ -58,7 +60,7 @@ public abstract class AnimationController<T extends KeyFrame>{
 		if(time > anim.getTotalTime())
 		{
 			if (!isLoop()) {
-				invoke(e);
+				invoke(e, AnimationEvent.END);
 				return true;
 			} else {
 				init();
@@ -71,10 +73,11 @@ public abstract class AnimationController<T extends KeyFrame>{
 	
 	protected abstract void process(int nowIndex, int nextIndex, Entity e);
 
-	protected void invoke(Entity e) {
-		for(EndEventListener listener : listeners) {
-			listener.endEvent(e);
-		}
+	protected void invoke(Entity e, String event) {
+		ScriptHelper.dispatchEvent(e.getWorld(), e, new AnimationEvent(event, e, anim));
+		//for(EndEventListener listener : listeners) {
+		//	listener.endEvent(e);
+		//}
 	}
 	
 	protected void init() {
@@ -98,9 +101,9 @@ public abstract class AnimationController<T extends KeyFrame>{
 		return isDeleted;
 	}
 
-	public void addEventListener(EndEventListener listener) {
+	/*public void addEventListener(EndEventListener listener) {
 		listeners.add(listener);
-	}
+	}*/
 	
 
 	public int getFrameIndex() {

@@ -1,4 +1,4 @@
-package com.n8lm.zener.systems;
+package com.n8lm.zener.general;
 
 
 import java.util.BitSet;
@@ -9,7 +9,6 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.n8lm.zener.animation.SkeletonComponent;
-import com.n8lm.zener.components.TransformComponent;
 import com.n8lm.zener.graphics.GeometryComponent;
 import com.n8lm.zener.math.Matrix4f;
 import com.n8lm.zener.math.Transform;

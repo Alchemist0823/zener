@@ -8,12 +8,13 @@ import java.util.logging.Logger;
 
 
 
+
 import com.artemis.Entity;
 import com.artemis.World;
 import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.assets.Model;
-import com.n8lm.zener.components.TransformComponent;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.GeometryComponent;
 import com.n8lm.zener.graphics.MaterialComponent;
 import com.n8lm.zener.graphics.NormalMaterialUniforms;

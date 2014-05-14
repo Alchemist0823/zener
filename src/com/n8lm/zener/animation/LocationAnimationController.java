@@ -2,9 +2,8 @@ package com.n8lm.zener.animation;
 
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
-
 import com.artemis.Entity;
-import com.n8lm.zener.components.TransformComponent;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.map.Direction;
 import com.n8lm.zener.map.Location;
 import com.n8lm.zener.map.TiledMap;
