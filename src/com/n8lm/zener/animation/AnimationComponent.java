@@ -6,6 +6,12 @@ import java.util.List;
 
 import com.artemis.Component;
 
+/**
+ * an Animation Component contains many different AnimationControllers 
+ * It is processed by AnimationSystem.
+ * @author Alchemist
+ *
+ */
 public class AnimationComponent extends Component {
 
 	private List<AnimationController<?>> animControllers;

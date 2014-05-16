@@ -2,6 +2,11 @@ package com.n8lm.zener.animation;
 
 import com.artemis.Entity;
 
+/**
+ * A controller deals with bone-based skeleton animation
+ * @author Alchemist
+ *
+ */
 public class SkeletonAnimationController extends AnimationController<PosesKeyFrame> {
 
 	public SkeletonAnimationController(Animation<PosesKeyFrame> anim) {
@@ -18,7 +23,7 @@ public class SkeletonAnimationController extends AnimationController<PosesKeyFra
 		
 		PosesKeyFrame keyframe = anim.getFrame(nowIndex);
 		
-		e.getComponent(SkeletonComponent.class).setCurrentPoseMatrices(keyframe.getPoseMatrices());
+		e.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(keyframe.getPoseMatrices());
 
 		//List<Pose> poses = keyframe.getPoses();
 		/*

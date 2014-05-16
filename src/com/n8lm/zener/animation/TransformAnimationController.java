@@ -4,6 +4,11 @@ import com.artemis.Entity;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Transform;
 
+/**
+ * Basic transformation animation controller
+ * @author Alchemist
+ *
+ */
 public class TransformAnimationController extends
 		AnimationController<TransformKeyFrame> {
 

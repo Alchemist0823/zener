@@ -1547,6 +1547,12 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
         m32 = 0;
         m33 = 1;
     }
+    
+
+
+	public void setTransform(Transform trans) {
+		setTransform(trans.getTranslation(), trans.getScale(), trans.getRotation().toRotationMatrix());		
+	}
 
     /**
      * Places the adjoint of this matrix in store (creates store if null.)

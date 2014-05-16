@@ -8,6 +8,12 @@ import com.n8lm.zener.script.AnimationEvent;
 import com.n8lm.zener.script.ScriptHelper;
 import com.n8lm.zener.utils.EndEventListener;
 
+/**
+ * A controller deal with animation data
+ * @author Alchemist
+ *
+ * @param <T>
+ */
 public abstract class AnimationController<T extends KeyFrame>{
 
 	protected Animation<T> anim;

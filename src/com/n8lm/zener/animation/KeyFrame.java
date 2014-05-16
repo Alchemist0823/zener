@@ -1,5 +1,11 @@
 package com.n8lm.zener.animation;
 
+/**
+ * Basic key frame in an animation
+ * Any kind of key frame should inherit this class
+ * @author Alchemist
+ *
+ */
 public abstract class KeyFrame {
 
 	private int time;

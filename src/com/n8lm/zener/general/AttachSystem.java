@@ -75,7 +75,7 @@ public class AttachSystem extends EntityProcessingSystem {
 					SkeletonComponent skl = t.getAttached().getComponent(SkeletonComponent.class);
 					
 					Matrix4f boneMat = 
-							skl.getCurrentPoseMatrices()[t.getJoint()].mult(
+							skl.getCurrentPosesMatrices()[t.getJoint()].mult(
 									skl.getBaseSkeleton().getJoints().get(t.getJoint()).base);
 					Transform boneTransform = new Transform(boneMat.toTranslationVector(), boneMat.toRotationQuat(), boneMat.toScaleVector());
 					boneTransform.combineFromParent(t.getWorldTransform());

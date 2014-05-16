@@ -2,6 +2,12 @@ package com.n8lm.zener.animation;
 
 import java.util.*;
 
+/**
+ * Animation data which store all the keyframe
+ * @author Alchemist
+ *
+ * @param <T> KeyFrameType
+ */
 public class Animation<T extends KeyFrame> {
 
 	protected String name;

@@ -270,7 +270,7 @@ public class SubRenderSystem extends EntitySystem{
 				program = rm.getShader("skinning");
 				program.bind();
 				
-				Matrix4f[] m4a = sm.get(e).getCurrentPoseMatrices();
+				Matrix4f[] m4a = sm.get(e).getCurrentPosesMatrices();
 				program.setUniform(new UniformVariable("BoneMatrices", VarType.Matrix4Array,
 						m4a));
 					
@@ -292,7 +292,7 @@ public class SubRenderSystem extends EntitySystem{
 				program = rm.getShader("skinning");
 				program.bind();
 				
-				Matrix4f[] m4a = sm.get(e).getCurrentPoseMatrices();
+				Matrix4f[] m4a = sm.get(e).getCurrentPosesMatrices();
 				program.setUniform(new UniformVariable("BoneMatrices", VarType.Matrix4Array,
 						m4a));
 					

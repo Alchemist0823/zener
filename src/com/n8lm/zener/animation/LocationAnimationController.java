@@ -8,6 +8,11 @@ import com.n8lm.zener.map.Direction;
 import com.n8lm.zener.map.Location;
 import com.n8lm.zener.map.TiledMap;
 
+/**
+ * An animation controller for movement in tiled map
+ * @author Alchemist
+ *
+ */
 public class LocationAnimationController extends AnimationController<LocationKeyFrame> {
 
 	TiledMap map;

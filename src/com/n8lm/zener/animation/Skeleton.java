@@ -7,6 +7,12 @@ import com.n8lm.zener.math.Matrix4f;
 
 import com.n8lm.zener.math.MathUtil;
 
+/**
+ * A Skeleton contains many bones. it is a structure of 
+ * a bone-based animation
+ * @author Alchemist
+ *
+ */
 public class Skeleton {
 
 	private List<Joint> joints; 
@@ -29,7 +35,7 @@ public class Skeleton {
 	        Joint j = joints.get(i);
 
 			j.base = new Matrix4f();
-			j.base.setTransform(j.pose.position, j.pose.scale, j.pose.rotation.toRotationMatrix());
+			j.base.setTransform(j.pose);
 			j.inverseBase = j.base.invert();
 			
 	        if(j.parent >= 0) {

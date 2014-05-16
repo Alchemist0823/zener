@@ -8,6 +8,11 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
+/**
+ * Animation System process the animation component in every entity
+ * @author Alchemist
+ *
+ */
 public class AnimationSystem extends EntityProcessingSystem {
 
 	@Mapper ComponentMapper<AnimationComponent> am;

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.animation.Animation;
 import com.n8lm.zener.animation.Joint;
-import com.n8lm.zener.animation.Pose;
 import com.n8lm.zener.animation.PosesKeyFrame;
 import com.n8lm.zener.animation.Skeleton;
 import com.n8lm.zener.data.ResourceManager;
@@ -55,7 +55,7 @@ public class IQELoader {
             	if((line = reader.readLine()) != null) {
                     strs = line.trim().split(" +");
             		if (strs[0].equals("pq")) {
-            			readPose(j.pose, strs);
+            			readTransform(j.pose, strs);
             		}
             	}
             	
@@ -114,8 +114,8 @@ public class IQELoader {
             	frame = new PosesKeyFrame(anim.getTotalFrame());
             }  else if (strs[0].equals("pq")) {
             	
-            	Pose p = new Pose();
-            	readPose(p, strs);
+            	Transform p = new Transform();
+            	readTransform(p, strs);
             	
             	frame.add(p);
             }
@@ -170,12 +170,12 @@ public class IQELoader {
 		return new Vector3f(Float.parseFloat(strs[1]), Float.parseFloat(strs[2]), Float.parseFloat(strs[3]));
 	}
 	
-	private static void readPose(Pose p, String[] strs) {
-		p.position.x = Float.parseFloat(strs[1]);
-		p.position.y = Float.parseFloat(strs[2]);
-		p.position.z = Float.parseFloat(strs[3]);
+	private static void readTransform(Transform p, String[] strs) {
+		p.getTranslation().x = Float.parseFloat(strs[1]);
+		p.getTranslation().y = Float.parseFloat(strs[2]);
+		p.getTranslation().z = Float.parseFloat(strs[3]);
 
-		p.rotation.set(Float.parseFloat(strs[4]),
+		p.getRotation().set(Float.parseFloat(strs[4]),
 				Float.parseFloat(strs[5]),
 				Float.parseFloat(strs[6]),
 				Float.parseFloat(strs[7]));
@@ -183,11 +183,11 @@ public class IQELoader {
 		//p.rotation.normalise(p.rotation);
 
 		if (strs.length > 8) {
-			p.scale.x = Float.parseFloat(strs[8]);
-			p.scale.y = Float.parseFloat(strs[9]);
-			p.scale.z = Float.parseFloat(strs[10]);
+			p.getScale().x = Float.parseFloat(strs[8]);
+			p.getScale().y = Float.parseFloat(strs[9]);
+			p.getScale().z = Float.parseFloat(strs[10]);
 		} else {
-			p.scale.x = p.scale.y = p.scale.z = 1.0f;
+			p.getScale().set(1.0f, 1.0f, 1.0f);
 		}
 	}
 }
