@@ -4,8 +4,13 @@ import com.artemis.World;
 import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
 
+/**
+ * Basic Game
+ * Any game class should extend this class
+ * @author Alchemist
+ *
+ */
 public abstract class BasicGame {
-
 	
 	static protected BasicGame game;
 	

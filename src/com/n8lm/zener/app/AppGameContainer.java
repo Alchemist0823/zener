@@ -24,7 +24,7 @@ import com.n8lm.zener.utils.ZenerException;
  * A game container that will display the game as an stand alone 
  * application.
  *
- * @author kevin
+ * @author kevin, Alchemist
  */
 public class AppGameContainer extends GameContainer {
 	

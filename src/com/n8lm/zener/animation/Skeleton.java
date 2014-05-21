@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.n8lm.zener.math.Matrix4f;
 
-import com.n8lm.zener.math.MathUtil;
-
 /**
  * A Skeleton contains many bones. it is a structure of 
  * a bone-based animation

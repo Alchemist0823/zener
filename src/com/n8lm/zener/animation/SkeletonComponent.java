@@ -1,8 +1,6 @@
 package com.n8lm.zener.animation;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.n8lm.zener.math.Matrix4f;
 import com.n8lm.zener.math.Transform;
 import com.artemis.Component;

@@ -1,12 +1,8 @@
 package com.n8lm.zener.animation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.artemis.Entity;
 import com.n8lm.zener.script.AnimationEvent;
 import com.n8lm.zener.script.ScriptHelper;
-import com.n8lm.zener.utils.EndEventListener;
 
 /**
  * A controller deal with animation data

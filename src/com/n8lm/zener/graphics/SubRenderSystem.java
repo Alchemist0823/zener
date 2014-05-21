@@ -96,10 +96,16 @@ public class SubRenderSystem extends EntitySystem{
 		if (renderMode == RenderMode.NormalRender) {
 			for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
 				Entity e = opaqueEntities.get(i);
-
-				if (dm.get(e).isVisible()) {
-					if (em.has(e) && 
-							em.get(e).getAlpha() != 1.0f)
+				
+				Vector4f multiplyColor = new Vector4f(Vector4f.UNIT_XYZW);
+				Vector4f addColor = new Vector4f(Vector4f.ZERO);
+				if (em.has(e)) {
+					multiplyColor = em.get(e).getMultiplyColor();
+					addColor = em.get(e).getAddColor();
+				}
+				
+				if (dm.get(e).isVisible() && (multiplyColor.w >= 0.0f || addColor.w >= 0.0f)) {
+					if (multiplyColor.w != 1.0f)
 						tmpTransQueue.push(e);
 					else
 						render(e);
@@ -125,7 +131,7 @@ public class SubRenderSystem extends EntitySystem{
 				Entity e = opaqueEntities.get(i);
 
 				if (dm.get(e).isShadowCaster()) {
-					if (!em.has(e) || em.get(e).getAlpha() == 1.0f)
+					if (!em.has(e) || em.get(e).getMultiplyColor().w == 1.0f)
 						render(e);
 				}
 			}

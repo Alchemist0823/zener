@@ -27,8 +27,8 @@ public class ViewRenderSystem extends EntitySystem {
 	protected SubRenderSystem srs;
 	protected Matrix4f depthPVMat;
 	protected Texture depthMap;
-	private Matrix4f depthP;
-	private Matrix4f depthV;
+	//private Matrix4f depthP;
+	//private Matrix4f depthV;
 	
 	public ViewRenderSystem(World world) {
 		super(Aspect.getAspectForAll(ViewComponent.class, TransformComponent.class));
@@ -129,8 +129,8 @@ public class ViewRenderSystem extends EntitySystem {
 
 			if (srs.getRenderMode() == RenderMode.DepthRender) {
 				depthPVMat = vm.get(e).getProjection().getProjectionMatrix(null);
-				depthP = vm.get(e).getProjection().getProjectionMatrix(null);
-				depthV = tm.get(e).getWorldTransform().getViewMatrix(null);
+				//depthP = vm.get(e).getProjection().getProjectionMatrix(null);
+				//depthV = tm.get(e).getWorldTransform().getViewMatrix(null);
 				depthPVMat.multLocal(tm.get(e).getWorldTransform().getViewMatrix(null));
 				//System.out.println(depthPVMat);
 				depthMap = vm.get(e).getFramebuffer().getDepthTexture();
@@ -158,16 +158,16 @@ public class ViewRenderSystem extends EntitySystem {
 	public Matrix4f getDepthPV() {
 		return depthPVMat;
 	}
-	
+	/*
 	public Matrix4f getDepthP() {
 		return depthP;
 	}
 	
 	public Matrix4f getDepthV() {
 		return depthV;
-	}
+	}*/
 
-	public Object getDepthTexture() {
+	public Texture getDepthTexture() {
 		return depthMap;
 	}
 

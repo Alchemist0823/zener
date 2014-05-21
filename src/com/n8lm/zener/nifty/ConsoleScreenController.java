@@ -35,6 +35,8 @@ public class ConsoleScreenController implements ScreenController, KeyInputHandle
 		this.screen = screen;
 		screen.addKeyboardInputHandler(new DefaultInputMapping(), this);
 
+	    consolePopup = nifty.createPopup("consolePopup");
+
 	}
 
 	@Override
