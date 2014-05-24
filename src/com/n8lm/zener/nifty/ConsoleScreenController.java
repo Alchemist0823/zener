@@ -12,6 +12,7 @@ import de.lessvoid.nifty.controls.Console;
 import de.lessvoid.nifty.controls.ConsoleExecuteCommandEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.input.NiftyInputEvent;
+import de.lessvoid.nifty.input.NiftyStandardInputEvent;
 import de.lessvoid.nifty.input.mapping.DefaultInputMapping;
 import de.lessvoid.nifty.screen.KeyInputHandler;
 import de.lessvoid.nifty.screen.Screen;
@@ -53,7 +54,7 @@ public class ConsoleScreenController implements ScreenController, KeyInputHandle
 
 	@Override
 	public boolean keyEvent(NiftyInputEvent inputEvent) {
-		if (inputEvent == NiftyInputEvent.ConsoleToggle) {
+		if (inputEvent == NiftyStandardInputEvent.ConsoleToggle) {
 			toggleConsole();
 			return true;
 		} else {
@@ -74,7 +75,7 @@ public class ConsoleScreenController implements ScreenController, KeyInputHandle
 
 	private void openConsole() {
 		nifty.showPopup(screen, consolePopup.getId(),
-				consolePopup.findElementByName("console#textInput"));
+				consolePopup.findElementById("console#textInput"));
 		screen.processAddAndRemoveLayerElements();
 
 		if (firstConsoleShow) {

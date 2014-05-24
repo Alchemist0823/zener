@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Controller;
+import de.lessvoid.nifty.controls.Parameters;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.input.NiftyInputEvent;
@@ -15,19 +16,6 @@ public class TransformFollowText implements Controller {
 
 	private Element text;
 	
-	@Override
-	public void bind(Nifty nifty, Screen screen, Element element,
-			Properties parameter, Attributes controlDefinitionAttributes) {
-		  text = element.findElementByName("#main-text");
-
-	}
-
-	@Override
-	public void init(Properties parameter,
-			Attributes controlDefinitionAttributes) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public boolean inputEvent(NiftyInputEvent inputEvent) {
@@ -45,6 +33,19 @@ public class TransformFollowText implements Controller {
 	public void onStartScreen() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void bind(Nifty nifty, Screen screen, Element element,
+			Parameters parameter) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init(Parameters parameter) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Controller;
+import de.lessvoid.nifty.controls.Parameters;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.input.NiftyInputEvent;
@@ -21,13 +22,9 @@ public class ProgressbarControl implements Controller {
       final Element element,
       final Properties parameter,
       final Attributes controlDefinitionAttributes) {
-	  	progressBarElement = element.findElementByName("#progress");
-	  	progressTextElement = element.findElementByName("#progress-text");
+	  	progressBarElement = element.findElementById("#progress");
+	  	progressTextElement = element.findElementById("#progress-text");
 	}
-
-  @Override
-  public void init(final Properties parameter, final Attributes controlDefinitionAttributes) {
-  }
 
   public void onStartScreen() {
   }
@@ -54,5 +51,18 @@ public class ProgressbarControl implements Controller {
     String progressText = String.format("%3.0f%%", progress * 100);
     progressTextElement.getRenderer(TextRenderer.class).setText(progressText);
   }
+
+@Override
+public void bind(Nifty nifty, Screen screen, Element element,
+		Parameters parameter) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void init(Parameters parameter) {
+	// TODO Auto-generated method stub
+	
+}
 
 }
