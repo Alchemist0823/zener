@@ -24,11 +24,24 @@ import com.n8lm.zener.utils.Byte4;
 public class TiledMapGeometry extends Geometry {
 	
 	protected final int fragment = 2;
+    
+	private List<Vector2f> textureCoordinatesFix;
 
 	protected TiledMap map;
 	
 	public TiledMapGeometry(TiledMap map) {
 		super("tiledmap");
+
+		final float seamfix = 1.0f/128;
+		final float fgw = (1.0f - seamfix * 2) /fragment;
+		textureCoordinatesFix = new ArrayList<Vector2f>();
+		for(int i = 0; i < fragment; i ++)
+			for(int j = 0; j < fragment; j ++) {	
+				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i, seamfix + fgw * j));
+				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i, seamfix + fgw * j + fgw));
+				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i + fgw, seamfix + fgw * j + fgw));
+				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i + fgw, seamfix + fgw * j));
+			}
 		
 		this.map = map;
 		
@@ -78,9 +91,6 @@ public class TiledMapGeometry extends Geometry {
 		float th = map.getTileHeight();
 		float ta = map.getTileAltitude();
 		int faceCount = 0;
-
-		final float seamfix = 1.0f/128;
-		final float fgw = (1.0f - seamfix * 2) /fragment;
 		
 		faceCount = map.getHeight() * map.getWidth() * fragment * fragment * 2;
         vertexCount = faceCount * 3;
@@ -92,16 +102,7 @@ public class TiledMapGeometry extends Geometry {
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertexCount * 4);
 		// default normal 
 		//Vector3f normal = new Vector3f(0.0f, 0.0f, 1.0f);
-
-	    List<Vector2f> textureCoordinatesFix = new ArrayList<Vector2f>();
 		// Generate Texture Coordinates
-		for(int i = 0; i < fragment; i ++)
-			for(int j = 0; j < fragment; j ++) {	
-				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i, seamfix + fgw * j));
-				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i, seamfix + fgw * j + fgw));
-				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i + fgw, seamfix + fgw * j + fgw));
-				textureCoordinatesFix.add(new Vector2f(seamfix + fgw * i + fgw, seamfix + fgw * j));
-			}
 		
 		float terrain[][] = new float[map.getWidth() * fragment + fragment][map.getHeight() * fragment + fragment];
 
@@ -208,7 +209,6 @@ public class TiledMapGeometry extends Geometry {
 			        	normals.put(BufferTools.asFloats(n1));
 			        	normals.put(BufferTools.asFloats(n4));
 			        	normals.put(BufferTools.asFloats(n3));
-						
 
 			        	textureCoordinates.put(BufferTools.asFloats(textureCoordinatesFix.get((ii * fragment + jj) * 4 + 2)));
 			        	textureCoordinates.put(BufferTools.asFloats(textureCoordinatesFix.get((ii * fragment + jj) * 4 + 1)));
@@ -223,10 +223,7 @@ public class TiledMapGeometry extends Geometry {
 						colorBuffer.put(BufferTools.asFlippedFloatBuffer(1, 1, 1, 1));
 						colorBuffer.put(BufferTools.asFlippedFloatBuffer(1, 1, 1, 1));
 						colorBuffer.put(BufferTools.asFlippedFloatBuffer(1, 1, 1, 1));
-					
-						//faces.add(new Face(vertex1, normalIndices, textureCoord1));
-						//faces.add(new Face(vertex2, normalIndices, textureCoord2));
-			}
+					}
 		
         
         vertices.flip();

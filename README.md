@@ -2,4 +2,4 @@
 
 Zener Game Engine is a high-performanced cross-platform cutting-edge java 3d game engine.
 
-[Wiki]
+[More](https://bitbucket.org/zener-team/zener/wiki/Home)
