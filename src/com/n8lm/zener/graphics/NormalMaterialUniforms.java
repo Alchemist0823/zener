@@ -8,15 +8,15 @@ public class NormalMaterialUniforms extends UniformGroup{
     
     public String diffuseTextureName;
 	
-	public NormalMaterialUniforms() {
+	/*public NormalMaterialUniforms() {
 		super();
     	uniforms.put("Material.Ka", new UniformVariable("Material.Ka", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
     	uniforms.put("Material.Kd", new UniformVariable("Material.Kd", VarType.Vector3f, new Vector3f(0.5f, 0.5f, 0.5f)));
     	uniforms.put("Material.Ks", new UniformVariable("Material.Ks", VarType.Vector3f, new Vector3f(1.0f, 1.0f, 1.0f)));
     	uniforms.put("Material.Shininess", new UniformVariable("Material.Shininess", VarType.Float, 100));
     	uniforms.put("Material.DiffuseMap", new UniformVariable("Material.DiffuseMap", VarType.Texture2D));
-		
-	}
+		uniforms.put("Material.NormalMap", new UniformVariable("Material.NormalMap", VarType.Texture2D));
+	}*/
 	
 	public NormalMaterialUniforms(Material material) {
 		super();
@@ -25,6 +25,8 @@ public class NormalMaterialUniforms extends UniformGroup{
 		addUniform("Material.Ks", VarType.Vector3f, new Vector3f(material.specularColor));
 		addUniform("Material.Shininess", VarType.Float, material.specularCoefficient);
 		addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
+		if (material.normalTexture != null)
+			addUniform("Material.NormalMap", VarType.Texture2D, material.normalTexture);
     	diffuseTextureName = material.diffuseTextureName;
 	}
 
@@ -46,5 +48,9 @@ public class NormalMaterialUniforms extends UniformGroup{
 
     public void setDiffuseTexture(Texture texture) {
     	uniforms.get("Material.DiffuseMap").setValue(texture);
+    }
+    
+    public void setNormalTexture(Texture texture) {
+    	uniforms.get("Material.NormalMap").setValue(texture);
     }
 }

@@ -11,7 +11,7 @@ import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.graphics.SubRenderSystem;
+import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.VarType;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.DataType;
@@ -245,7 +245,7 @@ public class TiledMapGeometry extends Geometry {
 
 
 	@Override
-	public void update(SubRenderSystem subRenderSystem) {
+	public void update(ViewRenderSystem subRenderSystem) {
 		// TODO Auto-generated method stub
 		
 	}

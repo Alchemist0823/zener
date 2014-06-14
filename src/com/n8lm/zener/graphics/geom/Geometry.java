@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,12 +14,16 @@ import java.util.logging.Logger;
 
 
 
+
 import com.n8lm.zener.graphics.GLObject;
-import com.n8lm.zener.graphics.SubRenderSystem;
+import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
 import com.n8lm.zener.input.Input;
+import com.n8lm.zener.math.Vector2f;
+import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.utils.BufferTools;
 
 public abstract class Geometry extends GLObject{
 	
@@ -100,6 +105,68 @@ public abstract class Geometry extends GLObject{
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 	}
+	
+	public void generateTangent() {
+		FloatBuffer vertices = (FloatBuffer) vbs.get(VertexBuffer.Type.Position).getData();
+		FloatBuffer normals = (FloatBuffer) vbs.get(VertexBuffer.Type.Normal).getData();
+		FloatBuffer textureCroods = (FloatBuffer) vbs.get(VertexBuffer.Type.TexCoord).getData();
+		
+		FloatBuffer tangents = BufferTools.reserveData(vertexCount * 4);
+		
+		for (int i = 0; i < vertexCount / 3; i ++) {
+			Vector3f v0 = new Vector3f(vertices.get(), vertices.get(), vertices.get());
+			Vector3f v1 = new Vector3f(vertices.get(), vertices.get(), vertices.get());
+			Vector3f v2 = new Vector3f(vertices.get(), vertices.get(), vertices.get());
+
+			Vector2f uv0 = new Vector2f(textureCroods.get(), textureCroods.get());
+			Vector2f uv1 = new Vector2f(textureCroods.get(), textureCroods.get());
+			Vector2f uv2 = new Vector2f(textureCroods.get(), textureCroods.get());
+
+			Vector3f deltaPos1 = v1.subtract(v0);
+			Vector3f deltaPos2 = v2.subtract(v0);
+			
+			Vector2f deltaUV1 = uv1.subtract(uv0);
+			Vector2f deltaUV2 = uv2.subtract(uv0);
+			
+			float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+			Vector3f tangent = deltaPos1.mult(deltaUV2.y).subtract(deltaPos2.mult(deltaUV1.y)).mult(r);
+			Vector3f bitangent = deltaPos2.mult(deltaUV1.x).subtract(deltaPos1.mult(deltaUV2.x)).mult(r);
+			//http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-13-normal-mapping/
+			
+			for (int j = 0; j < 3; j ++) {
+
+				Vector3f normal = new Vector3f(normals.get(), normals.get(), normals.get());
+
+				Vector3f tangentNormalised = tangent.subtract(normal.mult(normal.dot(tangent))).normalize();
+				
+				System.out.println(tangentNormalised);
+				
+				float det = normal.cross(tangent).dot(bitangent);
+				if (det < 0.0f) {
+					det = -1.0f;
+				} else {
+					det = 1.0f;
+				}
+				
+				tangents.put(BufferTools.asFloats(tangentNormalised));
+				tangents.put(det);
+			}
+			//http://antongerdelan.net/opengl/normal_mapping.html
+		}
+		
+		textureCroods.rewind();
+		vertices.rewind();
+		normals.rewind();
+		
+		tangents.flip();
+		vbs.put(VertexBuffer.Type.Tangent, new VertexBuffer(
+				VertexBuffer.Type.Tangent, VertexBuffer.Usage.Static,
+				VertexBuffer.DataType.Float, 4, vertexCount, tangents));	
+	}
+	
+	public boolean hasTangent() {
+		return vbs.containsKey(VertexBuffer.Type.Tangent);
+	}
 
 	protected void log() {
 
@@ -134,7 +201,7 @@ public abstract class Geometry extends GLObject{
 		return primitiveType;
 	}
 
-	abstract public void update(SubRenderSystem subRenderSystem);
+	abstract public void update(ViewRenderSystem subRenderSystem);
 	
 	@Override
 	public void deleteObject() {

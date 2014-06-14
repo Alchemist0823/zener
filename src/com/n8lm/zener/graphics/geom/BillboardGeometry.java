@@ -1,6 +1,6 @@
 package com.n8lm.zener.graphics.geom;
 
-import com.n8lm.zener.graphics.SubRenderSystem;
+import com.n8lm.zener.graphics.ViewRenderSystem;
 
 public class BillboardGeometry extends Geometry {
 
@@ -10,7 +10,7 @@ public class BillboardGeometry extends Geometry {
 	}
 
 	@Override
-	public void update(SubRenderSystem subRenderSystem) {
+	public void update(ViewRenderSystem subRenderSystem) {
 		// TODO Auto-generated method stub
 
 	}

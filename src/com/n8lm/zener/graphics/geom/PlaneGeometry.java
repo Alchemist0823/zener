@@ -2,7 +2,7 @@ package com.n8lm.zener.graphics.geom;
 
 import java.nio.FloatBuffer;
 
-import com.n8lm.zener.graphics.SubRenderSystem;
+import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.Texture;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.math.Vector2f;
@@ -67,7 +67,7 @@ public class PlaneGeometry extends Geometry {
 	}
 
 	@Override
-	public void update(SubRenderSystem subRenderSystem) {
+	public void update(ViewRenderSystem subRenderSystem) {
 		// TODO Auto-generated method stub
 		
 	}

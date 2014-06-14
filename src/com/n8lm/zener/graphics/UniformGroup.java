@@ -51,6 +51,14 @@ public class UniformGroup {
 		UniformVariable uv = uniforms.get(name);
     	uv.setValue(x);
 	}
+
+	public boolean contains(String name) {
+		return uniforms.containsKey(name);
+	}
+	
+	public UniformVariable get(String name) {
+		return uniforms.get(name);
+	}
 	
 	public Collection<UniformVariable> getUniforms() {
 		return uniforms.values();

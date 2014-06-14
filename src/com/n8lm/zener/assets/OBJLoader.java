@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.logging.Logger;
 
 import static org.lwjgl.opengl.GL11.*;
-//import static org.lwjgl.opengl.GL15.*;
 
 public class OBJLoader {
 
@@ -16,38 +15,6 @@ public class OBJLoader {
 		      .getName());
 
 	
-    public static int createDisplayList(Mesh m) {
-        int displayList = glGenLists(1);
-        glNewList(displayList, GL_COMPILE);
-        {
-            glMaterialf(GL_FRONT, GL_SHININESS, 120);
-            glColor3f(0.4f, 0.27f, 0.17f);
-            glBegin(GL_TRIANGLES);
-            for (Face face : m.faces) {
-                if (face.hasNormals()) {
-                    Vector3f n1 = m.normals.get(face.getNormalIndices()[0] - 1);
-                    glNormal3f(n1.x, n1.y, n1.z);
-                }
-                Vector3f v1 = m.vertices.get(face.getVertexIndices()[0] - 1);
-                glVertex3f(v1.x, v1.y, v1.z);
-                if (face.hasNormals()) {
-                    Vector3f n2 = m.normals.get(face.getNormalIndices()[1] - 1);
-                    glNormal3f(n2.x, n2.y, n2.z);
-                }
-                Vector3f v2 = m.vertices.get(face.getVertexIndices()[1] - 1);
-                glVertex3f(v2.x, v2.y, v2.z);
-                if (face.hasNormals()) {
-                    Vector3f n3 = m.normals.get(face.getNormalIndices()[2] - 1);
-                    glNormal3f(n3.x, n3.y, n3.z);
-                }
-                Vector3f v3 = m.vertices.get(face.getVertexIndices()[2] - 1);
-                glVertex3f(v3.x, v3.y, v3.z);
-            }
-            glEnd();
-        }
-        glEndList();
-        return displayList;
-    }
 
     private static Vector3f parseVertex(String line) {
         String[] xyz = line.split(" ");
@@ -103,7 +70,116 @@ public class OBJLoader {
         LOGGER.info("model load successfully [vertex:" + m.vertices.size() + "], [normals:" + m.normals.size() + "], [faces:" + m.faces.size() + "]");
         return m;
     }
+    
+
+    public static Model loadTexturedModel(InputStream input) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        
+        Model mdl = new Model();
+        Mesh mesh = mdl.getMesh();
+        //Material currentMaterial = new Material();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("#")) {
+                continue;
+            }
+            if (line.startsWith("mtllib ")) {
+                String materialFileName = line.split(" ")[1];
+                //File materialFile = new File(f.getParentFile().getAbsolutePath() + "/" + materialFileName);
+                /*if(materialFileName.startsWith("./"))
+                	materialFileName = materialFileName.substring(2);*/
+                
+                MTLLoader.loadMaterialFile(ResourceManager.getInstance().getResourceAsStream(materialFileName), mdl.getMaterial());
+                
+            } else if (line.startsWith("usemtl ")) {
+                //currentMaterial = m.getMaterials().get(line.split(" +")[1]);
+            } else if (line.startsWith("v ")) {
+                String[] xyz = line.split(" +");
+                float x = Float.valueOf(xyz[1]);
+                float y = Float.valueOf(xyz[2]);
+                float z = Float.valueOf(xyz[3]);
+                mesh.vertices.add(new Vector3f(x, y, z));
+            } else if (line.startsWith("vn ")) {
+                String[] xyz = line.split(" +");
+                float x = Float.valueOf(xyz[1]);
+                float y = Float.valueOf(xyz[2]);
+                float z = Float.valueOf(xyz[3]);
+                mesh.normals.add(new Vector3f(x, y, z));
+            } else if (line.startsWith("vt ")) {
+                String[] xyz = line.split(" +");
+                float s = Float.valueOf(xyz[1]);
+                float t = 1.0f - Float.valueOf(xyz[2]);
+                
+                // Texture
+                
+                mesh.textureCoordinates.add(new Vector2f(s, t));
+            } else if (line.startsWith("f ")) {
+                String[] faceIndices = line.split(" +");
+                int[] vertexIndicesArray = {Integer.parseInt(faceIndices[1].split("/")[0]),
+                        Integer.parseInt(faceIndices[2].split("/")[0]), Integer.parseInt(faceIndices[3].split("/")[0])};
+                int[] textureCoordinateIndicesArray = {-1, -1, -1};
+                if (mesh.hasTextureCoordinates()) {
+                    textureCoordinateIndicesArray[0] = Integer.parseInt(faceIndices[1].split("/")[1]);
+                    textureCoordinateIndicesArray[1] = Integer.parseInt(faceIndices[2].split("/")[1]);
+                    textureCoordinateIndicesArray[2] = Integer.parseInt(faceIndices[3].split("/")[1]);
+                }
+                int[] normalIndicesArray = {0, 0, 0};
+                if (mesh.hasNormals()) {
+                    normalIndicesArray[0] = Integer.parseInt(faceIndices[1].split("/")[2]);
+                    normalIndicesArray[1] = Integer.parseInt(faceIndices[2].split("/")[2]);
+                    normalIndicesArray[2] = Integer.parseInt(faceIndices[3].split("/")[2]);
+                }
+                /*if(m.getMaterials().get("Material").diffuseTextureName.equals("LordaeronSummerTree.png"))
+                	System.err.println(vertexIndicesArray[0] + " " + textureCoordinateIndicesArray[0]);*/
+                mesh.faces.add(new Face(vertexIndicesArray, normalIndicesArray,
+                        textureCoordinateIndicesArray/*, currentMaterial*/));
+            } else if (line.startsWith("s ")) {
+                //boolean enableSmoothShading = !line.contains("off");
+                //m.setSmoothShadingEnabled(enableSmoothShading);
+            } else {
+                //System.err.println("[OBJ] Unknown Line: " + line);
+            }
+        }
+        reader.close();
+        LOGGER.info("model load successfully [vertex:" + mesh.vertices.size() + "], [textureCoord: " + mesh.textureCoordinates.size() + "], [normals:" + mesh.normals.size() + "], [faces:" + mesh.faces.size() + "]");
+        return mdl;
+    }
+    
     /*
+    
+    public static int createDisplayList(Mesh m) {
+        int displayList = glGenLists(1);
+        glNewList(displayList, GL_COMPILE);
+        {
+            glMaterialf(GL_FRONT, GL_SHININESS, 120);
+            glColor3f(0.4f, 0.27f, 0.17f);
+            glBegin(GL_TRIANGLES);
+            for (Face face : m.faces) {
+                if (face.hasNormals()) {
+                    Vector3f n1 = m.normals.get(face.getNormalIndices()[0] - 1);
+                    glNormal3f(n1.x, n1.y, n1.z);
+                }
+                Vector3f v1 = m.vertices.get(face.getVertexIndices()[0] - 1);
+                glVertex3f(v1.x, v1.y, v1.z);
+                if (face.hasNormals()) {
+                    Vector3f n2 = m.normals.get(face.getNormalIndices()[1] - 1);
+                    glNormal3f(n2.x, n2.y, n2.z);
+                }
+                Vector3f v2 = m.vertices.get(face.getVertexIndices()[1] - 1);
+                glVertex3f(v2.x, v2.y, v2.z);
+                if (face.hasNormals()) {
+                    Vector3f n3 = m.normals.get(face.getNormalIndices()[2] - 1);
+                    glNormal3f(n3.x, n3.y, n3.z);
+                }
+                Vector3f v3 = m.vertices.get(face.getVertexIndices()[2] - 1);
+                glVertex3f(v3.x, v3.y, v3.z);
+            }
+            glEnd();
+        }
+        glEndList();
+        return displayList;
+    }
+    
     public static int createTexturedDisplayList(Model m) {
         int displayList = glGenLists(1);
         glNewList(displayList, GL_COMPILE);
@@ -155,117 +231,4 @@ public class OBJLoader {
         glEndList();
         return displayList;
     }*/
-
-    public static Model loadTexturedModel(InputStream input) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        
-        Model mdl = new Model();
-        Mesh mesh = mdl.getMesh();
-        //Material currentMaterial = new Material();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith("#")) {
-                continue;
-            }
-            if (line.startsWith("mtllib ")) {
-                String materialFileName = line.split(" ")[1];
-                //File materialFile = new File(f.getParentFile().getAbsolutePath() + "/" + materialFileName);
-                /*if(materialFileName.startsWith("./"))
-                	materialFileName = materialFileName.substring(2);*/
-                BufferedReader materialFileReader = new BufferedReader(
-                		new InputStreamReader(ResourceManager.getInstance().getResourceAsStream(materialFileName)));
-                String materialLine;
-                Material parseMaterial = mdl.getMaterial();
-                //String parseMaterialName = "";
-                while ((materialLine = materialFileReader.readLine()) != null) {
-                    if (materialLine.startsWith("#")) {
-                        continue;
-                    }
-                    if (materialLine.startsWith("newmtl ")) {
-                        //parseMaterialName = materialLine.split(" ")[1];
-                        //parseMaterial = new Material();
-                    } else if (materialLine.startsWith("Ns ")) {
-                        parseMaterial.specularCoefficient = Float.valueOf(materialLine.split(" +")[1]);
-                    } else if (materialLine.startsWith("Ka ")) {
-                        String[] rgb = materialLine.split(" +");
-                        parseMaterial.ambientColor.x = Float.valueOf(rgb[1]);
-                        parseMaterial.ambientColor.y = Float.valueOf(rgb[2]);
-                        parseMaterial.ambientColor.z = Float.valueOf(rgb[3]);
-                    } else if (materialLine.startsWith("Ks ")) {
-                        String[] rgb = materialLine.split(" +");
-                        parseMaterial.specularColor.x = Float.valueOf(rgb[1]);
-                        parseMaterial.specularColor.y = Float.valueOf(rgb[2]);
-                        parseMaterial.specularColor.z = Float.valueOf(rgb[3]);
-                    } else if (materialLine.startsWith("Kd ")) {
-                        String[] rgb = materialLine.split(" +");
-                        parseMaterial.diffuseColor.x = Float.valueOf(rgb[1]);
-                        parseMaterial.diffuseColor.y = Float.valueOf(rgb[2]);
-                        parseMaterial.diffuseColor.z = Float.valueOf(rgb[3]);
-                    } else if (materialLine.startsWith("map_Kd")) {
-
-                    	parseMaterial.diffuseTextureName = materialLine.split(" +")[1];
-            			ResourceManager.getInstance().loadImage(parseMaterial.diffuseTextureName, parseMaterial.diffuseTextureName);
-                        parseMaterial.diffuseTexture = ResourceManager.getInstance().getTexture(parseMaterial.diffuseTextureName);
-                        		//TextureLoader.getTexture("PNG",
-                                /*new FileInputStream(new File(f.getParentFile().getAbsolutePath() + "/" + materialLine
-                                        .split(" ")[1])));*/
-                        		//ResourceLoader.getResourceAsStream(parseMaterial.diffuseTextureName));
-                    } else {
-                        //System.err.println("[MTL] Unknown Line: " + materialLine);
-                    }
-                }
-                materialFileReader.close();
-            } else if (line.startsWith("usemtl ")) {
-                //currentMaterial = m.getMaterials().get(line.split(" +")[1]);
-            } else if (line.startsWith("v ")) {
-                String[] xyz = line.split(" +");
-                float x = Float.valueOf(xyz[1]);
-                float y = Float.valueOf(xyz[2]);
-                float z = Float.valueOf(xyz[3]);
-                mesh.vertices.add(new Vector3f(x, y, z));
-            } else if (line.startsWith("vn ")) {
-                String[] xyz = line.split(" +");
-                float x = Float.valueOf(xyz[1]);
-                float y = Float.valueOf(xyz[2]);
-                float z = Float.valueOf(xyz[3]);
-                mesh.normals.add(new Vector3f(x, y, z));
-            } else if (line.startsWith("vt ")) {
-                String[] xyz = line.split(" +");
-                float s = Float.valueOf(xyz[1]);
-                float t = 1.0f - Float.valueOf(xyz[2]);
-                
-                // Texture
-                
-                mesh.textureCoordinates.add(new Vector2f(s, t));
-            } else if (line.startsWith("f ")) {
-                String[] faceIndices = line.split(" +");
-                int[] vertexIndicesArray = {Integer.parseInt(faceIndices[1].split("/")[0]),
-                        Integer.parseInt(faceIndices[2].split("/")[0]), Integer.parseInt(faceIndices[3].split("/")[0])};
-                int[] textureCoordinateIndicesArray = {-1, -1, -1};
-                if (mesh.hasTextureCoordinates()) {
-                    textureCoordinateIndicesArray[0] = Integer.parseInt(faceIndices[1].split("/")[1]);
-                    textureCoordinateIndicesArray[1] = Integer.parseInt(faceIndices[2].split("/")[1]);
-                    textureCoordinateIndicesArray[2] = Integer.parseInt(faceIndices[3].split("/")[1]);
-                }
-                int[] normalIndicesArray = {0, 0, 0};
-                if (mesh.hasNormals()) {
-                    normalIndicesArray[0] = Integer.parseInt(faceIndices[1].split("/")[2]);
-                    normalIndicesArray[1] = Integer.parseInt(faceIndices[2].split("/")[2]);
-                    normalIndicesArray[2] = Integer.parseInt(faceIndices[3].split("/")[2]);
-                }
-                /*if(m.getMaterials().get("Material").diffuseTextureName.equals("LordaeronSummerTree.png"))
-                	System.err.println(vertexIndicesArray[0] + " " + textureCoordinateIndicesArray[0]);*/
-                mesh.faces.add(new Face(vertexIndicesArray, normalIndicesArray,
-                        textureCoordinateIndicesArray/*, currentMaterial*/));
-            } else if (line.startsWith("s ")) {
-                boolean enableSmoothShading = !line.contains("off");
-                //m.setSmoothShadingEnabled(enableSmoothShading);
-            } else {
-                //System.err.println("[OBJ] Unknown Line: " + line);
-            }
-        }
-        reader.close();
-        LOGGER.info("model load successfully [vertex:" + mesh.vertices.size() + "], [textureCoord: " + mesh.textureCoordinates.size() + "], [normals:" + mesh.normals.size() + "], [faces:" + mesh.faces.size() + "]");
-        return mdl;
-    }
 }

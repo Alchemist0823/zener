@@ -21,166 +21,186 @@ import com.n8lm.zener.utils.Byte4;
 public class IQELoader {
 
 	private final static Logger LOGGER = Logger.getLogger(IQELoader.class
-		      .getName());
+			.getName());
 
-	
 	public IQELoader() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public static Model loadModel(InputStream input) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
 		Model mdl = new Model();
-        Mesh mesh = mdl.getMesh();
-        Skeleton skl = mdl.getSkeleton();
-        Animation<PosesKeyFrame> anim = null;
-        PosesKeyFrame frame = null;
-        
-        String[] strs;
-        String line;
-        while ((line = reader.readLine()) != null) {
-        	if (line.startsWith("#")) {
-                continue;
-            }
-            
-            strs = line.trim().split(" +");
-            if (strs[0].equals("joint")) {
-            	
-            	Joint j = new Joint();
-            	
-            	j.name = getStringValue(strs[1]);
-            	j.parent = Integer.parseInt(strs[2]);
-            	
-            	if((line = reader.readLine()) != null) {
-                    strs = line.trim().split(" +");
-            		if (strs[0].equals("pq")) {
-            			readTransform(j.pose, strs);
-            		}
-            	}
-            	
-            	skl.addJoint(j);
-            } else if (strs[0].equals("vp")) {
-            	mesh.vertices.add(readVec3f(strs));
-            } else if (strs[0].equals("vt")) {
-            	mesh.textureCoordinates.add(readVec2f(strs));
-            } else if (strs[0].equals("vn")) {
-            	mesh.normals.add(readVec3f(strs));
-            } else if (strs[0].equals("vb")) {
-            	
-            	if (strs.length < 9) {
-            		String[] s = {"vb","0","0","0","0","0","0","0","0"};
-            		System.arraycopy(strs, 0, s, 0, strs.length);
-            		strs = s;
-            	}
-            	
-            	Byte4 index = new Byte4(Byte.parseByte(strs[1]), Byte.parseByte(strs[3]), Byte.parseByte(strs[5]), Byte.parseByte(strs[7]));
-            	Byte4 weight = new Byte4((int)(Float.parseFloat(strs[2]) * 255), (int)(Float.parseFloat(strs[4]) * 255), (int)(Float.parseFloat(strs[6]) * 255), (int)(Float.parseFloat(strs[8]) * 255));
+		Mesh mesh = mdl.getMesh();
+		Skeleton skl = mdl.getSkeleton();
+		Animation<PosesKeyFrame> anim = null;
+		PosesKeyFrame frame = null;
 
-            	//System.out.println(index);
-            	//System.out.println(weight);
-            	
-            	mesh.boneIndices.add(index);
-            	mesh.weights.add(weight);
-            } else if (strs[0].equals("fm")) {
-            	mesh.faces.add(readFace(strs));
-            } else if (strs[0].equals("mesh")) {
-            	
-            	LOGGER.info(line);
-            	if((line = reader.readLine()) != null) {
-                    strs = line.trim().split(" +");
-            		if (strs[0].equals("material")) {
-            			Material mat = mdl.getMaterial();
-            			mat.diffuseTextureName = getStringValue(strs[1]);
-            			ResourceManager.getInstance().loadImage(mat.diffuseTextureName, mat.diffuseTextureName);
-            			mat.diffuseTexture = ResourceManager.getInstance().getTexture(mat.diffuseTextureName);
-            			/*TextureLoader.getTexture("PNG", 
-            					ResourceLoader.getResourceAsStream(mat.diffuseTextureName));*/
-            		}
-            	}
-            } else if (strs[0].equals("animation")) {
-            	if (anim != null)
-            	{
-            		LOGGER.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
-            		mdl.add(anim);
-            		frame = null;
-            	}
-            	anim = new Animation<PosesKeyFrame>(getStringValue(strs[1]));
-            } else if (strs[0].equals("frame")) {
-            	if (frame != null)
-            	{
-            		anim.addFrame(frame);
-            	}
-            	frame = new PosesKeyFrame(anim.getTotalFrame());
-            }  else if (strs[0].equals("pq")) {
-            	
-            	Transform p = new Transform();
-            	readTransform(p, strs);
-            	
-            	frame.add(p);
-            }
-        }
-        
-        if (frame != null)
-    	{
-    		anim.addFrame(frame);
-    	}
-    	
-        if (anim != null)
-    	{
-        	LOGGER.info("Load Animation: " + anim.getName() + " " + anim.getTotalFrame());
-    		mdl.add(anim);
-    	}
+		String[] strs;
+		String line;
+		while ((line = reader.readLine()) != null) {
+			if (line.startsWith("#")) {
+				continue;
+			}
 
-        preCalcMatrices(skl, mdl.getAnimations());
-        
-        // for animation
-    	
+			strs = line.trim().split(" +");
+			if (strs[0].equals("joint")) {
+
+				Joint j = new Joint();
+
+				j.name = getStringValue(strs[1]);
+				j.parent = Integer.parseInt(strs[2]);
+
+				if ((line = reader.readLine()) != null) {
+					strs = line.trim().split(" +");
+					if (strs[0].equals("pq")) {
+						readTransform(j.pose, strs);
+					}
+				}
+
+				skl.addJoint(j);
+			} else if (strs[0].equals("vp")) {
+				mesh.vertices.add(readVec3f(strs));
+			} else if (strs[0].equals("vt")) {
+				mesh.textureCoordinates.add(readVec2f(strs));
+			} else if (strs[0].equals("vn")) {
+				mesh.normals.add(readVec3f(strs));
+			} else if (strs[0].equals("vb")) {
+
+				if (strs.length < 9) {
+					String[] s = { "vb", "0", "0", "0", "0", "0", "0", "0", "0" };
+					System.arraycopy(strs, 0, s, 0, strs.length);
+					strs = s;
+				}
+
+				Byte4 index = new Byte4(Byte.parseByte(strs[1]),
+						Byte.parseByte(strs[3]), Byte.parseByte(strs[5]),
+						Byte.parseByte(strs[7]));
+				Byte4 weight = new Byte4(
+						(int) (Float.parseFloat(strs[2]) * 255),
+						(int) (Float.parseFloat(strs[4]) * 255),
+						(int) (Float.parseFloat(strs[6]) * 255),
+						(int) (Float.parseFloat(strs[8]) * 255));
+
+				// System.out.println(index);
+				// System.out.println(weight);
+
+				mesh.boneIndices.add(index);
+				mesh.weights.add(weight);
+			} else if (strs[0].equals("fm")) {
+				mesh.faces.add(readFace(strs));
+			} else if (strs[0].equals("mesh")) {
+
+				LOGGER.info(line);
+				if ((line = reader.readLine()) != null) {
+					strs = line.trim().split(" +");
+					if (strs[0].equals("material")) {
+
+						strs[1] = getStringValue(strs[1]);
+						if (strs[1].endsWith("mtl")) {
+							MTLLoader.loadMaterialFile(
+									ResourceManager.getInstance()
+											.getResourceAsStream(strs[1]), mdl
+											.getMaterial());
+						} else {
+							Material mat = mdl.getMaterial();
+							mat.diffuseTextureName = strs[1];
+							ResourceManager.getInstance().loadImage(
+									mat.diffuseTextureName,
+									mat.diffuseTextureName);
+							mat.diffuseTexture = ResourceManager.getInstance()
+									.getTexture(mat.diffuseTextureName);
+							/*
+							 * TextureLoader.getTexture("PNG",
+							 * ResourceLoader.getResourceAsStream
+							 * (mat.diffuseTextureName));
+							 */
+						}
+					}
+				}
+			} else if (strs[0].equals("animation")) {
+				if (anim != null) {
+					LOGGER.info("Load Animation: " + anim.getName() + " "
+							+ anim.getTotalFrame());
+					mdl.add(anim);
+					frame = null;
+				}
+				anim = new Animation<PosesKeyFrame>(getStringValue(strs[1]));
+			} else if (strs[0].equals("frame")) {
+				if (frame != null) {
+					anim.addFrame(frame);
+				}
+				frame = new PosesKeyFrame(anim.getTotalFrame());
+			} else if (strs[0].equals("pq")) {
+
+				Transform p = new Transform();
+				readTransform(p, strs);
+
+				frame.add(p);
+			}
+		}
+
+		if (frame != null) {
+			anim.addFrame(frame);
+		}
+
+		if (anim != null) {
+			LOGGER.info("Load Animation: " + anim.getName() + " "
+					+ anim.getTotalFrame());
+			mdl.add(anim);
+		}
+
+		preCalcMatrices(skl, mdl.getAnimations());
+
+		// for animation
+
 		return mdl;
 	}
-	
-	private static void preCalcMatrices(Skeleton skl, Map<String,Animation<PosesKeyFrame>> anims) {
-		
-        skl.calcBaseMatrix();
-        for (Animation<PosesKeyFrame> anim : anims.values())
-            for (int i = 0 ; i < anim.getTotalFrame(); i ++)
-            	anim.getFrame(i).calcPoseMatrices(skl);
+
+	private static void preCalcMatrices(Skeleton skl,
+			Map<String, Animation<PosesKeyFrame>> anims) {
+
+		skl.calcBaseMatrix();
+		for (Animation<PosesKeyFrame> anim : anims.values())
+			for (int i = 0; i < anim.getTotalFrame(); i++)
+				anim.getFrame(i).calcPoseMatrices(skl);
 	}
-	
+
 	private static String getStringValue(String str) {
 		return str.substring(1, str.length() - 1);
 	}
-	
+
 	private static Face readFace(String[] strs) {
 		int[] v = new int[3];
-		
+
 		// TODO: not reverse
-		
+
 		v[0] = Integer.parseInt(strs[3]) + 1;
 		v[1] = Integer.parseInt(strs[2]) + 1;
 		v[2] = Integer.parseInt(strs[1]) + 1;
 		return new Face(v, v, v);
 	}
-	
+
 	private static Vector2f readVec2f(String[] strs) {
-		return new Vector2f(Float.parseFloat(strs[1]), Float.parseFloat(strs[2]));
+		return new Vector2f(Float.parseFloat(strs[1]),
+				Float.parseFloat(strs[2]));
 	}
 
 	private static Vector3f readVec3f(String[] strs) {
-		return new Vector3f(Float.parseFloat(strs[1]), Float.parseFloat(strs[2]), Float.parseFloat(strs[3]));
+		return new Vector3f(Float.parseFloat(strs[1]),
+				Float.parseFloat(strs[2]), Float.parseFloat(strs[3]));
 	}
-	
+
 	private static void readTransform(Transform p, String[] strs) {
 		p.getTranslation().x = Float.parseFloat(strs[1]);
 		p.getTranslation().y = Float.parseFloat(strs[2]);
 		p.getTranslation().z = Float.parseFloat(strs[3]);
 
 		p.getRotation().set(Float.parseFloat(strs[4]),
-				Float.parseFloat(strs[5]),
-				Float.parseFloat(strs[6]),
+				Float.parseFloat(strs[5]), Float.parseFloat(strs[6]),
 				Float.parseFloat(strs[7]));
-		
-		//p.rotation.normalise(p.rotation);
+
+		// p.rotation.normalise(p.rotation);
 
 		if (strs.length > 8) {
 			p.getScale().x = Float.parseFloat(strs[8]);

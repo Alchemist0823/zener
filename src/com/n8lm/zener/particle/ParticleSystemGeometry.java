@@ -5,7 +5,7 @@ import java.nio.FloatBuffer;
 import com.n8lm.zener.assets.Face;
 import com.n8lm.zener.assets.Mesh;
 import com.n8lm.zener.graphics.NormalMaterialUniforms;
-import com.n8lm.zener.graphics.SubRenderSystem;
+import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.DataType;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
@@ -82,7 +82,7 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 	}
 	
 	@Override
-	public void update(SubRenderSystem subRenderSystem) {
+	public void update(ViewRenderSystem subRenderSystem) {
         FloatBuffer positions = (FloatBuffer) this.vbs.get(Type.ParticlePos).getData();
 		FloatBuffer sizes = (FloatBuffer) this.vbs.get(Type.ParticleSize).getData();
 		FloatBuffer colors = (FloatBuffer) this.vbs.get(Type.ParticleColor).getData();
