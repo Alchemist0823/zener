@@ -52,9 +52,9 @@ public class MTLLoader {
                 parseMaterial.diffuseColor.z = Float.valueOf(rgb[3]);
             } else if (materialLine.startsWith("map_Kd")) {
 
-            	parseMaterial.diffuseTextureName = materialLine.split(" +")[1];
-    			ResourceManager.getInstance().loadImage(parseMaterial.diffuseTextureName, parseMaterial.diffuseTextureName);
-                parseMaterial.diffuseTexture = ResourceManager.getInstance().getTexture(parseMaterial.diffuseTextureName);
+            	String textureName = materialLine.split(" +")[1];
+    			ResourceManager.getInstance().loadImage(textureName, textureName);
+                parseMaterial.diffuseTexture = ResourceManager.getInstance().getTexture(textureName);
                 		//TextureLoader.getTexture("PNG",
                         /*new FileInputStream(new File(f.getParentFile().getAbsolutePath() + "/" + materialLine
                                 .split(" ")[1])));*/

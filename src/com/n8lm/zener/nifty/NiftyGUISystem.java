@@ -15,7 +15,9 @@ import com.n8lm.zener.nifty.input.ZenerInputSystem;
 import com.n8lm.zener.nifty.input.ZenerZenerInputSystem;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+import de.lessvoid.nifty.render.batch.BatchRenderDevice;
 import de.lessvoid.nifty.sound.openal.OpenALSoundDevice;
 import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
 
@@ -39,9 +41,12 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		inputSystem.setInput(game.getContainer().getInput());
 		
 		game.getContainer().getInput().addListener(inputSystem);
-		
+
+        //BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendCoreProfileFactory.create());
+
 		nifty = new Nifty(
-		        new LwjglRenderDevice(),
+                new LwjglRenderDevice(),
+                //renderDevice,
 		        new OpenALSoundDevice(),
 		        inputSystem,
 		        new AccurateTimeProvider());

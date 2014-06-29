@@ -3,6 +3,7 @@ package com.n8lm.zener.graphics;
 import java.util.Collection;
 import java.util.HashMap;
 
+import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 
@@ -15,7 +16,7 @@ public class UniformGroup {
 	}
 	
 	public void addUniform(String name, VarType type, Object value) {
-		uniforms.put(name, new UniformVariable(name, type, value));
+		uniforms.put(name, new UniformVariable(type, name, value));
 	}
 
 	public void set(String name, Object value) {

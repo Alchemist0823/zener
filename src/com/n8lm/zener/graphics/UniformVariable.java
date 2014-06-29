@@ -1,29 +1,34 @@
 package com.n8lm.zener.graphics;
 
-//import java.nio.FloatBuffer;
-
+import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.math.*;
 
 public class UniformVariable extends Uniform {
 
 	protected Object value = null;
     //protected FloatBuffer multiData = null;
-	final protected VarType varType;
 
-	public UniformVariable(String name) {
-		super(name);
-		varType = null;
+	public UniformVariable(Uniform uniform) {
+		super(uniform.varType, uniform.name);
 	}
-	
-	public UniformVariable(String name, VarType varType) {
-		super(name);
-		this.varType = varType;
-	}
-	
-	public UniformVariable(String name, VarType varType, Object value) {
-		this(name, varType);
-		setValue(value);
-	}
+
+    public UniformVariable(VarType varType, String name) {
+        super(varType, name);
+    }
+
+    public UniformVariable(String name, VarType varType) {
+        super(varType, name);
+    }
+
+    public UniformVariable(VarType varType, String name, Object value) {
+        this(varType, name);
+        setValue(value);
+    }
+
+    public UniformVariable( String name, VarType varType, Object value) {
+        this(varType, name);
+        setValue(value);
+    }
 
     public VarType getVarType() {
         return varType;
@@ -36,8 +41,8 @@ public class UniformVariable extends Uniform {
     public void setValue(Object value) {
 
         if (value == null)
-            throw new NullPointerException();
-        /*
+            throw new NullPointerException("uniform value");
+
         switch (varType){
         case Texture2D:
         	if (!(value instanceof Texture))
@@ -62,7 +67,7 @@ public class UniformVariable extends Uniform {
         case Matrix4Array:
         	if (!(value instanceof Matrix4f[]))
         		throw new IllegalArgumentException("Bad Uniform value");
-        	break;
+        	break;/*
         	Matrix4f[] m4a = (Matrix4f[]) value;
 	        if (multiData == null) {
 	            multiData = BufferUtils.createFloatBuffer(m4a.length * 16);
@@ -72,16 +77,19 @@ public class UniformVariable extends Uniform {
 	        for (int i = 0; i < m4a.length; i++) {
 	            m4a[i].fillFloatBuffer(multiData, true);
 	        }
-	        multiData.clear();
-        default:*/
-        	this.value = value;
-        //    break;
-        //}
+	        multiData.clear();*/
+        default:
+            break;
+        }
+        this.value = value;
         //this.value = value;
     }
     
     @Override
     public String toString() {
-    	return name + ": " + value.toString();
+        if (value != null)
+        	return varType.name() + " " + name + ": " + value.toString();
+        else
+            return varType.name() + " " + name;
     }
 }

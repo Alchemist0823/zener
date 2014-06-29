@@ -1,14 +1,13 @@
-package com.n8lm.zener.graphics;
+package com.n8lm.zener.graphics.material;
 
+import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.assets.Material;
+import com.n8lm.zener.graphics.Texture;
 import com.n8lm.zener.math.Vector3f;
 
-public class NormalMaterialUniforms extends UniformGroup{
+public class NormalMaterial extends UniformsMaterial {
 
-    
-    public String diffuseTextureName;
-	
-	/*public NormalMaterialUniforms() {
+    /*public NormalMaterial() {
 		super();
     	uniforms.put("Material.Ka", new UniformVariable("Material.Ka", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
     	uniforms.put("Material.Kd", new UniformVariable("Material.Kd", VarType.Vector3f, new Vector3f(0.5f, 0.5f, 0.5f)));
@@ -18,8 +17,8 @@ public class NormalMaterialUniforms extends UniformGroup{
 		uniforms.put("Material.NormalMap", new UniformVariable("Material.NormalMap", VarType.Texture2D));
 	}*/
 	
-	public NormalMaterialUniforms(Material material) {
-		super();
+	public NormalMaterial(Material material) {
+		super("standard");
 		addUniform("Material.Ka", VarType.Vector3f, new Vector3f(material.ambientColor));
 		addUniform("Material.Kd", VarType.Vector3f, new Vector3f(material.diffuseColor));
 		addUniform("Material.Ks", VarType.Vector3f, new Vector3f(material.specularColor));
@@ -27,7 +26,7 @@ public class NormalMaterialUniforms extends UniformGroup{
 		addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
 		if (material.normalTexture != null)
 			addUniform("Material.NormalMap", VarType.Texture2D, material.normalTexture);
-    	diffuseTextureName = material.diffuseTextureName;
+    	//diffuseTextureName = material.diffuseTextureName;
 	}
 
     public void setAmbientColor(float x, float y, float z) {

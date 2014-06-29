@@ -12,7 +12,7 @@ public class GLHelper {
 	private final static Logger LOGGER = Logger.getLogger(GLHelper.class
 	      .getName());
 
-	public static void checkGLError() {
+	public static boolean checkGLError() {
 	    int error = GL11.glGetError();
 	    if (error != GL11.GL_NO_ERROR) {
 	      String glerrmsg = GLU.gluErrorString(error);
@@ -22,6 +22,8 @@ public class GLHelper {
 	      } catch (Exception e) {
 	        e.printStackTrace();
 	      }
+          return true;
 	    }
+        return false;
 	  }
 }

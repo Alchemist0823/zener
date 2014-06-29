@@ -104,12 +104,12 @@ public class IQELoader {
 											.getMaterial());
 						} else {
 							Material mat = mdl.getMaterial();
-							mat.diffuseTextureName = strs[1];
+							//mat.diffuseTextureName = strs[1];
 							ResourceManager.getInstance().loadImage(
-									mat.diffuseTextureName,
-									mat.diffuseTextureName);
+									strs[1],
+									strs[1]);
 							mat.diffuseTexture = ResourceManager.getInstance()
-									.getTexture(mat.diffuseTextureName);
+									.getTexture(strs[1]);
 							/*
 							 * TextureLoader.getTexture("PNG",
 							 * ResourceLoader.getResourceAsStream

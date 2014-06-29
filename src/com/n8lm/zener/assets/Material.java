@@ -10,7 +10,7 @@ public class Material implements Cloneable{
     public Vector3f ambientColor = new Vector3f(0.2f, 0.2f, 0.2f);
     public Vector3f diffuseColor = new Vector3f(1.0f, 1.0f, 1.0f);
     public Vector3f specularColor = new Vector3f(1.0f, 1.0f, 1.0f);
-    public String diffuseTextureName;
+    //public String diffuseTextureName;
     public Texture diffuseTexture;
 	public Texture normalTexture;
     
@@ -24,8 +24,8 @@ public class Material implements Cloneable{
                 "specularCoefficient=" + specularCoefficient +
                 ", ambientColour=" + ambientColor +
                 ", diffuseColour=" + diffuseColor +
-                ", specularColour=" + specularColor +
-                ", diffuseTexture=" + diffuseTextureName;
+                ", specularColour=" + specularColor;
+        //+ ", diffuseTexture=" + diffuseTextureName;
         
         if (normalTexture != null)
         	str += ", normalTexture=" + normalTexture.getName() +
@@ -41,7 +41,7 @@ public class Material implements Cloneable{
     	mat.diffuseColor = new Vector3f(diffuseColor);
     	mat.ambientColor = new Vector3f(ambientColor);
     	mat.specularColor = new Vector3f(specularColor);
-    	mat.diffuseTextureName = this.diffuseTextureName;
+    	//mat.diffuseTextureName = this.diffuseTextureName;
     	mat.diffuseTexture = this.diffuseTexture;
     	mat.normalTexture = this.normalTexture;
     	

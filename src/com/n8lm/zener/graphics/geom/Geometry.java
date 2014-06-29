@@ -17,10 +17,8 @@ import java.util.logging.Logger;
 
 import com.n8lm.zener.graphics.GLObject;
 import com.n8lm.zener.graphics.ViewRenderSystem;
-import com.n8lm.zener.graphics.UniformGroup;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.Type;
-import com.n8lm.zener.input.Input;
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
@@ -52,14 +50,12 @@ public abstract class Geometry extends GLObject{
 	protected PrimitiveType primitiveType;
 	protected int vertexCount;
 	protected Map<VertexBuffer.Type, VertexBuffer> vbs;
-	//protected UniformGroup uniformGroup;
 	protected String shader;
 	//protected Indexbuffer ib;
 	
 	public Geometry(String shader) {
 		super();
 		this.vbs = new HashMap<VertexBuffer.Type, VertexBuffer>();
-		//this.uniformGroup = new UniformGroup();
 		//this.vaoHandle = -1;
 		this.vertexCount = 0;
 		this.shader = shader;
@@ -184,10 +180,6 @@ public abstract class Geometry extends GLObject{
 	public Map<VertexBuffer.Type, VertexBuffer> getVertexBuffers() {
 		return vbs;
 	}
-	/*
-	public UniformGroup getUniformGroup() {
-		return uniformGroup;
-	}*/
 	
 	public String getShaderName() {
 		return shader;

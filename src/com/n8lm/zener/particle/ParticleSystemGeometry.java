@@ -4,7 +4,6 @@ import java.nio.FloatBuffer;
 
 import com.n8lm.zener.assets.Face;
 import com.n8lm.zener.assets.Mesh;
-import com.n8lm.zener.graphics.NormalMaterialUniforms;
 import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.graphics.VertexBuffer.DataType;

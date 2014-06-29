@@ -1,4 +1,4 @@
-package com.n8lm.zener.graphics;
+package com.n8lm.zener.glsl;
 
 public enum VarType {
 

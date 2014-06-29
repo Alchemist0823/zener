@@ -1,24 +1,33 @@
 package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
+import com.n8lm.zener.graphics.material.UniformsMaterial;
 
 public class MaterialComponent extends Component {
 	
-	private UniformGroup material;
+	private UniformsMaterial material;
 	private boolean transparent;
 	private boolean shadowReceiver;
 	
-	public MaterialComponent(UniformGroup material) {
-		this.material = material;
-		this.transparent = false;
-		this.shadowReceiver = false;
+	public MaterialComponent(UniformsMaterial material) {
+        this(material, false, false);
 	}
 
-	public UniformGroup getMaterial() {
+    public MaterialComponent(UniformsMaterial material, boolean shadowReceiver) {
+        this(material, shadowReceiver, false);
+    }
+
+    public MaterialComponent(UniformsMaterial material, boolean shadowReceiver, boolean transparent) {
+        this.material = material;
+        this.shadowReceiver = shadowReceiver;
+        this.transparent = transparent;
+    }
+
+	public UniformsMaterial getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(UniformGroup material) {
+	public void setMaterial(UniformsMaterial material) {
 		this.material = material;
 	}
 

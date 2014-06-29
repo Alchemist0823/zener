@@ -1,9 +1,13 @@
 *.class
+*.iml
+Logging.txt
 .settings/
+.idea/
 .project
 .classpath
 bin/
 doc/
+deprecated/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

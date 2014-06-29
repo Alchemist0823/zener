@@ -1,5 +1,6 @@
 package com.n8lm.zener.graphics;
 
+import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.math.Matrix4f;
 
 public class GlobalUniforms extends UniformGroup {

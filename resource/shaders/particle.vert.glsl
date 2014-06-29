@@ -1,5 +1,3 @@
-#version 330
-
 uniform mat4 g_ViewMatrix;
 uniform mat4 g_ModelMatrix;
 uniform mat4 g_ProjectionMatrix;

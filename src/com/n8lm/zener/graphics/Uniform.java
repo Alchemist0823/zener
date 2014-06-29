@@ -1,11 +1,15 @@
 package com.n8lm.zener.graphics;
 
+import com.n8lm.zener.glsl.VarType;
+
 public class Uniform {
 	
-	protected int location = -2;
+	protected int location = -1;
 	final protected String name;
+	final protected VarType varType;
 	
-	public Uniform(String name) {
+	public Uniform(VarType varType, String name) {
+		this.varType = varType;
 		this.name = name;
 	}
 	
