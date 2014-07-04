@@ -29,7 +29,7 @@ vec3 specModel (in vec4 position, in vec3 normal, in LightInfo light, in Materia
 	float sDotN = max(dot(lightDir, normal), 0.0);
 	vec3 spec = vec3(0.0);
 	if (sDotN > 0.0 && material.Shininess > 0.0)
-		spec = light.Ls * material.Ks *	pow( max( dot(reflectDir, viewDir), 0.0 ), 0.3 * material.Shininess );
+		spec = light.Ls * material.Ks *	pow( max( dot(reflectDir, viewDir), 0.0 ), material.Shininess );
 	return spec;
 }
 
