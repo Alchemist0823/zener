@@ -28,6 +28,7 @@ import java.io.Serializable;
  * 
  * @author Mark Powell
  * @author Joshua Slack
+ * @author Alchemist Sun
  */
 public final class Vector2f implements Cloneable, Serializable {
 
@@ -656,7 +657,7 @@ public final class Vector2f implements Cloneable, Serializable {
 
     /**
      * <code>toString</code> returns the string representation of this vector
-     * object. The format of the string is such: com.jme.math.Vector2f
+     * object. The format of the string is such: com.n8lm.zener.math.Vector2f
      * [X=XX.XXXX, Y=YY.YYYY]
      * 
      * @return the string representation of this vector.

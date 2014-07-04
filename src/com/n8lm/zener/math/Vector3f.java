@@ -727,7 +727,7 @@ public class Vector3f implements Cloneable, Serializable {
      */
     public Vector3f normalizeLocal() {
         // NOTE: this implementation is more optimized
-        // than the old jme normalize as this method
+        // than the old zener normalize as this method
         // is commonly used.
         float length = x * x + y * y + z * z;
         if (length != 1f && length != 0f){
@@ -898,7 +898,7 @@ public class Vector3f implements Cloneable, Serializable {
      * <code>toString</code> returns the string representation of this vector.
      * The format is:
      *
-     * org.jme.math.Vector3f [X=XX.XXXX, Y=YY.YYYY, Z=ZZ.ZZZZ]
+     * com.n8lm.zener.math.Vector3f [X=XX.XXXX, Y=YY.YYYY, Z=ZZ.ZZZZ]
      *
      * @return the string representation of this vector.
      */

@@ -36,6 +36,7 @@ import org.lwjgl.BufferUtils;
  *
  * @author Mark Powell
  * @author Joshua Slack
+ * @author Alchemist Sun
  */
 public final class Matrix4f implements Cloneable, java.io.Serializable {
 
@@ -108,7 +109,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
     /**
      * Constructor a new Matrix4f based on a Matrix3f set m44 1 and other new value 0.
      * 
-     * @param rotationMatrix
+     * @param rm
      */
     public Matrix4f(Matrix3f rm) {
     	this.m00 = rm.m00;
@@ -433,7 +434,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
 
     /**
      * <code>set</code> places a given value into the matrix at the given
-     * position. If the position is invalid a <code>JmeException</code> is
+     * position. If the position is invalid a <code>IllegalArgumentException</code> is
      * thrown.
      * 
      * @param i
@@ -517,7 +518,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param matrix
      *            the matrix to set the value to.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if the array is not of size 16.
      */
     public void set(float[][] matrix) {
@@ -1804,7 +1805,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param translation
      *            the new values for the translation.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if translation is not size 3.
      */
     public void setTranslation(float[] translation) {
@@ -1851,8 +1852,6 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param translation
      *            the new values for the inverse translation.
-     * @throws JmeException
-     *             if translation is not size 3.
      */
     public void setInverseTranslation(float[] translation) {
         if (translation.length != 3) {
@@ -1921,7 +1920,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param angles
      *            the Euler angles in radians.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if angles is not size 3.
      */
     public void setInverseRotationRadians(float[] angles) {
@@ -1958,7 +1957,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param angles
      *            the Euler angles in degrees.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if angles is not size 3.
      */
     public void setInverseRotationDegrees(float[] angles) {
@@ -1980,7 +1979,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param vec
      *            the Vector3f data to be translated.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if the size of the Vector3f is not 3.
      */
     public void inverseTranslateVect(float[] vec) {
@@ -2001,7 +2000,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param data
      *            the Vector3f to be translated.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if the size of the Vector3f is not 3.
      */
     public void inverseTranslateVect(Vector3f data) {
@@ -2017,7 +2016,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * 
      * @param data
      *            the Vector3f to be translated.
-     * @throws JmeException
+     * @throws IllegalArgumentException
      *             if the size of the Vector3f is not 3.
      */
     public void translateVect(Vector3f data) {
@@ -2053,7 +2052,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
     /**
      * <code>toString</code> returns the string representation of this object.
      * It is in a format of a 4x4 matrix. For example, an identity matrix would
-     * be represented by the following string. com.jme.math.Matrix3f <br>[<br>
+     * be represented by the following string. com.n8lm.zener.math.Matrix3f <br>[<br>
      * 1.0  0.0  0.0  0.0 <br>
      * 0.0  1.0  0.0  0.0 <br>
      * 0.0  0.0  1.0  0.0 <br>

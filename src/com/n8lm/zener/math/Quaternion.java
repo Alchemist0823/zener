@@ -1284,7 +1284,7 @@ public final class Quaternion implements Cloneable, Serializable {
      *            where to look at in terms of local coordinates
      * @param up
      *            a vector indicating the local up direction.
-     *            (typically {0, 1, 0} in jME.)
+     *            (typically {0, 1, 0} in Zener.)
      */
     public void lookAt(Vector3f direction, Vector3f up) {
 

@@ -496,8 +496,7 @@ public class AABBBoundingBox implements Collidable {
     /**
      * determines if this bounding box intersects with a given oriented bounding
      * box.
-     * 
-     * @see com.jme.bounding.BoundingVolume#intersectsOrientedBoundingBox(com.jme.bounding.OrientedBoundingBox)
+     *
      */
 //    public boolean intersectsOrientedBoundingBox(OrientedBoundingBox obb) {
 //        return obb.intersectsBoundingBox(this);
