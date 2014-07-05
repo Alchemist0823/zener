@@ -81,39 +81,23 @@ public abstract class BasicGame {
 		gameInfoManager = new GameInfoManager();
 		
         world = new World();
-        
-		initManagers();
-		
-		initDatabase();
-        
-        initSystems();
-        
-        resourceManager.initialize();
+
+		init();
 
         world.initialize();
         
-        initEntities();
+        afterInit();
 	}
 
 	/**
-	 * Set up Database Resource
+	 * Set up Database, Resource, EntitySystems and Managers
 	 */
-	protected abstract void initDatabase();
-
-	/**
-	 * Set up Manager
-	 */
-	protected abstract void initManagers();
-
-	/**
-	 * Set up EntitySystems
-	 */
-	protected abstract void initSystems();
+	protected abstract void init();
 	
 	/**
 	 * Initialize entities
 	 */
-	protected abstract void initEntities();
+	protected abstract void afterInit();
 	
 	/**
 	 * Update the game logic here. No rendering should take place in this method

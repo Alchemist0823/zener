@@ -23,6 +23,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendFactory;
 import org.lwjgl.opengl.GL11;
 
@@ -44,19 +45,19 @@ public class NiftyGUISystem extends VoidEntitySystem {
 	
 	private BasicGame game;
 	private Nifty nifty;
-	private ZenerInputSystem inputSystem;
-	private InputIntentGenerator iig;
+	//private ZenerInputSystem inputSystem;
+	//private InputIntentGenerator iig;
 	private List<GameCallback> screenCallbacks;
 	private String startScreen;
 	
 	public NiftyGUISystem(BasicGame game, InputIntentGenerator iig, String startScreen) {
 		super();
 		this.game = game;
-		this.iig = iig;
+		//this.iig = iig;
 		this.screenCallbacks = new ArrayList<GameCallback>();
 		this.startScreen = startScreen;
-		
-		inputSystem = new ZenerZenerInputSystem(iig);
+
+        ZenerInputSystem inputSystem = new ZenerZenerInputSystem(iig);
 		inputSystem.setInput(game.getContainer().getInput());
 		
 		game.getContainer().getInput().addListener(inputSystem);
@@ -73,7 +74,24 @@ public class NiftyGUISystem extends VoidEntitySystem {
 
 	}
 
-	@Override
+    public NiftyGUISystem(BasicGame game, String startScreen) {
+        super();
+        this.game = game;
+        this.screenCallbacks = new ArrayList<GameCallback>();
+        this.startScreen = startScreen;
+
+        BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendFactory.create());
+        //BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendCoreProfileFactory.create());
+
+        nifty = new Nifty(
+                //new LwjglRenderDevice(),
+                renderDevice,
+                new OpenALSoundDevice(),
+                new LwjglInputSystem(),
+                new AccurateTimeProvider());
+    }
+
+    @Override
 	protected void processSystem() {
 
 		if(game.isGameStarted()) {

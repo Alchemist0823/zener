@@ -266,11 +266,8 @@ public class ResourceManager {
         return databaseType.cast(databases.get(databaseType));
     }
 
-    public void initialize() {
-
-        loadDataConfig(getResourceAsStream("config.cfg"));
-		/*
-		}*/
+    public void loadDataConfig(String configFileName) {
+        loadDataConfig(getResourceAsStream(configFileName));
     }
 
     private void loadDataConfig(InputStream input) {
