@@ -27,9 +27,18 @@ public class MathUtil {
     /** A "close to zero" float epsilon value for use*/
     public static final float FLT_EPSILON = 1.1920928955078125E-7f;
     public static final float ZERO_TOLERANCE = 0.0001f;
+    public static final float PI = (float) Math.PI;
     
     public static int roundUpPOT(int value) {
         return 1 << (32 - Integer.numberOfLeadingZeros(value-1));
+    }
+
+    public static float cos(float angle) {
+        return (float) Math.cos(angle);
+    }
+
+    public static float sin(float angle) {
+        return (float) Math.sin(angle);
     }
 	/*public static Matrix4f translateToMatrix4f(float x, float y, float z) {
     	Matrix4f mat = new Matrix4f();

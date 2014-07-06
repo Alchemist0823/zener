@@ -28,9 +28,13 @@ import com.n8lm.zener.graphics.Texture;
 public class ParticleMaterial extends UniformsMaterial{
 
     public ParticleMaterial(Material material) {
-        super("particle");
         addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         //diffuseTextureName = material.diffuseTextureName;
+    }
+
+    @Override
+    public String getShaderName() {
+        return "particle";
     }
 
     public void setDiffuseTexture(Texture texture) {

@@ -28,12 +28,11 @@ public class Material implements Cloneable{
     public Vector3f ambientColor = new Vector3f(0.2f, 0.2f, 0.2f);
     public Vector3f diffuseColor = new Vector3f(0.8f, 0.8f, 0.8f);
     public Vector3f specularColor = new Vector3f(1.0f, 1.0f, 1.0f);
-    //public String diffuseTextureName;
     public Texture diffuseTexture;
 	public Texture normalTexture;
     
 	Material () {
-		
+		diffuseTexture = normalTexture = null;
 	}
 	
     @Override

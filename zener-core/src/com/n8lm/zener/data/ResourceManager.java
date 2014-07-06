@@ -92,7 +92,7 @@ public class ResourceManager {
 
         locations = new ArrayList<ResourceLocation>();
         locations.add(new ClasspathLocation(""));
-        locations.add(new FileSystemLocation(new File("./res/")));
+        locations.add(new FileSystemLocation(new File("")));
 
         instance = this;
     }
@@ -167,32 +167,7 @@ public class ResourceManager {
     }
 
     private void loadShaderSource(String name, String[] filenames) {
-
         shaderManager.loadShaderSource(name, filenames);
-
-        /*
-		String[] strs = filenames.split("\\|");
-		
-		GLProgram program = new GLProgram();
-
-		String shaderCode = readText(strs[0] + ".glsl");
-		
-		program.addShader(strs[0], 
-				shaderCode);
-		
-		shaderCode = readText(strs[1] + ".glsl");
-		program.addShader(strs[1], 
-				shaderCode);
-		
-		
-		String[] uniforms = readText(strs[2]).split("[\\r\\n]+");
-		
-		program.linkProgram();
-		program.initUniforms(uniforms);
-		shaders.put(name, program);
-
-		LOGGER.info("Loaded : " + name + " " + strs[0] + " " + strs[1] + " " + strs[2]);
-		*/
     }
 
     public String readText(String filename) {
@@ -358,8 +333,7 @@ public class ResourceManager {
     public InputStream getResourceAsStream(String ref) {
         InputStream in = null;
 
-        for (ResourceLocation location1 : locations) {
-            ResourceLocation location = (ResourceLocation) location1;
+        for (ResourceLocation location : locations) {
             in = location.getResourceAsStream(ref);
             if (in != null) {
                 break;
