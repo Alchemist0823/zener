@@ -32,10 +32,14 @@ public class UniformGroup {
 	public UniformGroup() {
 		uniforms = new HashMap<String, UniformVariable>();
 	}
-	
-	public void addUniform(String name, VarType type, Object value) {
-		uniforms.put(name, new UniformVariable(type, name, value));
-	}
+
+    public void addUniform(String name, VarType type, Object value) {
+        uniforms.put(name, new UniformVariable(type, name, value));
+    }
+
+    public void addUniform(String name, VarType type) {
+        uniforms.put(name, new UniformVariable(type, name));
+    }
 
 	public void set(String name, Object value) {
     	uniforms.get(name).setValue(value);

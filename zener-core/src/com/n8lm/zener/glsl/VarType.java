@@ -37,6 +37,8 @@ public enum VarType {
     Vector3i,
     Vector4i,
 
+    IntArray(true, false),
+
     Matrix3(true,false),
     Matrix4(true,false),
 

@@ -53,6 +53,7 @@ public class ViewRenderSystem extends EntitySystem{
 	protected @Mapper ComponentMapper<SkeletonComponent> sm;
 	protected @Mapper ComponentMapper<TransformComponent> pm;
 	protected @Mapper ComponentMapper<RenderEffectComponent> em;
+    protected @Mapper ComponentMapper<LightComponent> lm;
 	
 	protected Matrix4f projectionMat;
 	protected Matrix4f viewMat;
@@ -61,11 +62,12 @@ public class ViewRenderSystem extends EntitySystem{
 	protected ViewComponent vc;
 	protected TransformComponent vp;
     
-    protected LightUniforms lightUniforms;
+    //protected LightUniforms lightUniforms;
     protected GlobalUniforms globalUniforms;
 
     protected Bag<Entity> transEntities;
     protected Bag<Entity> opaqueEntities;
+    protected Bag<Entity> lightEntities;
 
 	private Stack<Entity> tmpTransQueue;
     
@@ -81,18 +83,18 @@ public class ViewRenderSystem extends EntitySystem{
 		this.renderMode = renderMode;
 	}
 
-	enum RenderMode {
+
+    enum RenderMode {
     	DepthRender,
     	NormalRender;
     }
 
 	ViewRenderSystem(GLRenderSystem vrs) {
-		super(Aspect.getAspectForAll(TransformComponent.class, GeometryComponent.class));
+		super(Aspect.getAspectForAll(TransformComponent.class).one(GeometryComponent.class, LightComponent.class));
 		
 		this.vrs = vrs;
-		//setPassive(true);
-		
-		lightUniforms = new LightUniforms();
+
+		//lightUniforms = new LightUniforms();
 		globalUniforms = new GlobalUniforms();
 		
 		viewMat = new Matrix4f();
@@ -105,10 +107,43 @@ public class ViewRenderSystem extends EntitySystem{
 		
 		opaqueEntities = new Bag<Entity>();
 		transEntities = new Bag<Entity>();
+        lightEntities = new Bag<Entity>();
 		
 		tmpTransQueue = new Stack<Entity>();
 	}
-	
+
+
+        /*
+    void calcLightForEachEntity(ImmutableBag<Entity> lightEntities) {
+        if (lightEntities.size() == 0)
+            return;
+
+        Bag<Vector3f> lightTrans = new Bag<Vector3f>();
+
+        for (int i = 0, s = lightEntities.size(); s > i; i++) {
+            lightTrans.add(pm.get(lightEntities.get(i)).getWorldTransform().getTranslation());
+        }
+
+        ImmutableBag<Entity> actives = getActives();
+
+        for (int i = 0, s = actives.size(); s > i; i++) {
+
+            Vector3f p = pm.get(actives.get(i)).getWorldTransform().getTranslation();
+
+            float minDist = lightTrans.get(0).distance(p);
+            int minIndex = 0;
+
+            for (int j = 1, n = lightTrans.size(); n > j; j++) {
+                float dist = lightTrans.get(j).distance(p);
+                if (dist < minDist) {
+                    minDist = dist;
+                    minIndex = j;
+                }
+            }
+
+        }
+    }
+*/
 	
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities) { 
@@ -162,22 +197,32 @@ public class ViewRenderSystem extends EntitySystem{
 	@Override
 	protected void inserted(Entity e) {
 		super.inserted(e);
-		if (mm.get(e).isTransparent()) {
-			transEntities.add(e);
-		} else {
-			opaqueEntities.add(e);
-		}
+        if (mm.has(e)) {
+            if (mm.get(e).isTransparent()) {
+                transEntities.add(e);
+            } else {
+                opaqueEntities.add(e);
+            }
+        }
+        if (lm.has(e)) {
+            lightEntities.add(e);
+        }
 	}
 
 	@Override
 	protected void removed(Entity e) {
 		super.removed(e);
-		if (mm.get(e).isTransparent()) {
-			transEntities.remove(e);
-		} else {
-			opaqueEntities.remove(e);
-		}
-		ResourceManager.getInstance().getGeometryManager().reduceInvokeCount(dm.get(e).getGeometry());
+        if (mm.has(e)) {
+            if (mm.get(e).isTransparent()) {
+                transEntities.remove(e);
+            } else {
+                opaqueEntities.remove(e);
+            }
+            ResourceManager.getInstance().getGeometryManager().reduceInvokeCount(dm.get(e).getGeometry());
+        }
+        if (lm.has(e)) {
+            lightEntities.remove(e);
+        }
 		//dm.get(e).getDs().deleteObject();
 	}
 
@@ -224,28 +269,6 @@ public class ViewRenderSystem extends EntitySystem{
 		vc.getProjection().getProjectionMatrix(projectionMat);
 		vp.getWorldTransform().getViewMatrix(viewMat);
 
-		Entity light = world.getManager(TagManager.class).getEntity("MainLight");
-		
-		if (light != null && light.getComponent(LightComponent.class) != null) {
-			
-			LightComponent lightInfo = light.getComponent(LightComponent.class);
-			
-			float isPoint;
-			if (lightInfo.isPoint())
-				isPoint = 1.0f;
-			else
-				isPoint = 0.0f;
-			
-			Transform lightTransform = pm.get(light).getWorldTransform();
-			
-			lightUniforms.setAmbientColor(lightInfo.getAmbient()[0], lightInfo.getAmbient()[1], lightInfo.getAmbient()[2]);
-			lightUniforms.setDiffuseColor(lightInfo.getDiffuse()[0], lightInfo.getDiffuse()[1], lightInfo.getDiffuse()[2]);
-			lightUniforms.setSpecularColor(lightInfo.getDiffuse()[0], lightInfo.getDiffuse()[1], lightInfo.getDiffuse()[2]);
-			lightUniforms.setPosition(lightTransform.getTranslation().x, 
-					lightTransform.getTranslation().y, lightTransform.getTranslation().z, 
-					isPoint);
-
-		}
 		/*
 		if (renderMode == RenderMode.DepthRender) {
 			glCullFace(GL_FRONT);
@@ -276,8 +299,6 @@ public class ViewRenderSystem extends EntitySystem{
 	}
 
 	protected void render(Entity e) {
-
-
 		Geometry geometry = dm.get(e).getGeometry();
 		UniformsMaterial material = mm.get(e).getMaterial();
 		
@@ -307,16 +328,13 @@ public class ViewRenderSystem extends EntitySystem{
         if(sm.has(e)) {
             vertName = "skinning.vert";
         }
-            //	System.out.println(e.getComponent(TransformComponent.class).getTranslation());
-            //if(ds.getShaderName().equals("simple"))
-            //	System.out.println("aa");
+
         if ( mm.get(e).isShadowReceiver() && renderMode == RenderMode.NormalRender)
             options.add("SHADOW_MAPPING");
 
         GLProgram program = rm.getProgram(vertName, fragName, options);
 
         program.bind();
-
 		program.initTextureGroup();
 		
         if(sm.has(e)) {
@@ -325,38 +343,29 @@ public class ViewRenderSystem extends EntitySystem{
                     m4a));
         }
         //System.out.println(e.getComponent(TransformComponent.class).getTranslation());
-        //System.out.println(e.getComponent(TransformComponent.class).getTranslation());
 
         if (options.contains("SHADOW_MAPPING")) {
             Matrix4f depthBiasMVP = vrs.getDepthPV();
             program.setUniform(new UniformVariable(VarType.Texture2D, "depthMap", vrs.getDepthTexture()));
             program.setUniform(new UniformVariable(VarType.Matrix4, "depthBiasMVP", depthBiasMVP));
         }
-			//projectionMat.mult(viewMat.mult(modelMat));
-			//depthBiasMVP.multLocal(modelMat);
-			//System.out.println(depthBiasMVP);
-			//depthBiasMVP = biasMatrix.mult(depthBiasMVP);
-
-		
-		//if (renderMode == RenderMode.NormalRender){
-			if (em.has(e)) {
-				Vector4f multipleColor = em.get(e).getMultiplyColor();
-				program.setUniform(new UniformVariable(VarType.Vector4f, "MultipleColor", multipleColor));
-				Vector4f addColor = em.get(e).getAddColor();
-				program.setUniform(new UniformVariable(VarType.Vector4f, "AddColor", addColor));
-			} else {
-				program.setUniform(new UniformVariable(VarType.Vector4f, "MultipleColor", Vector4f.UNIT_XYZW));
-				program.setUniform(new UniformVariable(VarType.Vector4f, "AddColor", Vector4f.ZERO));
-			}
-		//}
+        //projectionMat.mult(viewMat.mult(modelMat));
+        //depthBiasMVP.multLocal(modelMat);
+        //System.out.println(depthBiasMVP);
+        //depthBiasMVP = biasMatrix.mult(depthBiasMVP);
 
 		//if (renderMode == RenderMode.NormalRender){
+            addRenderEffectUniforms(program, e);
+
+	        // apply material uniform
 	        for (UniformVariable uv : mm.get(e).getMaterial().getUniforms()) {
 	            program.setUniform(uv);
 	        }
-			
-			for (UniformVariable uv : lightUniforms.getUniforms())
-				program.setUniform(uv);
+
+            // apply light uniforms
+            addLightUniforms(program);
+			//for (UniformVariable uv : lightUniforms.getUniforms())
+			//	program.setUniform(uv);
 		//}
 		
 		for (UniformVariable uv : globalUniforms.getUniforms()) {
@@ -364,18 +373,53 @@ public class ViewRenderSystem extends EntitySystem{
         }
 
 		// Uniform Matrix
-		// glPushMatrix(); applyTranslations(pm.get(e));
-		
 		renderVAO(geometry);
-		
 		// Vertex Array
 		// draw
-		// glPopMatrix();
-
 		program.unbind();
 	}
-    
-	private void renderVAO(Geometry ds) {
+
+    private void addLightUniforms(GLProgram program) {
+
+        if (program.hasUniform("LightCount")) {
+            for (int i = 0, s = lightEntities.size(); i < s; i++) {
+                Entity light = lightEntities.get(i);
+                LightComponent lightInfo = lm.get(light);
+
+                float isPoint;
+                if (lightInfo.isPoint())
+                    isPoint = 1.0f;
+                else
+                    isPoint = 0.0f;
+
+                Vector3f lPos = pm.get(light).getWorldTransform().getTranslation();
+                Vector4f pos = vp.getWorldTransform().getViewMatrix(null).mult(new Vector4f(lPos.x, lPos.y, lPos.z, isPoint));
+                //program.setUniform(new UniformVariable(VarType.Vector4f, "Light[" + i + "].La", lightInfo.getAmbient()));
+                program.setUniform(new UniformVariable(VarType.Vector3f, "Light[" + i + "].Ld", lightInfo.getDiffuse()));
+                program.setUniform(new UniformVariable(VarType.Vector3f, "Light[" + i + "].Ls", lightInfo.getSpecular()));
+                program.setUniform(new UniformVariable(VarType.Float, "Light[" + i + "].Attenuation", lightInfo.getAttenuation()));
+                program.setUniform(new UniformVariable(VarType.Vector4f, "Light[" + i + "].Position", pos));
+            }
+            program.setUniform(new UniformVariable(VarType.Int, "LightCount", lightEntities.size()));
+        }
+
+        if (program.hasUniform("La"))
+            program.setUniform(new UniformVariable(VarType.Vector3f, "La", new Vector3f(0.2f, 0.2f, 0.2f)));
+    }
+
+    private void addRenderEffectUniforms(GLProgram program, Entity e) {
+        if (em.has(e)) {
+            Vector4f multipleColor = em.get(e).getMultiplyColor();
+            program.setUniform(new UniformVariable(VarType.Vector4f, "MultipleColor", multipleColor));
+            Vector4f addColor = em.get(e).getAddColor();
+            program.setUniform(new UniformVariable(VarType.Vector4f, "AddColor", addColor));
+        } else {
+            program.setUniform(new UniformVariable(VarType.Vector4f, "MultipleColor", Vector4f.UNIT_XYZW));
+            program.setUniform(new UniformVariable(VarType.Vector4f, "AddColor", Vector4f.ZERO));
+        }
+    }
+
+    private void renderVAO(Geometry ds) {
 		/*
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
 		*/

@@ -1,7 +1,9 @@
 uniform mat4 g_ViewMatrix;
 uniform vec4 MultipleColor;
 uniform vec4 AddColor;
-uniform LightInfo Light;
+uniform LightInfo Light[10];
+uniform int LightCount;
+uniform vec3 La;
 uniform MaterialInfo Material;
 
 in vec4 position;
@@ -27,18 +29,13 @@ void main(){
     vec3 normal = normalize(TBN * normalize(texture2D(Material.NormalMap, texCoord).rgb * 2.0 - 1.0));
 #endif
 
-    vec4 texColor = vec4(Material.Kd, 1.0);
-
-	vec3 colorLight = ambientModel(Material.Ka, Light);
-
 #ifdef SHADOW_MAPPING
 	float visibility = shadowModel(shadowCoord, depthMap);
 #else
 	float visibility = 1.0;
 #endif
 
-	if (visibility > 0)
-		colorLight += (diffuseModel(position, normal, texColor.rgb, Light, g_ViewMatrix) + specModel(position, normal, Light, Material, g_ViewMatrix)) * visibility;
+    vec3 totalLighting = La * Material.Ka + lightingModel(position, normal, Light, LightCount, Material, visibility);
 
-	colorOut = vec4(colorLight, 1.0) * MultipleColor + AddColor;
+	colorOut = vec4(totalLighting, 1.0) * MultipleColor + AddColor;
 }

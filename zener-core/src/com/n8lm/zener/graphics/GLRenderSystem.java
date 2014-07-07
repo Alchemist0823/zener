@@ -40,7 +40,9 @@ import com.n8lm.zener.math.Matrix4f;
 public class GLRenderSystem extends EntitySystem {
 
 	protected @Mapper ComponentMapper<ViewComponent> vm;
-	protected @Mapper ComponentMapper<TransformComponent> tm;
+    protected @Mapper ComponentMapper<TransformComponent> tm;
+
+    protected List<RenderEntry> renderEntries;
 	
 	protected ViewRenderSystem srs;
 	protected Matrix4f depthPVMat;
@@ -49,10 +51,12 @@ public class GLRenderSystem extends EntitySystem {
 	//private Matrix4f depthV;
 	
 	public GLRenderSystem(World world) {
-		super(Aspect.getAspectForAll(ViewComponent.class, TransformComponent.class));
+		super(Aspect.getAspectForAll(TransformComponent.class, ViewComponent.class));
 		
 		srs = new ViewRenderSystem(this);
 		world.setSystem(srs, true);
+
+        renderEntries = new ArrayList<RenderEntry>();
 	}
 	
 	class RenderEntry implements Comparable<RenderEntry> {
@@ -68,25 +72,46 @@ public class GLRenderSystem extends EntitySystem {
 
 	@Override
 	protected final void processEntities(ImmutableBag<Entity> entities) {
-		
-		List<RenderEntry> renderEntries = new ArrayList<RenderEntry>();
-		
-		for (int i = 0; i < entities.size(); i++) {
-			RenderEntry re = new RenderEntry();
-			re.vc = vm.get(entities.get(i));
-			re.entity = entities.get(i); 
-			renderEntries.add(re);
-		}
-		
+
+        //srs.calcLightForEachEntity(lightEntities);
+
 		Collections.sort(renderEntries);
-		
 		for (int i = 0, s = renderEntries.size(); s > i; i++) {
 			//System.out.print(renderEntries.get(i).vc.getPriority());
 			process(renderEntries.get(i).entity);
 		}
 	}
 
-	@Override
+    @Override
+    protected void inserted(Entity e) {
+        super.inserted(e);
+
+        if (vm.has(e)) {
+            RenderEntry re = new RenderEntry();
+            re.vc = vm.get(e);
+            re.entity = e;
+            renderEntries.add(re);
+        }
+
+            //lightEntities.add(e);
+    }
+
+    @Override
+    protected void removed(Entity e) {
+        super.removed(e);
+        if (vm.has(e)) {
+            for (int i = 0, s = renderEntries.size(); s > i; i++) {
+                if (renderEntries.get(i).entity == e) {
+                    renderEntries.remove(i);
+                    break;
+                }
+            }
+        }
+
+        //lightEntities.remove(e);
+    }
+
+    @Override
 	protected boolean checkProcessing() {
 		return true;
 	}

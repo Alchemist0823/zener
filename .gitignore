@@ -2,5 +2,8 @@
 .metadata/
 release/
 deprecated/
+*out/
+*bin/
 *.iml
 *.blend
+*.class

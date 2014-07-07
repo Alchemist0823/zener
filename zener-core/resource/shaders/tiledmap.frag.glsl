@@ -23,7 +23,9 @@ uniform mat4 g_ProjectionMatrix;
 uniform vec4 MultipleColor;
 uniform vec4 AddColor;
 
-uniform LightInfo Light;
+uniform LightInfo Light[10];
+uniform int LightCount;
+uniform vec3 La;
 	
 struct TileSetInfo {
 	sampler2D texture[10];
@@ -74,8 +76,6 @@ vec4 getTextureColor() {
 void main(){
 	
 	vec4 texColor = getTextureColor();
-
-	vec3 colorLight = ambientModel(texColor.rgb, Light);
 	
 #ifdef NORMAL_MAPPING
     vec3 normal = normalize(TBN * normalize(texture2D(TileSet.normalMap[textureNum], texCoord).rgb * 2.0 - 1.0));
@@ -86,9 +86,13 @@ void main(){
 	#else
 	float visibility = 1.0;
 	#endif
-	
-	if (visibility > 0)
-		colorLight += diffuseModel(position, normal, texColor.rgb, Light, g_ViewMatrix) * visibility;
+
+    MaterialInfo m_material;
+    m_material.Kd = vec3(texColor);
+    m_material.Ka = vec3(texColor);
+    m_material.Ks = vec3(0.0);
+
+    vec3 totalLighting = La * m_material.Ka + lightingModel(position, normal, Light, LightCount, m_material, visibility);
     
 	//vec4 positionOut = shadowCoord;
 	//float depth2 = pow(depth, 64.0);
@@ -97,5 +101,5 @@ void main(){
 	//float depth2 = shadowCoord.x / shadowCoord.w;
 	
 	//colorOut = vec4(depth2, depth2, depth2, 1.0);
-	colorOut = vec4(colorLight, 1.0) * color * MultipleColor + AddColor;
+	colorOut = vec4(totalLighting, 1.0) * color * MultipleColor + AddColor;
 }

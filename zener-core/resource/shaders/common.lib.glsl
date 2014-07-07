@@ -5,6 +5,7 @@ struct LightInfo {
 	vec3 La; // Ambient light intensity
 	vec3 Ld; // Diffuse light intensity
 	vec3 Ls; // Specular light intensity
+	float Attenuation;
 };
 	
 struct MaterialInfo {
@@ -15,7 +16,6 @@ struct MaterialInfo {
 	vec3        Ks; // Specular reflectivity
 	float 		Shininess; // Specular shininess factor
 };
-
 
 vec3 specModel (in vec4 position, in vec3 normal, in LightInfo light, in MaterialInfo material, mat4 g_ViewMatrix)
 {
@@ -33,13 +33,13 @@ vec3 specModel (in vec4 position, in vec3 normal, in LightInfo light, in Materia
 	return spec;
 }
 
-vec3 ambientModel (in vec3 m_diffuse, LightInfo light)
+vec3 ambientModel (in vec3 color, LightInfo light)
 {
-	vec3 ambient = light.La * (m_diffuse);
+	vec3 ambient = light.La * (color);
 	return ambient;
 }
 
-vec3 diffuseModel (in vec4 position, in vec3 norm, in vec3 m_diffuse, in LightInfo light, mat4 g_ViewMatrix)
+vec3 diffuseModel (in vec4 position, in vec3 norm, in vec3 color, in LightInfo light, mat4 g_ViewMatrix)
 {
 	vec3 lightDir;
 	if (light.Position.w == 1)
@@ -47,9 +47,53 @@ vec3 diffuseModel (in vec4 position, in vec3 norm, in vec3 m_diffuse, in LightIn
 	else
 		lightDir = normalize(vec3(g_ViewMatrix * light.Position));
 	float sDotN = max(dot(lightDir, norm), 0.0);
-	vec3 diffuse = light.Ld * (m_diffuse)* sDotN;
-	
+	vec3 diffuse = light.Ld * (color)* sDotN;
+
 	return diffuse;
+}
+
+vec3 lightingModel (vec4 position, vec3 normal, LightInfo Light[10], int LightCount, MaterialInfo Material, float visibility) {
+    vec3 totalLighting = vec3(0, 0, 0);
+    vec3 viewDirection = normalize(-position.xyz);
+    vec3 lightDirection;
+    float attenuation;
+
+    for (int index = 0; index <  LightCount; index ++) {
+        // directional light?
+        if (0.0 == Light[index].Position.w) {
+            attenuation = 1.0; // no attenuation
+            lightDirection = normalize(vec3(Light[index].Position));
+        } else {
+            // point light or spotlight (or other kind of light)
+            vec3 positionToLightSource = vec3(Light[index].Position - position);
+            float distance = length(positionToLightSource);
+            lightDirection = normalize(positionToLightSource);
+            attenuation = 1.0 / ( 1.0 //Light[index].constantAttenuation
+                       + 0.0 //Light[index].linearAttenuation * distance
+                       + Light[index].Attenuation * distance * distance);
+
+        }
+
+        vec3 diffuseReflection = attenuation
+            * vec3(Light[index].Ld) * vec3(Material.Kd)
+            * max(0.0, dot(normal, lightDirection));
+
+        vec3 specularReflection;
+        if (dot(normal, lightDirection) < 0.0) {
+            // light source on the wrong side?
+            specularReflection = vec3(0.0, 0.0, 0.0); // no specular reflection
+        } else { // light source on the right side
+            specularReflection = attenuation * vec3(Light[index].Ls) * vec3(Material.Ks)
+                * pow(max(0.0, dot(reflect(-lightDirection, normal), viewDirection)), Material.Shininess);
+        }
+
+        if (index == 0) {
+            if (visibility > 0)
+                totalLighting = totalLighting + (diffuseReflection + specularReflection) * visibility;
+        } else
+            totalLighting = totalLighting + diffuseReflection + specularReflection;
+    }
+    return totalLighting;//totalLighting;
 }
 
 #ifdef SHADOW_MAPPING

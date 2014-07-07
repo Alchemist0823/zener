@@ -19,17 +19,30 @@
 package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
+import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.math.Vector4f;
 
 public class LightComponent extends Component {
-	private float[] diffuse = new float[]{0.8f, 0.8f, 0.8f, 1f};
-	private float[] ambient = new float[]{0.2f, 0.2f, 0.2f, 1f};
-	private boolean isPoint = true;
-	
-	public LightComponent() {
+
+    private Vector3f ambient;
+    private Vector3f diffuse;
+    private Vector3f specular;
+    private boolean isPoint;
+
+    private float attenuation;
+    private float spotCutoff, spotExponent;
+    private Vector3f spotDirection;
+
+    public LightComponent() {
+        this(true);
 	}
 
 	public LightComponent(boolean isPoint) {
+        ambient = new Vector3f(0.0f, 0.0f, 0.0f);
+        diffuse = new Vector3f(0.8f, 0.8f, 0.8f);
+        specular = new Vector3f(1.0f, 1.0f, 1.0f);
 		this.isPoint = isPoint;
+        attenuation = 0.0f;
 	}
 
 	public boolean isPoint() {
@@ -40,19 +53,35 @@ public class LightComponent extends Component {
 		this.isPoint = isPoint;
 	}
 
-	public float[] getAmbient() {
-		return ambient;
+    public float getAttenuation() {
+        return attenuation;
+    }
+
+    public void setAttenuation(float attenuation) {
+        this.attenuation = attenuation;
+    }
+
+    public Vector3f getAmbient() {
+        return ambient;
+    }
+
+    public void setAmbient(Vector3f ambient) {
+        this.ambient.set(ambient);
+    }
+
+	public Vector3f getSpecular() {
+		return specular;
 	}
 
-	public void setAmbient(float[] ambient) {
-		this.ambient = ambient;
+	public void setSpecular(Vector3f specular) {
+		this.specular.set(specular);
 	}
 
-	public float[] getDiffuse() {
+	public Vector3f getDiffuse() {
 		return diffuse;
 	}
 
-	public void setDiffuse(float[] diffuse) {
-		this.diffuse = diffuse;
+	public void setDiffuse(Vector3f diffuse) {
+		this.diffuse.set(diffuse);
 	}
 }

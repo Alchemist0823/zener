@@ -57,6 +57,12 @@ public class GLSLHelper {
             else
                 return VarType.Float;
         }
+        else if (type.equals("int")) {
+            if (isArray)
+                return VarType.IntArray;
+            else
+                return VarType.Int;
+        }
         else
             throw new IllegalArgumentException(type);
     }

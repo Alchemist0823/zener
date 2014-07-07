@@ -149,7 +149,7 @@ public class GLProgram extends GLObject {
         }
     }*/
 
-    private boolean hasUniform(String name) {
+    public boolean hasUniform(String name) {
         return uniforms.containsKey(name);
     }
 

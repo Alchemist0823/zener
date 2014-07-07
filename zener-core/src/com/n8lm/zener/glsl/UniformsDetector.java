@@ -65,14 +65,30 @@ public class UniformsDetector extends GLSL430BaseVisitor<Void> {
                         //System.out.println(fully_specified_type.type_specifier().getText() + ": " + declarator.IDENTIFIER().getText());
                     }
 				} else {
+
 					
 					if (structVisitor.getStructs().containsKey(structName)) {
-						for (Single_declaratorContext declarator : ctx.single_declarator())
-							for (VariableDef var : structVisitor.getStructs().get(structName).getVars()) {
-                                String varname = declarator.IDENTIFIER().getText() + "." + var.getName();
-                                glShader.add(new VariableDef(var.getType(), varname));
-								//System.out.println(var.type + ": " + declarator.IDENTIFIER().getText() + "." + var.name);
-							}
+						for (Single_declaratorContext declarator : ctx.single_declarator()) {
+
+                            int arrayLength = 0;
+                            if (declarator.init_declarator() != null && declarator.init_declarator().constant_expression() != null)
+                                arrayLength = Integer.parseInt(declarator.init_declarator().constant_expression().getText());
+
+                            if (arrayLength > 0)
+                                for (int i = 0; i < arrayLength; i ++) {
+                                    for (VariableDef var : structVisitor.getStructs().get(structName).getVars()) {
+                                        String varname = declarator.IDENTIFIER().getText() + "[" + i + "]." + var.getName();
+                                        glShader.add(new VariableDef(var.getType(), varname));
+                                        //System.out.println(var.type + ": " + declarator.IDENTIFIER().getText() + "." + var.name);
+                                    }
+                                }
+                            else
+                                for (VariableDef var : structVisitor.getStructs().get(structName).getVars()) {
+                                    String varname = declarator.IDENTIFIER().getText() + "." + var.getName();
+                                    glShader.add(new VariableDef(var.getType(), varname));
+                                    //System.out.println(var.type + ": " + declarator.IDENTIFIER().getText() + "." + var.name);
+                                }
+                        }
 					}
 				}
 			}
