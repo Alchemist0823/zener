@@ -61,8 +61,7 @@ public class ViewRenderSystem extends EntitySystem{
 	
 	protected ViewComponent vc;
 	protected TransformComponent vp;
-    
-    //protected LightUniforms lightUniforms;
+
     protected GlobalUniforms globalUniforms;
 
     protected Bag<Entity> transEntities;
@@ -140,7 +139,6 @@ public class ViewRenderSystem extends EntitySystem{
                     minIndex = j;
                 }
             }
-
         }
     }
 */
@@ -211,7 +209,6 @@ public class ViewRenderSystem extends EntitySystem{
 
 	@Override
 	protected void removed(Entity e) {
-		super.removed(e);
         if (mm.has(e)) {
             if (mm.get(e).isTransparent()) {
                 transEntities.remove(e);
@@ -223,6 +220,7 @@ public class ViewRenderSystem extends EntitySystem{
         if (lm.has(e)) {
             lightEntities.remove(e);
         }
+        super.removed(e);
 		//dm.get(e).getDs().deleteObject();
 	}
 
@@ -283,14 +281,12 @@ public class ViewRenderSystem extends EntitySystem{
 			//System.out.println(projectionMat);
 			//System.out.println(vrs.getDepthV());
 			//System.out.println(viewMat);
-			//System.out.println("aaa");
 			
 		} else 
 			if (renderMode == RenderMode.DepthRender) {
 			//System.out.println(projectionMat.mult(viewMat));
 		}
 		*/
-		//glViewport(0, 0, 700, 700);
 	}
 
 	@Override
@@ -329,7 +325,7 @@ public class ViewRenderSystem extends EntitySystem{
             vertName = "skinning.vert";
         }
 
-        if ( mm.get(e).isShadowReceiver() && renderMode == RenderMode.NormalRender)
+        if ( mm.get(e).isShadowReceiver() && renderMode == RenderMode.NormalRender && vrs.hasShadow())
             options.add("SHADOW_MAPPING");
 
         GLProgram program = rm.getProgram(vertName, fragName, options);
@@ -382,9 +378,12 @@ public class ViewRenderSystem extends EntitySystem{
     private void addLightUniforms(GLProgram program) {
 
         if (program.hasUniform("LightCount")) {
+            int lightNum = 0;
             for (int i = 0, s = lightEntities.size(); i < s; i++) {
                 Entity light = lightEntities.get(i);
                 LightComponent lightInfo = lm.get(light);
+                if (!lightInfo.isEnable())
+                    continue;
 
                 float isPoint;
                 if (lightInfo.isPoint())
@@ -399,8 +398,9 @@ public class ViewRenderSystem extends EntitySystem{
                 program.setUniform(new UniformVariable(VarType.Vector3f, "Light[" + i + "].Ls", lightInfo.getSpecular()));
                 program.setUniform(new UniformVariable(VarType.Float, "Light[" + i + "].Attenuation", lightInfo.getAttenuation()));
                 program.setUniform(new UniformVariable(VarType.Vector4f, "Light[" + i + "].Position", pos));
+                lightNum ++;
             }
-            program.setUniform(new UniformVariable(VarType.Int, "LightCount", lightEntities.size()));
+            program.setUniform(new UniformVariable(VarType.Int, "LightCount", lightNum));
         }
 
         if (program.hasUniform("La"))

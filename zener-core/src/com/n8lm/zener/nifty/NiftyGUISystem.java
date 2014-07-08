@@ -19,6 +19,8 @@
 package com.n8lm.zener.nifty;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +114,6 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		glPushAttrib(GL_ENABLE_BIT);
 		  
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -123,8 +124,13 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		GL11.glAlphaFunc(GL11.GL_NOTEQUAL, 0);
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
-		
-		nifty.update();
+
+        // Back to GL Texture 0 Unit
+        glActiveTexture(GL_TEXTURE0);
+        glEnable(GL_TEXTURE_2D);
+        //glBindTexture();
+
+        nifty.update();
 		nifty.render(false);
 		  
 		glPopAttrib();

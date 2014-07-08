@@ -29,6 +29,8 @@ public class LightComponent extends Component {
     private Vector3f specular;
     private boolean isPoint;
 
+    private boolean enable;
+
     private float attenuation;
     private float spotCutoff, spotExponent;
     private Vector3f spotDirection;
@@ -42,9 +44,17 @@ public class LightComponent extends Component {
         diffuse = new Vector3f(0.8f, 0.8f, 0.8f);
         specular = new Vector3f(1.0f, 1.0f, 1.0f);
 		this.isPoint = isPoint;
+        this.enable = true;
         attenuation = 0.0f;
 	}
 
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 	public boolean isPoint() {
 		return isPoint;
 	}

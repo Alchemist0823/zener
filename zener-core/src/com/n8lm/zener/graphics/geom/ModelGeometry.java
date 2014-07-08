@@ -31,11 +31,6 @@ import com.n8lm.zener.utils.BufferTools;
 
 public class ModelGeometry extends Geometry {
 
-	/*
-	 * protected int vboVertexHandle = -1; protected int vboNormalHandle = -1;
-	 * protected int vboTextureHandle = -1;
-	 */
-	// protected Material material;
 	public ModelGeometry(Mesh model) {
 		super("standard");
 		loadModel(model);

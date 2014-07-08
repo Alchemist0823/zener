@@ -56,14 +56,14 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
         // add camera entity
         cam = world.createEntity();
         cam.addComponent(new ViewComponent(new PerspectiveProjection()));
-        Transform camTransform = new Transform(0, -3, 2);
-        camTransform.getRotation().lookAt(new Vector3f(0, 3, -2), new Vector3f(0, 0, 3));
+        Transform camTransform = new Transform(0, -3, 0);
+        camTransform.getRotation().lookAt(new Vector3f(0, 3, 0), new Vector3f(0, 0, 3));
         cam.addComponent(new TransformComponent(camTransform));
         world.addEntity(cam);
 
         // add first light entity
         LightComponent lc1 = new LightComponent();
-        lc1.setDiffuse(new Vector3f(0.0f, 0.0f, 1.0f));
+        lc1.setDiffuse(new Vector3f(0.8f, 0.8f, 0.8f));
         light1 = world.createEntity();
         light1.addComponent(lc1);
         light1.addComponent(new TransformComponent(new Transform()));
@@ -71,13 +71,13 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
 
         // add first light entity
         LightComponent lc2 = new LightComponent();
-        lc2.setDiffuse(new Vector3f(0.0f, 1.0f, 0.0f));
+        lc2.setDiffuse(new Vector3f(0.6f, 0.6f, 0.6f));
         light2 = world.createEntity();
         light2.addComponent(lc2);
         light2.addComponent(new TransformComponent(new Transform()));
         world.addEntity(light2);
 
-        //getContainer().getInput().addListener(new );
+        getContainer().getInput().addListener(new MaterialSwitchInputAdapter(model, light2));
     }
 
     private int timer = 0;

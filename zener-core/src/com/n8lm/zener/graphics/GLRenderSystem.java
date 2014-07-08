@@ -58,8 +58,12 @@ public class GLRenderSystem extends EntitySystem {
 
         renderEntries = new ArrayList<RenderEntry>();
 	}
-	
-	class RenderEntry implements Comparable<RenderEntry> {
+
+    public boolean hasShadow() {
+        return (depthMap != null);
+    }
+
+    class RenderEntry implements Comparable<RenderEntry> {
 		ViewComponent vc;
 		Entity entity;
 		
@@ -74,6 +78,7 @@ public class GLRenderSystem extends EntitySystem {
 	protected final void processEntities(ImmutableBag<Entity> entities) {
 
         //srs.calcLightForEachEntity(lightEntities);
+        depthMap = null;
 
 		Collections.sort(renderEntries);
 		for (int i = 0, s = renderEntries.size(); s > i; i++) {
@@ -85,30 +90,21 @@ public class GLRenderSystem extends EntitySystem {
     @Override
     protected void inserted(Entity e) {
         super.inserted(e);
-
-        if (vm.has(e)) {
-            RenderEntry re = new RenderEntry();
-            re.vc = vm.get(e);
-            re.entity = e;
-            renderEntries.add(re);
-        }
-
-            //lightEntities.add(e);
+        RenderEntry re = new RenderEntry();
+        re.vc = vm.get(e);
+        re.entity = e;
+        renderEntries.add(re);
     }
 
     @Override
     protected void removed(Entity e) {
         super.removed(e);
-        if (vm.has(e)) {
-            for (int i = 0, s = renderEntries.size(); s > i; i++) {
-                if (renderEntries.get(i).entity == e) {
-                    renderEntries.remove(i);
-                    break;
-                }
+        for (int i = 0, s = renderEntries.size(); s > i; i++) {
+            if (renderEntries.get(i).entity == e) {
+                renderEntries.remove(i);
+                break;
             }
         }
-
-        //lightEntities.remove(e);
     }
 
     @Override
@@ -121,9 +117,6 @@ public class GLRenderSystem extends EntitySystem {
 		if (vm.get(e).isActive()) {
 			if (!vm.get(e).isRenderToScreen()) {
 
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				
 				//glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
 				//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 0.5f);
 				
@@ -160,7 +153,7 @@ public class GLRenderSystem extends EntitySystem {
 				glReadBuffer(GL_BACK);
 			}
 
-			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			srs.setView(e);
 			srs.process();
@@ -168,12 +161,9 @@ public class GLRenderSystem extends EntitySystem {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDrawBuffer(GL_BACK);
 			glReadBuffer(GL_BACK);
-			
 
 			if (srs.getRenderMode() == RenderMode.DepthRender) {
 				depthPVMat = vm.get(e).getProjection().getProjectionMatrix(null);
-				//depthP = vm.get(e).getProjection().getProjectionMatrix(null);
-				//depthV = tm.get(e).getWorldTransform().getViewMatrix(null);
 				depthPVMat.multLocal(tm.get(e).getWorldTransform().getViewMatrix(null));
 				//System.out.println(depthPVMat);
 				depthMap = vm.get(e).getFramebuffer().getDepthTexture();

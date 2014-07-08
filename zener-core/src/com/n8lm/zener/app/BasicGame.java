@@ -21,6 +21,7 @@ package com.n8lm.zener.app;
 import com.artemis.World;
 import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.intent.InputIntentGenerator;
 
 /**
  * Basic Game
@@ -128,7 +129,11 @@ public abstract class BasicGame {
 	public GameContainer getContainer() {
 		return container;
 	}
-	
+
+    public void addInputIntentGenerator(InputIntentGenerator iig) {
+        this.getContainer().getInput().addListener(iig);
+    }
+
 	/**
 	 * Get the title of this game 
 	 * 
