@@ -10,7 +10,7 @@ import com.n8lm.zener.math.Vector3f;
  *
  * @author Alchemist
  */
-public class UnshadedMaterial extends UniformsMaterial{
+public class UnshadedMaterial extends UniformsMaterial {
 
     public UnshadedMaterial(Material material) {
         addUniform("Material.Kd", VarType.Vector3f, new Vector3f(material.diffuseColor));

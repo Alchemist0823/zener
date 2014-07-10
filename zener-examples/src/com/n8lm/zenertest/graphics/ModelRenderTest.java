@@ -30,6 +30,10 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
         super("modelrender", "Model Render");
     }
 
+    private Entity model;
+    private Entity cam;
+    private Entity light1, light2;
+
     @Override
     protected void init() {
         super.init();
@@ -37,14 +41,8 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new AttachSystem());
         world.setSystem(new GLRenderSystem(world));
-    }
 
-    private Entity model;
-    private Entity cam;
-    private Entity light1, light2;
-
-    @Override
-    protected void afterInit() {
+        world.initialize();
         // add notorious suzanne model entity
         model = world.createEntity();
         model.addComponent(new GeometryComponent(new ModelGeometry(resourceManager.getModel("suzanne").getMesh()), false));

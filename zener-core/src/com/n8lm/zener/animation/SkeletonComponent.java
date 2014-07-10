@@ -30,7 +30,7 @@ import com.artemis.Component;
  */
 public class SkeletonComponent extends Component {
 
-	private Matrix4f[] poseMatrices;
+	private final Matrix4f[] poseMatrices;
 	private Skeleton baseSkeleton;
 	
 	public SkeletonComponent(Skeleton baseSkeleton) {
@@ -40,9 +40,15 @@ public class SkeletonComponent extends Component {
 		for (int i = 0; i < baseSkeleton.totalJoints(); i ++)
 			poses.add(new Transform(baseSkeleton.getJoints().get(i).pose));
 
-		poseMatrices = SkeletonHelper.calcTransformMatrix(poses, baseSkeleton);
+        poseMatrices = new Matrix4f[baseSkeleton.totalJoints()];
+	    SkeletonHelper.calcTransformMatrix(poses, baseSkeleton, poseMatrices);
 		
 	}
+
+    public SkeletonComponent(SkeletonComponent clone) {
+        this.baseSkeleton = clone.baseSkeleton;
+        this.poseMatrices = clone.poseMatrices;
+    }
 	
 	public void setToBasePoses() {
 		
@@ -50,7 +56,7 @@ public class SkeletonComponent extends Component {
 		for (int i = 0; i < baseSkeleton.totalJoints(); i ++)
 			poses.add(new Transform(baseSkeleton.getJoints().get(i).pose));
 		
-		poseMatrices = SkeletonHelper.calcTransformMatrix(poses, baseSkeleton);
+		/*poseMatrices = */SkeletonHelper.calcTransformMatrix(poses, baseSkeleton, poseMatrices);
 	}
 
 	public Matrix4f[] getCurrentPosesMatrices() {
@@ -61,7 +67,13 @@ public class SkeletonComponent extends Component {
 		return baseSkeleton;
 	}
 
-	public void setCurrentPosesMatrices(Matrix4f[] poseMatrices) {
+    public void setCurrentPosesMatrices(Matrix4f[] poseMatrices) {
+        for (int i = 0; i < poseMatrices.length; i ++) {
+            this.poseMatrices[i] = poseMatrices[i];
+        }
+    }
+
+	/*public void setCurrentPosesMatrices(Matrix4f[] poseMatrices) {
 		this.poseMatrices = poseMatrices;
-	}
+	}*/
 }

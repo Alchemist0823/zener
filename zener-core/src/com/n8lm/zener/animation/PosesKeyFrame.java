@@ -48,7 +48,8 @@ public class PosesKeyFrame extends KeyFrame {
 	}
 	
 	public void calcPoseMatrices(Skeleton skeleton) {
-		poseMatrices = SkeletonHelper.calcTransformMatrix(poses, skeleton);
+        poseMatrices = new Matrix4f[skeleton.totalJoints()];
+		SkeletonHelper.calcTransformMatrix(poses, skeleton, poseMatrices);
 	}
 
 	public Matrix4f[] getPoseMatrices() {

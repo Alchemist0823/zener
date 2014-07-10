@@ -18,10 +18,9 @@
 
 package com.n8lm.zener.graphics;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
+import com.n8lm.zener.glsl.VariableDef;
+import com.n8lm.zener.math.*;
+import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -29,10 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.n8lm.zener.glsl.VariableDef;
-import org.lwjgl.BufferUtils;
-
-import com.n8lm.zener.math.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 
 public class GLProgram extends GLObject {
 
@@ -65,7 +65,7 @@ public class GLProgram extends GLObject {
     /**
      * This links a vertex shader and a fragment shader to the program and adds uniforms to the program
      *
-     * @param vertexShader vertex shader.
+     * @param vertexShader   vertex shader.
      * @param fragmentShader fragment shader.
      */
     // Never used
@@ -250,9 +250,8 @@ public class GLProgram extends GLObject {
             }
             if (GLHelper.checkGLError())
                 LOGGER.severe(var.getName() + " " + location);
-        }
-        else
-        	LOGGER.info("no variable: " + var.getName());
+        } else
+            LOGGER.info("no variable: " + var.getName());
     }
 
 

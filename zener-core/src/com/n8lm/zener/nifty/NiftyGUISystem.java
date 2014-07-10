@@ -48,15 +48,13 @@ public class NiftyGUISystem extends VoidEntitySystem {
 	private BasicGame game;
 	private Nifty nifty;
 	//private ZenerInputSystem inputSystem;
-	//private InputIntentGenerator iig;
-	private List<GameCallback> screenCallbacks;
+	private InputIntentGenerator iig;
 	private String startScreen;
 	
 	public NiftyGUISystem(BasicGame game, InputIntentGenerator iig, String startScreen) {
 		super();
 		this.game = game;
-		//this.iig = iig;
-		this.screenCallbacks = new ArrayList<GameCallback>();
+		this.iig = iig;
 		this.startScreen = startScreen;
 
         ZenerInputSystem inputSystem = new ZenerZenerInputSystem(iig);
@@ -79,7 +77,6 @@ public class NiftyGUISystem extends VoidEntitySystem {
     public NiftyGUISystem(BasicGame game, String startScreen) {
         super();
         this.game = game;
-        this.screenCallbacks = new ArrayList<GameCallback>();
         this.startScreen = startScreen;
 
         BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendFactory.create());
@@ -96,11 +93,6 @@ public class NiftyGUISystem extends VoidEntitySystem {
     @Override
 	protected void processSystem() {
 
-		if(game.isGameStarted()) {
-			for(GameCallback scb: screenCallbacks) {
-				scb.update(game);
-			}
-		}
 		
         //glViewport(0, 0, Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight());
         
@@ -137,14 +129,13 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		
 	}
 
 	@Override
 	protected void initialize() {
 		super.initialize();
 		
-		this.screenCallbacks.clear();
+		//this.screenCallbacks.clear();
 
 	    /*final HelloWorldStartScreen screen = new HelloWorldStartScreen();
 	    nifty.registerScreenController(screen);
@@ -169,7 +160,11 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		return nifty;
 	}
 
-	public void addCallback(GameCallback callback) {
+    public InputIntentGenerator getInputIntentGenerator() {
+        return iig;
+    }
+
+	/*public void addCallback(GameCallback callback) {
 		screenCallbacks.add(callback);
-	}
+	}*/
 }

@@ -21,43 +21,43 @@ package com.n8lm.zener.graphics;
 import com.artemis.Component;
 import com.n8lm.zener.graphics.geom.Geometry;
 
-public class GeometryComponent extends Component{
-	
-	private boolean visible;
-	private boolean shadowCaster;
-	private Geometry ds;
-	
-	public GeometryComponent(Geometry ds) {
-		this(ds, true);
-	}
+public class GeometryComponent extends Component {
 
-	public GeometryComponent(Geometry ds, boolean shadowCaster) {
-		this.ds = ds;
-		this.shadowCaster = shadowCaster;
-		visible = true;
-	}
+    private boolean visible;
+    private boolean shadowCaster;
+    private Geometry ds;
 
-	public boolean isVisible() {
-		return visible;
-	}
+    public GeometryComponent(Geometry ds) {
+        this(ds, true);
+    }
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
+    public GeometryComponent(Geometry ds, boolean shadowCaster) {
+        this.ds = ds;
+        this.shadowCaster = shadowCaster;
+        visible = true;
+    }
 
-	public Geometry getGeometry() {
-		return ds;
-	}
+    public boolean isVisible() {
+        return visible;
+    }
 
-	public void setGeometry(Geometry ds) {
-		this.ds = ds;
-	}
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
-	public boolean isShadowCaster() {
-		return shadowCaster;
-	}
+    public Geometry getGeometry() {
+        return ds;
+    }
 
-	public void setShadowCaster(boolean shadowCaster) {
-		this.shadowCaster = shadowCaster;
-	}
+    public void setGeometry(Geometry ds) {
+        this.ds = ds;
+    }
+
+    public boolean isShadowCaster() {
+        return shadowCaster;
+    }
+
+    public void setShadowCaster(boolean shadowCaster) {
+        this.shadowCaster = shadowCaster;
+    }
 }

@@ -44,6 +44,13 @@ public class Skeleton {
 	public List<Joint> getJoints() {
 		return joints;
 	}
+
+    public int getJointIndexByName(String name) {
+        for (int i = 0, s = joints.size(); i < s; i ++)
+            if (joints.get(i).name.equals(name))
+                return i;
+        return -1;
+    }
 	
 	public void calcBaseMatrix(){
 

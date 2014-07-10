@@ -53,8 +53,8 @@ public class EntityFactory {
         e.addComponent(new TransformComponent(attached, bone, pos, rot,
                 Vector3f.UNIT_XYZ));
         // e.addComponent(new VelocityComponent());
-        LOGGER.info("ID: " + e.getId());
-        LOGGER.info("Position: " + pos.toString());
+        LOGGER.fine("ID: " + e.getId());
+        LOGGER.fine("Position: " + pos.toString());
         return e;
     }
 
@@ -126,7 +126,7 @@ public class EntityFactory {
         e.addComponent(new GeometryComponent(geometry, shadowCaster));
         e.addComponent(new MaterialComponent(material, shadowReceiver));
         // e.addComponent(new VelocityComponent());
-        LOGGER.info("Geometry: " + geometry.toString());
+        LOGGER.fine("Geometry: " + geometry.toString());
         return e;
     }
 
@@ -148,7 +148,7 @@ public class EntityFactory {
         e.addComponent(new GeometryComponent(geometry, shadowCaster));
         e.addComponent(new MaterialComponent(material, shadowReceiver));
         // e.addComponent(new VelocityComponent());
-        LOGGER.info("Geometry: " + geometry.toString());
+        LOGGER.fine("Geometry: " + geometry.toString());
         return e;
     }
 
@@ -169,7 +169,7 @@ public class EntityFactory {
                 .getMaterial()), shadowReceiver));
         if (model.getSkeleton().getJoints().size() > 0)
             e.addComponent(new SkeletonComponent(model.getSkeleton()));
-        LOGGER.info("Model: " + model.toString());
+        LOGGER.fine("Model: " + model.toString());
         return e;
     }
 

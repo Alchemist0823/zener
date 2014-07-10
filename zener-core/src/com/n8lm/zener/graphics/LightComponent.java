@@ -20,7 +20,6 @@ package com.n8lm.zener.graphics;
 
 import com.artemis.Component;
 import com.n8lm.zener.math.Vector3f;
-import com.n8lm.zener.math.Vector4f;
 
 public class LightComponent extends Component {
 
@@ -37,16 +36,16 @@ public class LightComponent extends Component {
 
     public LightComponent() {
         this(true);
-	}
+    }
 
-	public LightComponent(boolean isPoint) {
+    public LightComponent(boolean isPoint) {
         ambient = new Vector3f(0.0f, 0.0f, 0.0f);
         diffuse = new Vector3f(0.8f, 0.8f, 0.8f);
         specular = new Vector3f(1.0f, 1.0f, 1.0f);
-		this.isPoint = isPoint;
+        this.isPoint = isPoint;
         this.enable = true;
         attenuation = 0.0f;
-	}
+    }
 
     public boolean isEnable() {
         return enable;
@@ -55,13 +54,14 @@ public class LightComponent extends Component {
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
-	public boolean isPoint() {
-		return isPoint;
-	}
-	
-	public void setPoint(boolean isPoint) {
-		this.isPoint = isPoint;
-	}
+
+    public boolean isPoint() {
+        return isPoint;
+    }
+
+    public void setPoint(boolean isPoint) {
+        this.isPoint = isPoint;
+    }
 
     public float getAttenuation() {
         return attenuation;
@@ -79,19 +79,19 @@ public class LightComponent extends Component {
         this.ambient.set(ambient);
     }
 
-	public Vector3f getSpecular() {
-		return specular;
-	}
+    public Vector3f getSpecular() {
+        return specular;
+    }
 
-	public void setSpecular(Vector3f specular) {
-		this.specular.set(specular);
-	}
+    public void setSpecular(Vector3f specular) {
+        this.specular.set(specular);
+    }
 
-	public Vector3f getDiffuse() {
-		return diffuse;
-	}
+    public Vector3f getDiffuse() {
+        return diffuse;
+    }
 
-	public void setDiffuse(Vector3f diffuse) {
-		this.diffuse.set(diffuse);
-	}
+    public void setDiffuse(Vector3f diffuse) {
+        this.diffuse.set(diffuse);
+    }
 }

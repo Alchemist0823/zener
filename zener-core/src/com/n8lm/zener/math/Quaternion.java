@@ -916,14 +916,14 @@ public final class Quaternion implements Cloneable, Serializable {
 
     /**
      *
-     * <code>toAxes</code> takes in an array of three vectors. Each vector
+     * <code>toAxis</code> takes in an array of three vectors. Each vector
      * corresponds to an axis of the coordinate system defined by the quaternion
      * rotation.
      *
      * @param axis
      *            the array of vectors to be filled.
      */
-    public void toAxes(Vector3f axis[]) {
+    public void toAxis(Vector3f axis[]) {
         Matrix3f tempMat = toRotationMatrix();
         axis[0] = tempMat.getColumn(0, axis[0]);
         axis[1] = tempMat.getColumn(1, axis[1]);

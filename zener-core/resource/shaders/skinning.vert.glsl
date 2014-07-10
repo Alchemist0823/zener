@@ -2,7 +2,7 @@ uniform mat4 g_ViewMatrix;
 uniform mat4 g_ModelMatrix;
 uniform mat4 g_ProjectionMatrix;
 
-uniform mat4 BoneMatrices[40];
+uniform mat4 BoneMatrices[100];
 
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec2 inTexCoord;

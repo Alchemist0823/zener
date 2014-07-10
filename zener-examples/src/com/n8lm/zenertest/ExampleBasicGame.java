@@ -1,5 +1,6 @@
 package com.n8lm.zenertest;
 
+import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.n8lm.zener.animation.AnimationSystem;
 import com.n8lm.zener.app.BasicGame;
@@ -18,7 +19,8 @@ import com.n8lm.zener.script.GlobalScriptSystem;
  */
 public class ExampleBasicGame extends BasicGame{
 
-    private String gameName;
+    protected String gameName;
+    protected World world;
 
     public ExampleBasicGame(String gameName, String gameTitle) {
         super(gameTitle);
@@ -30,12 +32,10 @@ public class ExampleBasicGame extends BasicGame{
 
         resourceManager.loadDataConfig("./res/" + this.gameName + "/config.cfg");
 
+        world = new World();
         world.setManager(new TagManager());
-    }
 
-    @Override
-    protected void afterInit() {
-
+        setWorld("game", world);
     }
 
     @Override

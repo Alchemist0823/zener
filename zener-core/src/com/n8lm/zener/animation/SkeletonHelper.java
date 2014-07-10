@@ -31,11 +31,10 @@ import com.n8lm.zener.math.Transform;
 public class SkeletonHelper {
 
 
-	public static Matrix4f[] calcTransformMatrix(List<Transform> poses, Skeleton skeleton) {
+	public static void calcTransformMatrix(List<Transform> poses, Skeleton skeleton, final Matrix4f[] m4a) {
 
-		List<Joint> joints = skeleton.getJoints(); 
-		Matrix4f[] m4a = new Matrix4f[skeleton.totalJoints()];
-		for (int i = 0; i < m4a.length; i ++) {
+		List<Joint> joints = skeleton.getJoints();
+		for (int i = 0; i < skeleton.totalJoints(); i ++) {
 
 			m4a[i] = new Matrix4f();
 			m4a[i].setTransform(poses.get(i));
@@ -50,6 +49,5 @@ public class SkeletonHelper {
 			if (joints.get(i).parent >= 0)
 				m4a[joints.get(i).parent].mult(m4a[i], m4a[i]);
 		}
-		return m4a;
 	}
 }

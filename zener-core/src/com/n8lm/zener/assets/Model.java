@@ -57,6 +57,25 @@ public class Model {
 		return skeleton;
 	}
 
+    public void combineBoneToSkeleton(Skeleton anotherSkeleton) {
+        if (mesh.hasBoneAssignment()) {
+            for (int i = 0, s = mesh.boneIndices.size(); i < s; i ++) {
+                String name = skeleton.getJoints().get(mesh.boneIndices.get(i).b1).name;
+                mesh.boneIndices.get(i).b1 = (byte) anotherSkeleton.getJointIndexByName(name);
+
+                name = skeleton.getJoints().get(mesh.boneIndices.get(i).b2).name;
+                mesh.boneIndices.get(i).b2 = (byte) anotherSkeleton.getJointIndexByName(name);
+
+                name = skeleton.getJoints().get(mesh.boneIndices.get(i).b3).name;
+                mesh.boneIndices.get(i).b3 = (byte) anotherSkeleton.getJointIndexByName(name);
+
+                name = skeleton.getJoints().get(mesh.boneIndices.get(i).b4).name;
+                mesh.boneIndices.get(i).b4 = (byte) anotherSkeleton.getJointIndexByName(name);
+            }
+        }
+        //this.skeleton. = anotherSkeleton;
+    }
+
 	public Mesh getMesh() {
 		return mesh;
 	}

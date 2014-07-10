@@ -26,28 +26,28 @@ import com.n8lm.zener.math.Vector3f;
  */
 public class LightUniforms extends UniformGroup {
 
-	public LightUniforms() {
-		super();
+    public LightUniforms() {
+        super();
         //addUniform("Light[].La", VarType.Vector3f);
-    	uniforms.put("Lights[].La", new UniformVariable("Light.La", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
-    	uniforms.put("Lights[].Ld", new UniformVariable("Light.Ld", VarType.Vector3f, new Vector3f(0.8f, 0.8f, 0.8f)));
-    	uniforms.put("Lights[].Ls", new UniformVariable("Light.Ls", VarType.Vector3f, new Vector3f(1.0f, 1.0f, 1.0f)));
-    	uniforms.put("Lights[].Position", new UniformVariable("Light.Position", VarType.Vector4f));
-	}
+        uniforms.put("Lights[].La", new UniformVariable("Light.La", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
+        uniforms.put("Lights[].Ld", new UniformVariable("Light.Ld", VarType.Vector3f, new Vector3f(0.8f, 0.8f, 0.8f)));
+        uniforms.put("Lights[].Ls", new UniformVariable("Light.Ls", VarType.Vector3f, new Vector3f(1.0f, 1.0f, 1.0f)));
+        uniforms.put("Lights[].Position", new UniformVariable("Light.Position", VarType.Vector4f));
+    }
 
     public void setAmbientColor(float x, float y, float z) {
-    	setVector3f("Light.La", x, y, z);
+        setVector3f("Light.La", x, y, z);
     }
 
     public void setDiffuseColor(float x, float y, float z) {
-    	setVector3f("Light.Ld", x, y, z);
+        setVector3f("Light.Ld", x, y, z);
     }
 
     public void setSpecularColor(float x, float y, float z) {
-    	setVector3f("Light.Ls", x, y, z);
+        setVector3f("Light.Ls", x, y, z);
     }
-    
+
     public void setPosition(float x, float y, float z, float isPoint) {
-    	setVector4f("Light.Position", x, y, z, isPoint);
+        setVector4f("Light.Position", x, y, z, isPoint);
     }
 }

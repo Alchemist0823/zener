@@ -18,27 +18,24 @@
 
 package com.n8lm.zener.graphics;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.ARBShadowAmbient.GL_TEXTURE_COMPARE_FAIL_VALUE_ARB;
-import static org.lwjgl.opengl.GL12.*;
-import static org.lwjgl.opengl.GL14.*;
-
-import java.nio.ByteBuffer;
-
+import com.n8lm.zener.assets.Image;
+import com.n8lm.zener.math.MathUtil;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Util;
 
-import com.n8lm.zener.assets.Image;
-import com.n8lm.zener.math.MathUtil;
+import java.nio.ByteBuffer;
 
-public class Texture extends GLObject{
-	
-	public enum Format {
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+
+public class Texture extends GLObject {
+
+    public enum Format {
         /**
          * 8-bit alpha
          */
         Alpha8(8, GL_ALPHA8),
-        
+
         /**
          * 16-bit alpha
          */
@@ -48,17 +45,17 @@ public class Texture extends GLObject{
          * 8-bit grayscale/luminance.
          */
         Luminance8(8, GL_LUMINANCE8),
-        
+
         /**
          * 16-bit grayscale/luminance.
          */
         Luminance16(16, GL_LUMINANCE16),
-        
+
         /**
          * 8-bit luminance/grayscale and 8-bit alpha.
          */
         Luminance8Alpha8(16, GL_LUMINANCE8_ALPHA8),
-        
+
         /**
          * 16-bit luminance/grayscale and 16-bit alpha.
          */
@@ -68,12 +65,12 @@ public class Texture extends GLObject{
          * 8-bit red, green, and blue.
          */
         RGB8(24, GL_RGB8),
-        
+
         /**
          * 8-bit red, green, blue, and alpha.
          */
         RGBA8(32, GL_RGBA8),
-        
+
         RGB5A1(16, GL_RGB5_A1),
 
         /**
@@ -83,26 +80,27 @@ public class Texture extends GLObject{
         Depth(0, GL_DEPTH_COMPONENT, true),
 
         CubeDepth(0, GL_DEPTH_COMPONENT, true),
-        
+
         CubeColor(0, GL_RGBA8, true);
 
         private int bpp;
         private int glcode;
         private boolean isDepth;
 
-        private Format(int bpp, int glcode){
+        private Format(int bpp, int glcode) {
             this.bpp = bpp;
             this.glcode = glcode;
         }
 
-        private Format(int bpp, int glcode, boolean isDepth){
+        private Format(int bpp, int glcode, boolean isDepth) {
             this(bpp, glcode);
             this.isDepth = isDepth;
         }
+
         /**
          * @return bits per pixel.
          */
-        public int getBitsPerPixel(){
+        public int getBitsPerPixel() {
             return bpp;
         }
 
@@ -112,24 +110,24 @@ public class Texture extends GLObject{
         public int getGLCode() {
             return glcode;
         }
-        
+
         /**
          * @return True if this format is a depth format, false otherwise.
          */
-        public boolean isDepthFormat(){
+        public boolean isDepthFormat() {
             return isDepth;
         }
     }
-	
-	public enum Type {
+
+    public enum Type {
 
         /**
          * Two dimensional texture (default). A rectangle.
          */
         TwoDimensional,
-        
+
         /**
-         * An array of two dimensional textures. 
+         * An array of two dimensional textures.
          */
         TwoDimensionalArray,
 
@@ -248,7 +246,7 @@ public class Texture extends GLObject{
     /**
      * If this texture is a depth texture (the format is Depth*) then
      * this value may be used to compare the texture depth to the R texture
-     * coordinate. 
+     * coordinate.
      */
     public enum ShadowCompareMode {
         /**
@@ -275,104 +273,104 @@ public class Texture extends GLObject{
          */
         GreaterOrEqual
     }
-    
+
     /**
      * The image stored in the texture
      */
-	protected Image image = null;
-	
-	protected int width;
-	protected int height;
-	
+    protected Image image = null;
+
+    protected int width;
+    protected int height;
+
     /**
      * The name of the texture (if loaded as a resource).
      */
     private String name = null;
-    
-	private Format format = Format.RGBA8;
+
+    private Format format = Format.RGBA8;
     private MinFilter minificationFilter = MinFilter.Bilinear;
     private MagFilter magnificationFilter = MagFilter.Bilinear;
     private ShadowCompareMode shadowCompareMode = ShadowCompareMode.Off;
     private boolean needCompareModeUpdate = false;
     private int anisotropicFilter;
 
-	public Texture(int width, int height, Format format) {
-		super(glGenTextures());
-		
-		init();
-		
+    public Texture(int width, int height, Format format) {
+        super(glGenTextures());
+
+        init();
+
         this.width = MathUtil.roundUpPOT(width);
         this.height = MathUtil.roundUpPOT(height);
         this.format = format;
-        
+
         switch (format) {
-		case Alpha16:
-			break;
-		case Alpha8:
-			break;
-		case Depth:
-		    glTexImage2D(
-			      GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0,
-			    GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, (ByteBuffer) null
-			);
+            case Alpha16:
+                break;
+            case Alpha8:
+                break;
+            case Depth:
+                glTexImage2D(
+                        GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0,
+                        GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, (ByteBuffer) null
+                );
 
 	        /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-	        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 0.5F);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 0.5F);
 	        glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);*/
-			break;
-		case Luminance16:
-			break;
-		case Luminance16Alpha16:
-			break;
-		case Luminance8:
-			break;
-		case Luminance8Alpha8:
-			break;
-		case RGB5A1:
-			break;
-		case RGB8:
-		    glTexImage2D(
-				      GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0,
-				      GL_RGB, GL_FLOAT, (ByteBuffer) null
-				);
-			break;
-		case RGBA8:
-		    glTexImage2D(
-				      GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
-				      GL_RGBA, GL_FLOAT, (ByteBuffer) null
-				);
-			break;
-		default:
-			break;
-        
+                break;
+            case Luminance16:
+                break;
+            case Luminance16Alpha16:
+                break;
+            case Luminance8:
+                break;
+            case Luminance8Alpha8:
+                break;
+            case RGB5A1:
+                break;
+            case RGB8:
+                glTexImage2D(
+                        GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0,
+                        GL_RGB, GL_FLOAT, (ByteBuffer) null
+                );
+                break;
+            case RGBA8:
+                glTexImage2D(
+                        GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
+                        GL_RGBA, GL_FLOAT, (ByteBuffer) null
+                );
+                break;
+            default:
+                break;
+
         }
 
-		GLHelper.checkGLError();
+        GLHelper.checkGLError();
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
         //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-        
-		glBindTexture(GL_TEXTURE_2D, 0);
 
-	}
-	
-	
-	public Texture(Image image) {
-		super(glGenTextures());
+        glBindTexture(GL_TEXTURE_2D, 0);
 
-		init();
-		
+    }
+
+
+    public Texture(Image image) {
+        super(glGenTextures());
+
+        init();
+
         this.image = image;
 
         this.width = MathUtil.roundUpPOT(image.getWidth());
         this.height = MathUtil.roundUpPOT(image.getHeight());
 
-        
-        if(width != image.getWidth() || height != image.getHeight()) {
+
+        if (width != image.getWidth() || height != image.getHeight()) {
             glTexImage2D(GL_TEXTURE_2D, 0,
-            		image.getFormat().getTextureFormat().getGLCode(), width, height,
+                    image.getFormat().getTextureFormat().getGLCode(), width, height,
                     0, image.getFormat().getGLCode(), GL_UNSIGNED_BYTE,
-                    (ByteBuffer)null);
-            if(image.getData() != null) {
+                    (ByteBuffer) null);
+            if (image.getData() != null) {
                 Util.checkGLError();
                 glTexSubImage2D(GL_TEXTURE_2D, 0,
                         0, 0, image.getWidth(), image.getHeight(), image.getFormat().getGLCode(),
@@ -380,7 +378,7 @@ public class Texture extends GLObject{
             }
         } else {
             glTexImage2D(GL_TEXTURE_2D, 0,
-            		image.getFormat().getTextureFormat().getGLCode(), width, height,
+                    image.getFormat().getTextureFormat().getGLCode(), width, height,
                     0, image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, image.getData());
         }
 
@@ -388,141 +386,141 @@ public class Texture extends GLObject{
         this.setFormat(image.getFormat().getTextureFormat());
         
 		/*glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
-		//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 0.5f);*/
+        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FAIL_VALUE_ARB, 0.5f);*/
 		/*
 		glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 		glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 		glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);*/
 
-		glTexImage2D(
-		      GL_TEXTURE_2D, 0, format.getGLCode(), width, height, 0,
-		      image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, (ByteBuffer) image.getData()
-		);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+        glTexImage2D(
+                GL_TEXTURE_2D, 0, format.getGLCode(), width, height, 0,
+                image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, (ByteBuffer) image.getData()
+        );
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
-	private void init() {
-		glBindTexture(GL_TEXTURE_2D, id);
+    private void init() {
+        glBindTexture(GL_TEXTURE_2D, id);
 
         //glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
         //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-        if(GLContext.getCapabilities().OpenGL12) {
+        if (GLContext.getCapabilities().OpenGL12) {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         } else {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
         }
-        
+
         switch (magnificationFilter) {
-		case Bilinear:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			break;
-		case Nearest:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			break;
-		default:
-			break;
-		}
-		
-		switch (minificationFilter) {
-		case Bilinear:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			break;
-		case Nearest:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public Image getImage() {
-		return image;
-	}
+            case Bilinear:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                break;
+            case Nearest:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                break;
+            default:
+                break;
+        }
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
+        switch (minificationFilter) {
+            case Bilinear:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                break;
+            case Nearest:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                break;
+            default:
+                break;
+        }
+    }
 
-	public int getWidth() {
-		return width;
-	}
+    public Image getImage() {
+        return image;
+    }
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public int getWidth() {
+        return width;
+    }
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getHeight() {
+        return height;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
-	public MagFilter getMagnificationFilter() {
-		return magnificationFilter;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setMagnificationFilter(MagFilter magnificationFilter) {
-		this.magnificationFilter = magnificationFilter;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public ShadowCompareMode getShadowCompareMode() {
-		return shadowCompareMode;
-	}
+    public MagFilter getMagnificationFilter() {
+        return magnificationFilter;
+    }
 
-	public void setShadowCompareMode(ShadowCompareMode shadowCompareMode) {
-		this.shadowCompareMode = shadowCompareMode;
-	}
+    public void setMagnificationFilter(MagFilter magnificationFilter) {
+        this.magnificationFilter = magnificationFilter;
+    }
 
-	public boolean isNeedCompareModeUpdate() {
-		return needCompareModeUpdate;
-	}
+    public ShadowCompareMode getShadowCompareMode() {
+        return shadowCompareMode;
+    }
 
-	public void setNeedCompareModeUpdate(boolean needCompareModeUpdate) {
-		this.needCompareModeUpdate = needCompareModeUpdate;
-	}
+    public void setShadowCompareMode(ShadowCompareMode shadowCompareMode) {
+        this.shadowCompareMode = shadowCompareMode;
+    }
 
-	public int getAnisotropicFilter() {
-		return anisotropicFilter;
-	}
+    public boolean isNeedCompareModeUpdate() {
+        return needCompareModeUpdate;
+    }
 
-	public void setAnisotropicFilter(int anisotropicFilter) {
-		this.anisotropicFilter = anisotropicFilter;
-	}
+    public void setNeedCompareModeUpdate(boolean needCompareModeUpdate) {
+        this.needCompareModeUpdate = needCompareModeUpdate;
+    }
 
-	public MinFilter getMinificationFilter() {
-		return minificationFilter;
-	}
+    public int getAnisotropicFilter() {
+        return anisotropicFilter;
+    }
 
-	public void setMinificationFilter(MinFilter minificationFilter) {
-		this.minificationFilter = minificationFilter;
-	}
-	
-	public Format getFormat() {
-		return format;
-	}
+    public void setAnisotropicFilter(int anisotropicFilter) {
+        this.anisotropicFilter = anisotropicFilter;
+    }
 
-	public void setFormat(Format format) {
-		this.format = format;
-	}
-	
-	@Override
-	public void deleteObject() {
-		glBindTexture(GL_TEXTURE, id);
+    public MinFilter getMinificationFilter() {
+        return minificationFilter;
+    }
+
+    public void setMinificationFilter(MinFilter minificationFilter) {
+        this.minificationFilter = minificationFilter;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
+    @Override
+    public void deleteObject() {
+        glBindTexture(GL_TEXTURE, id);
         glDeleteTextures(id);
-	}
+    }
 
 }

@@ -18,46 +18,46 @@
 
 package com.n8lm.zener.graphics.geom;
 
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
+import com.n8lm.zener.graphics.VertexBuffer;
+import com.n8lm.zener.graphics.VertexBuffer.Type;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.n8lm.zener.graphics.VertexBuffer;
-import com.n8lm.zener.graphics.VertexBuffer.Type;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
 
 public abstract class InstancingGeometry extends Geometry {
 
-	protected Map<VertexBuffer.Type, Integer> divisors;
-	
-	protected int instancesCount;
-	
-	public InstancingGeometry(String shader) {
-		super(shader);
-		divisors = new HashMap<VertexBuffer.Type, Integer>();
-		instancesCount = 0;
-	}
+    protected Map<VertexBuffer.Type, Integer> divisors;
 
-	@Override
-	public void createGL() {
-		super.createGL();
-		
-		glBindVertexArray(id);
+    protected int instancesCount;
 
-		for (Entry<Type, VertexBuffer> vb: vbs.entrySet()) {
-			
-			glVertexAttribDivisor(vb.getKey().id, divisors.get(vb.getKey()).intValue());
-		}
-		
-		glBindVertexArray(0);
-		
-	}
+    public InstancingGeometry(String shader) {
+        super(shader);
+        divisors = new HashMap<VertexBuffer.Type, Integer>();
+        instancesCount = 0;
+    }
 
-	
-	public int getInstancesCount() {
-		return instancesCount;
-	}
+    @Override
+    public void createGL() {
+        super.createGL();
+
+        glBindVertexArray(id);
+
+        for (Entry<Type, VertexBuffer> vb : vbs.entrySet()) {
+
+            glVertexAttribDivisor(vb.getKey().id, divisors.get(vb.getKey()).intValue());
+        }
+
+        glBindVertexArray(0);
+
+    }
+
+
+    public int getInstancesCount() {
+        return instancesCount;
+    }
 
 }

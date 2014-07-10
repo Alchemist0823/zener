@@ -82,23 +82,23 @@ public class AttachSystem extends EntityProcessingSystem {
 				isUpdated.set(stack[stackSize].getId());
 				t = tm.get(stack[stackSize]);
 				t.getWorldTransform().set(t.getLocalTransform());
+                // bone transform
+                if (t.getJoint() != -1)	{
+                    SkeletonComponent skl = t.getAttached().getComponent(SkeletonComponent.class);
+
+                    Matrix4f boneMat =
+                            skl.getCurrentPosesMatrices()[t.getJoint()].mult(
+                                    skl.getBaseSkeleton().getJoints().get(t.getJoint()).base);
+                    Transform boneTransform = new Transform(boneMat.toTranslationVector(), boneMat.toRotationQuat(), boneMat.toScaleVector());
+                    boneTransform.combineFromParent(t.getWorldTransform());
+                    t.getWorldTransform().set(boneTransform);
+                }
 				t.getWorldTransform().combineFromParent(tm.get(t.getAttached()).getWorldTransform());
 				
 				//set visible
 				//if (gm.has(stack[stackSize]) && gm.has(t.getAttached()))
 				//	gm.get(stack[stackSize]).setVisible(gm.get(t.getAttached()).isVisible());
-				
-				// bone transform
-				if (t.getJoint() != -1)	{
-					SkeletonComponent skl = t.getAttached().getComponent(SkeletonComponent.class);
-					
-					Matrix4f boneMat = 
-							skl.getCurrentPosesMatrices()[t.getJoint()].mult(
-									skl.getBaseSkeleton().getJoints().get(t.getJoint()).base);
-					Transform boneTransform = new Transform(boneMat.toTranslationVector(), boneMat.toRotationQuat(), boneMat.toScaleVector());
-					boneTransform.combineFromParent(t.getWorldTransform());
-					t.getWorldTransform().set(boneTransform);
-				}
+
 			}
 		}
 	}

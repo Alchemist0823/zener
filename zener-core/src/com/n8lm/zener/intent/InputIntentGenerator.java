@@ -23,7 +23,7 @@ import com.n8lm.zener.input.InputListener;
 
 abstract public class InputIntentGenerator extends IntentGenerator implements InputListener {
 
-	public InputIntentGenerator(World world) {
-		super(world);
+	public InputIntentGenerator() {
+		super();
 	}
 }

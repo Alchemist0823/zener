@@ -23,6 +23,10 @@ import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.intent.InputIntentGenerator;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * Basic Game
  * Any game class should extend this class
@@ -33,14 +37,14 @@ public abstract class BasicGame {
 	
 	static protected BasicGame game;
 	
-	protected World world;
+	protected Map<String, World> worlds;
 	protected GameContainer container;
 	protected ResourceManager resourceManager;
 	protected GameInfoManager gameInfoManager;
 	protected String title;
 
-	protected boolean gameStarted;
-	protected boolean running;
+	//protected boolean gameStarted;
+	//protected boolean running;
 	protected boolean isCloseRequested;
 	
 	static public BasicGame getInstance() {
@@ -50,21 +54,8 @@ public abstract class BasicGame {
 	public BasicGame(String title) {
 		super();
 		this.title = title;
+        worlds = new TreeMap<String, World>();
 		game = this;
-	}
-
-
-	public boolean isGameRunning() {
-		return running;
-	}
-
-	public boolean isGameStarted() {
-		return gameStarted;
-	}
-	
-	public void startNewGame() {
-		gameStarted = true;
-		running = true;
 	}
 	
 	/**
@@ -76,19 +67,20 @@ public abstract class BasicGame {
 	public void init(GameContainer container) {
 		this.container = container;
 		
-		gameStarted = running = isCloseRequested = false;
+		//gameStarted = running =
+        isCloseRequested = false;
 		
 		resourceManager = new ResourceManager();
 		gameInfoManager = new GameInfoManager();
-		
-        world = new World();
 
 		init();
-
-        world.initialize();
         
-        afterInit();
+        //afterInit();
 	}
+
+    public void setWorld(String worldName, World world) {
+        worlds.put(worldName, world);
+    }
 
 	/**
 	 * Set up Database, Resource, EntitySystems and Managers
@@ -97,8 +89,8 @@ public abstract class BasicGame {
 	
 	/**
 	 * Initialize entities
-	 */
 	protected abstract void afterInit();
+    */
 	
 	/**
 	 * Update the game logic here. No rendering should take place in this method
@@ -108,8 +100,10 @@ public abstract class BasicGame {
 	 * @param delta The amount of time thats passed since last update in milliseconds
 	 */
 	public void update(GameContainer container, int delta) {
-        world.setDelta(delta);
-        world.process();
+        for (World world : worlds.values()) {
+            world.setDelta(delta);
+            world.process();
+        }
 	}
 	
 	/**
@@ -124,15 +118,14 @@ public abstract class BasicGame {
 	public void close() {
 		isCloseRequested = true;
 	}
-	
 
 	public GameContainer getContainer() {
 		return container;
 	}
 
-    public void addInputIntentGenerator(InputIntentGenerator iig) {
+    /*public void addInputIntentGenerator(InputIntentGenerator iig) {
         this.getContainer().getInput().addListener(iig);
-    }
+    }*/
 
 	/**
 	 * Get the title of this game 
@@ -147,8 +140,8 @@ public abstract class BasicGame {
 	 */
 	public abstract void destory();
 
-	public World getWorld() {
-		return world;
+	public World getWorld(String name) {
+		return worlds.get(name);
 	}
 	
 }

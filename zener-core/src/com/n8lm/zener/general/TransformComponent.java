@@ -27,6 +27,7 @@ import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.artemis.Component;
 import com.artemis.Entity;
+import com.n8lm.zener.utils.ZenerException;
 
 public class TransformComponent extends Component {
 	
@@ -53,14 +54,22 @@ public class TransformComponent extends Component {
 	
 	public TransformComponent(Entity attached, String bone, Transform transform) {
 		joint = -1;
-		setAttached(attached, bone);
-		worldTransform = new Transform();
+        try {
+            setAttached(attached, bone);
+        } catch (ZenerException e) {
+            e.printStackTrace();
+        }
+        worldTransform = new Transform();
 		localTransform = new Transform(transform);
 	}
 	
 	public TransformComponent(Entity attached, String bone, Vector3f trans, Quaternion rot, Vector3f scale) {
 		joint = -1;
-		setAttached(attached, bone);
+        try {
+            setAttached(attached, bone);
+        } catch (ZenerException e) {
+            e.printStackTrace();
+        }
 		worldTransform = new Transform();
 		localTransform = new Transform(trans, rot, scale);
 	}
@@ -85,23 +94,21 @@ public class TransformComponent extends Component {
 	}
 	
 
-	public void setAttached(Entity attached, String bone) {
+	public void setAttached(Entity attached, String bone) throws ZenerException {
 		if (bone != null)
 			if (attached != null && attached.getComponent(SkeletonComponent.class) == null)
-				throw new IllegalArgumentException("attached entity has no Skeleton component");
+				throw new ZenerException("attached entity has no Skeleton component");
 			else {
 				List<Joint> joints = attached.getComponent(SkeletonComponent.class).getBaseSkeleton().getJoints();
 				int i;
 				for (i = 0; i < joints.size(); i ++)
-					if (joints.get(i).name.equals(bone))
-					{
+					if (joints.get(i).name.equals(bone)) {
 						joint = i;
 						break;
 					}
-				if (i == joints.size())
-				{
+				if (i == joints.size())	{
 					joint = -1;
-					throw new IllegalArgumentException("attached entity has no this bone in Skeleton component");
+					throw new ZenerException("attached entity has no this bone in Skeleton component");
 				}
 			}
 		setAttached(attached);

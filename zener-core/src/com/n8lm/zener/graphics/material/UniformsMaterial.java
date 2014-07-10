@@ -22,5 +22,5 @@ import com.n8lm.zener.graphics.UniformGroup;
 
 public abstract class UniformsMaterial extends UniformGroup {
 
-	public abstract String getShaderName();
+    public abstract String getShaderName();
 }

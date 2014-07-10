@@ -262,6 +262,8 @@ public class ResourceManager {
                 }
                 if (strs[0].compareTo("model") == 0) {
                     loadTexturedModel(strs[1], strs[2]);
+                    if (strs.length > 4 && strs[3].equals("-sk"))
+                        getModel(strs[1]).combineBoneToSkeleton(getModel(strs[4]).getSkeleton());
                 } else if (strs[0].compareTo("shader") == 0) {
                     String[] filenames = new String[strs.length - 2];
                     for (int i = 0; i < filenames.length; i++) {

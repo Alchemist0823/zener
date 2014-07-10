@@ -27,18 +27,9 @@ import com.artemis.World;
 public abstract class UniqueGameInfo {
 
 	protected GameInfoManager gameInfoManager;
-	protected World world;
-	
-	protected UniqueGameInfo(World world) {
-		this.world = world;
-	}
 
 	void setGameInfoManager(GameInfoManager gameInfoManager) {
 		this.gameInfoManager = gameInfoManager;
-	}
-	
-	public World getWorld() {
-		return world;
 	}
 	
 	public abstract void read(InputStream input) throws IOException;

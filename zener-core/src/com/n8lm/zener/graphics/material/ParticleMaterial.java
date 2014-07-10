@@ -25,7 +25,7 @@ import com.n8lm.zener.graphics.Texture;
 /**
  * Created by Alchemist on 2014/6/28.
  */
-public class ParticleMaterial extends UniformsMaterial{
+public class ParticleMaterial extends UniformsMaterial {
 
     public ParticleMaterial(Material material) {
         addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);

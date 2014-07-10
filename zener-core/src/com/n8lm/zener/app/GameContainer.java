@@ -102,8 +102,7 @@ public abstract class GameContainer {
 
 	/**
 	 * Construct our game and set it running.
-	 * 
-	 * @param fullscreen
+	 *
 	 * 
 	 */
 	public GameContainer(BasicGame game) {
@@ -320,12 +319,14 @@ public abstract class GameContainer {
 	 * @return The build number of slick
 	 */
 	public static int getBuildVersion() {
-		try {
+		try {/*
 			Properties props = new Properties();
 			props.load(ResourceManager.getInstance().getResourceAsStream(
 					"version"));
-
-			int build = Integer.parseInt(props.getProperty("build"));
+            *
+            */
+            int build = 0;
+			//int build = Integer.parseInt(props.getProperty("build"));
 			LOGGER.info("Zener Build #" + build);
 
 			return build;
