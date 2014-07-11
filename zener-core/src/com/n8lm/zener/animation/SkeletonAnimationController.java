@@ -31,17 +31,27 @@ public class SkeletonAnimationController extends AnimationController<PosesKeyFra
 		super(anim);
 	}
 
+    public SkeletonAnimationController(Animation<PosesKeyFrame> anim,
+                                       boolean isLoop) {
+        this(anim, isLoop, 1.0f);
+    }
+
 	public SkeletonAnimationController(Animation<PosesKeyFrame> anim,
-			boolean isLoop) {
-		super(anim, isLoop);
+			boolean isLoop, float speed) {
+		super(anim, isLoop, speed);
 	}
 
 	@Override
 	protected void process(int nowIndex, int nextIndex, Entity e) {
-		
+
+        PosesKeyFrame nextFrame = anim.getFrame(nextIndex);
 		PosesKeyFrame keyframe = anim.getFrame(nowIndex);
-		
-		e.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(keyframe.getPoseMatrices());
+        float delta;
+        if (nextFrame.getTime() - keyframe.getTime() == 0)
+            delta = 0.0f;
+        else
+            delta = (time - keyframe.getTime()) / (nextFrame.getTime() - keyframe.getTime());
+		e.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(keyframe.getPoseMatrices(), nextFrame.getPoseMatrices(), delta);
 
 		//List<Pose> poses = keyframe.getPoses();
 		/*

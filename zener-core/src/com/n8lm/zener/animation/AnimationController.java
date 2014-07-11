@@ -32,18 +32,19 @@ public abstract class AnimationController<T extends KeyFrame>{
 
 	protected Animation<T> anim;
 	
-	protected int time;
+	protected float time;
 	protected int frameIndex;
 	protected boolean isLoop;
 	protected boolean isDeleted;
+    protected float speed;
 	
 	//private List<EndEventListener> listeners;
 	
 	public AnimationController(Animation<T> anim) {
-		this(anim, false);
+		this(anim, false, 1.0f);
 	}
 	
-	public AnimationController(Animation<T> anim, boolean isLoop) {
+	public AnimationController(Animation<T> anim, boolean isLoop, float speed) {
 		if (anim == null)
 			throw new IllegalArgumentException("Animation is empty");
 		this.anim = anim;
@@ -51,11 +52,11 @@ public abstract class AnimationController<T extends KeyFrame>{
 		time = 0;
 		frameIndex  = -1;
 		this.isLoop = isLoop;
+        this.speed = speed;
 	}
 
 	/**
-	 * 
-	 * @param ac
+	 * Process the animation of the entity
 	 * @param e
 	 * @return whether the animationController should be removed
 	 */
@@ -64,7 +65,7 @@ public abstract class AnimationController<T extends KeyFrame>{
 		if (isDeleted())
 			return true;
 		
-		if (frameIndex + 1 < anim.getTotalFrame() 
+		while (frameIndex + 1 < anim.getTotalFrame()
 				&& anim.getFrame(frameIndex + 1).getTime() <= time)
 			frameIndex ++;
 		
@@ -75,7 +76,7 @@ public abstract class AnimationController<T extends KeyFrame>{
 		else
 			process(frameIndex, frameIndex + 1, e);
 		
-		time ++;
+		time += speed;
 		
 		if(time > anim.getTotalTime())
 		{
@@ -130,8 +131,11 @@ public abstract class AnimationController<T extends KeyFrame>{
 		return frameIndex;
 	}
 
-	public int getTime() {
+	public float getTime() {
 		return time;
 	}
 
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 }

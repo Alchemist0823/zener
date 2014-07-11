@@ -7,3 +7,6 @@ deprecated/
 *.iml
 *.blend
 *.class
+*.png
+*.iqe
+*.mtl

@@ -39,7 +39,7 @@ import com.n8lm.zener.utils.ZenerException;
 
 
 /**
- * A game container that will display the game as an stand alone 
+ * A game container that will display the game as an stand alone
  * application.
  *
  * @author kevin, Alchemist

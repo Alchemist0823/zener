@@ -973,7 +973,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
      * @param scalar
      *            the scalar to multiply this matrix by.
      */
-    public void multLocal(float scalar) {
+    public Matrix4f multLocal(float scalar) {
         m00 *= scalar;
         m01 *= scalar;
         m02 *= scalar;
@@ -990,6 +990,7 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
         m31 *= scalar;
         m32 *= scalar;
         m33 *= scalar;
+        return this;
     }
 
     public Matrix4f mult(float scalar) {
@@ -1676,11 +1677,11 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
 
     /**
      * <code>add</code> adds the values of a parameter matrix to this matrix.
-     * 
+     *
      * @param mat
      *            the matrix to add to this.
      */
-    public void addLocal(Matrix4f mat) {
+    public Matrix4f addLocal(Matrix4f mat) {
         m00 += mat.m00;
         m01 += mat.m01;
         m02 += mat.m02;
@@ -1697,6 +1698,34 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
         m31 += mat.m31;
         m32 += mat.m32;
         m33 += mat.m33;
+        return this;
+    }
+
+
+    /**
+     * <code>subtract</code> subtracts the values of a parameter matrix to this matrix.
+     *
+     * @param mat
+     *            the matrix to add to this.
+     */
+    public Matrix4f subtractLocal(Matrix4f mat) {
+        m00 -= mat.m00;
+        m01 -= mat.m01;
+        m02 -= mat.m02;
+        m03 -= mat.m03;
+        m10 -= mat.m10;
+        m11 -= mat.m11;
+        m12 -= mat.m12;
+        m13 -= mat.m13;
+        m20 -= mat.m20;
+        m21 -= mat.m21;
+        m22 -= mat.m22;
+        m23 -= mat.m23;
+        m30 -= mat.m30;
+        m31 -= mat.m31;
+        m32 -= mat.m32;
+        m33 -= mat.m33;
+        return this;
     }
 
     public Vector3f toTranslationVector() {
@@ -2322,5 +2351,14 @@ public final class Matrix4f implements Cloneable, java.io.Serializable {
 		this.m31 += this.m01 * vec.x + this.m11 * vec.y + this.m21 * vec.z;
 		this.m32 += this.m02 * vec.x + this.m12 * vec.y + this.m22 * vec.z;
 		this.m33 += this.m03 * vec.x + this.m13 * vec.y + this.m23 * vec.z;
+    }
+
+    public Matrix4f interpolate(Matrix4f matrix, float delta) {
+
+        Matrix4f mat = new Matrix4f(matrix);
+
+        mat.subtractLocal(this).multLocal(delta).addLocal(this);
+
+        return mat;
     }
 }

@@ -73,6 +73,12 @@ public class SkeletonComponent extends Component {
         }
     }
 
+    public void setCurrentPosesMatrices(Matrix4f[] poseMatrices1, Matrix4f[] poseMatrices2, float delta) {
+        for (int i = 0; i < poseMatrices.length; i ++) {
+            this.poseMatrices[i] = poseMatrices1[i].interpolate(poseMatrices2[i], delta);
+        }
+    }
+
 	/*public void setCurrentPosesMatrices(Matrix4f[] poseMatrices) {
 		this.poseMatrices = poseMatrices;
 	}*/

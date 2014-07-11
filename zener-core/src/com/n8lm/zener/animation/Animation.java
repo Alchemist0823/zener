@@ -30,7 +30,7 @@ public class Animation<T extends KeyFrame> {
 
 	protected String name;
 	protected List<T> frames;
-	protected int totalTime;
+	protected float totalTime;
 	
 	public Animation() {
 		this.name = "undefine";
@@ -60,7 +60,7 @@ public class Animation<T extends KeyFrame> {
 		return frames.get(index);
 	}
 	
-	public int getTotalTime() {
+	public float getTotalTime() {
 		return totalTime;
 	}
 	

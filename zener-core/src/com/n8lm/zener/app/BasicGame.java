@@ -128,7 +128,7 @@ public abstract class BasicGame {
     }*/
 
 	/**
-	 * Get the title of this game 
+	 * Get the title of this game
 	 * 
 	 * @return The title of the game
 	 */

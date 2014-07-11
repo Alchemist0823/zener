@@ -26,17 +26,17 @@ package com.n8lm.zener.animation;
  */
 public abstract class KeyFrame {
 
-	private int time;
+	private float time;
 	
-	protected KeyFrame(int time) {
+	protected KeyFrame(float time) {
 		this.time = time;
 	}
 
-	public int getTime() {
+	public float getTime() {
 		return time;
 	}
 	
-	public void setTime(int time) {
+	public void setTime(float time) {
 		this.time = time;
 	}
 }
