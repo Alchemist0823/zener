@@ -39,22 +39,11 @@ public class RangerGame extends ExampleBasicGame{
     }
 
     Entity cam, controlCenter, character, mapEntity, light1;
+    Entity weapon;
 
     @Override
     protected void init() {
         super.init();
-
-
-
-        world.setSystem(new GlobalScriptSystem());
-        world.setSystem(new AnimationSystem());
-        //world.setSystem(new Character)
-        world.setSystem(new AttachSystem());
-        world.setSystem(new GLRenderSystem(world));
-
-        Model model = resourceManager.getModel("human");
-
-        world.initialize();
 
         TiledMap map = new TiledMap();
         try {
@@ -63,32 +52,55 @@ public class RangerGame extends ExampleBasicGame{
             e.printStackTrace();
         }
 
+        world.setSystem(new GlobalScriptSystem());
+        world.setSystem(new AnimationSystem());
+        world.setSystem(new TiledMapPositionSystem(map));
+        world.setSystem(new AttachSystem());
+        world.setSystem(new GLRenderSystem(world));
+
+        Model characterModel = resourceManager.getModel("human");
+
+        world.initialize();
+
+        // add Map
         mapEntity = world.createEntity();
         mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry(map)));
         mapEntity.addComponent(new MaterialComponent(new TiledMapMaterial(map.getTileSet())));
         mapEntity.addComponent(new TransformComponent(new Transform()));
         world.addEntity(mapEntity);
 
+        // add the structure entity of the character
         controlCenter = world.createEntity();
         Transform characterTransform = new Transform(10, 10, 0);
         controlCenter.addComponent(new TransformComponent(mapEntity, characterTransform));
+        controlCenter.addComponent(new MapPositionComponent());
         world.addEntity(controlCenter);
 
+        // ad.set("")
+        // add character entity
         AbilityData ad = new AbilityData();
+        CharacterComponent cc = new CharacterComponent(100, ad);
         ad.set("strength", 10);
         ad.set("agility", 10);
-        // ad.set("")
-        // add notorious suzanne model entity
         character = world.createEntity();
-        character.addComponent(new GeometryComponent(new ModelGeometry(model.getMesh()), false));
-        character.addComponent(new MaterialComponent(new NormalMaterial(model.getMaterial()), false));
-        character.addComponent(new CharacterComponent(100, ad));
+        character.addComponent(new GeometryComponent(new ModelGeometry(characterModel.getMesh()), false));
+        character.addComponent(new MaterialComponent(new NormalMaterial(characterModel.getMaterial()), false));
+        character.addComponent(cc);
         character.addComponent(new AnimationComponent());
         character.addComponent(new VelocityComponent());
-        character.addComponent(new SkeletonComponent(model.getSkeleton()));
-        //characterTransform.getRotation().lookAt(new Vector3f(0, 3, 0), new Vector3f(0, 0, 3));
+        character.addComponent(new SkeletonComponent(characterModel.getSkeleton()));
         character.addComponent(new TransformComponent(controlCenter, new Transform()));
         world.addEntity(character);
+
+        // add weapon entity
+        Model weaponModel = resourceManager.getModel("bow");
+        weapon = world.createEntity();
+        weapon.addComponent(new GeometryComponent(new ModelGeometry(weaponModel.getMesh()), false));
+        weapon.addComponent(new MaterialComponent(new NormalMaterial(weaponModel.getMaterial()), false));
+        weapon.addComponent(new TransformComponent(character, "Weapon.L", new Transform()));
+        world.addEntity(weapon);
+
+        cc.setWeaponEntity(weapon);
 
         // add camera entity
         cam = world.createEntity();

@@ -339,4 +339,12 @@ public class TiledMap implements Savable, Cloneable{
 	public TileSet getTileSet() {
 		return tileSet;
 	}
+
+    public float getPositionAltitude(float x, float y) {
+        int tx = (int) (x / tileWidth);
+        int ty = (int) (y / tileHeight);
+        float dx = (tx + 1 - x / tileWidth);
+        float dy = (ty + 1 - y / tileHeight);
+        return (altitude[tx][ty] * dx * dy + altitude[tx + 1][ty] * (1 - dx) * dy + altitude[tx][ty + 1] * dx * (1 - dy) + altitude[tx + 1][ty + 1] * (1 - dx) * (1 - dy)) * tileAltitude;
+    }
 }

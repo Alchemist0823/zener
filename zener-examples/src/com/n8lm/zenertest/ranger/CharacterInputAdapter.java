@@ -170,6 +170,5 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         }
 
-
     }
 }
