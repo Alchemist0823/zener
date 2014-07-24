@@ -43,8 +43,8 @@ public class TiledMapGeometry extends Geometry {
 
 	protected TiledMap map;
 	
-	public TiledMapGeometry(TiledMap map) {
-		super("tiledmap");
+	public TiledMapGeometry(String name, TiledMap map) {
+		super(name, "tiledmap");
 
 		final float seamfix = 1.0f/128;
 		final float fgw = (1.0f - seamfix * 2) /fragment;

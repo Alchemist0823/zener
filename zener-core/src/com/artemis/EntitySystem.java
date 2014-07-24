@@ -144,9 +144,9 @@ public abstract class EntitySystem implements EntityObserver {
 	}
 
 	private void insertToSystem(Entity e) {
+        inserted(e);
 		actives.add(e);
 		e.getSystemBits().set(systemIndex);
-		inserted(e);
 	}
 	
 	

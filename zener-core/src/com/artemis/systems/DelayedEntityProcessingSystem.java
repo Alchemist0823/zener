@@ -27,35 +27,38 @@ import com.artemis.utils.ImmutableBag;
  * Also, when processing the entities you must also call offerDelay(float delay)
  * for all valid entities.
  * 
- * @author Arni Arent
+ * @author Alchemist
  *
  */
 public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	private float delay;
-	private boolean running;
 	private float acc;
 
 	public DelayedEntityProcessingSystem(Aspect aspect) {
 		super(aspect);
+        delay = 10000000f;
 	}
 
 	@Override
 	protected final void processEntities(ImmutableBag<Entity> entities) {
+        delay = 10000000f;
 		for (int i = 0, s = entities.size(); s > i; i++) {
 			Entity entity = entities.get(i);
 			processDelta(entity, acc);
 			float remaining = getRemainingDelay(entity);
-			if(remaining <= 0) {
+            if(remaining <= 0) {
 				processExpired(entity);
 			} else {
 				offerDelay(remaining);
 			}
 		}
-		stop();
-	}
+        acc = 0;
+    }
 	
 	@Override
 	protected void inserted(Entity e) {
+        delay = acc;
+        processEntities(getActives());
 		float delay = getRemainingDelay(e);
 		if(delay > 0) {
 			offerDelay(delay);
@@ -72,13 +75,11 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	
 	@Override
 	protected final boolean checkProcessing() {
-		//if(running) {
-			acc += world.getDelta();
-			
-			if(acc >= delay) {
-				return true;
-			}
-		//}
+        acc += world.getDelta();
+
+        if(acc >= delay) {
+            return true;
+        }
 		return false;
 	}
 	
@@ -100,12 +101,10 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	 * 
 	 * Cancels current delayed run and starts a new one.
 	 * 
-	 * @param delta time delay until processing starts.
+	 * @param delay time delay until processing starts.
 	 */
 	public void restart(float delay) {
 		this.delay = delay;
-		this.acc = 0;
-		running = true;
 	}
 	
 	/**
@@ -123,8 +122,8 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	 * @param delay
 	 */
 	public void offerDelay(float delay) {
-		if(!running || delay < getRemainingTimeUntilProcessing()) {
-			restart(delay);
+		if(delay < this.delay/*getRemainingTimeUntilProcessing()*/) {
+            restart(delay);
 		}
 	}
 	
@@ -146,28 +145,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	 * @return time when system will run at.
 	 */
 	public float getRemainingTimeUntilProcessing() {
-		if(running) {
-			return delay-acc;
-		}
-		return 0;
-	}
-	
-	/**
-	 * Check if the system is counting down towards processing.
-	 * 
-	 * @return true if it's counting down, false if it's not running.
-	 */
-	public boolean isRunning() {
-		return running;
-	}
-	
-	/**
-	 * Stops the system from running, aborts current countdown.
-	 * Call offerDelay or restart to run it again.
-	 */
-	public void stop() {
-		this.running = false;
-		this.acc = 0;
+		return delay - acc;
 	}
 
 }

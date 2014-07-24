@@ -41,7 +41,7 @@ public class TransformAnimationController extends
 	}
 	
 	public TransformAnimationController(Animation<TransformKeyFrame> anim, Transform origin, boolean isLoop) {
-		super(anim, isLoop, 1.0f);
+		super(anim, isLoop, 1.0f, 0.0f);
 		this.origin = origin;
 	}
 

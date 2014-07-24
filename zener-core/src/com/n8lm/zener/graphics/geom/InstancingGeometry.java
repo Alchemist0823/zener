@@ -34,8 +34,8 @@ public abstract class InstancingGeometry extends Geometry {
 
     protected int instancesCount;
 
-    public InstancingGeometry(String shader) {
-        super(shader);
+    public InstancingGeometry(String name, String shader) {
+        super(name, shader);
         divisors = new HashMap<VertexBuffer.Type, Integer>();
         instancesCount = 0;
     }

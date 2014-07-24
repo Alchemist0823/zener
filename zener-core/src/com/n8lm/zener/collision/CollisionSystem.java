@@ -16,14 +16,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.general;
+package com.n8lm.zener.collision;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.n8lm.zener.collision.*;
+import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Ray;
 import com.n8lm.zener.math.Vector3f;
 
@@ -38,7 +38,6 @@ public class CollisionSystem extends EntityProcessingSystem {
 	public CollisionSystem() {
 		super(Aspect.getAspectForAll(CollidableComponent.class, TransformComponent.class));
 		crs = new CollisionResults();
-		this.setPassive(true);
 	}
 
 	@Override
@@ -129,7 +128,7 @@ public class CollisionSystem extends EntityProcessingSystem {
 
     /**
      */
-    private int collideWithRay(AABBBoundingBox box, Ray ray, Entity e, CollisionResults results) {
+    private int collideWithRay(AABBBoundingBox box, Ray ray, Entity entity, CollisionResults results) {
 
     	Vector3f vect1 = new Vector3f();
     	Vector3f vect2 = new Vector3f();
@@ -155,7 +154,7 @@ public class CollisionSystem extends EntityProcessingSystem {
                     new Vector3f(ray.direction).multLocal(distances[1]).addLocal(ray.origin)
                 };
 
-                CollisionResult result = new CollisionResult(e, points[0], distances[0], 0);
+                CollisionResult result = new CollisionResult(entity, points[0], distances[0], 0);
                 results.addCollision(result);
                 result = new CollisionResult(points[1], distances[1]);
                 results.addCollision(result);
@@ -163,7 +162,7 @@ public class CollisionSystem extends EntityProcessingSystem {
             }
 
             Vector3f point = new Vector3f(ray.direction).multLocal(t[0]).addLocal(ray.origin);
-            CollisionResult result = new CollisionResult(e, point, t[0], 0);
+            CollisionResult result = new CollisionResult(entity, point, t[0], 0);
             results.addCollision(result);
             return 1;
         }

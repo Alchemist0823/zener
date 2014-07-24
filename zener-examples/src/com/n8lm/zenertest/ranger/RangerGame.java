@@ -6,7 +6,11 @@ import com.n8lm.zener.animation.AnimationSystem;
 import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.app.AppGameContainer;
 import com.n8lm.zener.assets.Model;
+import com.n8lm.zener.collision.AABBBoundingBox;
+import com.n8lm.zener.collision.CollidableComponent;
 import com.n8lm.zener.general.AttachSystem;
+import com.n8lm.zener.collision.CollisionSystem;
+import com.n8lm.zener.general.ExpirationSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
@@ -19,6 +23,8 @@ import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.script.ScriptComponent;
+import com.n8lm.zener.script.ScriptHelper;
+import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zener.utils.ZenerException;
 import com.n8lm.zenertest.ExampleBasicGame;
 import org.lwjgl.input.Mouse;
@@ -38,8 +44,34 @@ public class RangerGame extends ExampleBasicGame{
         super("ranger", "Ranger Game");
     }
 
-    Entity cam, controlCenter, character, mapEntity, light1;
-    Entity weapon;
+    Entity cam, mainCharacter, mapEntity, light1;
+
+
+    private Entity createCharacter() {
+        // add character entity
+        AbilityData ad = new AbilityData();
+        CharacterComponent cc = new CharacterComponent(100, ad);
+        ad.set("strength", 10);
+        ad.set("agility", 10);
+        Entity character = world.createEntity();
+        EntityFactory.addDisplayObjectComponents(character, "human", false, false);
+        character.addComponent(cc);
+        character.addComponent(new AnimationComponent());
+        //character.addComponent(new VelocityComponent(new Vector3f()));
+        character.addComponent(new TransformComponent(mapEntity, new Transform()));
+        character.addComponent(new MapPositionComponent());
+        character.addComponent(new CollidableComponent(new AABBBoundingBox(new Vector3f(0f, 0f, 0.9f), 0.5f, 0.2f, 0.9f)));
+        world.addEntity(character);
+
+        // add weapon entity
+        Entity weapon = world.createEntity();
+        EntityFactory.addDisplayObjectComponents(weapon, "bow", false, false);
+        weapon.addComponent(new TransformComponent(character, "Weapon.L", new Transform()));
+        world.addEntity(weapon);
+
+        cc.setWeaponEntity(weapon);
+        return character;
+    }
 
     @Override
     protected void init() {
@@ -53,77 +85,62 @@ public class RangerGame extends ExampleBasicGame{
         }
 
         world.setSystem(new GlobalScriptSystem());
-        world.setSystem(new AnimationSystem());
         world.setSystem(new TiledMapPositionSystem(map));
+        world.setSystem(new ExpirationSystem());
+        world.setSystem(new CollisionSystem(), true);
+        world.setSystem(new PhysicsSystem(world.getSystem(CollisionSystem.class)));
+        world.setSystem(new AnimationSystem());
         world.setSystem(new AttachSystem());
         world.setSystem(new GLRenderSystem(world));
-
-        Model characterModel = resourceManager.getModel("human");
 
         world.initialize();
 
         // add Map
         mapEntity = world.createEntity();
-        mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry(map)));
+        mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry("map", map)));
         mapEntity.addComponent(new MaterialComponent(new TiledMapMaterial(map.getTileSet())));
         mapEntity.addComponent(new TransformComponent(new Transform()));
         world.addEntity(mapEntity);
 
         // add the structure entity of the character
+        /*
         controlCenter = world.createEntity();
         Transform characterTransform = new Transform(10, 10, 0);
         controlCenter.addComponent(new TransformComponent(mapEntity, characterTransform));
         controlCenter.addComponent(new MapPositionComponent());
-        world.addEntity(controlCenter);
+        world.addEntity(controlCenter);*/
 
         // ad.set("")
-        // add character entity
-        AbilityData ad = new AbilityData();
-        CharacterComponent cc = new CharacterComponent(100, ad);
-        ad.set("strength", 10);
-        ad.set("agility", 10);
-        character = world.createEntity();
-        character.addComponent(new GeometryComponent(new ModelGeometry(characterModel.getMesh()), false));
-        character.addComponent(new MaterialComponent(new NormalMaterial(characterModel.getMaterial()), false));
-        character.addComponent(cc);
-        character.addComponent(new AnimationComponent());
-        character.addComponent(new VelocityComponent());
-        character.addComponent(new SkeletonComponent(characterModel.getSkeleton()));
-        character.addComponent(new TransformComponent(controlCenter, new Transform()));
-        world.addEntity(character);
-
-        // add weapon entity
-        Model weaponModel = resourceManager.getModel("bow");
-        weapon = world.createEntity();
-        weapon.addComponent(new GeometryComponent(new ModelGeometry(weaponModel.getMesh()), false));
-        weapon.addComponent(new MaterialComponent(new NormalMaterial(weaponModel.getMaterial()), false));
-        weapon.addComponent(new TransformComponent(character, "Weapon.L", new Transform()));
-        world.addEntity(weapon);
-
-        cc.setWeaponEntity(weapon);
 
         // add camera entity
         cam = world.createEntity();
         cam.addComponent(new ViewComponent(new PerspectiveProjection()));
         Transform camTransform = new Transform(0, -3, 3);
         camTransform.getRotation().lookAt(new Vector3f(0, 3, 0), new Vector3f(0, 0, 3));
-        cam.addComponent(new TransformComponent(controlCenter, camTransform));
+        cam.addComponent(new TransformComponent(mapEntity, camTransform));
         world.addEntity(cam);
+
+        mainCharacter = createCharacter();
+
+        Entity secondCharacter = createCharacter();
+        secondCharacter.getComponent(TransformComponent.class).getLocalTransform().getTranslation().set(10f, 10f, 0);
 
         // add first light entity
         LightComponent lc1 = new LightComponent();
         lc1.setDiffuse(new Vector3f(0.8f, 0.8f, 0.8f));
         light1 = world.createEntity();
         light1.addComponent(lc1);
-        light1.addComponent(new TransformComponent(controlCenter, new Transform(0, 0, 10)));
+        light1.addComponent(new TransformComponent(mainCharacter, new Transform(0, 0, 10)));
         world.addEntity(light1);
 
         Mouse.setGrabbed(true);
 
-        CharacterInputAdapter cia = new CharacterInputAdapter(character, controlCenter, cam);
+        CharacterInputAdapter cia = new CharacterInputAdapter(mainCharacter, cam, mapEntity);
         getContainer().getInput().addListener(cia);
 
-        character.addComponent(new ScriptComponent(Event.WORLD_UPDATE, cia));
+        mainCharacter.addComponent(new ScriptComponent(Event.WORLD_UPDATE, cia));
+
+        ScriptHelper.setup(world);
     }
 
     public static void main(String[] args) throws ZenerException {

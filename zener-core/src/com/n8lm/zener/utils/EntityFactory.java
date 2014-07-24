@@ -74,7 +74,7 @@ public class EntityFactory {
                                              String geometryName, Geometry geometry, UniformsMaterial material,
                                              boolean shadowCaster, Entity attached, String bone) {
         Entity e = createAttachableObject(pos, rot, attached, bone);
-        return addDisplayObjectComponents(e, geometryName, geometry, material,
+        return addDisplayObjectComponents(e, geometry, material,
                 shadowCaster, false);
     }
 
@@ -82,7 +82,7 @@ public class EntityFactory {
                                              String geometryName, Geometry geometry, UniformsMaterial material,
                                              boolean shadowCaster, boolean shadowReceiver, Entity attached, String bone) {
         Entity e = createAttachableObject(pos, rot, attached, bone);
-        return addDisplayObjectComponents(e, geometryName, geometry, material,
+        return addDisplayObjectComponents(e, geometry, material,
                 shadowCaster, shadowReceiver);
     }
 
@@ -94,8 +94,8 @@ public class EntityFactory {
         if (rm.getGeometryManager().hasGeometry(modelName))
             geometry = rm.getGeometryManager().getGeometry(modelName);
         else {
-            geometry = new ModelGeometry(model.getMesh());
-            rm.getGeometryManager().registerGeometry(modelName, geometry);
+            geometry = new ModelGeometry(modelName, model.getMesh());
+            rm.getGeometryManager().registerGeometry(geometry);
         }
         e.getComponent(GeometryComponent.class).setGeometry(geometry);
         e.getComponent(MaterialComponent.class).setMaterial(
@@ -112,16 +112,16 @@ public class EntityFactory {
         e.removeComponent(SkeletonComponent.class);
     }
 
-    public static Entity addDisplayObjectComponents(Entity e,
-                                                    String geometryName, Geometry geometry, UniformsMaterial material,
+    public static Entity addDisplayObjectComponents(Entity e, Geometry geometry, UniformsMaterial material,
                                                     boolean shadowCaster, boolean shadowReceiver) {
 
         ResourceManager rm = ResourceManager.getInstance();
+        String geometryName = geometry.getName();
 
         if (rm.getGeometryManager().hasGeometry(geometryName))
             geometry = rm.getGeometryManager().getGeometry(geometryName);
         else
-            rm.getGeometryManager().registerGeometry(geometryName, geometry);
+            rm.getGeometryManager().registerGeometry(geometry);
 
         e.addComponent(new GeometryComponent(geometry, shadowCaster));
         e.addComponent(new MaterialComponent(material, shadowReceiver));
@@ -141,8 +141,8 @@ public class EntityFactory {
         if (rm.getGeometryManager().hasGeometry(geometryName))
             geometry = rm.getGeometryManager().getGeometry(geometryName);
         else {
-            geometry = new ModelGeometry(mesh);
-            rm.getGeometryManager().registerGeometry(geometryName, geometry);
+            geometry = new ModelGeometry(geometryName, mesh);
+            rm.getGeometryManager().registerGeometry(geometry);
         }
 
         e.addComponent(new GeometryComponent(geometry, shadowCaster));
@@ -160,8 +160,8 @@ public class EntityFactory {
         if (rm.getGeometryManager().hasGeometry(modelName))
             geometry = rm.getGeometryManager().getGeometry(modelName);
         else {
-            geometry = new ModelGeometry(model.getMesh());
-            rm.getGeometryManager().registerGeometry(modelName, geometry);
+            geometry = new ModelGeometry(modelName, model.getMesh());
+            rm.getGeometryManager().registerGeometry(geometry);
         }
         // TODO: Geometry memory
         e.addComponent(new GeometryComponent(geometry, shadowCaster));

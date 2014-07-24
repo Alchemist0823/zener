@@ -30,8 +30,8 @@ import java.nio.FloatBuffer;
 
 public class ModelGeometry extends Geometry {
 
-    public ModelGeometry(Mesh model) {
-        super("standard");
+    public ModelGeometry(String name, Mesh model) {
+        super(name, "standard");
         loadModel(model);
     }
 

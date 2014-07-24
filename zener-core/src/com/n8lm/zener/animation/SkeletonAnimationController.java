@@ -36,10 +36,14 @@ public class SkeletonAnimationController extends AnimationController<PosesKeyFra
         this(anim, isLoop, 1.0f);
     }
 
-	public SkeletonAnimationController(Animation<PosesKeyFrame> anim,
-			boolean isLoop, float speed) {
-		super(anim, isLoop, speed);
-	}
+    public SkeletonAnimationController(Animation<PosesKeyFrame> anim,
+                                       boolean isLoop, float speed) {
+        super(anim, isLoop, speed, 0.0f);
+    }
+    public SkeletonAnimationController(Animation<PosesKeyFrame> anim,
+                                       boolean isLoop, float speed, float time) {
+        super(anim, isLoop, speed, time);
+    }
 
 	@Override
 	protected void process(int nowIndex, int nextIndex, Entity e) {

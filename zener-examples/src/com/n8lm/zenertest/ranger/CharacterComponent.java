@@ -2,6 +2,7 @@ package com.n8lm.zenertest.ranger;
 
 import com.artemis.Component;
 import com.artemis.Entity;
+import com.n8lm.zener.math.Vector3f;
 
 /**
  * Created on 2014/7/11.
@@ -11,17 +12,20 @@ import com.artemis.Entity;
 public class CharacterComponent extends Component {
     private int level;
     private int exp;
-    private float hp;
     private float maxhp;
     //private Weapon weapon;
     transient private Entity weaponEntity;
     private AbilityData abilityData;
 
+    private float[] headAngles;
+    private float health;
+
     public CharacterComponent(float maxhp, AbilityData abilityData) {
         this.level = 1;
         this.exp = 0;
-        this.hp = this.maxhp = maxhp;
+        this.health = this.maxhp = maxhp;
         this.abilityData = abilityData;
+        this.headAngles = new float[3];
     }
 
     @Override
@@ -31,7 +35,7 @@ public class CharacterComponent extends Component {
                         level, exp,
                         weaponEntity.toString(),
                         abilityData.toString(),
-                        hp, maxhp);
+                        health, maxhp);
     }
 
     public int getLevel() {
@@ -68,5 +72,17 @@ public class CharacterComponent extends Component {
 
     public void setWeaponEntity(Entity weaponEntity) {
         this.weaponEntity = weaponEntity;
+    }
+
+    public float[] getHeadAngles() {
+        return headAngles;
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
     }
 }

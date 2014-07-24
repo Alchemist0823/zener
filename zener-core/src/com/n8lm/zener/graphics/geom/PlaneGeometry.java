@@ -28,8 +28,8 @@ import java.nio.FloatBuffer;
 
 public class PlaneGeometry extends Geometry {
 
-    public PlaneGeometry(String shader, boolean hasNormal, boolean hasTextureCoordinates) {
-        super(shader);
+    public PlaneGeometry(String name, String shader, boolean hasNormal, boolean hasTextureCoordinates) {
+        super(name, shader);
         createVertexBuffer(hasNormal, hasTextureCoordinates);
     }
 

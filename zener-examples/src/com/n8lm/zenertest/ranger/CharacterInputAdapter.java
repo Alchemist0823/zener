@@ -5,7 +5,11 @@ import com.artemis.World;
 import com.n8lm.zener.animation.*;
 import com.n8lm.zener.assets.Model;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.general.ExpireComponent;
 import com.n8lm.zener.general.TransformComponent;
+import com.n8lm.zener.graphics.GeometryComponent;
+import com.n8lm.zener.graphics.PerspectiveProjection;
+import com.n8lm.zener.graphics.ViewComponent;
 import com.n8lm.zener.input.Input;
 import com.n8lm.zener.input.InputAdapter;
 import com.n8lm.zener.math.MathUtil;
@@ -14,7 +18,10 @@ import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.NativeScript;
+import com.n8lm.zener.utils.EntityFactory;
 import org.lwjgl.input.Mouse;
+
+import java.util.List;
 
 /**
  * Created on 2014/7/11.
@@ -23,20 +30,24 @@ import org.lwjgl.input.Mouse;
  */
 public class CharacterInputAdapter extends InputAdapter implements NativeScript{
     private final Entity character;
-    private final Entity control;
     private final Entity cam;
+    private final Entity mapEntity;
 
     private final float PI4 = MathUtil.PI / 4;
     private final float[] DIRS = {0.0f, - PI4, - PI4 * 2, - PI4 * 3, - PI4 * 4, - PI4 * 5, - PI4 * 6, - PI4 * 7};
 
-    public CharacterInputAdapter(Entity character, Entity control, Entity cam) {
+    public CharacterInputAdapter(Entity character, Entity cam, Entity mapEntity) {
         this.character = character;
-        this.control = control;
         this.cam = cam;
+        this.mapEntity = mapEntity;
     }
 
-    private float z = 0, x = 2;
+    float[] seeAngles = new float[3];
+    float[] moveAngles = new float[3];
     private Vector3f seeDir = new Vector3f();
+    //private Vector3f characterDir = new Vector3f();
+    //private float characterX, characterZ;
+
 
     boolean move = false;
     boolean keyw = false;
@@ -83,36 +94,143 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             leftShift = false;
     }
 
+    private int button1Frame = 0;
+    private int button2Frame = 0;
+
+    @Override
+    public void mousePressed(int button, int x, int y) {
+        if (button == 0) {
+            button1Frame = 1;
+        }
+        if (button == 1) {
+            button2Frame = 1;
+            seeAngles[0] = character.getComponent(CharacterComponent.class).getHeadAngles()[0];
+            seeAngles[1] = character.getComponent(CharacterComponent.class).getHeadAngles()[1];
+            seeAngles[2] = character.getComponent(CharacterComponent.class).getHeadAngles()[2];
+
+            character.getComponent(GeometryComponent.class).setVisible(false);
+        }
+
+    }
+
+    @Override
+    public void mouseReleased(int button, int x, int y) {
+
+        if (button == 0) {
+
+            character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow").play();
+
+            //Model model = ResourceManager.getInstance().getModel("human");
+            //character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f, 20.0f));
+
+            button1Frame = 0;
+        }
+
+        if (button == 1) {
+
+            character.getComponent(GeometryComponent.class).setVisible(true);
+
+            button2Frame = 0;
+        }
+    }
+
+    private Vector3f[] tempv = new Vector3f[3];
+    private Vector3f tempdir = new Vector3f();
+    private Quaternion temprot = new Quaternion();
+
+    public void angleToVector(float[] angles, Vector3f vector) {
+        Quaternion q = new Quaternion();
+        q.fromAngles(angles);
+        q.toAxis(tempv);
+        vector.set(tempv[2]);
+    }
+
+    public void angleToQuaternion(float[] angles, Quaternion q) {
+        q.fromAngles(angles);
+    }
+
     @Override
     public void run(World world, Event event) {
 
-        z -= Mouse.getDX() / 100.0f;
-        x -= Mouse.getDY() / 100.0f;
-        float[] angles = new float[3];
-        angles[0] = x; //(newy - oldy) / 100.0f;
-        angles[1] = 0;
-        angles[2] = z;//(newx - oldx) / 100.0f;
-
-        if (x < 0.6f)
-            x = 0.6f;
-        if (x > 2.8)
-            x = 2.8f;
 
         move = keya | keyd | keys | keyw;
 
-        cam.getComponent(TransformComponent.class).getLocalTransform().getRotation().fromAngles(angles);
-        Vector3f[] v = new Vector3f[3];
-        cam.getComponent(TransformComponent.class).getLocalTransform().getRotation().toAxis(v);
-        seeDir = v[2];
+        seeAngles[2] -= Mouse.getDX() / 100.0f;
+        seeAngles[1] = 0;
+        seeAngles[0] -= Mouse.getDY() / 100.0f;
 
-        cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().set(seeDir.negate()).multLocal(3.0f).addLocal(0, 0, 2);
-        //System.out.println(x + " " + v[2]);
+        if (seeAngles[0] < 0.6f)
+            seeAngles[0] = 0.6f;
+        if (seeAngles[0] > 2.8)
+            seeAngles[0] = 2.8f;
+
+        angleToVector(seeAngles, seeDir);
+        //seeRot.fromAngles(seeAngles);
+        //Vector3f[] v = new Vector3f[3];
+        //seeRot.toAxis(v);
+        //seeDir = v[2];
+
+        cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().set(seeDir.negate());
+
+        angleToQuaternion(seeAngles, temprot);
+        cam.getComponent(TransformComponent.class).getLocalTransform().getRotation().set(temprot);
 
         Model model = ResourceManager.getInstance().getModel("human");
-        if (move) {
-            Vector3f moveDir;
 
-            Quaternion q = new Quaternion();
+        float camHeight = 2.0f;
+        float camLength = 3.0f;
+        float camFov = 90f;
+
+        AnimationController<?> ac = character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow");
+        if (ac != null && ac.getTime() == 41f) {
+            Entity arrow = world.createEntity();
+            angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
+            angleToQuaternion(character.getComponent(CharacterComponent.class).getHeadAngles(), temprot);
+            arrow.addComponent(new VelocityComponent(new Vector3f(tempdir.mult(10f))));
+            arrow.addComponent(new TransformComponent(mapEntity, new Transform(
+                    character.getComponent(TransformComponent.class).getLocalTransform().getTranslation().add(0, 0, 1.5f).add(tempdir.mult(1.5f)),
+                    temprot,
+                    Vector3f.UNIT_XYZ)));
+            EntityFactory.addDisplayObjectComponents(arrow, "arrow", false, false);
+            //arrow.addComponent(new GeometryComponent(new ModelGeometry(ResourceManager.getInstance().getModel("arrow").getMesh())));
+            //arrow.addComponent(new MaterialComponent(new NormalMaterial(ResourceManager.getInstance().getModel("arrow").getMaterial())));
+            arrow.addComponent(new ExpireComponent(5f));
+            world.addEntity(arrow);
+        }
+
+
+        if (button2Frame > 0) {
+            camHeight = 1.5f;
+            camLength = - 0.2f;
+
+            character.getComponent(CharacterComponent.class).getHeadAngles()[0] = seeAngles[0];
+            character.getComponent(CharacterComponent.class).getHeadAngles()[1] = seeAngles[1];
+            character.getComponent(CharacterComponent.class).getHeadAngles()[2] = seeAngles[2];
+
+            camFov = 60f;
+            button2Frame ++;
+        }
+
+        if (button1Frame > 0) {
+            if (button1Frame == 1) {
+                List<AnimationController<?>> acList = character.getComponent(AnimationComponent.class).getAnimationControllers();
+                for (AnimationController<?> aci : acList) {
+                    aci.delete();
+                }
+                character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f));
+            } else if (button1Frame == 40) {
+                ac.stop();
+                //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
+            }
+            seeDir.z = 0;
+            //character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, seeDir.negate());
+
+            button1Frame ++;
+
+        }
+
+        if (move && (ac == null || ac.getTime() == 39f)) {
+            Vector3f moveDir = new Vector3f();
 
             float angle = 0;
             if (keyw) {
@@ -140,23 +258,33 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
                 angle = DIRS[7];
             }
 
-            angles[2] = z + angle;
-            q.fromAngles(angles);
-            q.toAxis(v);
-            moveDir = v[2];
+            moveAngles[2] = seeAngles[2] + angle;
+            moveAngles[0] = MathUtil.PI / 2;//seeAngles[0];
+            moveAngles[1] = seeAngles[1];
+            angleToVector(moveAngles, moveDir);
             moveDir.z = 0;
             moveDir.normalizeLocal();
 
-            float speed = 0.05f;
+            if (button2Frame == 0) {
+                character.getComponent(CharacterComponent.class).getHeadAngles()[0] = moveAngles[0];
+                character.getComponent(CharacterComponent.class).getHeadAngles()[1] = moveAngles[1];
+                character.getComponent(CharacterComponent.class).getHeadAngles()[2] = moveAngles[2];
+            }
+
+            float speed;
+            if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow") == null) {
+                speed = 0.05f;
+            } else {
+                speed = 0.02f;
+            }
+
             float runConstant = 1.0f;
             if (leftShift) {
                 runConstant *= 2;
             }
-            control.getComponent(TransformComponent.class).getLocalTransform().getTranslation().addLocal(
-                    moveDir.mult(speed * runConstant)
-            );
+            Vector3f charTrans = character.getComponent(TransformComponent.class).getLocalTransform().getTranslation();
+            charTrans.addLocal(moveDir.mult(speed * runConstant));
 
-            character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, moveDir.negate());
             if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Run") == null)
                 character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Run"), true, runConstant));
             else
@@ -167,8 +295,15 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
                 character.getComponent(AnimationComponent.class).removeAnimationControllerByName("Run");
                 character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Idle").getFrame(0).getPoseMatrices());
             }
-
         }
 
+        angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
+        character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, tempdir.negate());
+
+        cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().multLocal(camLength).addLocal(0, 0, camHeight);
+        cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().addLocal(character.getComponent(TransformComponent.class).getLocalTransform().getTranslation());
+
+        ((PerspectiveProjection)cam.getComponent(ViewComponent.class).getProjection()).setFov(camFov);
     }
+
 }

@@ -62,14 +62,16 @@ public abstract class Geometry extends GLObject {
     }
 
     //protected int vaoHandle;
+    protected String name;
     protected PrimitiveType primitiveType;
     protected int vertexCount;
     protected Map<VertexBuffer.Type, VertexBuffer> vbs;
     protected String shader;
     //protected Indexbuffer ib;
 
-    public Geometry(String shader) {
+    public Geometry(String name, String shader) {
         super();
+        this.name = name;
         this.vbs = new HashMap<VertexBuffer.Type, VertexBuffer>();
         //this.vaoHandle = -1;
         this.vertexCount = 0;
@@ -77,6 +79,10 @@ public abstract class Geometry extends GLObject {
         this.primitiveType = PrimitiveType.Triangles;
     }
     //glVertexAttribDivisor
+
+    public String getName() {
+        return name;
+    }
 
     public void createGL() {
 

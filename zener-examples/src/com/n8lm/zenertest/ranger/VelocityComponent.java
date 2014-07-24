@@ -12,6 +12,10 @@ public class VelocityComponent extends Component {
 
     private Vector3f velocity;
 
+    public VelocityComponent(Vector3f velocity) {
+        this.velocity = velocity;
+    }
+
     public Vector3f getVelocity() {
         return velocity;
     }

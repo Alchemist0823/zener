@@ -40,13 +40,14 @@ public class ExpirationSystem extends DelayedEntityProcessingSystem {
 	@Override
 	protected void processDelta(Entity e, float accumulatedDelta) {
 		em.get(e).substract(accumulatedDelta / 1000f);
-	}
+    }
 
 	@Override
 	protected void processExpired(Entity e) {
 		if(em.get(e).getExpireListener() != null)
 			em.get(e).getExpireListener().endEvent(e);
-		world.deleteEntity(e);		
+		world.deleteEntity(e);
+        System.out.print("AAA");
 	}
 
 }

@@ -45,7 +45,7 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
         world.initialize();
         // add notorious suzanne model entity
         model = world.createEntity();
-        model.addComponent(new GeometryComponent(new ModelGeometry(resourceManager.getModel("suzanne").getMesh()), false));
+        model.addComponent(new GeometryComponent(new ModelGeometry("suzanne", resourceManager.getModel("suzanne").getMesh()), false));
         model.addComponent(new MaterialComponent(new NormalMaterial(resourceManager.getModel("suzanne").getMaterial()), false));
         model.addComponent(new TransformComponent(new Transform(0, 0, 0)));
         model.addComponent(new ScriptComponent(Event.WORLD_UPDATE, this));
