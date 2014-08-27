@@ -134,25 +134,11 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
         }
     }
 
-    private Vector3f[] tempv = new Vector3f[3];
     private Vector3f tempdir = new Vector3f();
     private Quaternion temprot = new Quaternion();
 
-    public void angleToVector(float[] angles, Vector3f vector) {
-        Quaternion q = new Quaternion();
-        q.fromAngles(angles);
-        q.toAxis(tempv);
-        vector.set(tempv[2]);
-    }
-
-    public void angleToQuaternion(float[] angles, Quaternion q) {
-        q.fromAngles(angles);
-    }
-
     @Override
     public void run(World world, Event event) {
-
-
         move = keya | keyd | keys | keyw;
 
         seeAngles[2] -= Mouse.getDX() / 100.0f;
@@ -164,7 +150,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
         if (seeAngles[0] > 2.8)
             seeAngles[0] = 2.8f;
 
-        angleToVector(seeAngles, seeDir);
+        Helper.angleToVector(seeAngles, seeDir);
         //seeRot.fromAngles(seeAngles);
         //Vector3f[] v = new Vector3f[3];
         //seeRot.toAxis(v);
@@ -172,7 +158,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().set(seeDir.negate());
 
-        angleToQuaternion(seeAngles, temprot);
+        Helper.angleToQuaternion(seeAngles, temprot);
         cam.getComponent(TransformComponent.class).getLocalTransform().getRotation().set(temprot);
 
         Model model = ResourceManager.getInstance().getModel("human");
@@ -183,19 +169,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         AnimationController<?> ac = character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow");
         if (ac != null && ac.getTime() == 41f) {
-            Entity arrow = world.createEntity();
-            angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
-            angleToQuaternion(character.getComponent(CharacterComponent.class).getHeadAngles(), temprot);
-            arrow.addComponent(new VelocityComponent(new Vector3f(tempdir.mult(10f))));
-            arrow.addComponent(new TransformComponent(mapEntity, new Transform(
-                    character.getComponent(TransformComponent.class).getLocalTransform().getTranslation().add(0, 0, 1.5f).add(tempdir.mult(1.5f)),
-                    temprot,
-                    Vector3f.UNIT_XYZ)));
-            EntityFactory.addDisplayObjectComponents(arrow, "arrow", false, false);
-            //arrow.addComponent(new GeometryComponent(new ModelGeometry(ResourceManager.getInstance().getModel("arrow").getMesh())));
-            //arrow.addComponent(new MaterialComponent(new NormalMaterial(ResourceManager.getInstance().getModel("arrow").getMaterial())));
-            arrow.addComponent(new ExpireComponent(5f));
-            world.addEntity(arrow);
+            character.getComponent(CharacterComponent.class).setAction();
         }
 
 
@@ -261,7 +235,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             moveAngles[2] = seeAngles[2] + angle;
             moveAngles[0] = MathUtil.PI / 2;//seeAngles[0];
             moveAngles[1] = seeAngles[1];
-            angleToVector(moveAngles, moveDir);
+            Helper.angleToVector(moveAngles, moveDir);
             moveDir.z = 0;
             moveDir.normalizeLocal();
 
@@ -297,7 +271,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             }
         }
 
-        angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
+        Helper.angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
         character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, tempdir.negate());
 
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().multLocal(camLength).addLocal(0, 0, camHeight);

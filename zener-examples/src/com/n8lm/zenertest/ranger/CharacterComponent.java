@@ -13,12 +13,24 @@ public class CharacterComponent extends Component {
     private int level;
     private int exp;
     private float maxhp;
+
+    enum Action {
+        Idle,
+        Run,
+        RunWithArrow,
+        Bow,
+        Shoot
+    }
+
+    private Action action;
     //private Weapon weapon;
     transient private Entity weaponEntity;
     private AbilityData abilityData;
 
     private float[] headAngles;
     private float health;
+
+    private int actionTime;
 
     public CharacterComponent(float maxhp, AbilityData abilityData) {
         this.level = 1;
@@ -84,5 +96,21 @@ public class CharacterComponent extends Component {
 
     public void setHealth(float health) {
         this.health = health;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public int getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(int actionTime) {
+        this.actionTime = actionTime;
     }
 }

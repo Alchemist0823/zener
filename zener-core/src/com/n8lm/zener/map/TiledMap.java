@@ -24,16 +24,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Properties;
-import java.util.Scanner;
 
-import com.artemis.Entity;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.data.Savable;
-import com.n8lm.zener.data.TiledMapDatabase;
 
 /**
  * handle the information of tiled map, can not operate components of entity.
@@ -70,11 +65,11 @@ public class TiledMap implements Savable, Cloneable{
 	/** the tile set of the map*/
 	protected TileSet tileSet;
 	
-	public TiledMap() {
+	public TiledMap(TileSet tileSet) {
 		
 		tileWidth = tileHeight = 2;
 		tileAltitude = 0.8f;
-		tileSet = new TileSet();
+		this.tileSet = tileSet;
 	}
 	
 	/**
@@ -133,7 +128,12 @@ public class TiledMap implements Savable, Cloneable{
         	}
         }
 	}
-	
+
+    /**
+     * read map without tile sets
+     * @param input
+     * @throws IOException
+     */
 	@Override
 	public void read(InputStream input) throws IOException {
         
@@ -146,7 +146,7 @@ public class TiledMap implements Savable, Cloneable{
 			str += ch;
 		name = str;
 		
-		tileSet = ResourceManager.getInstance().getDatabase(TiledMapDatabase.class).getTiledMap(name).getTileSet();
+		//tileSet = ResourceManager.getInstance().getDatabase(TiledMapDatabase.class).getTiledMap(name).getTileSet();
 		
         width = reader.readInt();
         height = reader.readInt();
@@ -328,13 +328,17 @@ public class TiledMap implements Savable, Cloneable{
 		this.tileAltitude = tileAltitude;
 	}
 
+    public Tile getTile(Location l) {
+        return tileSet.getTile(terrian[l.x][l.y]);
+    }
+    /*
 	public int getGroundStep(Location l) {
 		return tileSet.getGroundStep(terrian[l.x][l.y]);//, structure[l.x][l.y]);
 	}
 
 	public boolean isGroundAvaliable(Location l) {
 		return tileSet.isAvaliableGround(terrian[l.x][l.y]);//, structure[l.x][l.y]);
-	}
+	}*/
 	
 	public TileSet getTileSet() {
 		return tileSet;

@@ -26,7 +26,7 @@ public class TiledMapMaterial extends UniformsMaterial {
 	
 	public TiledMapMaterial(TileSet ts) {
 		for (int i = 0; i < ts.getTileCount(); i ++) {
-			addUniform("TileSet.texture[" + i + "]", VarType.Texture2D, ResourceManager.getInstance().getTexture(ts.getTextureName(i)));
+			addUniform("TileSet.texture[" + i + "]", VarType.Texture2D, ResourceManager.getInstance().getTexture(ts.getTile(i).getTextureName()));
 		}
 	}
 

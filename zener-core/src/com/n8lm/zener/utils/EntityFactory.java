@@ -70,16 +70,14 @@ public class EntityFactory {
         return addDisplayObjectComponents(e, modelName, mesh, material, shadowCaster, shadowReceiver);
     }
 
-    public static Entity createDisplayObject(Vector3f pos, Quaternion rot,
-                                             String geometryName, Geometry geometry, UniformsMaterial material,
+    public static Entity createDisplayObject(Vector3f pos, Quaternion rot, Geometry geometry, UniformsMaterial material,
                                              boolean shadowCaster, Entity attached, String bone) {
         Entity e = createAttachableObject(pos, rot, attached, bone);
         return addDisplayObjectComponents(e, geometry, material,
                 shadowCaster, false);
     }
 
-    public static Entity createDisplayObject(Vector3f pos, Quaternion rot,
-                                             String geometryName, Geometry geometry, UniformsMaterial material,
+    public static Entity createDisplayObject(Vector3f pos, Quaternion rot, Geometry geometry, UniformsMaterial material,
                                              boolean shadowCaster, boolean shadowReceiver, Entity attached, String bone) {
         Entity e = createAttachableObject(pos, rot, attached, bone);
         return addDisplayObjectComponents(e, geometry, material,

@@ -24,80 +24,37 @@ import java.io.IOException;
 public class TileSet{
 
 	/*
-	
 	public static final int BUSH = 10;
 	public static final int TREE = 11;
 	public static final int PINETREE = 12;
 	public static final int COCOPALM = 13;
 	public static final int WALL = 14;
 	*/
-	//private String[] tileNames;
-	private String[] textureNames;
-	private boolean[] isUnmovable;
-	private int[] consumeStep;
+    protected static final int TILE_NUM = 100;
 
-	private String[] structureNames;
-	private boolean[] isObstacle;
-	private int[] crossStep;
-	
-	private int tileCount;
-	private int structCount;
+    protected Tile tiles[];
+    protected Structure structures[];
+
+	//private String[] tileNames;
+    protected int tileCount;
+    protected int structCount;
 	
 	public TileSet() {
-		textureNames = new String[100];
-		isUnmovable = new boolean[100];
-		consumeStep = new int[100];
+        tiles = new Tile[TILE_NUM];
+        structures = new Structure[TILE_NUM];
+	}
 
-		structureNames = new String[100];
-		isObstacle = new boolean[100];
-		crossStep = new int[100];
-	}
-	/*
-	public static int getStep(int id) {
-		if (id == BUSH)
-			return 2;
-		//else if (id == SAND)
-		//	return 2;
-		else
-			return 1;
-	}*/
-	public String getTextureName(int id) {
-		return textureNames[id];
-	}
-	
-	public String getStructureName(int structure) {
-		return structureNames[structure];
-	}
-	
-	/*
-	public int getStep(int id) {
-		return consumeStep[id];
-	}
-	public boolean isAvaliable(int id) {
-		return !isObstacle[id];
-	}*/
-	
 	public int getTileCount() {
 		return tileCount;
-	}
-	public void setTileCount(int tileCount) {
-		this.tileCount = tileCount;
-	}
-	
-	public int getGroundStep(int ground) {
-		return this.consumeStep[ground];
-	}
-
-	public boolean isAvaliableGround(int ground) {
-		return !isUnmovable[ground];
 	}
 
 	public int getStructCount() {
 		return structCount;
 	}
-	public void setStructCount(int structCount) {
+
+    /*public void setStructCount(int structCount) {
 		this.structCount = structCount;
-	}
+	}*/
 	
 	public void readFromText(BufferedReader reader) throws IOException {
 		String line;
@@ -105,9 +62,7 @@ public class TileSet{
 		while (!(line = reader.readLine()).startsWith("-")) {
 			String str[] = line.split(" ");
 			int id = Integer.parseInt(str[0]);
-			textureNames[id] = str[1];
-			isUnmovable[id] = Boolean.parseBoolean(str[2]);
-			consumeStep[id] = Integer.parseInt(str[3]);
+            tiles[id] = new Tile(str[1]);
 			if(id > maxId)
 				maxId = id;
 		}
@@ -117,14 +72,20 @@ public class TileSet{
 		while (!(line = reader.readLine()).startsWith("-")) {
 			String str[] = line.split(" ");
 			int id = Integer.parseInt(str[0]);
-			structureNames[id] = str[1];
-			isObstacle[id] = Boolean.parseBoolean(str[2]);
-			crossStep[id] = Integer.parseInt(str[3]);
+            structures[id] = new Structure(str[1]);
 			if(id > maxId)
 				maxId = id;
 		}
 		structCount = maxId + 1;
 	}
+
+    public Tile getTile(int tile) {
+        return tiles[tile];
+    }
+
+    public Structure getStructure(int structure) {
+        return structures[structure];
+    }
 	/*
 	@Override
 	public void read(InputStream input) throws IOException {
@@ -139,11 +100,4 @@ public class TileSet{
 		// TODO Auto-generated method stub
 		
 	}*/
-	public boolean isObstacleStructure(int structure) {
-		return isObstacle[structure];
-	}
-	
-	public int getStructureCrossStep(int structure) {
-		return crossStep[structure];
-	}
 }

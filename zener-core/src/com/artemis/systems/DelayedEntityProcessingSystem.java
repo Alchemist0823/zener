@@ -36,12 +36,12 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 
 	public DelayedEntityProcessingSystem(Aspect aspect) {
 		super(aspect);
-        delay = 10000000f;
+        delay = Float.MAX_VALUE;
 	}
 
 	@Override
 	protected final void processEntities(ImmutableBag<Entity> entities) {
-        delay = 10000000f;
+        delay = Float.MAX_VALUE;
 		for (int i = 0, s = entities.size(); s > i; i++) {
 			Entity entity = entities.get(i);
 			processDelta(entity, acc);

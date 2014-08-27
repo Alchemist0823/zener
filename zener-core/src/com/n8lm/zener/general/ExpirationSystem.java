@@ -47,7 +47,6 @@ public class ExpirationSystem extends DelayedEntityProcessingSystem {
 		if(em.get(e).getExpireListener() != null)
 			em.get(e).getExpireListener().endEvent(e);
 		world.deleteEntity(e);
-        System.out.print("AAA");
 	}
 
 }
