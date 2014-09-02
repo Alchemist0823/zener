@@ -1,11 +1,12 @@
 in vec4 position;
+in vec2 texCoord[4];
+in vec4 color;
+
 #ifdef NORMAL_MAPPING
 in mat3 TBN;
 #else
 in vec3 normal;
 #endif
-in vec2 texCoord;
-in vec4 color;
 
 flat in int texI[4];
 flat in int texP[4];
@@ -18,7 +19,6 @@ uniform sampler2D depthMap;
 #endif
 
 uniform mat4 g_ViewMatrix;
-uniform mat4 g_ProjectionMatrix;
 
 uniform vec4 MultipleColor;
 uniform vec4 AddColor;

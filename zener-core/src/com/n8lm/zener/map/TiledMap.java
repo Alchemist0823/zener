@@ -18,14 +18,7 @@
 
 package com.n8lm.zener.map;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.data.Savable;
@@ -33,13 +26,13 @@ import com.n8lm.zener.data.Savable;
 /**
  * handle the information of tiled map, can not operate components of entity.
  */
-public class TiledMap implements Savable, Cloneable{
+public class TiledMap implements Cloneable{
 
-	protected String name;
+	protected final String name;
 	/** The width of the map */
-	protected int width;
+	protected final int width;
 	/** The height of the map */
-	protected int height;
+	protected final int height;
 	/** The width of the tiles used on the map */
 	protected float tileWidth;
 	/** The height of the tiles used on the map */
@@ -50,14 +43,17 @@ public class TiledMap implements Savable, Cloneable{
 	/** The location prefix where we can find tileset images */
 	protected String tilesLocation;
 
-	/** the id of the tile*/
-	protected int terrian[][];
+    /** the id of the tile*/
+    protected final int terrian[][];
+
+    /** the special texture of the tile*/
+    protected final int texture[][];
 	
 	/** the altitude of the tile*/
-	protected int altitude[][];
+	protected final int altitude[][];
 	
 	/** the structure on the tile*/
-	protected int structure[][];
+	protected final int structure[][];
 	
 	/** the properties of the map */
 	//protected Properties props;
@@ -65,13 +61,20 @@ public class TiledMap implements Savable, Cloneable{
 	/** the tile set of the map*/
 	protected TileSet tileSet;
 	
-	public TiledMap(TileSet tileSet) {
-		
+	public TiledMap(String name, int width, int height) {
+
+        this.name = name;
+        this.width = width;
+        this.height = height;
+
+        this.terrian = new int[width][height];
+        this.texture = new int[width][height];
+        this.altitude = new int[width][height];
+        this.structure = new int[width][height];
+
 		tileWidth = tileHeight = 2;
-		tileAltitude = 0.8f;
-		this.tileSet = tileSet;
+		tileAltitude = 1f;
 	}
-	
 	/**
 	 * need revision
 	 */
@@ -86,54 +89,58 @@ public class TiledMap implements Savable, Cloneable{
         }
     }
 
-	public void readFromText(BufferedReader reader) throws IOException {
-        
-		tileSet.readFromText(reader);
-		
-		name = reader.readLine();
-		
+    public static TiledMap readFromText(BufferedReader reader) throws IOException {
+
+        String name = reader.readLine();
         String[] strs = reader.readLine().split(" ");
-        width = Integer.parseInt(strs[0]);
-        height = Integer.parseInt(strs[1]);
-        
-		terrian = new int[width][height];
-		altitude = new int[width][height];
-		structure = new int[width][height];
+        int width = Integer.parseInt(strs[0]);
+        int height = Integer.parseInt(strs[1]);
 
-        for (int i = 0; i < width; i ++) {
-        	strs = reader.readLine().split(" ");
-        	for (int j = 0; j < height; j ++)
-        	{
-        		terrian[i][j] = Integer.parseInt(strs[j]);
-        	}
+        TiledMap map = new TiledMap(name, width, height);
+        reader.readLine();
+
+        for (int i = 0; i < width; i++) {
+            strs = reader.readLine().split(" ");
+            for (int j = 0; j < height; j++) {
+                map.setTerrian(new Location(i, j), Integer.parseInt(strs[j]));
+            }
         }
 
         reader.readLine();
 
-        for (int i = 0; i < width; i ++) {
-        	strs = reader.readLine().split(" ");
-        	for (int j = 0; j < height; j ++)
-        	{
-        		altitude[i][j] = Integer.parseInt(strs[j]);
-        	}
+        for (int i = 0; i < width; i++) {
+            strs = reader.readLine().split(" ");
+            for (int j = 0; j < height; j++) {
+                map.setTexture(new Location(i, j), Integer.parseInt(strs[j]));
+            }
         }
 
         reader.readLine();
 
-        for (int i = 0; i < width; i ++) {
-        	strs = reader.readLine().split(" ");
-        	for (int j = 0; j < height; j ++)
-        	{
-        		structure[i][j] = Integer.parseInt(strs[j]);
-        	}
+        for (int i = 0; i < width; i++) {
+            strs = reader.readLine().split(" ");
+            for (int j = 0; j < height; j++) {
+                map.setAltitude(new Location(i, j), Integer.parseInt(strs[j]));
+            }
         }
-	}
+
+        reader.readLine();
+
+        for (int i = 0; i < width; i++) {
+            strs = reader.readLine().split(" ");
+            for (int j = 0; j < height; j++) {
+                map.setStructure(new Location(i, j), Integer.parseInt(strs[j]));
+            }
+        }
+
+        return map;
+    }
 
     /**
      * read map without tile sets
-     * @param input
      * @throws IOException
      */
+    /*
 	@Override
 	public void read(InputStream input) throws IOException {
         
@@ -152,14 +159,21 @@ public class TiledMap implements Savable, Cloneable{
         height = reader.readInt();
         
 		terrian = new int[width][height];
+        texture = new int[width][height];
 		altitude = new int[width][height];
 		structure = new int[width][height];
 
         for (int i = 0; i < width; i ++) {
-        	for (int j = 0; j < height; j ++)
-        	{
-        		terrian[i][j] = reader.readInt();
-        	}
+            for (int j = 0; j < height; j ++)
+            {
+                terrian[i][j] = reader.readInt();
+            }
+        }
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++)
+            {
+                texture[i][j] = reader.readInt();
+            }
         }
         for (int i = 0; i < width; i ++) {
         	for (int j = 0; j < height; j ++)
@@ -173,28 +187,32 @@ public class TiledMap implements Savable, Cloneable{
         		altitude[i][j] = reader.readInt();
         	}
         }
-	}
+	}*/
 
 	
 	public void writeToText(OutputStream output) throws IOException {
 
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
 
+        tileSet.writeToText(writer);
+
+        writer.write(name);
+        writer.newLine();
 		writer.write(width + " " + height);
 		writer.newLine();
-
-		for (int i = 0; i < width; i ++) {
-        	for (int j = 0; j < height; j ++) {
-        		writer.write(terrian[i][j] + " ");
-        	}
-        	writer.newLine();
+        writer.newLine();
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++) {
+                writer.write(terrian[i][j] + " ");
+            }
+            writer.newLine();
         }
-    	writer.newLine();
-		for (int i = 0; i < width; i ++) {
-        	for (int j = 0; j < height; j ++) {
-        		writer.write(structure[i][j] + " ");
-        	}
-        	writer.newLine();
+        writer.newLine();
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++) {
+                writer.write(texture[i][j] + " ");
+            }
+            writer.newLine();
         }
     	writer.newLine();
 		for (int i = 0; i < width; i ++) {
@@ -203,11 +221,17 @@ public class TiledMap implements Savable, Cloneable{
         	}
         	writer.newLine();
         }
-		writer.flush();
-		
+        writer.newLine();
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++) {
+                writer.write(structure[i][j] + " ");
+            }
+            writer.newLine();
+        }
+		//writer.flush();
+		writer.close();
 	}
-	
-	@Override
+
 	public void write(OutputStream output) throws IOException {
 
 		DataOutputStream writer = new DataOutputStream(output);
@@ -217,10 +241,15 @@ public class TiledMap implements Savable, Cloneable{
 		writer.writeInt(width);
 		writer.writeInt(height);
 
-		for (int i = 0; i < width; i ++) {
-        	for (int j = 0; j < height; j ++) {
-        		writer.writeInt(terrian[i][j]);
-        	}
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++) {
+                writer.writeInt(terrian[i][j]);
+            }
+        }
+        for (int i = 0; i < width; i ++) {
+            for (int j = 0; j < height; j ++) {
+                writer.writeInt(texture[i][j]);
+            }
         }
 		for (int i = 0; i < width; i ++) {
         	for (int j = 0; j < height; j ++) {
@@ -248,9 +277,9 @@ public class TiledMap implements Savable, Cloneable{
 		return structure[x][y];
 	}
 
-	/*public void setStructure(Location l, int d) {
+	public void setStructure(Location l, int d) {
 		this.structure[l.x][l.y] = d;
-	}*/
+	}
 
 	public int getTerrian(Location l) {
 		return terrian[l.x][l.y];
@@ -260,19 +289,28 @@ public class TiledMap implements Savable, Cloneable{
 		return terrian[x][y];
 	}
 
-	/*public void setTerrian(Location l, int d) {
-		this.terrian[l.x][l.y] = d;
-	}*/
+	public void setTerrian(Location l, int t) {
+		this.terrian[l.x][l.y] = t;
+	}
 
+    public int getTexture(int x, int y) {
+        return texture[x][y];
+    }
+    private void setTexture(Location l, int t) {
+        this.texture[l.x][l.y] = t;
+    }
 
 	public int getAltitude(Location l) {
 		return altitude[l.x][l.y];
 	}
-	
 
 	public int getAltitude(int x, int y) {
 		return altitude[x][y];
 	}
+
+    public void setAltitude(Location loc, int a) {
+        altitude[loc.x][loc.y] = a;
+    }
 
 
 
@@ -280,41 +318,25 @@ public class TiledMap implements Savable, Cloneable{
 		this.altitude[l.x][l.y] = a;
 	}*/
 
-
 	public int getWidth() {
 		return width;
 	}
-
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
 
 	public int getHeight() {
 		return height;
 	}
 
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-
 	public float getTileWidth() {
 		return tileWidth;
 	}
-
 
 	public void setTileWidth(float tileWidth) {
 		this.tileWidth = tileWidth;
 	}
 
-
 	public float getTileHeight() {
 		return tileHeight;
 	}
-
 
 	public void setTileHeight(float tileHeight) {
 		this.tileHeight = tileHeight;
@@ -343,6 +365,10 @@ public class TiledMap implements Savable, Cloneable{
 	public TileSet getTileSet() {
 		return tileSet;
 	}
+
+    public void setTileSet(TileSet tileSet) {
+        this.tileSet = tileSet;
+    }
 
     public float getPositionAltitude(float x, float y) {
         int tx = (int) (x / tileWidth);

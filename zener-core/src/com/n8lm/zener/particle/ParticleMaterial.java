@@ -16,19 +16,21 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.graphics.material;
+package com.n8lm.zener.particle;
 
 import com.n8lm.zener.assets.Material;
 import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.graphics.Texture;
+import com.n8lm.zener.graphics.material.UniformsMaterial;
 
 /**
  * Created by Alchemist on 2014/6/28.
  */
 public class ParticleMaterial extends UniformsMaterial {
 
-    public ParticleMaterial(Material material) {
+    public ParticleMaterial(Material material, int atlasCount) {
         addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
+        addUniform("AtlasRowCount", VarType.Int, ((int) Math.sqrt(atlasCount)));
         //diffuseTextureName = material.diffuseTextureName;
     }
 

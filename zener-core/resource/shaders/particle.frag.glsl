@@ -10,6 +10,6 @@ out vec4 colorOut;
 
 void main(){
 
-    vec4 texColor = texture2D(Material.DiffuseMap, texCoord) * particleColor * vec4(La, 1.0);
+    vec4 texColor = texture2D(Material.DiffuseMap, texCoord) * particleColor/* * vec4(La, 1.0)*/;
 	colorOut = texColor * MultipleColor + AddColor;
 }

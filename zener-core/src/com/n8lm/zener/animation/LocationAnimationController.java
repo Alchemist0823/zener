@@ -26,7 +26,7 @@ import com.n8lm.zener.map.Location;
 import com.n8lm.zener.map.TiledMap;
 
 /**
- * An animation controller for movement in tiled map
+ * An animation controller for movement in tiled tiledMap
  * @author Alchemist
  *
  */
@@ -48,8 +48,8 @@ public class LocationAnimationController extends AnimationController<LocationKey
 		LocationKeyFrame nextf = anim.getFrame(nextIndex);
 		
 		Vector3f pos = e.getComponent(TransformComponent.class).getLocalTransform().getTranslation();
-		pos.x = map.getTileWidth() * (nowf.loc.x + 0.5f);
-		pos.y = map.getTileHeight() * (nowf.loc.y + 0.5f);
+		pos.x = map.getTileWidth() * (nowf.loc.x);
+		pos.y = map.getTileHeight() * (nowf.loc.y);
 		pos.z = map.getTileAltitude() * (float) map.getAltitude(nowf.loc);
 		
 		Location trans = new Location(nextf.loc);

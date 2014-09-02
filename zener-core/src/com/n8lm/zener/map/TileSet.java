@@ -19,9 +19,14 @@
 package com.n8lm.zener.map;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class TileSet{
+public class TileSet<T extends Tile, S extends Structure>{
 
 	/*
 	public static final int BUSH = 10;
@@ -29,62 +34,61 @@ public class TileSet{
 	public static final int PINETREE = 12;
 	public static final int COCOPALM = 13;
 	public static final int WALL = 14;
-	*/
     protected static final int TILE_NUM = 100;
+    */
 
-    protected Tile tiles[];
-    protected Structure structures[];
+    protected Map<Integer, T> tiles;
+    protected Map<Integer, S> structures;
 
-	//private String[] tileNames;
-    protected int tileCount;
-    protected int structCount;
-	
 	public TileSet() {
-        tiles = new Tile[TILE_NUM];
-        structures = new Structure[TILE_NUM];
+        tiles = new HashMap<Integer, T>();
+        structures = new HashMap<Integer, S>();
 	}
 
 	public int getTileCount() {
-		return tileCount;
+		return tiles.size();
 	}
 
 	public int getStructCount() {
-		return structCount;
+		return structures.size();
 	}
 
     /*public void setStructCount(int structCount) {
 		this.structCount = structCount;
 	}*/
-	
-	public void readFromText(BufferedReader reader) throws IOException {
-		String line;
-		int maxId = 0;
-		while (!(line = reader.readLine()).startsWith("-")) {
-			String str[] = line.split(" ");
-			int id = Integer.parseInt(str[0]);
-            tiles[id] = new Tile(str[1]);
-			if(id > maxId)
-				maxId = id;
-		}
-		tileCount = maxId + 1;
 
-		maxId = 0;
-		while (!(line = reader.readLine()).startsWith("-")) {
-			String str[] = line.split(" ");
-			int id = Integer.parseInt(str[0]);
-            structures[id] = new Structure(str[1]);
-			if(id > maxId)
-				maxId = id;
-		}
-		structCount = maxId + 1;
-	}
-
-    public Tile getTile(int tile) {
-        return tiles[tile];
+    public void add(int id, T tile) {
+        tiles.put(id, tile);
     }
 
-    public Structure getStructure(int structure) {
-        return structures[structure];
+    public void add(int id, S structure) {
+        structures.put(id, structure);
+    }
+
+    public T getTile(int tile) {
+        return tiles.get(tile);
+    }
+
+    public S getStructure(int structure) {
+        return structures.get(structure);
+    }
+
+
+    public void writeToText(BufferedWriter writer) throws IOException{
+        for (Map.Entry<Integer, T> entry : tiles.entrySet()) {
+            writer.write(entry.getKey() + " ");
+            entry.getValue().write(writer);
+            writer.newLine();
+        }
+        writer.write("-------------------------------------");
+        writer.newLine();
+        for (Map.Entry<Integer, S> entry : structures.entrySet()) {
+            writer.write(entry.getKey() + " ");
+            entry.getValue().write(writer);
+            writer.newLine();
+        }
+        writer.write("-------------------------------------");
+        writer.newLine();
     }
 	/*
 	@Override

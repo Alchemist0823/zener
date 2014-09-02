@@ -37,6 +37,13 @@ public class UniformGroup {
         uniforms.put(name, new UniformVariable(type, name, value));
     }
 
+    public void setUniform(String name, VarType type, Object value) {
+        if (uniforms.containsKey(name))
+            uniforms.get(name).setValue(value);
+        else
+            uniforms.put(name, new UniformVariable(type, name, value));
+    }
+
     public void addUniform(String name, VarType type) {
         uniforms.put(name, new UniformVariable(type, name));
     }

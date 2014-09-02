@@ -46,7 +46,11 @@ public class VertexBuffer extends GLObject {
         Custom(7),
         ParticlePos(8),
         ParticleSize(9),
-        ParticleColor(10);
+        ParticleColor(10),
+        TexCoord1(11),
+        TexCoord2(12),
+        TexCoord3(13),
+        TexCoord4(14);
 
         public int id;
 

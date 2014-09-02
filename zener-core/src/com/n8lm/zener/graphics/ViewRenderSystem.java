@@ -324,7 +324,7 @@ public class ViewRenderSystem extends EntitySystem {
         if (material.contains("Material.NormalMap")) {
             if (!geometry.hasTangent()) {
                 geometry.generateTangent();
-                System.out.print("aaa");
+                //System.out.print("aaa");
             }
             options.add("NORMAL_MAPPING");
         }

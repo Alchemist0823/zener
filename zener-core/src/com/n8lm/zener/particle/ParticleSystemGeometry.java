@@ -18,7 +18,11 @@
 
 package com.n8lm.zener.particle;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
+import java.util.Collections;
 
 import com.n8lm.zener.assets.Face;
 import com.n8lm.zener.assets.Mesh;
@@ -31,6 +35,7 @@ import com.n8lm.zener.graphics.geom.InstancingGeometry;
 import com.n8lm.zener.math.Matrix4f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
+import org.lwjgl.BufferUtils;
 
 public class ParticleSystemGeometry extends InstancingGeometry {
 
@@ -49,6 +54,7 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 	private void generate(Mesh particle) {
         FloatBuffer vertices = null;
         FloatBuffer textureCoordinates = null;
+        ByteBuffer textureIndex = null;
         FloatBuffer positions = null;
         FloatBuffer sizes = null;
         FloatBuffer colors = null;
@@ -80,17 +86,20 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         }
         
         int maxCount = particleSystem.getController().getMaxCount();
-        
+
+        textureIndex = BufferUtils.createByteBuffer(maxCount * 1);
         positions = BufferTools.reserveData(maxCount * 3);
         sizes = BufferTools.reserveData(maxCount * 1);
         colors = BufferTools.reserveData(maxCount * 4);
-        
+
+        this.vbs.put(Type.Custom, new VertexBuffer(Type.Custom, Usage.Stream, DataType.Byte, 1, maxCount,textureIndex, false));
         this.vbs.put(Type.ParticlePos, new VertexBuffer(Type.ParticlePos, Usage.Stream, DataType.Float, 3, maxCount, positions, false));
         this.vbs.put(Type.ParticleSize, new VertexBuffer(Type.ParticleSize, Usage.Stream, DataType.Float, 1, maxCount, sizes, false));
         this.vbs.put(Type.ParticleColor, new VertexBuffer(Type.ParticleColor, Usage.Stream, DataType.Float, 4, maxCount, colors, false));
         
 		this.divisors.put(Type.Position, 0);
 		this.divisors.put(Type.TexCoord, 0);
+        this.divisors.put(Type.Custom, 1);
 		this.divisors.put(Type.ParticlePos, 1);
 		this.divisors.put(Type.ParticleSize, 1);
 		this.divisors.put(Type.ParticleColor, 1);
@@ -100,12 +109,13 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 	
 	@Override
 	public void update(ViewRenderSystem subRenderSystem) {
+        ByteBuffer textureIndexs = (ByteBuffer) this.vbs.get(Type.Custom).getData();
         FloatBuffer positions = (FloatBuffer) this.vbs.get(Type.ParticlePos).getData();
 		FloatBuffer sizes = (FloatBuffer) this.vbs.get(Type.ParticleSize).getData();
 		FloatBuffer colors = (FloatBuffer) this.vbs.get(Type.ParticleColor).getData();
 		//System.out.println(positions.limit());
-		
 
+        textureIndexs.clear();
 		positions.clear();
 		sizes.clear();
 		colors.clear();
@@ -122,18 +132,21 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 		/**
 		 * gl blend sort
 		 */
-	    //Collections.sort(particleSystem.getParticles());
+	    Arrays.sort(particleSystem.getParticles(), 0, count);
 
 		for (int i = 0; i < count; i ++) {
-			positions.put(BufferTools.asFloats(particles[i].pos));
+            textureIndexs.put((byte) particles[i].texIndex);
+            positions.put(BufferTools.asFloats(particles[i].pos));
 			sizes.put(particles[i].size);
 			colors.put(BufferTools.asFloats(particles[i].color));
 		}
-		
+
+        textureIndexs.flip();
 		positions.flip();
 		sizes.flip();
 		colors.flip();
-		
+
+        this.vbs.get(Type.Custom).updateSubData(0);
 		this.vbs.get(Type.ParticlePos).updateSubData(0);
 		this.vbs.get(Type.ParticleSize).updateSubData(0);
 		this.vbs.get(Type.ParticleColor).updateSubData(0);

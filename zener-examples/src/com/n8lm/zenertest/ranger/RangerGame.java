@@ -3,9 +3,7 @@ package com.n8lm.zenertest.ranger;
 import com.artemis.Entity;
 import com.n8lm.zener.animation.AnimationComponent;
 import com.n8lm.zener.animation.AnimationSystem;
-import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.app.AppGameContainer;
-import com.n8lm.zener.assets.Model;
 import com.n8lm.zener.collision.AABBBoundingBox;
 import com.n8lm.zener.collision.CollidableComponent;
 import com.n8lm.zener.general.AttachSystem;
@@ -13,11 +11,7 @@ import com.n8lm.zener.collision.CollisionSystem;
 import com.n8lm.zener.general.ExpirationSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
-import com.n8lm.zener.graphics.geom.ModelGeometry;
-import com.n8lm.zener.graphics.material.NormalMaterial;
 import com.n8lm.zener.map.TiledMap;
-import com.n8lm.zener.map.TiledMapGeometry;
-import com.n8lm.zener.map.TiledMapMaterial;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.script.Event;
@@ -79,7 +73,7 @@ public class RangerGame extends ExampleBasicGame{
 
         TiledMap map = new TiledMap();
         try {
-            map.readFromText(new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("map.txt"))));
+            map.readFromText(new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("tiledMap.txt"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +91,7 @@ public class RangerGame extends ExampleBasicGame{
 
         // add Map
         mapEntity = world.createEntity();
-        mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry("map", map)));
+        mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry("tiledMap", map)));
         mapEntity.addComponent(new MaterialComponent(new TiledMapMaterial(map.getTileSet())));
         mapEntity.addComponent(new TransformComponent(new Transform()));
         world.addEntity(mapEntity);
