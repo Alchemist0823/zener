@@ -70,7 +70,7 @@ public class Location implements Serializable{
 	public String toString() {
 		return "(" + x + ", " + y + ")";
 	}
-	
+
 	public boolean equals(Location b) {
 		return (this.x == b.x) && (this.y == b.y);
 	}

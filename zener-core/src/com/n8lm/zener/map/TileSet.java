@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileSet<T extends Tile, S extends Structure>{
+public class TileSet<T extends Tile>{
 
 	/*
 	public static final int BUSH = 10;
@@ -38,20 +38,20 @@ public class TileSet<T extends Tile, S extends Structure>{
     */
 
     protected Map<Integer, T> tiles;
-    protected Map<Integer, S> structures;
+    //protected Map<Integer, S> structures;
 
 	public TileSet() {
         tiles = new HashMap<Integer, T>();
-        structures = new HashMap<Integer, S>();
+        //structures = new HashMap<Integer, S>();
 	}
 
 	public int getTileCount() {
 		return tiles.size();
 	}
 
-	public int getStructCount() {
+	/*public int getStructCount() {
 		return structures.size();
-	}
+	}*/
 
     /*public void setStructCount(int structCount) {
 		this.structCount = structCount;
@@ -61,17 +61,17 @@ public class TileSet<T extends Tile, S extends Structure>{
         tiles.put(id, tile);
     }
 
-    public void add(int id, S structure) {
+    /*public void add(int id, S structure) {
         structures.put(id, structure);
-    }
+    }*/
 
     public T getTile(int tile) {
         return tiles.get(tile);
     }
 
-    public S getStructure(int structure) {
+    /*public S getStructure(int structure) {
         return structures.get(structure);
-    }
+    }*/
 
 
     public void writeToText(BufferedWriter writer) throws IOException{
@@ -82,13 +82,13 @@ public class TileSet<T extends Tile, S extends Structure>{
         }
         writer.write("-------------------------------------");
         writer.newLine();
-        for (Map.Entry<Integer, S> entry : structures.entrySet()) {
+        /*for (Map.Entry<Integer, S> entry : structures.entrySet()) {
             writer.write(entry.getKey() + " ");
             entry.getValue().write(writer);
             writer.newLine();
         }
         writer.write("-------------------------------------");
-        writer.newLine();
+        writer.newLine();*/
     }
 	/*
 	@Override

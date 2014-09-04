@@ -53,7 +53,7 @@ public class TiledMap implements Cloneable{
 	protected final int altitude[][];
 	
 	/** the structure on the tile*/
-	protected final int structure[][];
+	//protected final int structure[][];
 	
 	/** the properties of the map */
 	//protected Properties props;
@@ -70,14 +70,20 @@ public class TiledMap implements Cloneable{
         this.terrian = new int[width][height];
         this.texture = new int[width][height];
         this.altitude = new int[width][height];
-        this.structure = new int[width][height];
+        //this.structure = new int[width][height];
 
 		tileWidth = tileHeight = 2;
 		tileAltitude = 1f;
 	}
 	/**
-	 * need revision
+	 * TODO: need revision
 	 */
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    /*
 	public TiledMap clone() {
         try {
             TiledMap tilemap =  (TiledMap) super.clone();
@@ -87,53 +93,56 @@ public class TiledMap implements Cloneable{
             e.printStackTrace();
             throw new RuntimeException();
         }
-    }
+    }*/
 
     public static TiledMap readFromText(BufferedReader reader) throws IOException {
 
         String name = reader.readLine();
         String[] strs = reader.readLine().split(" ");
-        int width = Integer.parseInt(strs[0]);
-        int height = Integer.parseInt(strs[1]);
+        TiledMap map = new TiledMap(name, Integer.parseInt(strs[0]), Integer.parseInt(strs[1]));
 
-        TiledMap map = new TiledMap(name, width, height);
+        readContentFromText(reader, map);
+
+        return map;
+    }
+
+    protected static void readContentFromText(BufferedReader reader, TiledMap map) throws IOException {
+        int width = map.width;
+        int height = map.height;
+        String[] strs;
+
         reader.readLine();
-
         for (int i = 0; i < width; i++) {
             strs = reader.readLine().split(" ");
             for (int j = 0; j < height; j++) {
-                map.setTerrian(new Location(i, j), Integer.parseInt(strs[j]));
+                map.terrian[i][j] = Integer.parseInt(strs[j]);
             }
         }
 
         reader.readLine();
-
         for (int i = 0; i < width; i++) {
             strs = reader.readLine().split(" ");
             for (int j = 0; j < height; j++) {
-                map.setTexture(new Location(i, j), Integer.parseInt(strs[j]));
+                map.texture[i][j] = Integer.parseInt(strs[j]);
             }
         }
 
         reader.readLine();
-
         for (int i = 0; i < width; i++) {
             strs = reader.readLine().split(" ");
             for (int j = 0; j < height; j++) {
-                map.setAltitude(new Location(i, j), Integer.parseInt(strs[j]));
+                map.altitude[i][j] = Integer.parseInt(strs[j]);
             }
         }
 
+        /*
         reader.readLine();
-
         for (int i = 0; i < width; i++) {
             strs = reader.readLine().split(" ");
             for (int j = 0; j < height; j++) {
                 map.setStructure(new Location(i, j), Integer.parseInt(strs[j]));
             }
-        }
-
-        return map;
+        }*/
     }
 
     /**
@@ -190,9 +199,7 @@ public class TiledMap implements Cloneable{
 	}*/
 
 	
-	public void writeToText(OutputStream output) throws IOException {
-
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
+	public void writeToText(BufferedWriter writer) throws IOException {
 
         tileSet.writeToText(writer);
 
@@ -221,15 +228,14 @@ public class TiledMap implements Cloneable{
         	}
         	writer.newLine();
         }
+        /*
         writer.newLine();
         for (int i = 0; i < width; i ++) {
             for (int j = 0; j < height; j ++) {
                 writer.write(structure[i][j] + " ");
             }
             writer.newLine();
-        }
-		//writer.flush();
-		writer.close();
+        }*/
 	}
 
 	public void write(OutputStream output) throws IOException {
@@ -251,11 +257,12 @@ public class TiledMap implements Cloneable{
                 writer.writeInt(texture[i][j]);
             }
         }
+        /*
 		for (int i = 0; i < width; i ++) {
         	for (int j = 0; j < height; j ++) {
         		writer.writeInt(structure[i][j]);
         	}
-        }
+        }*/
 		for (int i = 0; i < width; i ++) {
         	for (int j = 0; j < height; j ++) {
         		writer.writeInt(altitude[i][j]);
@@ -267,18 +274,6 @@ public class TiledMap implements Cloneable{
 
 	public boolean inBorder(Location l) {
 		return (l.x < width) && (l.y < height) && (l.x >= 0) && (l.y >= 0);
-	}
-
-	public int getStructure(Location l) {
-		return structure[l.x][l.y];
-	}
-
-	public int getStructure(int x, int y) {
-		return structure[x][y];
-	}
-
-	public void setStructure(Location l, int d) {
-		this.structure[l.x][l.y] = d;
 	}
 
 	public int getTerrian(Location l) {
@@ -308,15 +303,9 @@ public class TiledMap implements Cloneable{
 		return altitude[x][y];
 	}
 
-    public void setAltitude(Location loc, int a) {
-        altitude[loc.x][loc.y] = a;
-    }
-
-
-
-	/*public void setAltitude(Location l, int a) {
+	public void setAltitude(Location l, int a) {
 		this.altitude[l.x][l.y] = a;
-	}*/
+	}
 
 	public int getWidth() {
 		return width;
@@ -353,14 +342,6 @@ public class TiledMap implements Cloneable{
     public Tile getTile(Location l) {
         return tileSet.getTile(terrian[l.x][l.y]);
     }
-    /*
-	public int getGroundStep(Location l) {
-		return tileSet.getGroundStep(terrian[l.x][l.y]);//, structure[l.x][l.y]);
-	}
-
-	public boolean isGroundAvaliable(Location l) {
-		return tileSet.isAvaliableGround(terrian[l.x][l.y]);//, structure[l.x][l.y]);
-	}*/
 	
 	public TileSet getTileSet() {
 		return tileSet;
