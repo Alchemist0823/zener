@@ -31,8 +31,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
-import com.n8lm.zener.audio.Audio;
-import com.n8lm.zener.audio.AudioLoader;
+import com.n8lm.zener.audio.openal.Audio;
+import com.n8lm.zener.audio.openal.AudioLoader;
 
 import com.n8lm.zener.assets.IQELoader;
 import com.n8lm.zener.assets.Image;
@@ -130,11 +130,20 @@ public class ResourceManager {
     }
 
 
-    private void loadAudio(String name, String filename) {
+    private void loadAudio(String name, boolean isStreaming, String filename) {
 
         try {
-            Audio audio = AudioLoader.getAudio(filename.substring(filename.lastIndexOf('.') + 1).toUpperCase()
-                    , getResourceAsStream(filename));
+
+            Audio audio = null;
+
+            if (isStreaming)
+                audio = AudioLoader.getStreamingAudio(filename.substring(filename.lastIndexOf('.') + 1).toUpperCase()
+                        , filename, this);
+            else
+                audio = AudioLoader.getAudio(filename.substring(filename.lastIndexOf('.') + 1).toUpperCase()
+                        , getResourceAsStream(filename));
+
+
             add(name, audio);
         } catch (IOException e) {
             e.printStackTrace();
@@ -258,7 +267,10 @@ public class ResourceManager {
                 } else if (strs[0].compareTo("addFileSystemPath") == 0) {
                     addResourceLocation(new FileSystemLocation(new File(strs[1])));
                 } else if (strs[0].compareTo("audio") == 0) {
-                    loadAudio(strs[1], strs[2]);
+                    boolean isStream = false;
+                    if (strs.length > 4 && strs[3].equals("-stream"))
+                        isStream = true;
+                    loadAudio(strs[1], isStream, strs[2]);
                 }
                 if (strs[0].compareTo("model") == 0) {
                     loadTexturedModel(strs[1], strs[2]);

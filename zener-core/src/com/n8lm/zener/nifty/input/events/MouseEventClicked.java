@@ -68,7 +68,7 @@ public final class MouseEventClicked extends AbstractMouseEventButton {
   }
 
   /**
-   * Send the event to a slick listener.
+   * Send the event to a openal listener.
    */
   @Override
   public boolean sendToZener( final InputListener listener) {

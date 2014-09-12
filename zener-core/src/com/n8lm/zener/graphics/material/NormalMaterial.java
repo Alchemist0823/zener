@@ -25,16 +25,6 @@ import com.n8lm.zener.math.Vector3f;
 
 public class NormalMaterial extends UniformsMaterial {
 
-    /*public NormalMaterial() {
-        super();
-    	uniforms.put("Material.Ka", new UniformVariable("Material.Ka", VarType.Vector3f, new Vector3f(0.2f, 0.2f, 0.2f)));
-    	uniforms.put("Material.Kd", new UniformVariable("Material.Kd", VarType.Vector3f, new Vector3f(0.5f, 0.5f, 0.5f)));
-    	uniforms.put("Material.Ks", new UniformVariable("Material.Ks", VarType.Vector3f, new Vector3f(1.0f, 1.0f, 1.0f)));
-    	uniforms.put("Material.Shininess", new UniformVariable("Material.Shininess", VarType.Float, 100));
-    	uniforms.put("Material.DiffuseMap", new UniformVariable("Material.DiffuseMap", VarType.Texture2D));
-		uniforms.put("Material.NormalMap", new UniformVariable("Material.NormalMap", VarType.Texture2D));
-	}*/
-
     public NormalMaterial(Material material) {
         addUniform("Material.Ka", VarType.Vector3f, new Vector3f(material.ambientColor));
         addUniform("Material.Kd", VarType.Vector3f, new Vector3f(material.diffuseColor));

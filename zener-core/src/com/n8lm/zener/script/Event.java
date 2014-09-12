@@ -23,6 +23,7 @@ import com.artemis.Entity;
 public class Event {
 	
 	public static final String WORLD_UPDATE = "worldUpdate";
+    public static final String DELAYED_END = "delayedEND";
 
 	private String type;
 	private Entity dispatcher;

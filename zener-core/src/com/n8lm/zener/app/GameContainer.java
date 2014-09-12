@@ -21,6 +21,7 @@ package com.n8lm.zener.app;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import com.n8lm.zener.audio.Music;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
@@ -29,7 +30,7 @@ import org.lwjgl.opengl.Drawable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.opengl.Pbuffer;
-import com.n8lm.zener.audio.SoundStore;
+import com.n8lm.zener.audio.openal.SoundStore;
 
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.input.Input;
@@ -314,9 +315,9 @@ public abstract class GameContainer {
 	}
 
 	/**
-	 * Get the build number of slick
+	 * Get the build number of openal
 	 * 
-	 * @return The build number of slick
+	 * @return The build number of openal
 	 */
 	public static int getBuildVersion() {
 		try {/*
@@ -710,7 +711,7 @@ public abstract class GameContainer {
 
 		input.poll(width, height);
 
-		// Music.poll(delta);
+		Music.poll(delta);
 
 		/*
 		 * if (clearEachFrame) { glClear(GL_COLOR_BUFFER_BIT |

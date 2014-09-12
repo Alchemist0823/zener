@@ -7,7 +7,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
 import com.n8lm.zener.animation.AnimationComponent;
-import com.n8lm.zener.general.ExpireComponent;
+import com.n8lm.zener.general.DelayedComponent;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
@@ -57,7 +57,7 @@ public class CharacterSystem extends EntityProcessingSystem{
                 EntityFactory.addDisplayObjectComponents(arrow, "arrow", false, false);
                 //arrow.addComponent(new GeometryComponent(new ModelGeometry(ResourceManager.getInstance().getModel("arrow").getMesh())));
                 //arrow.addComponent(new MaterialComponent(new NormalMaterial(ResourceManager.getInstance().getModel("arrow").getMaterial())));
-                arrow.addComponent(new ExpireComponent(5f));
+                arrow.addComponent(new DelayedComponent(5f));
                 world.addEntity(arrow);
             }
         } else if (action == Action.Run) {

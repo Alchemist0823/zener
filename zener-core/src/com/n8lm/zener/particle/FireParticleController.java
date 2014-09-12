@@ -41,7 +41,7 @@ public class FireParticleController implements ParticleController {
         p.speed.addLocal(g.mult(delta * 0.5f));
         p.pos.addLocal(p.speed.mult(delta));
         //p.color.interpolateLocal(color1, color2, (plife - p.life) / plife);
-        //(int) ((plife - p.life) / plife * atlasCount);
+        p.texIndex = (int) ((plife - p.life) / plife * atlasCount);
     }
 
 	@Override
@@ -50,8 +50,8 @@ public class FireParticleController implements ParticleController {
 		p.speed.set((float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 3 + 2)/3);
 		p.size = (float) (Math.random() * 0.1 + 0.3);
         p.color.set(color);
-        p.color.z = (float) (Math.random() * 0.5 + 0.2);
-        p.texIndex = (int) (Math.random() * atlasCount);
+        //p.color.z = (float) (Math.random() * 0.5 + 0.2);
+        //p.texIndex = (int) (Math.random() * atlasCount);
 		p.life = plife;
 		return p;
 	}
@@ -65,7 +65,7 @@ public class FireParticleController implements ParticleController {
 	@Override
 	public int getNewCount(double time) {
 		// TODO Auto-generated method stub
-		return 60;
+		return 10;
 	}
 
 	@Override

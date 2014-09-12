@@ -47,15 +47,22 @@ public class ParticleProcessingSystem extends EntityProcessingSystem {
 	    float delta = world.getDelta() / 1000f;
 		int count = ps.getCount();
 		int maxSize = pc.getMaxCount();
-		
-		int newparticles = Math.round(pc.getNewCount(ps.getTime()) * delta);
-		
+
+        double time = ps.getTime();
+        int numSecond = (int) Math.round(pc.getNewCount(ps.getTime()) * (time - (int)(time)));
+
+		int newparticles = numSecond - ps.getCountPerSecond();//Math.round(pc.getNewCount(ps.getTime()) * delta);
+
+        int lastCount = count;
+
 	    for(int i = 0; i < newparticles; i ++){
 	    	if (count < maxSize)
 	    		particles[count ++] = pc.setNewParticle(new Particle());
 	    	else
 	    		break;
 	    }
+
+        ps.setCountPerSecond(ps.getCountPerSecond() + count - lastCount);
 	    
 		// Simulate all particles
 	    for(int i = 0; i < count; i ++){

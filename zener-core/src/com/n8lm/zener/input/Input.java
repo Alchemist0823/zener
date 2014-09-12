@@ -1115,7 +1115,7 @@ public class Input {
 	 */
 	private int resolveEventKey(int key, char c) {
 		// BUG with LWJGL - equals comes back with keycode = 0
-		// See: http://slick.javaunlimited.net/viewtopic.php?t=617
+		// See: http://openal.javaunlimited.net/viewtopic.php?t=617
 		if ((c == 61) || (key == 0)) {
 			return KEY_EQUALS;
 		}

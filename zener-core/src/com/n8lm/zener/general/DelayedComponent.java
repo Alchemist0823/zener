@@ -16,20 +16,22 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.audio;
+package com.n8lm.zener.general;
 
-import java.nio.ByteBuffer;
+import com.artemis.Component;
 
-/**
- * Data describing the sounds in a OGG file
- * 
- * @author Kevin Glass
- */
-public class OggData {
-	/** The data that has been read from the OGG file */
-	public ByteBuffer data;
-	/** The sampling rate */
-	public int rate;
-	/** The number of channels in the sound file */
-	public int channels;
+public class DelayedComponent extends Component {
+	private float remain;
+	
+	public DelayedComponent(float time) {
+		remain = time;
+	}
+	
+	public float getRemain() {
+		return remain;
+	}
+	
+	public void substract(float time) {
+		this.remain -= time;
+	}
 }

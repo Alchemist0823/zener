@@ -36,6 +36,11 @@ public class AnimationComponent extends Component {
 	public AnimationComponent() {
 		animControllers = new LinkedList<AnimationController<?>>();
 	}
+
+    public AnimationComponent(AnimationController<?> ac) {
+        animControllers = new LinkedList<AnimationController<?>>();
+        add(ac);
+    }
 	
 	public void add(AnimationController<?> ac) {
 		animControllers.add(ac);

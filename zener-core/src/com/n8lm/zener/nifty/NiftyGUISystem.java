@@ -22,7 +22,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
@@ -37,10 +36,10 @@ import com.n8lm.zener.nifty.input.ZenerInputSystem;
 import com.n8lm.zener.nifty.input.ZenerZenerInputSystem;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
-import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
+//import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
+//import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
 import de.lessvoid.nifty.render.batch.BatchRenderDevice;
-import de.lessvoid.nifty.sound.openal.OpenALSoundDevice;
+import com.n8lm.zener.nifty.audio.OpenALSoundDevice;
 import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
 
 public class NiftyGUISystem extends VoidEntitySystem {

@@ -8,7 +8,7 @@ import com.n8lm.zener.collision.AABBBoundingBox;
 import com.n8lm.zener.collision.CollidableComponent;
 import com.n8lm.zener.general.AttachSystem;
 import com.n8lm.zener.collision.CollisionSystem;
-import com.n8lm.zener.general.ExpirationSystem;
+import com.n8lm.zener.general.DelayedSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.map.TiledMap;
@@ -80,7 +80,7 @@ public class RangerGame extends ExampleBasicGame{
 
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new TiledMapPositionSystem(map));
-        world.setSystem(new ExpirationSystem());
+        world.setSystem(new DelayedSystem());
         world.setSystem(new CollisionSystem(), true);
         world.setSystem(new PhysicsSystem(world.getSystem(CollisionSystem.class)));
         world.setSystem(new AnimationSystem());

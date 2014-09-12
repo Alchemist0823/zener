@@ -23,13 +23,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.DelayedEntityProcessingSystem;
+import com.n8lm.zener.script.Event;
+import com.n8lm.zener.script.ScriptHelper;
 
-public class ExpirationSystem extends DelayedEntityProcessingSystem {
+public class DelayedSystem extends DelayedEntityProcessingSystem {
 
-	@Mapper ComponentMapper<ExpireComponent> em;
+	@Mapper ComponentMapper<DelayedComponent> em;
 	
-	public ExpirationSystem() {
-		super(Aspect.getAspectForAll(ExpireComponent.class));
+	public DelayedSystem() {
+		super(Aspect.getAspectForAll(DelayedComponent.class));
 	}
 
 	@Override
@@ -44,9 +46,7 @@ public class ExpirationSystem extends DelayedEntityProcessingSystem {
 
 	@Override
 	protected void processExpired(Entity e) {
-		if(em.get(e).getExpireListener() != null)
-			em.get(e).getExpireListener().endEvent(e);
-		world.deleteEntity(e);
+        ScriptHelper.dispatchEvent(e.getWorld(), e, new Event(Event.DELAYED_END, e));
 	}
 
 }

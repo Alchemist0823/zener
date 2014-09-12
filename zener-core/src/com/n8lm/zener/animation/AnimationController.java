@@ -99,9 +99,6 @@ public abstract class AnimationController<T extends KeyFrame>{
 
 	protected void invoke(Entity e, String event) {
 		ScriptHelper.dispatchEvent(e.getWorld(), e, new AnimationEvent(event, e, anim));
-		//for(EndEventListener listener : listeners) {
-		//	listener.endEvent(e);
-		//}
 	}
 	
 	protected void init() {

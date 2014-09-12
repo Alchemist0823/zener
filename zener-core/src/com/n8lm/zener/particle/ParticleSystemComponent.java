@@ -22,8 +22,20 @@ import com.artemis.Component;
 
 public class ParticleSystemComponent extends Component {
 
+    /**
+     * the count of the particles
+     */
 	private int count;
+
+    /**
+     * the count of the particles which is produced in this second
+     */
+    private int countPerSecond;
+
 	private Particle[] particles;
+    /**
+     * the total time from the initialization of particles
+     */
 	private double time;
 	private ParticleController controller;
 	
@@ -31,9 +43,18 @@ public class ParticleSystemComponent extends Component {
 		particles = new Particle[controller.getMaxCount()];
 		count = 0;
 		time = 0;
+        countPerSecond = 0;
 		this.controller = controller;
 		controller.init();
 	}
+
+    public int getCountPerSecond() {
+        return countPerSecond;
+    }
+
+    public void setCountPerSecond(int countPerSecond) {
+        this.countPerSecond = countPerSecond;
+    }
 
 	public Particle[] getParticles() {
 		return particles;
@@ -60,6 +81,8 @@ public class ParticleSystemComponent extends Component {
 	}
 
 	public void passTime(double time) {
+        if ((int)(this.time) < (int)(this.time + time))
+            countPerSecond = 0;
 		this.time += time;
 	}
 }

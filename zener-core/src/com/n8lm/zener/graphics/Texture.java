@@ -291,6 +291,7 @@ public class Texture extends GLObject {
     private MinFilter minificationFilter = MinFilter.Bilinear;
     private MagFilter magnificationFilter = MagFilter.Bilinear;
     private ShadowCompareMode shadowCompareMode = ShadowCompareMode.Off;
+    private WrapMode wrapMode = WrapMode.EdgeClamp;
     private boolean needCompareModeUpdate = false;
     private int anisotropicFilter;
 
@@ -395,7 +396,7 @@ public class Texture extends GLObject {
 
         glTexImage2D(
                 GL_TEXTURE_2D, 0, format.getGLCode(), width, height, 0,
-                image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, (ByteBuffer) image.getData()
+                image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, image.getData()
         );
         glBindTexture(GL_TEXTURE_2D, 0);
     }
@@ -406,12 +407,22 @@ public class Texture extends GLObject {
         //glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
         //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-        if (GLContext.getCapabilities().OpenGL12) {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        } else {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        switch (wrapMode) {
+            case EdgeClamp:
+                if (GLContext.getCapabilities().OpenGL12) {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                } else {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+                }
+                break;
+            case Repeat:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                break;
+            default:
+                break;
         }
 
         switch (magnificationFilter) {
@@ -515,6 +526,34 @@ public class Texture extends GLObject {
 
     public void setFormat(Format format) {
         this.format = format;
+    }
+
+    public WrapMode getWrapMode() {
+        return wrapMode;
+    }
+
+    public void setWrapMode(WrapMode wrapMode) {
+        this.wrapMode = wrapMode;
+
+        glBindTexture(GL_TEXTURE_2D, id);
+        switch (wrapMode) {
+            case EdgeClamp:
+                if (GLContext.getCapabilities().OpenGL12) {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                } else {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+                }
+                break;
+            case Repeat:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                break;
+            default:
+                break;
+        }
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     @Override

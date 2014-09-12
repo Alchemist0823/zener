@@ -19,6 +19,7 @@
 package com.n8lm.zener.graphics;
 
 import com.n8lm.zener.glsl.VarType;
+import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 
@@ -50,6 +51,17 @@ public class UniformGroup {
 
     public void set(String name, Object value) {
         uniforms.get(name).setValue(value);
+    }
+
+    protected void setVector2f(String name, float x, float y) {
+        UniformVariable uv = uniforms.get(name);
+        Vector2f v = null;
+        if ((v = (Vector2f) uv.getValue()) == null)
+            uv.setValue(new Vector2f(x, y));
+        else {
+            v.x = x;
+            v.y = y;
+        }
     }
 
     protected void setVector3f(String name, float x, float y, float z) {
