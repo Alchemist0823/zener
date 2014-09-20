@@ -11,7 +11,7 @@ import com.n8lm.zener.collision.CollisionSystem;
 import com.n8lm.zener.general.DelayedSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
-import com.n8lm.zener.map.TiledMap;
+import com.n8lm.zener.map.*;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.script.Event;
@@ -71,15 +71,19 @@ public class RangerGame extends ExampleBasicGame{
     protected void init() {
         super.init();
 
-        TiledMap map = new TiledMap();
+        TiledMap map = null;
         try {
-            map.readFromText(new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("tiledMap.txt"))));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("map.txt")));
+            TileSet<Tile> tileSet = TileMapLoadingHelper.readTileSetFromText(reader);
+            map = TiledMap.readFromText(reader);
+            map.setTileSet(tileSet);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new TiledMapPositionSystem(map));
+        world.setSystem(new TiledMapRenderingSystem());
         world.setSystem(new DelayedSystem());
         world.setSystem(new CollisionSystem(), true);
         world.setSystem(new PhysicsSystem(world.getSystem(CollisionSystem.class)));
@@ -89,12 +93,12 @@ public class RangerGame extends ExampleBasicGame{
 
         world.initialize();
 
+        EntityFactory.setWorld(world);
         // add Map
-        mapEntity = world.createEntity();
-        mapEntity.addComponent(new GeometryComponent(new TiledMapGeometry("tiledMap", map)));
-        mapEntity.addComponent(new MaterialComponent(new TiledMapMaterial(map.getTileSet())));
-        mapEntity.addComponent(new TransformComponent(new Transform()));
-        world.addEntity(mapEntity);
+        int vis[][] = new int[40][40];
+
+        world.getSystem(TiledMapRenderingSystem.class).init(map);
+        world.getSystem(TiledMapRenderingSystem.class).updateVisibleArea(vis);
 
         // add the structure entity of the character
         /*

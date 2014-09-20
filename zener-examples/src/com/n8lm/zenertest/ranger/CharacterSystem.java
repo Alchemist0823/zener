@@ -12,8 +12,13 @@ import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.script.DelayedEvent;
+import com.n8lm.zener.script.ExpiredDeleteScript;
+import com.n8lm.zener.script.NativeScript;
+import com.n8lm.zener.script.ScriptComponent;
 import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zenertest.ranger.CharacterComponent.Action;
+import sun.font.Script;
 
 /**
  * Created on 2014/7/18.
@@ -39,6 +44,8 @@ public class CharacterSystem extends EntityProcessingSystem{
     private Vector3f tempdir = new Vector3f();
     private Quaternion temprot = new Quaternion();
 
+    private NativeScript deleteScript = new ExpiredDeleteScript();
+
     @Override
     protected void process(Entity e) {
         CharacterComponent cc = cm.get(e);
@@ -57,7 +64,8 @@ public class CharacterSystem extends EntityProcessingSystem{
                 EntityFactory.addDisplayObjectComponents(arrow, "arrow", false, false);
                 //arrow.addComponent(new GeometryComponent(new ModelGeometry(ResourceManager.getInstance().getModel("arrow").getMesh())));
                 //arrow.addComponent(new MaterialComponent(new NormalMaterial(ResourceManager.getInstance().getModel("arrow").getMaterial())));
-                arrow.addComponent(new DelayedComponent(5f));
+                arrow.addComponent(new ScriptComponent(DelayedEvent.END, deleteScript));
+                arrow.addComponent(new DelayedComponent(5f, "delete"));
                 world.addEntity(arrow);
             }
         } else if (action == Action.Run) {

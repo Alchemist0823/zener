@@ -23,6 +23,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.DelayedEntityProcessingSystem;
+import com.n8lm.zener.script.DelayedEvent;
 import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.ScriptHelper;
 
@@ -46,7 +47,9 @@ public class DelayedSystem extends DelayedEntityProcessingSystem {
 
 	@Override
 	protected void processExpired(Entity e) {
-        ScriptHelper.dispatchEvent(e.getWorld(), e, new Event(Event.DELAYED_END, e));
+        ScriptHelper.dispatchEvent(e.getWorld(), e, new DelayedEvent(DelayedEvent.END, e, em.get(e).getReason()));
+        e.removeComponent(DelayedComponent.class);
+        world.changedEntity(e);
 	}
 
 }

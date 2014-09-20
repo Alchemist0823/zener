@@ -18,17 +18,25 @@
 
 package com.n8lm.zener.script;
 
-import com.artemis.World;
+import com.artemis.Entity;
 
 /**
- * Created on 2014/9/12.
+ * Created on 2014/9/13.
  *
  * @author Alchemist
  */
-public class ExpiredDeleteScript implements NativeScript{
-    @Override
-    public void run(World world, Event event) {
-        if (event.getType() == DelayedEvent.END)
-            world.deleteEntity(event.getDispatcher());
+public class DelayedEvent extends Event{
+
+    public static final String END = "delayedEnd";
+
+    private String reason;
+
+    public DelayedEvent(String type, Entity dispatcher, String reason) {
+        super(type, dispatcher);
+        this.reason = reason;
+    }
+
+    public String getReason() {
+        return reason;
     }
 }

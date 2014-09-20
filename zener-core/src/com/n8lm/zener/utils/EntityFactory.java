@@ -84,7 +84,7 @@ public class EntityFactory {
                 shadowCaster, shadowReceiver);
     }
 
-    public static void changeEntityModel(Entity e, String modelName) {
+    public static void changeEntityModel(Entity e, String modelName, boolean changeSkeleton) {
 
         ResourceManager rm = ResourceManager.getInstance();
         Model model = rm.getModel(modelName);
@@ -98,9 +98,11 @@ public class EntityFactory {
         e.getComponent(GeometryComponent.class).setGeometry(geometry);
         e.getComponent(MaterialComponent.class).setMaterial(
                 new NormalMaterial(model.getMaterial()));
-        e.removeComponent(SkeletonComponent.class);
-        if (model.getSkeleton().getJoints().size() > 0)
-            e.addComponent(new SkeletonComponent(model.getSkeleton()));
+        if (changeSkeleton) {
+            e.removeComponent(SkeletonComponent.class);
+            if (model.getSkeleton().getJoints().size() > 0)
+                e.addComponent(new SkeletonComponent(model.getSkeleton()));
+        }
         world.changedEntity(e);
     }
 

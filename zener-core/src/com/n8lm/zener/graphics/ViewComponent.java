@@ -23,6 +23,7 @@ import com.n8lm.zener.math.Rectangle2D;
 
 public class ViewComponent extends Component {
 
+    private boolean fullscreen;
     private Rectangle2D viewport;
     private FrameBuffer framebuffer;
 
@@ -30,27 +31,31 @@ public class ViewComponent extends Component {
     private boolean active;
     private Projection projection;
 
-	/*
-    public ViewComponent() {
-		this(new PerspectiveProjection());
-	}*/
-
     public ViewComponent(Projection projection) {
         this(projection, 0);
     }
 
     public ViewComponent(Projection projection, int priority) {
-        this(projection, priority, new Rectangle2D(0, 0, 0, 0), null, true);
+        this.projection = projection;
+        this.viewport = new Rectangle2D(0, 0, 0, 0);
+        this.priority = priority;
+        this.framebuffer = null;
+        this.active = true;
+        this.fullscreen = true;
     }
 
-    public ViewComponent(Projection projection, int priority, Rectangle2D viewport, FrameBuffer framebuffer, boolean active) {
-        super();
+    public ViewComponent(Projection projection, int priority, Rectangle2D viewport) {
+        this(projection, priority, viewport, null, true);
+    }
 
-        this.setProjection(projection);
+
+    public ViewComponent(Projection projection, int priority, Rectangle2D viewport, FrameBuffer framebuffer, boolean active) {
+        this.projection = projection;
         this.viewport = viewport;
         this.priority = priority;
         this.framebuffer = framebuffer;
         this.active = active;
+        this.fullscreen = false;
     }
 
 
@@ -105,4 +110,11 @@ public class ViewComponent extends Component {
         this.projection = projection;
     }
 
+    public boolean isFullscreen() {
+        return fullscreen;
+    }
+
+    public void setFullscreen(boolean fullscreen) {
+        this.fullscreen = fullscreen;
+    }
 }

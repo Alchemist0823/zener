@@ -22,9 +22,11 @@ import com.artemis.Component;
 
 public class DelayedComponent extends Component {
 	private float remain;
-	
-	public DelayedComponent(float time) {
+    private String reason;
+
+    public DelayedComponent(float time, String reason) {
 		remain = time;
+        this.reason = reason;
 	}
 	
 	public float getRemain() {
@@ -34,4 +36,8 @@ public class DelayedComponent extends Component {
 	public void substract(float time) {
 		this.remain -= time;
 	}
+
+    public String getReason() {
+        return reason;
+    }
 }

@@ -26,6 +26,7 @@ import java.util.List;
 
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendFactory;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.artemis.systems.VoidEntitySystem;
@@ -92,8 +93,7 @@ public class NiftyGUISystem extends VoidEntitySystem {
     @Override
 	protected void processSystem() {
 
-		
-        //glViewport(0, 0, Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight());
+        glViewport(0, 0, Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight());
         
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();

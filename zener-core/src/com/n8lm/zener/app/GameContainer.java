@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.n8lm.zener.audio.Music;
+import com.n8lm.zener.graphics.GLRenderSystem;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
@@ -713,10 +714,9 @@ public abstract class GameContainer {
 
 		Music.poll(delta);
 
-		/*
-		 * if (clearEachFrame) { glClear(GL_COLOR_BUFFER_BIT |
-		 * GL_DEPTH_BUFFER_BIT); }
-		 */
+		if (clearEachFrame) {
+            GLRenderSystem.clear();
+        }
 
 		if (!paused) {
 			storedDelta += delta;
@@ -826,8 +826,8 @@ public abstract class GameContainer {
 	 */
 	protected void initSystem() {
 		initGL();
-		setMusicVolume(1.0f);
-		setSoundVolume(1.0f);
+		//setMusicVolume(1.0f);
+		//setSoundVolume(1.0f);
 
 		lastFPS = getTime();
 	}

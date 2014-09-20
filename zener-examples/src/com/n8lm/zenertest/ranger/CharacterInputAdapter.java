@@ -166,7 +166,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         AnimationController<?> ac = character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow");
         if (ac != null && ac.getTime() == 41f) {
-            character.getComponent(CharacterComponent.class).setAction();
+            character.getComponent(CharacterComponent.class).setAction(CharacterComponent.Action.Bow);
         }
 
 

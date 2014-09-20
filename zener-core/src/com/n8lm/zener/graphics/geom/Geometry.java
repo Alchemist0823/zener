@@ -69,7 +69,7 @@ public abstract class Geometry extends GLObject {
     protected String shader;
     //protected Indexbuffer ib;
 
-    public Geometry(String name, String shader) {
+    protected Geometry(String name, String shader) {
         super();
         this.name = name;
         this.vbs = new HashMap<VertexBuffer.Type, VertexBuffer>();

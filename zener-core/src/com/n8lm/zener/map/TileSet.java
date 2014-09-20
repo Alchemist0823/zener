@@ -28,14 +28,6 @@ import java.util.Map;
 
 public class TileSet<T extends Tile>{
 
-	/*
-	public static final int BUSH = 10;
-	public static final int TREE = 11;
-	public static final int PINETREE = 12;
-	public static final int COCOPALM = 13;
-	public static final int WALL = 14;
-    protected static final int TILE_NUM = 100;
-    */
 
     protected Map<Integer, T> tiles;
     //protected Map<Integer, S> structures;
@@ -72,7 +64,15 @@ public class TileSet<T extends Tile>{
     /*public S getStructure(int structure) {
         return structures.get(structure);
     }*/
-
+    public static TileSet readTileSetFromText(TileBuilder<? extends Tile> tileBuilder, BufferedReader reader) throws IOException {
+        TileSet tileSet = new TileSet();
+        String line;
+        while (!(line = reader.readLine()).startsWith("-")) {
+            Tile tile = tileBuilder.build(line);
+            tileSet.add(tile.getId(), tile);
+        }
+        return tileSet;
+    }
 
     public void writeToText(BufferedWriter writer) throws IOException{
         for (Map.Entry<Integer, T> entry : tiles.entrySet()) {
@@ -90,18 +90,5 @@ public class TileSet<T extends Tile>{
         writer.write("-------------------------------------");
         writer.newLine();*/
     }
-	/*
-	@Override
-	public void read(InputStream input) throws IOException {
 
-		DataInputStream reader = new DataInputStream(input);
-		tileCount = reader.readInt();
-		reader.readChar();
-		
-	}
-	@Override
-	public void write(OutputStream output) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}*/
 }

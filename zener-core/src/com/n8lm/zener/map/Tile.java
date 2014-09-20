@@ -13,9 +13,17 @@ public class Tile {
     protected int id;
     protected String textureName;
 
-    public Tile(int id, String textureName) {
+    protected Tile(int id, String textureName) {
         this.id = id;
         this.textureName = textureName;
+    }
+
+    public static class Builder implements TileBuilder<Tile>{
+        @Override
+        public Tile build(String line) {
+            String str[] = line.split(" ");
+            return new Tile(Integer.parseInt(str[0]), str[1]);
+        }
     }
 
     public int getId() {

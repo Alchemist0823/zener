@@ -268,15 +268,21 @@ public class ViewRenderSystem extends EntitySystem {
     @Override
     protected void begin() {
         Rectangle2D viewPort = vc.getViewport();
+
         if (vc.isRenderToScreen()) {
-            viewPort.x0 = 0;
-            viewPort.y0 = 0;
-            viewPort.x1 = Display.getWidth();
-            viewPort.y1 = Display.getHeight();
+            if (vc.isFullscreen()) {
+                viewPort.x0 = 0;
+                viewPort.y0 = 0;
+                viewPort.x1 = Display.getWidth();
+                viewPort.y1 = Display.getHeight();
+            }
+            GL11.glViewport((int) viewPort.x0, (int) (Display.getHeight() - viewPort.y1), (int) (viewPort.x1 - viewPort.x0),
+                    (int) (viewPort.y1 - viewPort.y0));
+        } else {
+            GL11.glViewport((int) viewPort.x0, (int) (viewPort.y0), (int) (viewPort.x1 - viewPort.x0),
+                    (int) (viewPort.y1 - viewPort.y0));
         }
 
-        GL11.glViewport((int) viewPort.x0, (int) viewPort.y0, (int) (viewPort.x1 - viewPort.x0),
-                (int) (viewPort.y1 - viewPort.y0));
         vc.getProjection().setAspectRatio((viewPort.x1 - viewPort.x0) / (viewPort.y1 - viewPort.y0));
 
         vc.getProjection().getProjectionMatrix(projectionMat);
