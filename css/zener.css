@@ -1,19 +1,19 @@
-/* line 3, ../sass/zener.scss */
+/* line 4, ../sass/zener.scss */
 body {
   overflow-x: hidden;
 }
 
-/* line 7, ../sass/zener.scss */
+/* line 8, ../sass/zener.scss */
 p {
   font-size: 20px;
 }
 
-/* line 11, ../sass/zener.scss */
+/* line 12, ../sass/zener.scss */
 p.small {
   font-size: 16px;
 }
 
-/* line 19, ../sass/zener.scss */
+/* line 16, ../sass/zener.scss */
 a,
 a:hover,
 a:focus,
@@ -23,7 +23,7 @@ a.active {
   outline: none;
 }
 
-/* line 24, ../sass/zener.scss */
+/* line 25, ../sass/zener.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
@@ -53,40 +53,39 @@ hr.star-primary:after {
   padding: 0 0.25em;
 }
 
-/* line 51, ../sass/zener.scss */
+/* line 52, ../sass/zener.scss */
 hr.star-light {
   border-color: white;
 }
 
-/* line 55, ../sass/zener.scss */
+/* line 56, ../sass/zener.scss */
 hr.star-light:after {
-  background-color: #5cb85c;
+  background-color: #428bca;
   color: white;
 }
 
-/* line 60, ../sass/zener.scss */
+/* line 61, ../sass/zener.scss */
 hr.star-primary {
   border-color: #428bca;
 }
 
-/* line 64, ../sass/zener.scss */
+/* line 65, ../sass/zener.scss */
 hr.star-primary:after {
   background-color: white;
   color: #428bca;
 }
 
-/* line 69, ../sass/zener.scss */
+/* line 70, ../sass/zener.scss */
 .img-centered {
   margin: 0 auto;
 }
 
-/* line 73, ../sass/zener.scss */
+/* line 74, ../sass/zener.scss */
 .navbar-logo {
   float: left;
   margin-right: 20px;
 }
 
-/*$brand-success*/
 /* line 79, ../sass/zener.scss */
 header {
   text-align: center;
@@ -151,87 +150,94 @@ header .intro-text .skills {
     -moz-transition: all 0.3s;
     transition: all 0.3s;
   }
+  /* line 139, ../sass/zener.scss */
+  .navbar-fixed-top .navbar-nav a {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
 
-  /* line 140, ../sass/zener.scss */
+  /* line 145, ../sass/zener.scss */
   .navbar-fixed-top.navbar-shrink {
     padding: 10px 0;
   }
-  /* line 142, ../sass/zener.scss */
+  /* line 147, ../sass/zener.scss */
   .navbar-fixed-top.navbar-shrink .navbar-brand {
     font-size: 1.5em;
   }
 }
-/* line 148, ../sass/zener.scss */
+/* line 153, ../sass/zener.scss */
 .navbar {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 700;
 }
-/* line 152, ../sass/zener.scss */
+/* line 157, ../sass/zener.scss */
 .navbar a:focus {
   outline: none;
 }
-/* line 155, ../sass/zener.scss */
+/* line 160, ../sass/zener.scss */
 .navbar .navbar-nav {
   letter-spacing: 1px;
 }
-/* line 158, ../sass/zener.scss */
+/* line 163, ../sass/zener.scss */
 .navbar .navbar-nav li a:focus {
   outline: none;
 }
-/* line 163, ../sass/zener.scss */
+/* line 168, ../sass/zener.scss */
 .navbar .navbar-brand {
+  padding: 20px;
   height: 60px;
 }
 
-/* line 169, ../sass/zener.scss */
+/* line 174, ../sass/zener.scss */
 .navbar-default,
 .navbar-inverse {
   border: none;
 }
 
-/* line 173, ../sass/zener.scss */
+/* line 179, ../sass/zener.scss */
 section {
   padding: 100px 0;
 }
-/* line 175, ../sass/zener.scss */
+/* line 181, ../sass/zener.scss */
 section h2 {
   margin: 0;
   font-size: 3em;
 }
 
-/* line 181, ../sass/zener.scss */
+/* line 187, ../sass/zener.scss */
 section.success {
-  background: #5cb85c;
+  background: #428bca;
   color: white;
 }
 
 @media (max-width: 767px) {
-  /* line 187, ../sass/zener.scss */
+  /* line 193, ../sass/zener.scss */
   section {
     padding: 75px 0;
   }
 
-  /* line 190, ../sass/zener.scss */
+  /* line 196, ../sass/zener.scss */
   section.first {
     padding-top: 75px;
   }
 }
-/* line 196, ../sass/zener.scss */
+/* line 202, ../sass/zener.scss */
 #showcase .showcase-item {
   margin: 0 0 15px;
   right: 0;
 }
-/* line 199, ../sass/zener.scss */
+/* line 205, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link {
   display: block;
   position: relative;
   max-width: 400px;
   margin: 0 auto;
 }
-/* line 204, ../sass/zener.scss */
+/* line 210, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption {
-  background: fade(#5cb85c, 90%);
+  background: fade(#428bca, 90%);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -240,11 +246,11 @@ section.success {
   -webkit-transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
 }
-/* line 213, ../sass/zener.scss */
+/* line 219, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption:hover {
   opacity: 1;
 }
-/* line 216, ../sass/zener.scss */
+/* line 222, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content {
   position: absolute;
   width: 100%;
@@ -255,27 +261,27 @@ section.success {
   margin-top: -12px;
   color: white;
 }
-/* line 225, ../sass/zener.scss */
+/* line 231, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content i {
   margin-top: -12px;
 }
-/* line 229, ../sass/zener.scss */
+/* line 234, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content h3,
 #showcase .showcase-item .showcase-link .caption .caption-content h4 {
   margin: 0;
 }
-/* line 236, ../sass/zener.scss */
+/* line 242, ../sass/zener.scss */
 #showcase * {
   z-index: 2;
 }
 
 @media (min-width: 767px) {
-  /* line 243, ../sass/zener.scss */
+  /* line 249, ../sass/zener.scss */
   #showcase .showcase-item {
     margin: 0 0 30px;
   }
 }
-/* line 249, ../sass/zener.scss */
+/* line 255, ../sass/zener.scss */
 .btn-outline {
   color: white;
   font-size: 20px;
@@ -284,102 +290,37 @@ section.success {
   transition: all 0.3s ease-in-out;
   margin-top: 15px;
 }
-/* line 259, ../sass/zener.scss */
+/* line 262, ../sass/zener.scss */
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
-  color: #5cb85c;
+  color: #428bca;
   background: white;
   border: solid 2px white;
 }
 
-/* line 266, ../sass/zener.scss */
-.floating-label-form-group {
-  position: relative;
-  margin-bottom: 0;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid #eeeeee;
-}
 /* line 272, ../sass/zener.scss */
-.floating-label-form-group input,
-.floating-label-form-group textarea {
-  z-index: 1;
-  position: relative;
-  padding-right: 0;
-  padding-left: 0;
-  border: none;
-  border-radius: 0;
-  font-size: 1.5em;
-  background: none;
-  box-shadow: none !important;
-  resize: none;
-}
-/* line 284, ../sass/zener.scss */
-.floating-label-form-group label {
-  display: block;
-  z-index: 0;
-  position: relative;
-  top: 2em;
-  margin: 0;
-  font-size: 0.85em;
-  line-height: 1.764705882em;
-  vertical-align: middle;
-  vertical-align: baseline;
-  opacity: 0;
-  -webkit-transition: top 0.3s ease,opacity 0.3s ease;
-  -moz-transition: top 0.3s ease,opacity 0.3s ease;
-  -ms-transition: top 0.3s ease,opacity 0.3s ease;
-  transition: top 0.3s ease,opacity 0.3s ease;
-}
-/* line 300, ../sass/zener.scss */
-.floating-label-form-group::not(:first-child) {
-  padding-left: 14px;
-  border-left: 1px solid #eeeeee;
-}
-
-/* line 307, ../sass/zener.scss */
-.floating-label-form-group-with-value label {
-  top: 0;
-  opacity: 1;
-}
-
-/* line 314, ../sass/zener.scss */
-.floating-label-form-group-with-focus label {
-  color: #5cb85c;
-}
-
-/* line 319, ../sass/zener.scss */
-.form-control {
-  color: #ddd;
-}
-
-/* line 323, ../sass/zener.scss */
-form .row:first-child .floating-label-form-group {
-  border-top: 1px solid #eeeeee;
-}
-
-/* line 327, ../sass/zener.scss */
 footer {
   color: white;
 }
-/* line 329, ../sass/zener.scss */
+/* line 274, ../sass/zener.scss */
 footer h3 {
   margin-bottom: 30px;
 }
-/* line 332, ../sass/zener.scss */
+/* line 277, ../sass/zener.scss */
 footer .footer-above {
   padding-top: 50px;
-  background-color: #428bca;
+  background-color: #357ebd;
 }
-/* line 336, ../sass/zener.scss */
+/* line 281, ../sass/zener.scss */
 footer .footer-col {
   margin-bottom: 50px;
 }
-/* line 339, ../sass/zener.scss */
+/* line 284, ../sass/zener.scss */
 footer .footer-below {
   padding: 25px 0;
-  background-color: #357ebd;
+  background-color: #3071a9;
 }
 
-/* line 345, ../sass/zener.scss */
+/* line 290, ../sass/zener.scss */
 .btn-social {
   display: inline-block;
   height: 50px;
@@ -391,14 +332,14 @@ footer .footer-below {
   line-height: 45px;
 }
 
-/* line 358, ../sass/zener.scss */
+/* line 301, ../sass/zener.scss */
 .btn:focus,
 .btn:active,
 .btn.active {
   outline: none;
 }
 
-/* line 362, ../sass/zener.scss */
+/* line 307, ../sass/zener.scss */
 .scroll-top {
   position: fixed;
   right: 2%;
@@ -407,7 +348,7 @@ footer .footer-below {
   height: 50px;
   z-index: 1049;
 }
-/* line 369, ../sass/zener.scss */
+/* line 314, ../sass/zener.scss */
 .scroll-top .btn {
   font-size: 20px;
   width: 50px;
@@ -415,12 +356,12 @@ footer .footer-below {
   border-radius: 100%;
   line-height: 28px;
 }
-/* line 375, ../sass/zener.scss */
+/* line 320, ../sass/zener.scss */
 .scroll-top .btn:focus {
   outline: none;
 }
 
-/* line 382, ../sass/zener.scss */
+/* line 327, ../sass/zener.scss */
 .showcase-modal .modal-content {
   border-radius: 0;
   background-clip: border-box;
@@ -431,20 +372,20 @@ footer .footer-below {
   padding: 100px 0;
   text-align: center;
 }
-/* line 391, ../sass/zener.scss */
+/* line 336, ../sass/zener.scss */
 .showcase-modal .modal-content h2 {
   margin: 0;
   font-size: 3em;
 }
-/* line 395, ../sass/zener.scss */
+/* line 340, ../sass/zener.scss */
 .showcase-modal .modal-content img {
   margin-bottom: 30px;
 }
-/* line 398, ../sass/zener.scss */
+/* line 343, ../sass/zener.scss */
 .showcase-modal .modal-content .item-details {
   margin: 30px 0;
 }
-/* line 402, ../sass/zener.scss */
+/* line 347, ../sass/zener.scss */
 .showcase-modal .close-modal {
   position: absolute;
   width: 75px;
@@ -454,16 +395,16 @@ footer .footer-below {
   right: 25px;
   cursor: pointer;
 }
-/* line 410, ../sass/zener.scss */
+/* line 355, ../sass/zener.scss */
 .showcase-modal .close-modal:hover {
   opacity: 0.3;
 }
-/* line 413, ../sass/zener.scss */
+/* line 358, ../sass/zener.scss */
 .showcase-modal .close-modal .lr {
   height: 75px;
   width: 1px;
   margin-left: 35px;
-  background-color: #428bca;
+  background-color: #5cb85c;
   transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   /* IE 9 */
@@ -471,11 +412,11 @@ footer .footer-below {
   /* Safari and Chrome */
   z-index: 1051;
 }
-/* line 424, ../sass/zener.scss */
+/* line 369, ../sass/zener.scss */
 .showcase-modal .close-modal .lr .rl {
   height: 75px;
   width: 1px;
-  background-color: #428bca;
+  background-color: #5cb85c;
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   /* IE 9 */

@@ -1,6 +1,8 @@
 deprecated/
 less/
 sass/
+.idea/
 *.rb
 .sass-cache/
 *.bat
+*.psd
