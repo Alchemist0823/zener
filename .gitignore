@@ -1,0 +1,6 @@
+deprecated/
+less/
+sass/
+*.rb
+.sass-cache/
+*.bat
