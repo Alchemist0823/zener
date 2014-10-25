@@ -9,11 +9,16 @@ p {
 }
 
 /* line 12, ../sass/zener.scss */
+ul {
+  font-size: 20px;
+}
+
+/* line 16, ../sass/zener.scss */
 p.small {
   font-size: 16px;
 }
 
-/* line 16, ../sass/zener.scss */
+/* line 20, ../sass/zener.scss */
 a,
 a:hover,
 a:focus,
@@ -23,7 +28,7 @@ a.active {
   outline: none;
 }
 
-/* line 26, ../sass/zener.scss */
+/* line 30, ../sass/zener.scss */
 .showcase-modal a,
 .showcase-modal a:hover,
 .showcase-modal a:focus,
@@ -32,14 +37,14 @@ a.active {
   color: #428bca;
 }
 
-/* line 35, ../sass/zener.scss */
+/* line 39, ../sass/zener.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 700;
 }
 
-/* line 41, ../sass/zener.scss */
+/* line 45, ../sass/zener.scss */
 hr.star-light,
 hr.star-primary {
   padding: 0;
@@ -50,7 +55,7 @@ hr.star-primary {
   margin: 25px auto 30px;
 }
 
-/* line 51, ../sass/zener.scss */
+/* line 55, ../sass/zener.scss */
 hr.star-light:after,
 hr.star-primary:after {
   /*content: "\f005";*/
@@ -62,40 +67,40 @@ hr.star-primary:after {
   padding: 0 0.25em;
 }
 
-/* line 62, ../sass/zener.scss */
+/* line 66, ../sass/zener.scss */
 hr.star-light {
   border-color: white;
 }
 
-/* line 66, ../sass/zener.scss */
+/* line 70, ../sass/zener.scss */
 hr.star-light:after {
   background-color: #428bca;
   color: white;
 }
 
-/* line 71, ../sass/zener.scss */
+/* line 75, ../sass/zener.scss */
 hr.star-primary {
   border-color: #428bca;
 }
 
-/* line 75, ../sass/zener.scss */
+/* line 79, ../sass/zener.scss */
 hr.star-primary:after {
   background-color: white;
   color: #428bca;
 }
 
-/* line 80, ../sass/zener.scss */
+/* line 84, ../sass/zener.scss */
 .img-centered {
   margin: 0 auto;
 }
 
-/* line 84, ../sass/zener.scss */
+/* line 88, ../sass/zener.scss */
 .navbar-logo {
   float: left;
   margin-right: 20px;
 }
 
-/* line 89, ../sass/zener.scss */
+/* line 93, ../sass/zener.scss */
 header {
   text-align: center;
   background-attachment: scroll;
@@ -105,17 +110,17 @@ header {
   background-size: cover;
   color: white;
 }
-/* line 97, ../sass/zener.scss */
+/* line 101, ../sass/zener.scss */
 header .container {
   padding-top: 100px;
   padding-bottom: 50px;
 }
-/* line 101, ../sass/zener.scss */
+/* line 105, ../sass/zener.scss */
 header img {
   display: block;
   margin: 0 auto 20px;
 }
-/* line 106, ../sass/zener.scss */
+/* line 110, ../sass/zener.scss */
 header .intro-text .name {
   display: block;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -123,128 +128,128 @@ header .intro-text .name {
   font-weight: 700;
   font-size: 2em;
 }
-/* line 113, ../sass/zener.scss */
+/* line 117, ../sass/zener.scss */
 header .intro-text .skills {
   font-size: 1.25em;
   font-weight: 300;
 }
 
 @media (min-width: 768px) {
-  /* line 122, ../sass/zener.scss */
+  /* line 126, ../sass/zener.scss */
   header .container {
     padding-top: 200px;
     padding-bottom: 100px;
   }
-  /* line 127, ../sass/zener.scss */
+  /* line 131, ../sass/zener.scss */
   header .intro-text .name {
     font-size: 4.75em;
   }
-  /* line 130, ../sass/zener.scss */
+  /* line 134, ../sass/zener.scss */
   header .intro-text .skills {
     font-size: 1.75em;
   }
 }
 @media (min-width: 768px) {
-  /* line 138, ../sass/zener.scss */
+  /* line 142, ../sass/zener.scss */
   .navbar-fixed-top {
     padding: 25px 0;
     -webkit-transition: padding 0.3s;
     -moz-transition: padding 0.3s;
     transition: padding 0.3s;
   }
-  /* line 143, ../sass/zener.scss */
+  /* line 147, ../sass/zener.scss */
   .navbar-fixed-top .navbar-brand {
     font-size: 2em;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
   }
-  /* line 149, ../sass/zener.scss */
+  /* line 153, ../sass/zener.scss */
   .navbar-fixed-top .navbar-nav a {
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
   }
 
-  /* line 155, ../sass/zener.scss */
+  /* line 159, ../sass/zener.scss */
   .navbar-fixed-top.navbar-shrink {
     padding: 10px 0;
   }
-  /* line 157, ../sass/zener.scss */
+  /* line 161, ../sass/zener.scss */
   .navbar-fixed-top.navbar-shrink .navbar-brand {
     font-size: 1.5em;
   }
 }
-/* line 163, ../sass/zener.scss */
+/* line 167, ../sass/zener.scss */
 .navbar {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 700;
 }
-/* line 167, ../sass/zener.scss */
+/* line 171, ../sass/zener.scss */
 .navbar a:focus {
   outline: none;
 }
-/* line 170, ../sass/zener.scss */
+/* line 174, ../sass/zener.scss */
 .navbar .navbar-nav {
   letter-spacing: 1px;
 }
-/* line 173, ../sass/zener.scss */
+/* line 177, ../sass/zener.scss */
 .navbar .navbar-nav li a:focus {
   outline: none;
 }
-/* line 178, ../sass/zener.scss */
+/* line 182, ../sass/zener.scss */
 .navbar .navbar-brand {
   padding: 20px;
   height: 60px;
 }
 
-/* line 184, ../sass/zener.scss */
+/* line 188, ../sass/zener.scss */
 .navbar-default,
 .navbar-inverse {
   border: none;
 }
 
-/* line 189, ../sass/zener.scss */
+/* line 193, ../sass/zener.scss */
 section {
   padding: 100px 0;
 }
-/* line 191, ../sass/zener.scss */
+/* line 195, ../sass/zener.scss */
 section h2 {
   margin: 0;
   font-size: 3em;
 }
 
-/* line 197, ../sass/zener.scss */
+/* line 201, ../sass/zener.scss */
 section.success {
   background: #428bca;
   color: white;
 }
 
 @media (max-width: 767px) {
-  /* line 203, ../sass/zener.scss */
+  /* line 207, ../sass/zener.scss */
   section {
     padding: 75px 0;
   }
 
-  /* line 206, ../sass/zener.scss */
+  /* line 210, ../sass/zener.scss */
   section.first {
     padding-top: 75px;
   }
 }
-/* line 212, ../sass/zener.scss */
+/* line 216, ../sass/zener.scss */
 #showcase .showcase-item {
   margin: 0 0 15px;
   right: 0;
 }
-/* line 215, ../sass/zener.scss */
+/* line 219, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link {
   display: block;
   position: relative;
   max-width: 400px;
   margin: 0 auto;
 }
-/* line 220, ../sass/zener.scss */
+/* line 224, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption {
   background: fade(#428bca, 90%);
   position: absolute;
@@ -255,11 +260,11 @@ section.success {
   -webkit-transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
 }
-/* line 229, ../sass/zener.scss */
+/* line 233, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption:hover {
   opacity: 1;
 }
-/* line 232, ../sass/zener.scss */
+/* line 236, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content {
   position: absolute;
   width: 100%;
@@ -270,27 +275,27 @@ section.success {
   margin-top: -12px;
   color: white;
 }
-/* line 241, ../sass/zener.scss */
+/* line 245, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content i {
   margin-top: -12px;
 }
-/* line 244, ../sass/zener.scss */
+/* line 248, ../sass/zener.scss */
 #showcase .showcase-item .showcase-link .caption .caption-content h3,
 #showcase .showcase-item .showcase-link .caption .caption-content h4 {
   margin: 0;
 }
-/* line 252, ../sass/zener.scss */
+/* line 256, ../sass/zener.scss */
 #showcase * {
   z-index: 2;
 }
 
 @media (min-width: 767px) {
-  /* line 259, ../sass/zener.scss */
+  /* line 263, ../sass/zener.scss */
   #showcase .showcase-item {
     margin: 0 0 30px;
   }
 }
-/* line 265, ../sass/zener.scss */
+/* line 269, ../sass/zener.scss */
 .btn-outline {
   color: white;
   font-size: 20px;
@@ -299,37 +304,37 @@ section.success {
   transition: all 0.3s ease-in-out;
   margin-top: 15px;
 }
-/* line 272, ../sass/zener.scss */
+/* line 276, ../sass/zener.scss */
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
   color: #428bca;
   background: white;
   border: solid 2px white;
 }
 
-/* line 282, ../sass/zener.scss */
+/* line 286, ../sass/zener.scss */
 footer {
   color: white;
 }
-/* line 284, ../sass/zener.scss */
+/* line 288, ../sass/zener.scss */
 footer h3 {
   margin-bottom: 30px;
 }
-/* line 287, ../sass/zener.scss */
+/* line 291, ../sass/zener.scss */
 footer .footer-above {
   padding-top: 50px;
   background-color: #357ebd;
 }
-/* line 291, ../sass/zener.scss */
+/* line 295, ../sass/zener.scss */
 footer .footer-col {
   margin-bottom: 50px;
 }
-/* line 294, ../sass/zener.scss */
+/* line 298, ../sass/zener.scss */
 footer .footer-below {
   padding: 25px 0;
   background-color: #3071a9;
 }
 
-/* line 300, ../sass/zener.scss */
+/* line 304, ../sass/zener.scss */
 .btn-social {
   display: inline-block;
   height: 50px;
@@ -341,14 +346,14 @@ footer .footer-below {
   line-height: 45px;
 }
 
-/* line 311, ../sass/zener.scss */
+/* line 315, ../sass/zener.scss */
 .btn:focus,
 .btn:active,
 .btn.active {
   outline: none;
 }
 
-/* line 317, ../sass/zener.scss */
+/* line 321, ../sass/zener.scss */
 .scroll-top {
   position: fixed;
   right: 2%;
@@ -357,7 +362,7 @@ footer .footer-below {
   height: 50px;
   z-index: 1049;
 }
-/* line 324, ../sass/zener.scss */
+/* line 328, ../sass/zener.scss */
 .scroll-top .btn {
   font-size: 20px;
   width: 50px;
@@ -365,12 +370,12 @@ footer .footer-below {
   border-radius: 100%;
   line-height: 28px;
 }
-/* line 330, ../sass/zener.scss */
+/* line 334, ../sass/zener.scss */
 .scroll-top .btn:focus {
   outline: none;
 }
 
-/* line 337, ../sass/zener.scss */
+/* line 341, ../sass/zener.scss */
 .showcase-modal .modal-content {
   border-radius: 0;
   background-clip: border-box;
@@ -381,20 +386,20 @@ footer .footer-below {
   padding: 100px 0;
   text-align: center;
 }
-/* line 346, ../sass/zener.scss */
+/* line 350, ../sass/zener.scss */
 .showcase-modal .modal-content h2 {
   margin: 0;
   font-size: 3em;
 }
-/* line 350, ../sass/zener.scss */
+/* line 354, ../sass/zener.scss */
 .showcase-modal .modal-content img {
   margin-bottom: 30px;
 }
-/* line 353, ../sass/zener.scss */
+/* line 357, ../sass/zener.scss */
 .showcase-modal .modal-content .item-details {
   margin: 30px 0;
 }
-/* line 357, ../sass/zener.scss */
+/* line 361, ../sass/zener.scss */
 .showcase-modal .close-modal {
   position: absolute;
   width: 75px;
@@ -404,11 +409,11 @@ footer .footer-below {
   right: 25px;
   cursor: pointer;
 }
-/* line 365, ../sass/zener.scss */
+/* line 369, ../sass/zener.scss */
 .showcase-modal .close-modal:hover {
   opacity: 0.3;
 }
-/* line 368, ../sass/zener.scss */
+/* line 372, ../sass/zener.scss */
 .showcase-modal .close-modal .lr {
   height: 75px;
   width: 1px;
@@ -421,7 +426,7 @@ footer .footer-below {
   /* Safari and Chrome */
   z-index: 1051;
 }
-/* line 379, ../sass/zener.scss */
+/* line 383, ../sass/zener.scss */
 .showcase-modal .close-modal .lr .rl {
   height: 75px;
   width: 1px;
