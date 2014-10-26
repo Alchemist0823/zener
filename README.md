@@ -5,5 +5,5 @@ Zener Game Engine is a flexible high-performanced cross-platform cutting-edge ja
 
 Go to Website [zener.me](http://zener.me "Zener Engine")
 
-Read more [Wiki](/wiki "Zener Wiki")
+Read more [Wiki](https://github.com/no8-lightning-man/zener/wiki "Zener Wiki")
 
