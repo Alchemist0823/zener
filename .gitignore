@@ -4,6 +4,7 @@ release/
 deprecated/
 *out/
 *bin/
+test/
 *.iml
 *.blend
 *.class

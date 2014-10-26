@@ -39,7 +39,7 @@ public abstract class BasicGame {
 	
 	protected Map<String, World> worlds;
 	protected GameContainer container;
-	protected ResourceManager resourceManager;
+	protected ResourceManager resourceManager = ResourceManager.getInstance();
 	protected GameInfoManager gameInfoManager;
 	protected String title;
 
@@ -66,11 +66,9 @@ public abstract class BasicGame {
 	 */
 	public void init(GameContainer container) {
 		this.container = container;
-		
-		//gameStarted = running =
+
         isCloseRequested = false;
-		
-		resourceManager = new ResourceManager();
+
 		gameInfoManager = new GameInfoManager();
 
 		init();

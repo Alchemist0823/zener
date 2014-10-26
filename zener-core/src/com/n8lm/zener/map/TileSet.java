@@ -64,7 +64,7 @@ public class TileSet<T extends Tile>{
     /*public S getStructure(int structure) {
         return structures.get(structure);
     }*/
-    public static TileSet readTileSetFromText(TileBuilder<? extends Tile> tileBuilder, BufferedReader reader) throws IOException {
+    public static TileSet readFromText(TileBuilder<? extends Tile> tileBuilder, BufferedReader reader) throws IOException {
         TileSet tileSet = new TileSet();
         String line;
         while (!(line = reader.readLine()).startsWith("-")) {

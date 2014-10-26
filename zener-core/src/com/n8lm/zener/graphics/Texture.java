@@ -556,9 +556,16 @@ public class Texture extends GLObject {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
+    public void bind() {
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
+
+    public void unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
     @Override
     public void deleteObject() {
-        glBindTexture(GL_TEXTURE, id);
         glDeleteTextures(id);
     }
 

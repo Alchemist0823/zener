@@ -68,16 +68,16 @@ public class ResourceManager {
 
     private Map<Class<? extends GameDatabase>, GameDatabase> databases;
 
-    static private ResourceManager instance;
+    private static final ResourceManager instance = new ResourceManager();
 
-    static public ResourceManager getInstance() {
+    public static ResourceManager getInstance() {
         return instance;
     }
 
     /**
      *
      */
-    public ResourceManager() {
+    private ResourceManager() {
         models = new HashMap<String, Model>();
         materials = new HashMap<String, Material>();
         sounds = new HashMap<String, Audio>();
@@ -93,8 +93,6 @@ public class ResourceManager {
         locations = new ArrayList<ResourceLocation>();
         locations.add(new ClasspathLocation(""));
         locations.add(new FileSystemLocation(new File("")));
-
-        instance = this;
     }
 
     public void add(String name, Audio sound) {

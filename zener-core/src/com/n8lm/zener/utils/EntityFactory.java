@@ -41,7 +41,11 @@ public class EntityFactory {
     private final static Logger LOGGER = Logger.getLogger(EntityFactory.class
             .getName());
 
-    protected static World world;
+    private EntityFactory() {
+        throw new AssertionError();
+    }
+
+    private static World world;
 
     public static void setWorld(World wor) {
         world = wor;

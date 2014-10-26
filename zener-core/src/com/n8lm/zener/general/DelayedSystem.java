@@ -42,7 +42,9 @@ public class DelayedSystem extends DelayedEntityProcessingSystem {
 
 	@Override
 	protected void processDelta(Entity e, float accumulatedDelta) {
-		em.get(e).substract(accumulatedDelta / 1000f);
+        if (em.has(e))
+    		em.get(e).substract(accumulatedDelta / 1000f);
+        //TODO : Unexpected Exception
     }
 
 	@Override
