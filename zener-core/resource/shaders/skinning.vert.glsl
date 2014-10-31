@@ -48,11 +48,7 @@ void main()
 #endif
 	
 #ifdef SHADOW_MAPPING
-	shadowCoord = mat4(0.5,0,0,0,
-						0,0.5,0,0,
-						0,0,0.5,0,
-						0.5,0.5,0.5,1
-						) * depthBiasMVP * g_ModelMatrix * mat * vec4(inPosition, 1.0);
+	shadowCoord = depthBiasMVP * g_ModelMatrix * mat * vec4(inPosition, 1.0);
 #endif
 
     gl_Position = g_ProjectionMatrix * position;

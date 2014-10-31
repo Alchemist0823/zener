@@ -105,26 +105,25 @@ public class TileGeometry extends Geometry {
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
+                    } else {
 
-                        break;
+                        Vector2f tc1 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc1.y / 4);
+                        Vector2f tc2 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc2.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc2.y / 4);
+                        Vector2f tc3 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc3.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc3.y / 4);
+                        Vector2f tc4 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc4.y / 4);
+
+                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc2));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+
+                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc4));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
                     }
-
-                    Vector2f tc1 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc1.y / 4);
-                    Vector2f tc2 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc2.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc2.y / 4);
-                    Vector2f tc3 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc3.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc3.y / 4);
-                    Vector2f tc4 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc4.y / 4);
-
-                    textureCoordinates[k].put(BufferTools.asFloats(tc3));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc2));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc1));
-
-                    textureCoordinates[k].put(BufferTools.asFloats(tc1));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc4));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc3));
                 }
 
                 colorBuffer.put(BufferTools.asFlippedFloatBuffer(1, 1, 1, 1));
@@ -143,7 +142,7 @@ public class TileGeometry extends Geometry {
 
         for (int k = 0; k < 4; k ++) {
             textureCoordinates[k].flip();
-            System.out.println(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k]);
+            //System.out.println(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k]);
             vbs.put(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k], new VertexBuffer(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k], VertexBuffer.Usage.Static, VertexBuffer.DataType.Float, 2, vertexCount, textureCoordinates[k]));
         }
         //textureIndices.flip();
@@ -230,27 +229,24 @@ public class TileGeometry extends Geometry {
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
                         textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
+                    } else {
+                        Vector2f tc1 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc1.y / 4);
+                        Vector2f tc2 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc2.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc2.y / 4);
+                        Vector2f tc3 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc3.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc3.y / 4);
+                        Vector2f tc4 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
+                                (texPos[k] / 4) * textureHeight + otc4.y / 4);
 
-                        break;
+                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc2));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+
+                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc4));
+                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
                     }
-
-
-                    Vector2f tc1 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc1.y / 4);
-                    Vector2f tc2 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc2.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc2.y / 4);
-                    Vector2f tc3 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc3.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc3.y / 4);
-                    Vector2f tc4 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
-                            (texPos[k] / 4) * textureHeight + otc4.y / 4);
-
-                    textureCoordinates[k].put(BufferTools.asFloats(tc3));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc2));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc1));
-
-                    textureCoordinates[k].put(BufferTools.asFloats(tc1));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc4));
-                    textureCoordinates[k].put(BufferTools.asFloats(tc3));
                 }
 
             }

@@ -37,10 +37,6 @@ void main() {
 	
 	texCoord = inTexCoord;
 #ifdef SHADOW_MAPPING
-	shadowCoord = mat4(0.5,0,0,0,
-						0,0.5,0,0,
-						0,0,0.5,0,
-						0.5,0.5,0.5,1
-						) * depthBiasMVP * g_ModelMatrix * vec4(inPosition, 1.0);
+	shadowCoord = depthBiasMVP * g_ModelMatrix * vec4(inPosition, 1.0);
 #endif
 }

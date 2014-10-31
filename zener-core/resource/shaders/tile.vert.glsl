@@ -42,15 +42,11 @@ void main() {
 
 	texCoord[0] = inTexCoord1;
 	texCoord[1] = inTexCoord2;
-	texCoord[2] = inTexCoord3; // bugs
-	texCoord[3] = inTexCoord4; // bugs
+	texCoord[2] = inTexCoord3;
+	texCoord[3] = inTexCoord4;
 	color = inColor;
 
 #ifdef SHADOW_MAPPING
-	shadowCoord = mat4(0.5,0,0,0,
-						0,0.5,0,0,
-						0,0,0.5,0,
-						0.5,0.5,0.5,1
-						) * depthBiasMVP * g_ModelMatrix * vec4(inPosition, 1.0);
+	shadowCoord = depthBiasMVP * g_ModelMatrix * vec4(inPosition, 1.0);
 #endif
 }

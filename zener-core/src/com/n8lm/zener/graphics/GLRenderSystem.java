@@ -47,6 +47,15 @@ public class GLRenderSystem extends EntitySystem {
     protected ViewRenderSystem srs;
     protected Matrix4f depthPVMat;
     protected Texture depthMap;
+
+    private final Matrix4f biasMat = new Matrix4f(0.5f,0,0,0.5f,
+            0,0.5f,0,0.5f,
+            0,0,0.5f,0.5f,
+            0f,0f,0f,1f);
+            /*new Matrix4f(0.5f,0,0,0,
+                                                    0,0.5f,0,0,
+                                                    0,0,0.5f,0,
+                                                    0.5f,0.5f,0.5f,1f);*/
     //private Matrix4f depthP;
     //private Matrix4f depthV;
 
@@ -177,6 +186,7 @@ public class GLRenderSystem extends EntitySystem {
 
             if (srs.getRenderMode() == RenderMode.DepthRender) {
                 depthPVMat = vm.get(e).getProjection().getProjectionMatrix(null);
+                biasMat.mult(depthPVMat, depthPVMat);
                 depthPVMat.multLocal(tm.get(e).getWorldTransform().getViewMatrix(null));
                 //System.out.println(depthPVMat);
                 depthMap = vm.get(e).getFramebuffer().getDepthTexture();
