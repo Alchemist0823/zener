@@ -5,6 +5,8 @@ uniform LightInfo Light[10];
 uniform int LightCount;
 uniform vec3 La;
 uniform MaterialInfo Material;
+uniform sampler2D Material_DiffuseMap;
+uniform sampler2D Material_NormalMap;
 uniform vec2 UVTransform;
 
 in vec4 position;
@@ -27,10 +29,10 @@ out vec4 colorOut;
 void main(){
 
 #ifdef NORMAL_MAPPING
-    vec3 normal = normalize(TBN * normalize(texture2D(Material.NormalMap, texCoord).rgb * 2.0 - 1.0));
+    vec3 normal = normalize(TBN * normalize(texture2D(Material_NormalMap, texCoord).rgb * 2.0 - 1.0));
 #endif
 
-    vec4 texColor = texture2D(Material.DiffuseMap, texCoord + UVTransform);
+    vec4 texColor = texture2D(Material_DiffuseMap, texCoord + UVTransform);
 	//if (texColor.a < 0.2)
 	//	discard;
 

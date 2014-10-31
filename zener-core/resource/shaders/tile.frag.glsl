@@ -28,7 +28,7 @@ uniform sampler2D normalMap[4];
 void main(){
 
 #ifdef NORMAL_MAPPING
-    vec3 normal = normalize(TBN * normalize(texture2D(Material.NormalMap, texCoord).rgb * 2.0 - 1.0));
+    vec3 normal = normalize(TBN * normalize(texture2D(normal[i], texCoord).rgb * 2.0 - 1.0));
 #endif
 
     vec4 texColor = vec4(0.0, 0.0, 0.0, 0.0);
@@ -53,5 +53,5 @@ void main(){
 
     vec3 totalLighting = La * m_material.Ka + lightingModel(position, normal, Light, LightCount, m_material, visibility);
 
-	colorOut = /*vec4(texCoord[0].x,0,0,1.0);*/vec4(totalLighting, 1.0) * color * MultipleColor + AddColor;
+	colorOut = vec4(totalLighting, 1.0) * color * MultipleColor + AddColor;
 }

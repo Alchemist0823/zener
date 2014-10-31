@@ -29,7 +29,7 @@ import com.n8lm.zener.graphics.material.UniformsMaterial;
 public class ParticleMaterial extends UniformsMaterial {
 
     public ParticleMaterial(Material material, int atlasCount) {
-        addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
+        addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         addUniform("AtlasRowCount", VarType.Int, ((int) Math.sqrt(atlasCount)));
         //diffuseTextureName = material.diffuseTextureName;
     }
@@ -40,6 +40,6 @@ public class ParticleMaterial extends UniformsMaterial {
     }
 
     public void setDiffuseTexture(Texture texture) {
-        uniforms.get("Material.DiffuseMap").setValue(texture);
+        uniforms.get("Material_DiffuseMap").setValue(texture);
     }
 }

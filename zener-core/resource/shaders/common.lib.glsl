@@ -9,8 +9,6 @@ struct LightInfo {
 };
 	
 struct MaterialInfo {
-	sampler2D   DiffuseMap;
-	sampler2D   NormalMap;
 	vec3        Ka; // Ambient reflectivity
 	vec3        Kd; // Diffuse reflectivity
 	vec3        Ks; // Specular reflectivity

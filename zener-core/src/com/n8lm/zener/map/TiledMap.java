@@ -20,9 +20,6 @@ package com.n8lm.zener.map;
 
 import java.io.*;
 
-import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.data.Savable;
-
 /**
  * handle the information of tiled map, can not operate components of entity.
  */

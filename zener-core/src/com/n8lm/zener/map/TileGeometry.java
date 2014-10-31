@@ -7,10 +7,8 @@ import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 import com.n8lm.zener.utils.BufferTools;
-import com.n8lm.zener.utils.Byte4;
 import org.lwjgl.BufferUtils;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 /**
@@ -25,11 +23,11 @@ public class TileGeometry extends Geometry {
     public TileGeometry(TiledMapRenderingSystem tmrs, TiledMap map, Location loc) {
         super("tile_" + loc.x + "x" + loc.y, "tile");
 
-        float tw = map.getTileWidth();
-        float th = map.getTileHeight();
-        float ta = map.getTileAltitude();
-        float ftw = tw / fragment;
-        float fth = th / fragment;
+        //float tw = map.getTileWidth();
+        //float th = map.getTileHeight();
+        //float ta = map.getTileAltitude();
+        //float ftw = tw / fragment;
+        //float fth = th / fragment;
 
         final float seamfix = 1.0f/128;
         final float fgw = (1.0f - seamfix * 2) /fragment;
@@ -145,6 +143,7 @@ public class TileGeometry extends Geometry {
 
         for (int k = 0; k < 4; k ++) {
             textureCoordinates[k].flip();
+            System.out.println(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k]);
             vbs.put(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k], new VertexBuffer(VertexBuffer.Type.values()[VertexBuffer.Type.TexCoord1.id + k], VertexBuffer.Usage.Static, VertexBuffer.DataType.Float, 2, vertexCount, textureCoordinates[k]));
         }
         //textureIndices.flip();

@@ -143,21 +143,28 @@ public class ShaderManager {
 
     public String generateShaderKey(String name, List<String> macros) {
 
-        String key = name + "(";
+        StringBuffer key = new StringBuffer(name);
+        key.append('(');
 
         for (String macro: macros) {
-            key += macro + ",";
+            key.append(macro);
+            key.append(',');
         }
-        return key;
+        return key.toString();
     }
 
 
     public String generateProgramKey(String vertName, String fragName, List<String> options) {
-        String key = vertName + "_" + fragName + "(";
+        StringBuffer key = new StringBuffer();
+        key.append(vertName);
+        key.append('_');
+        key.append(fragName);
+        key.append('(');
         for (String option: options) {
-            key += option + ",";
+            key.append(option);
+            key.append(',');
         }
-        return key;
+        return key.toString();
     }
 
     private GLProgram buildProgram(String vertName, String fragName, List<String> options) throws IOException{

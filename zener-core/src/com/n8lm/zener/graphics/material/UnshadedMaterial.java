@@ -15,14 +15,14 @@ public class UnshadedMaterial extends UniformsMaterial {
     public UnshadedMaterial(Material material) {
         addUniform("Material.Kd", VarType.Vector3f, new Vector3f(material.diffuseColor));
         if (material.diffuseTexture != null)
-            addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
+            addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         if (material.normalTexture != null)
-            addUniform("Material.NormalMap", VarType.Texture2D, material.normalTexture);
+            addUniform("Material_NormalMap", VarType.Texture2D, material.normalTexture);
     }
 
     @Override
     public String getShaderName() {
-        if (uniforms.containsKey("Material.DiffuseMap"))
+        if (uniforms.containsKey("Material_DiffuseMap"))
             return "unshaded";
         else
             return "unshaded_color";
@@ -33,10 +33,10 @@ public class UnshadedMaterial extends UniformsMaterial {
     }
 
     public void setColorTexture(Texture texture) {
-        uniforms.get("Material.DiffuseMap").setValue(texture);
+        uniforms.get("Material_DiffuseMap").setValue(texture);
     }
 
     public void setNormalTexture(Texture texture) {
-        uniforms.get("Material.NormalMap").setValue(texture);
+        uniforms.get("Material_NormalMap").setValue(texture);
     }
 }

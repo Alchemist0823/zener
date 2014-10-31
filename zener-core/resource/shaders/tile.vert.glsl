@@ -42,8 +42,8 @@ void main() {
 
 	texCoord[0] = inTexCoord1;
 	texCoord[1] = inTexCoord2;
-	texCoord[2] = inTexCoord3;
-	texCoord[3] = inTexCoord4;
+	texCoord[2] = inTexCoord3; // bugs
+	texCoord[3] = inTexCoord4; // bugs
 	color = inColor;
 
 #ifdef SHADOW_MAPPING

@@ -165,8 +165,8 @@ public class ViewRenderSystem extends EntitySystem {
             for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
                 Entity e = opaqueEntities.get(i);
 
-                Vector4f multiplyColor = new Vector4f(Vector4f.UNIT_XYZW);
-                Vector4f addColor = new Vector4f(Vector4f.ZERO);
+                Vector4f multiplyColor = Vector4f.UNIT_XYZW;
+                Vector4f addColor = Vector4f.ZERO;
                 if (em.has(e)) {
                     multiplyColor = em.get(e).getMultiplyColor();
                     addColor = em.get(e).getAddColor();
@@ -327,10 +327,9 @@ public class ViewRenderSystem extends EntitySystem {
         String fragName = material.getShaderName() + ".frag";
         List<String> options = new ArrayList<String>();
 
-        if (material.contains("Material.NormalMap")) {
+        if (material.contains("Material_NormalMap")) {
             if (!geometry.hasTangent()) {
                 geometry.generateTangent();
-                //System.out.print("aaa");
             }
             options.add("NORMAL_MAPPING");
         }

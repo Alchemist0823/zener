@@ -31,15 +31,15 @@ public class NormalMaterial extends UniformsMaterial {
         addUniform("Material.Ks", VarType.Vector3f, new Vector3f(material.specularColor));
         addUniform("Material.Shininess", VarType.Float, material.specularCoefficient);
         if (material.diffuseTexture != null)
-            addUniform("Material.DiffuseMap", VarType.Texture2D, material.diffuseTexture);
+            addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         if (material.normalTexture != null)
-            addUniform("Material.NormalMap", VarType.Texture2D, material.normalTexture);
+            addUniform("Material_NormalMap", VarType.Texture2D, material.normalTexture);
         //diffuseTextureName = material.diffuseTextureName;
     }
 
     @Override
     public String getShaderName() {
-        if (uniforms.containsKey("Material.DiffuseMap"))
+        if (uniforms.containsKey("Material_DiffuseMap"))
             return "standard";
         else
             return "standard_color";
@@ -62,10 +62,10 @@ public class NormalMaterial extends UniformsMaterial {
     }
 
     public void setDiffuseTexture(Texture texture) {
-        uniforms.get("Material.DiffuseMap").setValue(texture);
+        uniforms.get("Material_DiffuseMap").setValue(texture);
     }
 
     public void setNormalTexture(Texture texture) {
-        uniforms.get("Material.NormalMap").setValue(texture);
+        uniforms.get("Material_NormalMap").setValue(texture);
     }
 }

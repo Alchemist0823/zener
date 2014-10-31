@@ -4,19 +4,10 @@ import com.artemis.Entity;
 import com.artemis.systems.VoidEntitySystem;
 import com.n8lm.zener.graphics.GeometryComponent;
 import com.n8lm.zener.graphics.MaterialComponent;
-import com.n8lm.zener.graphics.VertexBuffer;
 import com.n8lm.zener.math.Quaternion;
-import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
-import com.n8lm.zener.utils.BufferTools;
-import com.n8lm.zener.utils.Byte4;
 import com.n8lm.zener.utils.EntityFactory;
-import org.lwjgl.BufferUtils;
-
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created on 2014/8/27.
