@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>zener</groupId>
+    <artifactId>zener-main</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Zener Engine Project</name>
+    <url>http://zener.me</url>
+
+    <modules>
+        <module>zener-core</module>
+        <module>zener-examples</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <id>Alchemist0823</id>
+            <name>Forrest Sun</name>
+            <email>internetboy0823@gmail.com</email>
+            <url>http://sunzehao.me</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>LGPL v3</name>
+            <url>https://www.gnu.org/licenses/lgpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+</project>

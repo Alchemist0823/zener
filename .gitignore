@@ -4,6 +4,7 @@ release/
 deprecated/
 *out/
 *bin/
+*target/
 test/
 *.iml
 *.blend
