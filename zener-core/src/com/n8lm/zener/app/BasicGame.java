@@ -39,7 +39,7 @@ public abstract class BasicGame {
 	
 	protected Map<String, World> worlds;
 	protected GameContainer container;
-	protected ResourceManager resourceManager = ResourceManager.getInstance();
+	protected final ResourceManager resourceManager = ResourceManager.getInstance();
 	protected GameInfoManager gameInfoManager;
 	protected String title;
 
@@ -52,7 +52,6 @@ public abstract class BasicGame {
 	}
 	
 	public BasicGame(String title) {
-		super();
 		this.title = title;
         worlds = new TreeMap<String, World>();
 		game = this;

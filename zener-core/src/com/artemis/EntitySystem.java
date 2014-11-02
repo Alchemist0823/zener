@@ -43,6 +43,7 @@ public abstract class EntitySystem implements EntityObserver {
 		oneSet = aspect.getOneSet();
 		systemIndex = SystemIndexManager.getIndexFor(this.getClass());
 		dummy = allSet.isEmpty() && oneSet.isEmpty(); // This system can't possibly be interested in any entity, so it must be "dummy"
+        passive = false;
 	}
 	
 	/**

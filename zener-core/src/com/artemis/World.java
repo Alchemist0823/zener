@@ -238,7 +238,12 @@ public class World {
 	 * @return the added system.
 	 */
 	public <T extends EntitySystem> T setSystem(T system) {
-		return setSystem(system, false);
+        system.setWorld(this);
+
+        systems.put(system.getClass(), system);
+        systemsBag.add(system);
+
+        return system;
 	}
 
 	/**
@@ -249,13 +254,9 @@ public class World {
 	 * @return the added system.
 	 */
 	public <T extends EntitySystem> T setSystem(T system, boolean passive) {
-		system.setWorld(this);
 		system.setPassive(passive);
-		
-		systems.put(system.getClass(), system);
-		systemsBag.add(system);
-		
-		return system;
+
+		return setSystem(system);
 	}
 	
 	/**

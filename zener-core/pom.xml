@@ -46,22 +46,17 @@
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty-lwjgl-renderer</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty-default-controls</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jglfont</groupId>
-            <artifactId>jglfont-core</artifactId>
-            <version>1.4</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

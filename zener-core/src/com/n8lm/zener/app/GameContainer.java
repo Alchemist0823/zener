@@ -37,21 +37,10 @@ import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.input.Input;
 import com.n8lm.zener.utils.ZenerException;
 
-public abstract class GameContainer {
+public abstract class GameContainer extends Container{
 
 	private final static Logger LOGGER = Logger.getLogger(GameContainer.class
 			.getName());
-
-	/** The time the last frame was rendered */
-	protected long lastFrame;
-	/** The last time the FPS recorded */
-	protected long lastFPS;
-	/** The last recorded FPS */
-	protected int recordedFPS;
-	/** The current count of FPS */
-	protected int fps;
-	/** True if we're currently running the game loop */
-	protected boolean running = true;
 
 	/** The width of the display */
 	protected int width;
@@ -316,29 +305,6 @@ public abstract class GameContainer {
 	}
 
 	/**
-	 * Get the build number of openal
-	 * 
-	 * @return The build number of openal
-	 */
-	public static int getBuildVersion() {
-		try {/*
-			Properties props = new Properties();
-			props.load(ResourceManager.getInstance().getResourceAsStream(
-					"version"));
-            *
-            */
-            int build = 0;
-			//int build = Integer.parseInt(props.getProperty("build"));
-			LOGGER.info("Zener Build #" + build);
-
-			return build;
-		} catch (Exception e) {
-			LOGGER.severe("Unable to determine Zener build number");
-			return -1;
-		}
-	}
-
-	/**
 	 * Check if sound effects are enabled
 	 * 
 	 * @return True if sound effects are enabled
@@ -470,30 +436,6 @@ public abstract class GameContainer {
 	 */
 	public abstract void setIcons(String[] refs) throws ZenerException;
 
-	/**
-	 * Get the accurate system time
-	 * 
-	 * @return The system time in milliseconds
-	 */
-	public long getTime() {
-		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-	}
-
-	/**
-	 * Sleep for a given period
-	 * 
-	 * @param milliseconds
-	 *            The period to sleep for in milliseconds
-	 */
-	public void sleep(int milliseconds) {
-		long target = getTime() + milliseconds;
-		while (getTime() < target) {
-			try {
-				Thread.sleep(1);
-			} catch (Exception e) {
-			}
-		}
-	}
 
 	/**
 	 * Set the mouse cursor to be displayed - this is a hardware cursor and
@@ -622,15 +564,6 @@ public abstract class GameContainer {
 	}
 
 	/**
-	 * Get the current recorded FPS (frames per second)
-	 * 
-	 * @return The current FPS
-	 */
-	public int getFPS() {
-		return recordedFPS;
-	}
-
-	/**
 	 * Indicate whether mouse cursor should be grabbed or not
 	 * 
 	 * @param grabbed
@@ -646,56 +579,30 @@ public abstract class GameContainer {
 	 */
 	public abstract boolean isMouseGrabbed();
 
-	/**
-	 * Retrieve the time taken to render the last frame, i.e. the change in time
-	 * - delta.
-	 * 
-	 * @return The time taken to render the last frame
-	 */
-	protected int getDelta() {
-		long time = getTime();
-		int delta = (int) (time - lastFrame);
-		lastFrame = time;
+    /**
+     * Set the minimum amount of time in milliseonds that has to pass before
+     * update() is called on the container game. This gives a way to limit logic
+     * updates compared to renders.
+     *
+     * @param interval
+     *            The minimum interval between logic updates
+     */
+    public void setMinimumLogicUpdateInterval(int interval) {
+        minimumLogicInterval = interval;
+    }
 
-		return delta;
-	}
+    /**
+     * Set the maximum amount of time in milliseconds that can passed into the
+     * update method. Useful for collision detection without sweeping.
+     *
+     * @param interval
+     *            The maximum interval between logic updates
+     */
+    public void setMaximumLogicUpdateInterval(int interval) {
+        maximumLogicInterval = interval;
+    }
 
-	/**
-	 * Updated the FPS counter
-	 */
-	protected void updateFPS() {
-		if (getTime() - lastFPS > 1000) {
-			lastFPS += 1000;
-			recordedFPS = fps;
-			fps = 0;
-		}
-		fps++;
-	}
-
-	/**
-	 * Set the minimum amount of time in milliseonds that has to pass before
-	 * update() is called on the container game. This gives a way to limit logic
-	 * updates compared to renders.
-	 * 
-	 * @param interval
-	 *            The minimum interval between logic updates
-	 */
-	public void setMinimumLogicUpdateInterval(int interval) {
-		minimumLogicInterval = interval;
-	}
-
-	/**
-	 * Set the maximum amount of time in milliseconds that can passed into the
-	 * update method. Useful for collision detection without sweeping.
-	 * 
-	 * @param interval
-	 *            The maximum interval between logic updates
-	 */
-	public void setMaximumLogicUpdateInterval(int interval) {
-		maximumLogicInterval = interval;
-	}
-
-	/**
+    /**
 	 * Update and render the game
 	 * 
 	 * @param delta
@@ -808,8 +715,7 @@ public abstract class GameContainer {
 	/**
 	 * Initializes default states (texturing, shade model, disable depth test,
 	 * etc).
-	 * 
-	 * @see com.n8lm.zener..opengl.renderer.SGL#initDisplay(int, int)
+	 *
 	 */
 	public void initDisplay(int width, int height) {
 		this.width = width;
@@ -883,15 +789,6 @@ public abstract class GameContainer {
 	}
 
 	/**
-	 * True if the game is running
-	 * 
-	 * @return True if the game is running
-	 */
-	public boolean running() {
-		return running;
-	}
-
-	/**
 	 * Inidcate we want verbose logging
 	 * 
 	 * @param verbose
@@ -900,14 +797,6 @@ public abstract class GameContainer {
 	/*
 	 * public void setVerbose(boolean verbose) { Log.setVerbose(verbose); }
 	 */
-
-	/**
-	 * Cause the game to exit and shutdown cleanly
-	 */
-	public void exit() {
-		running = false;
-	}
-
 	/**
 	 * Check if the game currently has focus
 	 * 

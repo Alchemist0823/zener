@@ -24,6 +24,7 @@ import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.n8lm.zener.utils.SystemInformation;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Cursor;
@@ -323,7 +324,7 @@ public class AppGameContainer extends GameContainer {
     }*/
     
 	/**
-	 * @see com.n8lm.zener..GameContainer#setMouseCursor(com.n8lm.zener..Image, int, int)
+	 * @see com.n8lm.zener.app.GameContainer#setMouseCursor(com.n8lm.zener.app.Image, int, int)
 	 */
     /*
 	public void setMouseCursor(Image image, int hotSpotX, int hotSpotY) throws ZenerException {
@@ -345,7 +346,7 @@ public class AppGameContainer extends GameContainer {
 	}*/
 	
 	/**
-	 * @see com.n8lm.zener..GameContainer#reinit()
+	 * @see com.n8lm.zener.app.GameContainer#reinit()
 	 */
 	public void reinit() throws ZenerException {
 		destroy();
@@ -411,6 +412,8 @@ public class AppGameContainer extends GameContainer {
 
 		Display.setTitle(game.getTitle());
 
+        LOGGER.info("Operation System:" + System.getProperty("os.name"));
+        LOGGER.info("OS Architecture:" + System.getProperty("os.arch"));
 		LOGGER.info("LWJGL Version: "+Sys.getVersion());
 		LOGGER.info("OriginalDisplayMode: "+originalDisplayMode);
 		LOGGER.info("TargetDisplayMode: "+targetDisplayMode);
@@ -503,42 +506,42 @@ public class AppGameContainer extends GameContainer {
 	}
 	
 	/**
-	 * @see com.n8lm.zener..GameContainer#setUpdateOnlyWhenVisible(boolean)
+	 * @see com.n8lm.zener.app.GameContainer#setUpdateOnlyWhenVisible(boolean)
 	 */
 	public void setUpdateOnlyWhenVisible(boolean updateOnlyWhenVisible) {
 		updateOnlyOnVisible = updateOnlyWhenVisible;
 	}
 	
 	/**
-	 * @see com.n8lm.zener..GameContainer#isUpdatingOnlyWhenVisible()
+	 * @see com.n8lm.zener.app.GameContainer#isUpdatingOnlyWhenVisible()
 	 */
 	public boolean isUpdatingOnlyWhenVisible() {
 		return updateOnlyOnVisible;
 	}
 	
 	/**
-	 * @see com.n8lm.zener..GameContainer#setIcon(java.lang.String)
+	 * @see com.n8lm.zener.app.GameContainer#setIcon(java.lang.String)
 	 */
 	public void setIcon(String ref) throws ZenerException {
 		setIcons(new String[] {ref});
 	}
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#setMouseGrabbed(boolean)
+	 * @see com.n8lm.zener.app.GameContainer#setMouseGrabbed(boolean)
 	 */
 	public void setMouseGrabbed(boolean grabbed) {
 		Mouse.setGrabbed(grabbed);
 	}
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#isMouseGrabbed()
+	 * @see com.n8lm.zener.app.GameContainer#isMouseGrabbed()
 	 */
 	public boolean isMouseGrabbed() {
 		return Mouse.isGrabbed();
 	}
 	
 	/**
-	 * @see com.n8lm.zener..GameContainer#hasFocus()
+	 * @see com.n8lm.zener.app.GameContainer#hasFocus()
 	 */
 	public boolean hasFocus() {
 		// hmm, not really the right thing, talk to the LWJGL guys
@@ -546,14 +549,14 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#getScreenHeight()
+	 * @see com.n8lm.zener.app.GameContainer#getScreenHeight()
 	 */
 	public int getScreenHeight() {
 		return originalDisplayMode.getHeight();
 	}
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#getScreenWidth()
+	 * @see com.n8lm.zener.app.GameContainer#getScreenWidth()
 	 */
 	public int getScreenWidth() {
 		return originalDisplayMode.getWidth();
@@ -573,7 +576,7 @@ public class AppGameContainer extends GameContainer {
 	}*/
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#setIcons(java.lang.String[])
+	 * @see com.n8lm.zener.app.GameContainer#setIcons(java.lang.String[])
 	 */
 	/*
 	public void setIcons(String[] refs) throws ZenerException {
@@ -618,7 +621,7 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see com.n8lm.zener..GameContainer#setDefaultMouseCursor()
+	 * @see com.n8lm.zener.app.GameContainer#setDefaultMouseCursor()
 	 */
 	public void setDefaultMouseCursor() {
 		try {
