@@ -1,7 +1,6 @@
 package com.n8lm.zenertest.ranger;
 
 import com.artemis.Entity;
-import com.n8lm.tribeage.data.GameTile;
 import com.n8lm.zener.animation.AnimationComponent;
 import com.n8lm.zener.animation.AnimationSystem;
 import com.n8lm.zener.app.AppGameContainer;
@@ -75,7 +74,7 @@ public class RangerGame extends ExampleBasicGame{
         TiledMap map = null;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("map.txt")));
-            TileSet<Tile> tileSet = TileSet.readFromText(new GameTile.Builder(), reader);
+            TileSet<Tile> tileSet = TileSet.readFromText(new Tile.Builder(), reader);
             map = TiledMap.readFromText(reader);
             map.setTileSet(tileSet);
         } catch (IOException e) {

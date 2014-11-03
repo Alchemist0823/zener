@@ -20,8 +20,10 @@ public class ClientNetworkSystem extends EntityProcessingSystem {
 
     private final static Logger logger = Logger.getLogger(ServerNetworkSystem.class.getName());
 
-    NetworkConfiguration config;
-    NetworkMessageAdapter networkMessageAdapter;
+    private Client client;
+
+    private NetworkConfiguration config;
+    private NetworkMessageAdapter networkMessageAdapter;
 
     public ClientNetworkSystem(NetworkConfiguration config, NetworkMessageAdapter networkMessageAdapter) {
         super(Aspect.getAspectForAll(NetworkComponent.class));
@@ -42,7 +44,12 @@ public class ClientNetworkSystem extends EntityProcessingSystem {
 
     public void connet(String host) {
 
-        Client client = new Client();
+        client = new Client();
+        client.start();
+
+        config.register(client);
+        networkMessageAdapter.init(client);
+
         client.addListener(new Listener.ThreadedListener(new NetworkListener(config, networkMessageAdapter)));
         try {
             client.connect(5000, host, config.getServerPort());
@@ -60,5 +67,13 @@ public class ClientNetworkSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity e) {
 
+    }
+
+    public void sendMessage(NetworkMessage message) {
+        client.sendTCP(message);
+    }
+
+    public void sendImportantMessage(NetworkMessage message) {
+        client.sendTCP(message);
     }
 }

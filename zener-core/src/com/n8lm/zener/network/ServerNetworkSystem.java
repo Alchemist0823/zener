@@ -25,6 +25,7 @@ public class ServerNetworkSystem extends EntityProcessingSystem {
         super(Aspect.getAspectForAll(NetworkComponent.class));
         this.networkMessageAdapter = networkMessageAdapter;
         this.config = config;
+        this.setPassive(true);
     }
 
     @Override
@@ -37,14 +38,19 @@ public class ServerNetworkSystem extends EntityProcessingSystem {
         super.initialize();
 
         Server server = new Server();
+
+        config.register(server);
+        networkMessageAdapter.init(server);
+        server.addListener(new NetworkListener(config, networkMessageAdapter));
+
         try {
             server.bind(config.getServerPort());
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Can not bind port", e);
             //e.printStackTrace();
         }
-        server.addListener(new NetworkListener(config, networkMessageAdapter));
         server.start();
+        //logger.log(Level.INFO, "start server at " + config.getServerPort());
     }
 
     @Override

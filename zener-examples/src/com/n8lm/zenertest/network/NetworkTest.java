@@ -8,10 +8,12 @@ import com.n8lm.zener.app.AppGameContainer;
 import com.n8lm.zener.general.AttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
+import com.n8lm.zener.graphics.geom.Geometry;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
 import com.n8lm.zener.graphics.material.NormalMaterial;
 import com.n8lm.zener.graphics.material.UnshadedMaterial;
 import com.n8lm.zener.math.MathUtil;
+import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.network.ClientNetworkSystem;
@@ -22,14 +24,18 @@ import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.script.NativeScript;
 import com.n8lm.zener.script.ScriptComponent;
+import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zener.utils.ZenerException;
 import com.n8lm.zenertest.ExampleBasicGame;
+import com.n8lm.zenertest.network.messages.LoginMessage;
+
+import java.util.Random;
 
 /**
  * Created on 2014/11/1.
  * @author Alchemist
  */
-public class NetworkTest extends ExampleBasicGame implements NativeScript {
+public class NetworkTest extends ExampleBasicGame {
 
     public NetworkTest() {
         super("networktest", "Network Test");
@@ -43,33 +49,32 @@ public class NetworkTest extends ExampleBasicGame implements NativeScript {
     protected void init() {
         super.init();
 
-        NetworkMessageAdapter networkAdapter = new NetworkMessageAdapter() {
-            @Override
-            public void process(Connection connection, NetworkMessage cast) {
-
-            }
-        };
         NetworkConfiguration config = new MyNetworkConfiguration();
 
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new AttachSystem());
         world.setSystem(new GLRenderSystem(world));
-        world.setSystem(new ClientNetworkSystem(config, networkAdapter));
+        world.setSystem(new CharacterSystem());
+        world.setSystem(new ClientNetworkSystem(new MyNetworkConfiguration(), new ClientNetworkAdapter(world)));
 
         world.initialize();
-        // add notorious suzanne model entity
-        model = world.createEntity();
-        model.addComponent(new GeometryComponent(new ModelGeometry("suzanne", resourceManager.getModel("suzanne").getMesh()), false));
-        model.addComponent(new MaterialComponent(new NormalMaterial(resourceManager.getModel("suzanne").getMaterial()), false));
-        model.addComponent(new TransformComponent(new Transform(0, 0, 0)));
-        model.addComponent(new ScriptComponent(Event.WORLD_UPDATE, this));
-        world.addEntity(model);
+
+        EntityFactory.setWorld(world);
+
+        String modelName = "suzanne";
+        Geometry geometry = new ModelGeometry(modelName, resourceManager.getModel(modelName).getMesh());
+        resourceManager.getGeometryManager().registerGeometry(geometry);
+
+        world.getSystem(ClientNetworkSystem.class).connet("localhost");
+
+        Random rand = new Random();
+        world.getSystem(ClientNetworkSystem.class).sendMessage(new LoginMessage("player" + rand.nextInt(4)));
 
         // add camera entity
         cam = world.createEntity();
         cam.addComponent(new ViewComponent(new PerspectiveProjection()));
-        Transform camTransform = new Transform(0, -3, 0);
-        camTransform.getRotation().lookAt(new Vector3f(0, 3, 0), new Vector3f(0, 0, 3));
+        Transform camTransform = new Transform(0, -10, 5);
+        camTransform.getRotation().lookAt(new Vector3f(0, 10, -5), new Vector3f(0, 0, 10));
         cam.addComponent(new TransformComponent(camTransform));
         world.addEntity(cam);
 
@@ -78,35 +83,10 @@ public class NetworkTest extends ExampleBasicGame implements NativeScript {
         lc1.setDiffuse(new Vector3f(0.8f, 0.8f, 0.8f));
         light1 = world.createEntity();
         light1.addComponent(lc1);
-        light1.addComponent(new TransformComponent(new Transform()));
+        light1.addComponent(new TransformComponent(new Transform(0f, 0f, 10f)));
         world.addEntity(light1);
 
-        // add first light entity
-        LightComponent lc2 = new LightComponent();
-        lc2.setDiffuse(new Vector3f(0.6f, 0.6f, 0.6f));
-        light2 = world.createEntity();
-        light2.addComponent(lc2);
-        light2.addComponent(new TransformComponent(new Transform()));
-        world.addEntity(light2);
-
-        //getContainer().getInput().addListener(new MaterialSwitchInputAdapter(model, light2));
-    }
-
-    private int timer = 0;
-
-    @Override
-    public void run(World world, Event event) {
-        if (event.getType() == Event.WORLD_UPDATE) {
-            timer++;
-            float angle = timer / 10.0f / 180f * MathUtil.PI;
-            // apply transform
-            model.getComponent(TransformComponent.class).getLocalTransform().getRotation()
-                    .lookAt(Vector3f.UNIT_Z, new Vector3f(MathUtil.cos(angle), MathUtil.sin(angle), 0));
-            light1.getComponent(TransformComponent.class).getLocalTransform().getTranslation()
-                    .set(0, MathUtil.cos(angle * 5) * 5, MathUtil.sin(angle * 5) * 5);
-            light2.getComponent(TransformComponent.class).getLocalTransform().getTranslation()
-                    .set(MathUtil.cos(angle * 10) * 5, 0, MathUtil.sin(angle * 10) * 5);
-        }
+        getContainer().getInput().addListener(new CharacterInputAdapter(world));
     }
 
     public static void main(String[] args) throws ZenerException {

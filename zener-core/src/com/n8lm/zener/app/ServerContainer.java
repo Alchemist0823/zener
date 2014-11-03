@@ -27,6 +27,8 @@ public class ServerContainer extends Container{
         LOGGER.info("Operation System:" + System.getProperty("os.name"));
         LOGGER.info("OS Architecture:" + System.getProperty("os.arch"));
         LOGGER.info("LWJGL Version: "+ Sys.getVersion());
+
+        server.init(this);
     }
 
     public void start() throws ZenerException {

@@ -16,14 +16,19 @@ public class NetworkListener extends Listener{
 
     public NetworkListener(NetworkConfiguration config, NetworkMessageAdapter networkMessageAdapter) {
         this.config = config;
+        this.networkMessageAdapter = networkMessageAdapter;
     }
 
     @Override
     public void connected(Connection connection) {
+        super.connected(connection);
+        networkMessageAdapter.connected(connection);
     }
 
     @Override
     public void disconnected(Connection connection) {
+        networkMessageAdapter.disconnected(connection);
+        super.disconnected(connection);
     }
 
     @Override
@@ -31,7 +36,6 @@ public class NetworkListener extends Listener{
         for (NetworkConfiguration.MessageType messageType : config.getMessageTypes())
             if (messageType.getMessageClass().isInstance(object)) {
                 networkMessageAdapter.process(connection, messageType.getMessageClass().cast(object));
-
             }
     }
 }

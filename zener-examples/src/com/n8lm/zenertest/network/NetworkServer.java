@@ -1,12 +1,9 @@
 package com.n8lm.zenertest.network;
 
 import com.artemis.World;
-import com.esotericsoftware.kryonet.Connection;
 import com.n8lm.zener.app.BasicServer;
 import com.n8lm.zener.app.ServerContainer;
 import com.n8lm.zener.network.NetworkConfiguration;
-import com.n8lm.zener.network.NetworkMessage;
-import com.n8lm.zener.network.NetworkMessageAdapter;
 import com.n8lm.zener.network.ServerNetworkSystem;
 import com.n8lm.zener.utils.ZenerException;
 
@@ -22,15 +19,11 @@ public class NetworkServer extends BasicServer {
 
         World world = new World();
 
-        NetworkMessageAdapter networkAdapter = new NetworkMessageAdapter() {
-            @Override
-            public void process(Connection connection, NetworkMessage cast) {
-
-            }
-        };
+        setWorld("server", world);
 
         NetworkConfiguration config = new MyNetworkConfiguration();
-        world.setSystem(new ServerNetworkSystem(config, networkAdapter));
+        world.setSystem(new CharacterSystem());
+        world.setSystem(new ServerNetworkSystem(config, new ServerNetworkAdapter(world)));
 
         world.initialize();
     }

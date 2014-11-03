@@ -1,4 +1,4 @@
-package com.n8lm.zenertest.network;
+package com.n8lm.zenertest.network.messages;
 
 import com.n8lm.zener.network.NetworkMessage;
 
@@ -10,6 +10,7 @@ import com.n8lm.zener.network.NetworkMessage;
 public class LoginMessage extends NetworkMessage{
     public String name;
 
+    public LoginMessage() {}
     public LoginMessage(String name) {
         this.name = name;
     }

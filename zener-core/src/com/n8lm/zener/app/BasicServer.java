@@ -18,10 +18,16 @@ public abstract class BasicServer {
     protected Map<String, World> worlds;
     protected final ResourceManager resourceManager = ResourceManager.getInstance();
     protected GameInfoManager gameInfoManager;
+    private ServerContainer container;
 
     public BasicServer() {
         worlds = new TreeMap<String, World>();
         gameInfoManager = new GameInfoManager();
+    }
+
+    public void init(ServerContainer container) {
+        this.container = container;
+        init();
     }
 
 
