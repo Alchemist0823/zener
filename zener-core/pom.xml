@@ -46,17 +46,17 @@
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty-lwjgl-renderer</artifactId>
-            <version>1.4.0</version>
+            <version>${nifty.version}</version>
         </dependency>
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty</artifactId>
-            <version>1.4.0</version>
+            <version>${nifty.version}</version>
         </dependency>
         <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty-default-controls</artifactId>
-            <version>1.4.0</version>
+            <version>${nifty.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
-            <version>2.9.1</version>
+            <version>${lwjgl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
@@ -85,23 +85,5 @@
             <version>unknown</version>
         </dependency>
     </dependencies>
-    <build>
-        <resources>
-            <resource>
-                <directory>resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>version</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
 
 </project>

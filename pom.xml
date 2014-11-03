@@ -15,6 +15,14 @@
         <module>zener-examples</module>
     </modules>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <lwjgl.version>2.9.1</lwjgl.version>
+        <nifty.version>1.4.0</nifty.version>
+    </properties>
+
     <developers>
         <developer>
             <id>Alchemist0823</id>

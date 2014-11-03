@@ -2,8 +2,6 @@
 .metadata/
 release/
 deprecated/
-*out/
-*bin/
 *target/
 test/
 *.iml
@@ -12,3 +10,6 @@ test/
 *.png
 *.iqe
 *.mtl
+*.classpath
+*.project
+*Logging.txt
