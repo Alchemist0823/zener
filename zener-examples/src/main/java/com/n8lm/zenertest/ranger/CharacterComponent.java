@@ -22,6 +22,8 @@ public class CharacterComponent extends Component {
     }
 
     private Action action;
+    private int actionTime;
+    private float actionPower;
     //private Weapon weapon;
     transient private Entity weaponEntity;
     private AbilityData abilityData;
@@ -29,7 +31,6 @@ public class CharacterComponent extends Component {
     private float[] headAngles;
     private float health;
 
-    private int actionTime;
 
     public CharacterComponent(float maxhp, AbilityData abilityData) {
         this.level = 1;
@@ -37,6 +38,10 @@ public class CharacterComponent extends Component {
         this.health = this.maxhp = maxhp;
         this.abilityData = abilityData;
         this.headAngles = new float[3];
+
+        this.action = Action.Idle;
+        this.actionTime = 0;
+        this.actionPower = 0.0f;
     }
 
     @Override
@@ -111,5 +116,13 @@ public class CharacterComponent extends Component {
 
     public void setActionTime(int actionTime) {
         this.actionTime = actionTime;
+    }
+
+    public float getActionPower() {
+        return actionPower;
+    }
+
+    public void setActionPower(float actionPower) {
+        this.actionPower = actionPower;
     }
 }

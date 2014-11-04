@@ -58,5 +58,7 @@ public class ServerContainer extends Container{
 
     }
 
-
+    public void close() {
+        this.running = false;
+    }
 }

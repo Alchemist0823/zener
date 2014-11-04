@@ -12,6 +12,7 @@ import com.n8lm.zener.network.NetworkMessageAdapter;
 import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zenertest.network.messages.AddCharacterMessage;
 import com.n8lm.zenertest.network.messages.UpdateCharacterMessage;
+import org.lwjgl.Sys;
 
 /**
  * Created on 2014/11/2.
@@ -21,10 +22,12 @@ import com.n8lm.zenertest.network.messages.UpdateCharacterMessage;
 public class ClientNetworkAdapter implements NetworkMessageAdapter {
     private final World world;
     private final CharacterSystem cs;
+    private final NetworkTest game;
     private Client client;
 
-    public ClientNetworkAdapter(World world) {
+    public ClientNetworkAdapter(World world, NetworkTest game) {
         this.world = world;
+        this.game = game;
         cs = world.getSystem(CharacterSystem.class);
     }
 
@@ -62,6 +65,6 @@ public class ClientNetworkAdapter implements NetworkMessageAdapter {
 
     @Override
     public void disconnected(Connection connection) {
-
+        game.close();
     }
 }

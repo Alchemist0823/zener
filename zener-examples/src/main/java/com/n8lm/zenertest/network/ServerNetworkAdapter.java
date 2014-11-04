@@ -74,7 +74,7 @@ public class ServerNetworkAdapter implements NetworkMessageAdapter {
                 cc = new CharacterComponent(((LoginMessage) message).name, cs.getCharacterCount() + 1);
                 connectionMap.put(connection.getID(), cc);
 
-                System.out.println(cs.getCharacterCount());
+                System.out.println(cc.getName() + " Logged in id: " + cc.getId());
 
 
                 ImmutableBag<Entity> entities = cs.getActives();

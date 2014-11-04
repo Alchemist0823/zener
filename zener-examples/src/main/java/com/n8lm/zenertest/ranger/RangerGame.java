@@ -84,6 +84,7 @@ public class RangerGame extends ExampleBasicGame{
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new TiledMapPositionSystem(map));
         world.setSystem(new TiledMapRenderingSystem());
+        world.setSystem(new CharacterSystem(world.getSystem(TiledMapRenderingSystem.class).getMapEntity()));
         world.setSystem(new DelayedSystem());
         world.setSystem(new CollisionSystem(), true);
         world.setSystem(new PhysicsSystem(world.getSystem(CollisionSystem.class)));
@@ -96,6 +97,10 @@ public class RangerGame extends ExampleBasicGame{
         EntityFactory.setWorld(world);
         // add Map
         int vis[][] = new int[40][40];
+        for (int i = 0; i < vis.length; i ++)
+            for (int j = 0; j < vis[i].length; j ++) {
+                vis[i][j] = 1;
+            }
 
         world.getSystem(TiledMapRenderingSystem.class).init(map);
         world.getSystem(TiledMapRenderingSystem.class).updateVisibleArea(vis);
@@ -133,7 +138,7 @@ public class RangerGame extends ExampleBasicGame{
 
         Mouse.setGrabbed(true);
 
-        CharacterInputAdapter cia = new CharacterInputAdapter(mainCharacter, cam, mapEntity);
+        CharacterInputAdapter cia = new CharacterInputAdapter(world, mainCharacter, cam, mapEntity);
         getContainer().getInput().addListener(cia);
 
         mainCharacter.addComponent(new ScriptComponent(Event.WORLD_UPDATE, cia));

@@ -18,6 +18,11 @@ public abstract class BasicServer {
     protected Map<String, World> worlds;
     protected final ResourceManager resourceManager = ResourceManager.getInstance();
     protected GameInfoManager gameInfoManager;
+
+    public ServerContainer getContainer() {
+        return container;
+    }
+
     private ServerContainer container;
 
     public BasicServer() {

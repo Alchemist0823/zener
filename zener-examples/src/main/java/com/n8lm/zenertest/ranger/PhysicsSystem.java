@@ -44,10 +44,10 @@ public class PhysicsSystem extends EntityProcessingSystem{
         CollisionResult cr = collisionSystem.getCollisionResults().getClosestCollision();
         if (cr != null) {
             tm.get(e).getLocalTransform().getTranslation().set(cr.getContactPoint());
+            cm.get(cr.getEntity()).setHealth(cm.get(cr.getEntity()).getHealth() - 2 * vm.get(e).getVelocity().distance(Vector3f.ZERO));
             vm.get(e).getVelocity().set(0f, 0f, 0f);
             e.removeComponent(VelocityComponent.class);
             world.changedEntity(e);
-            cm.get(cr.getEntity()).setHealth(cm.get(cr.getEntity()).getHealth() - 10f);
             System.out.println(cm.get(cr.getEntity()).getHealth());
         } else {
             tm.get(e).getLocalTransform().getTranslation().addLocal(vm.get(e).getVelocity().mult(second));

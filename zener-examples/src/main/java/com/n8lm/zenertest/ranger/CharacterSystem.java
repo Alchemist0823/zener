@@ -7,6 +7,10 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
 import com.n8lm.zener.animation.AnimationComponent;
+import com.n8lm.zener.animation.AnimationController;
+import com.n8lm.zener.animation.SkeletonAnimationController;
+import com.n8lm.zener.assets.Model;
+import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.general.DelayedComponent;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.math.Quaternion;
@@ -18,6 +22,8 @@ import com.n8lm.zener.script.NativeScript;
 import com.n8lm.zener.script.ScriptComponent;
 import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zenertest.ranger.CharacterComponent.Action;
+
+import java.util.List;
 
 /**
  * Created on 2014/7/18.
@@ -34,10 +40,12 @@ public class CharacterSystem extends EntityProcessingSystem{
     ComponentMapper<AnimationComponent> am;
 
     private Entity mapEntity;
+    private Model model;
 
     public CharacterSystem(Entity mapEntity) {
         super(Aspect.getAspectForAll(CharacterComponent.class));
         this.mapEntity = mapEntity;
+        this.model = ResourceManager.getInstance().getModel("human");
     }
 
     private Vector3f tempdir = new Vector3f();
@@ -49,13 +57,38 @@ public class CharacterSystem extends EntityProcessingSystem{
     protected void process(Entity e) {
         CharacterComponent cc = cm.get(e);
         Action action = cc.getAction();
+        AnimationController<?> ac = am.get(e).getAnimationControllerByName("Attack_bow");
 
         if (action == Action.Bow) {
-            if (cc.getActionTime() == 40) {
+            if (cc.getActionTime() == 0) {
+
+                System.out.println("bow2");
+                List<AnimationController<?>> acList = am.get(e).getAnimationControllers();
+                for (AnimationController<?> aci : acList) {
+                    aci.delete();
+                }
+                am.get(e).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f));
+            } else if (cc.getActionTime() == 40) {
+                if (ac != null) {
+                    ac.stop();
+                }
+            }
+        } else if (action == Action.Run) {
+            if (cc.getActionTime() == 0) {
+
+            }
+
+        } else if (action == Action.Shoot) {
+            if (cc.getActionTime() == 0) {
+                if (ac != null) {
+                    ac.play();
+                }
+
+                System.out.println("shoot1");
                 Entity arrow = world.createEntity();
                 Helper.angleToVector(cc.getHeadAngles(), tempdir);
                 Helper.angleToQuaternion(cc.getHeadAngles(), temprot);
-                arrow.addComponent(new VelocityComponent(new Vector3f(tempdir.mult(10f))));
+                arrow.addComponent(new VelocityComponent(new Vector3f(tempdir.mult(20f * cc.getActionPower()))));
                 arrow.addComponent(new TransformComponent(mapEntity, new Transform(
                         tm.get(e).getLocalTransform().getTranslation().add(0, 0, 1.5f).add(tempdir.mult(1.5f)),
                         temprot,
@@ -66,12 +99,27 @@ public class CharacterSystem extends EntityProcessingSystem{
                 arrow.addComponent(new ScriptComponent(DelayedEvent.END, deleteScript));
                 arrow.addComponent(new DelayedComponent(5f, "delete"));
                 world.addEntity(arrow);
+            } else if (cc.getActionTime() == 10) {
+                cc.setActionTime(0);
+                cc.setAction(Action.Idle);
             }
-        } else if (action == Action.Run) {
-            if (cc.getActionTime() == 0) {
+        }
 
+        cc.setActionTime(cc.getActionTime() + 1);
+    }
+
+    public void shoot(Entity character) {
+
+        CharacterComponent cc = cm.get(character);
+        if (cc.getAction() == CharacterComponent.Action.Bow) {
+            if (cc.getActionTime() >= 40) {
+                cc.setAction(CharacterComponent.Action.Shoot);
+                cc.setActionPower((float) Math.log(cc.getActionTime() / 40f));
+                cc.setActionTime(0);
+            } else {
+                cc.setAction(Action.Idle);
+                cc.setActionTime(0);
             }
-
         }
     }
 }

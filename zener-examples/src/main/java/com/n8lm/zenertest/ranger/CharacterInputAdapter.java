@@ -29,11 +29,13 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
     private final Entity character;
     private final Entity cam;
     private final Entity mapEntity;
+    private final World world;
 
     private final float PI4 = MathUtil.PI / 4;
     private final float[] DIRS = {0.0f, - PI4, - PI4 * 2, - PI4 * 3, - PI4 * 4, - PI4 * 5, - PI4 * 6, - PI4 * 7};
 
-    public CharacterInputAdapter(Entity character, Entity cam, Entity mapEntity) {
+    public CharacterInputAdapter(World world, Entity character, Entity cam, Entity mapEntity) {
+        this.world = world;
         this.character = character;
         this.cam = cam;
         this.mapEntity = mapEntity;
@@ -115,8 +117,8 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         if (button == 0) {
 
-            character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow").play();
-
+            CharacterSystem cs = world.getSystem(CharacterSystem.class);
+            cs.shoot(character);
             //Model model = ResourceManager.getInstance().getModel("human");
             //character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f, 20.0f));
 
@@ -164,19 +166,15 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
         float camLength = 3.0f;
         float camFov = 90f;
 
-        AnimationController<?> ac = character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow");
-        if (ac != null && ac.getTime() == 41f) {
-            character.getComponent(CharacterComponent.class).setAction(CharacterComponent.Action.Bow);
-        }
-
+        CharacterComponent cc = character.getComponent(CharacterComponent.class);
 
         if (button2Frame > 0) {
             camHeight = 1.5f;
             camLength = - 0.2f;
 
-            character.getComponent(CharacterComponent.class).getHeadAngles()[0] = seeAngles[0];
-            character.getComponent(CharacterComponent.class).getHeadAngles()[1] = seeAngles[1];
-            character.getComponent(CharacterComponent.class).getHeadAngles()[2] = seeAngles[2];
+            cc.getHeadAngles()[0] = seeAngles[0];
+            cc.getHeadAngles()[1] = seeAngles[1];
+            cc.getHeadAngles()[2] = seeAngles[2];
 
             camFov = 60f;
             button2Frame ++;
@@ -184,23 +182,17 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         if (button1Frame > 0) {
             if (button1Frame == 1) {
-                List<AnimationController<?>> acList = character.getComponent(AnimationComponent.class).getAnimationControllers();
-                for (AnimationController<?> aci : acList) {
-                    aci.delete();
-                }
-                character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f));
-            } else if (button1Frame == 40) {
-                ac.stop();
-                //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
+                cc.setAction(CharacterComponent.Action.Bow);
+                cc.setActionTime(0);
+                System.out.println("bow1");
             }
+            //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
             seeDir.z = 0;
             //character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, seeDir.negate());
-
             button1Frame ++;
-
         }
 
-        if (move && (ac == null || ac.getTime() == 39f)) {
+        if (move && cc.getAction() != CharacterComponent.Action.Bow) {
             Vector3f moveDir = new Vector3f();
 
             float angle = 0;
@@ -237,9 +229,9 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             moveDir.normalizeLocal();
 
             if (button2Frame == 0) {
-                character.getComponent(CharacterComponent.class).getHeadAngles()[0] = moveAngles[0];
-                character.getComponent(CharacterComponent.class).getHeadAngles()[1] = moveAngles[1];
-                character.getComponent(CharacterComponent.class).getHeadAngles()[2] = moveAngles[2];
+                cc.getHeadAngles()[0] = moveAngles[0];
+                cc.getHeadAngles()[1] = moveAngles[1];
+                cc.getHeadAngles()[2] = moveAngles[2];
             }
 
             float speed;
@@ -268,7 +260,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             }
         }
 
-        Helper.angleToVector(character.getComponent(CharacterComponent.class).getHeadAngles(), tempdir);
+        Helper.angleToVector(cc.getHeadAngles(), tempdir);
         character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, tempdir.negate());
 
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().multLocal(camLength).addLocal(0, 0, camHeight);

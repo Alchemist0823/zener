@@ -17,6 +17,7 @@ import com.n8lm.zener.utils.ZenerException;
 import com.n8lm.zenertest.ExampleBasicGame;
 import com.n8lm.zenertest.network.messages.LoginMessage;
 
+import javax.swing.*;
 import java.util.Random;
 
 /**
@@ -25,13 +26,17 @@ import java.util.Random;
  */
 public class NetworkTest extends ExampleBasicGame {
 
-    public NetworkTest() {
+    private String playerName;
+    private String host;
+
+    public NetworkTest(String playerName, String host) {
         super("networktest", "Network Test");
+        this.playerName = playerName;
+        this.host = host;
     }
 
-    private Entity model;
     private Entity cam;
-    private Entity light1, light2;
+    private Entity light1;
 
     @Override
     protected void init() {
@@ -43,7 +48,7 @@ public class NetworkTest extends ExampleBasicGame {
         world.setSystem(new AttachSystem());
         world.setSystem(new GLRenderSystem(world));
         world.setSystem(new CharacterSystem());
-        world.setSystem(new ClientNetworkSystem(new MyNetworkConfiguration(), new ClientNetworkAdapter(world)));
+        world.setSystem(new ClientNetworkSystem(new MyNetworkConfiguration(), new ClientNetworkAdapter(world, this)));
 
         world.initialize();
 
@@ -53,10 +58,9 @@ public class NetworkTest extends ExampleBasicGame {
         Geometry geometry = new ModelGeometry(modelName, resourceManager.getModel(modelName).getMesh());
         resourceManager.getGeometryManager().registerGeometry(geometry);
 
-        world.getSystem(ClientNetworkSystem.class).connet("localhost");
+        world.getSystem(ClientNetworkSystem.class).connet(host);
 
-        Random rand = new Random();
-        world.getSystem(ClientNetworkSystem.class).sendImportantMessage(new LoginMessage("player" + rand.nextInt(4)));
+        world.getSystem(ClientNetworkSystem.class).sendImportantMessage(new LoginMessage(playerName));
 
         // add camera entity
         cam = world.createEntity();
@@ -78,7 +82,14 @@ public class NetworkTest extends ExampleBasicGame {
     }
 
     public static void main(String[] args) throws ZenerException {
-        NetworkTest game = new NetworkTest();
+
+
+        String host = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to server", JOptionPane.QUESTION_MESSAGE,
+                null, null, "localhost");
+        String name = (String)JOptionPane.showInputDialog(null, "Name:", "Connect to server", JOptionPane.QUESTION_MESSAGE,
+                null, null, "player1");
+
+        NetworkTest game = new NetworkTest(name, host);
         AppGameContainer container = new AppGameContainer(game);
         container.setDisplayMode(800, 600, false);
         container.setAlwaysRender(true);
