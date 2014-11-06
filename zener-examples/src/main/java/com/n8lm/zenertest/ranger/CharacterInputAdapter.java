@@ -236,17 +236,17 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
             float speed;
             if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow") == null) {
-                speed = 0.05f;
+                speed = 0.005f;
             } else {
-                speed = 0.02f;
+                speed = 0.002f;
             }
 
             float runConstant = 1.0f;
             if (leftShift) {
                 runConstant *= 2;
             }
-            Vector3f charTrans = character.getComponent(TransformComponent.class).getLocalTransform().getTranslation();
-            charTrans.addLocal(moveDir.mult(speed * runConstant));
+
+            cc.getMovement().addLocal(moveDir.mult(speed * runConstant).mult((0.10f * runConstant - cc.getMovement().length()) * 20f));
 
             if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Run") == null)
                 character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Run"), true, runConstant));
@@ -260,7 +260,16 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             }
         }
 
-        Helper.angleToVector(cc.getHeadAngles(), tempdir);
+        Vector3f f = cc.getMovement().normalize().multLocal(0.003f);
+        if (cc.getMovement().lengthSquared() > f.lengthSquared())
+            cc.getMovement().subtractLocal(f);
+        else
+            cc.getMovement().set(Vector3f.ZERO);
+        Vector3f charTrans = character.getComponent(TransformComponent.class).getLocalTransform().getTranslation();
+        charTrans.addLocal(cc.getMovement());
+
+        //Helper.angleToVector(cc.getHeadAngles(), tempdir);
+        tempdir = cc.getMovement().normalize();
         character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, tempdir.negate());
 
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().multLocal(camLength).addLocal(0, 0, camHeight);

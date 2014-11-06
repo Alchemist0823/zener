@@ -3,13 +3,10 @@
 release/
 deprecated/
 *target/
-test/
+videotest/
 *.iml
 *.blend
 *.class
-*.png
-*.iqe
-*.mtl
 *.classpath
 *.project
 *Logging.txt

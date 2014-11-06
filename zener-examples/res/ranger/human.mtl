@@ -1,0 +1,11 @@
+# Material Count: 1
+
+newmtl Material
+Ns 50
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+map_Kd human.png
+Ni 1.000000
+d 1.000000
+illum 2

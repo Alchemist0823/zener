@@ -2,6 +2,7 @@ package com.n8lm.zenertest.ranger;
 
 import com.artemis.Component;
 import com.artemis.Entity;
+import com.n8lm.zener.math.Vector3f;
 
 /**
  * Created on 2014/7/11.
@@ -28,7 +29,8 @@ public class CharacterComponent extends Component {
     transient private Entity weaponEntity;
     private AbilityData abilityData;
 
-    private float[] headAngles;
+    private final float[] headAngles;
+    private final Vector3f movement;
     private float health;
 
 
@@ -38,6 +40,7 @@ public class CharacterComponent extends Component {
         this.health = this.maxhp = maxhp;
         this.abilityData = abilityData;
         this.headAngles = new float[3];
+        this.movement = new Vector3f();
 
         this.action = Action.Idle;
         this.actionTime = 0;
@@ -94,6 +97,9 @@ public class CharacterComponent extends Component {
         return headAngles;
     }
 
+    public Vector3f getMovement() {
+        return movement;
+    }
     public float getHealth() {
         return health;
     }
