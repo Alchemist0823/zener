@@ -3,6 +3,7 @@ package com.artemis.systems;
 import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.ImmutableBag;
 
 /**
@@ -33,17 +34,19 @@ import com.artemis.utils.ImmutableBag;
 public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	private float delay;
 	private float acc;
+    private ArrayBag<Entity> actives;
 
 	public DelayedEntityProcessingSystem(Aspect aspect) {
 		super(aspect);
         delay = Float.MAX_VALUE;
+        actives = new ArrayBag<>();
 	}
 
-	@Override
-	protected final void processEntities(ImmutableBag<Entity> entities) {
+    @Override
+	protected final void processEntities() {
         delay = Float.MAX_VALUE;
-		for (int i = 0, s = entities.size(); s > i; i++) {
-			Entity entity = entities.get(i);
+		for (int i = 0, s = actives.size(); s > i; i++) {
+			Entity entity = actives.get(i);
 			processDelta(entity, acc);
 			float remaining = getRemainingDelay(entity);
             if(remaining <= 0) {
@@ -57,13 +60,21 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 	
 	@Override
 	protected void inserted(Entity e) {
+        actives.add(e);
         delay = acc;
-        processEntities(getActives());
+        processEntities();
 		float delay = getRemainingDelay(e);
 		if(delay > 0) {
 			offerDelay(delay);
 		}
 	}
+
+    @Override
+    protected void removed(Entity e) {
+        super.removed(e);
+        actives.remove(e);
+    }
+
 	
 	/**
 	 * Return the delay until this entity should be processed.

@@ -84,7 +84,7 @@ public class GLRenderSystem extends EntitySystem {
     }
 
     @Override
-    protected final void processEntities(ImmutableBag<Entity> entities) {
+    protected final void processEntities() {
 
         //srs.calcLightForEachEntity(lightEntities);
         depthMap = null;

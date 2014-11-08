@@ -30,7 +30,7 @@ public class UVTransformAnimationController extends AnimationController<UVTransf
 
         Vector2f temp = new Vector2f();
         temp.interpolateLocal(nowf.uvTransform, nextf.uvTransform, nowTime / totalTime);
-        System.out.println(temp);
+        //System.out.println(temp);
         ((UVTransformMaterial) e.getComponent(MaterialComponent.class).getMaterial()).setUVTransform(temp);
     }
 }

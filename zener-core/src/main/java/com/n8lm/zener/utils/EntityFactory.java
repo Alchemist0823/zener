@@ -27,6 +27,7 @@ import com.n8lm.zener.assets.Mesh;
 import com.n8lm.zener.assets.Model;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.general.TransformComponent;
+import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.graphics.GeometryComponent;
 import com.n8lm.zener.graphics.MaterialComponent;
 import com.n8lm.zener.graphics.material.NormalMaterial;
@@ -46,44 +47,52 @@ public class EntityFactory {
     }
 
     private static World world;
+    private static TreeAttachSystem tas;
 
     public static void setWorld(World wor) {
         world = wor;
+        tas = world.getSystem(TreeAttachSystem.class);
     }
 
     public static Entity createAttachableObject(Vector3f pos, Quaternion rot,
-                                                Entity attached, String bone) {
+                                                Entity parent, String bone) {
         Entity e = world.createEntity();
-        e.addComponent(new TransformComponent(attached, bone, pos, rot,
+        e.addComponent(new TransformComponent(pos, rot,
                 Vector3f.UNIT_XYZ));
+        tas.setParent(parent, e, bone);
         // e.addComponent(new VelocityComponent());
         LOGGER.fine("ID: " + e.getId());
         LOGGER.fine("Position: " + pos.toString());
         return e;
     }
 
+
+    public static void setParent(Entity parent, Entity entity) {
+        tas.setParent(parent, entity);
+    }
+
     public static Entity createModelObject(Vector3f pos, Quaternion rot,
-                                           Entity attached, String bone, String modelName, boolean shadowCaster, boolean shadowReceiver) {
-        Entity e = createAttachableObject(pos, rot, attached, bone);
+                                           Entity parent, String bone, String modelName, boolean shadowCaster, boolean shadowReceiver) {
+        Entity e = createAttachableObject(pos, rot, parent, bone);
         return addDisplayObjectComponents(e, modelName, shadowCaster, shadowReceiver);
     }
 
     public static Entity createModelObject(Vector3f pos, Quaternion rot,
-                                           Entity attached, String bone, String modelName, Mesh mesh, UniformsMaterial material, boolean shadowCaster, boolean shadowReceiver) {
-        Entity e = createAttachableObject(pos, rot, attached, bone);
+                                           Entity parent, String bone, String modelName, Mesh mesh, UniformsMaterial material, boolean shadowCaster, boolean shadowReceiver) {
+        Entity e = createAttachableObject(pos, rot, parent, bone);
         return addDisplayObjectComponents(e, modelName, mesh, material, shadowCaster, shadowReceiver);
     }
 
     public static Entity createDisplayObject(Vector3f pos, Quaternion rot, Geometry geometry, UniformsMaterial material,
-                                             boolean shadowCaster, Entity attached, String bone) {
-        Entity e = createAttachableObject(pos, rot, attached, bone);
+                                             boolean shadowCaster, Entity parent, String bone) {
+        Entity e = createAttachableObject(pos, rot, parent, bone);
         return addDisplayObjectComponents(e, geometry, material,
                 shadowCaster, false);
     }
 
     public static Entity createDisplayObject(Vector3f pos, Quaternion rot, Geometry geometry, UniformsMaterial material,
-                                             boolean shadowCaster, boolean shadowReceiver, Entity attached, String bone) {
-        Entity e = createAttachableObject(pos, rot, attached, bone);
+                                             boolean shadowCaster, boolean shadowReceiver, Entity parent, String bone) {
+        Entity e = createAttachableObject(pos, rot, parent, bone);
         return addDisplayObjectComponents(e, geometry, material,
                 shadowCaster, shadowReceiver);
     }
@@ -176,5 +185,4 @@ public class EntityFactory {
         LOGGER.fine("Model: " + model.toString());
         return e;
     }
-
 }

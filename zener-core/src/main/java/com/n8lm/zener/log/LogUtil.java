@@ -28,25 +28,39 @@ import java.util.logging.SimpleFormatter;
 import de.lessvoid.nifty.controls.Console;
 
 public class LogUtil {
-	
+
+    private LogUtil() {
+
+    }
+
 	private static MemoryHandler memoryLogHandler;
 	private static NiftyLogHandler niftyLogHandler;
-	
+
+    public static void disableNiftyInfoLog() {
+        Logger.getLogger("de.lessvoid.nifty").setLevel(Level.WARNING);
+        Logger.getLogger("NiftyInputEventHandlingLog").setLevel(Level.WARNING);
+    }
+
 	public static void setup(boolean isNiftyConsoleLog) {
 
 	    Logger logger = Logger.getLogger("com.n8lm");
-	    Logger globalLogger = Logger.getLogger("");
+        Logger globalLogger = Logger.getLogger("");
+        //niftyLogger.setLevel(Level.OFF);
+	    globalLogger.setLevel(Level.INFO);
 	    //logger.setLevel(Level.WARNING);
 	   
 	    //globalLogger.removeHandler(globalLogger.getHandlers()[0]);
 	    
 	    globalLogger.getHandlers()[0].setFormatter(new ShortLogFormatter());
+        //Logger.getLogger("de.lessvoid.nifty").setLevel(Level.WARNING);
 	    
 		try {
 			FileHandler fileTxt = new FileHandler("Logging.txt");
 		    SimpleFormatter formatterTxt = new SimpleFormatter();
 		    fileTxt.setFormatter(formatterTxt);
 		    logger.addHandler(fileTxt);
+            //niftyLogger.addHandler(fileTxt);
+            //Logger.getLogger("de.lessvoid.nifty").addHandler(fileTxt);
 		    
 		    //for (Handler handle : logger.getHandlers()
 		    

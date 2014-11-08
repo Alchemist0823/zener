@@ -3,6 +3,7 @@ package com.artemis.systems;
 import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.ImmutableBag;
 
 /**
@@ -20,7 +21,7 @@ public abstract class VoidEntitySystem extends EntitySystem {
 	}
 
 	@Override
-	protected final void processEntities(ImmutableBag<Entity> entities) {
+	protected final void processEntities() {
 		processSystem();
 	}
 	

@@ -2,15 +2,16 @@ package com.artemis;
 
 import java.util.BitSet;
 
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 
 public class ComponentManager extends Manager {
-	private Bag<Bag<Component>> componentsByType;
+	private ArrayBag<ArrayBag<Component>> componentsByType;
 	private Bag<Entity> deleted;
 
 	public ComponentManager() {
-		componentsByType = new Bag<Bag<Component>>();
-		deleted = new Bag<Entity>();
+		componentsByType = new ArrayBag<ArrayBag<Component>>();
+		deleted = new ArrayBag<Entity>();
 	}
 	
 	@Override
@@ -27,10 +28,10 @@ public class ComponentManager extends Manager {
 	
 	protected void addComponent(Entity e, ComponentType type, Component component) {
 		componentsByType.ensureCapacity(type.getIndex());
-		
-		Bag<Component> components = componentsByType.get(type.getIndex());
+
+        ArrayBag<Component> components = componentsByType.get(type.getIndex());
 		if(components == null) {
-			components = new Bag<Component>();
+			components = new ArrayBag<Component>();
 			componentsByType.set(type.getIndex(), components);
 		}
 		
@@ -46,17 +47,17 @@ public class ComponentManager extends Manager {
 		}
 	}
 	
-	protected Bag<Component> getComponentsByType(ComponentType type) {
-		Bag<Component> components = componentsByType.get(type.getIndex());
+	protected ArrayBag<Component> getComponentsByType(ComponentType type) {
+        ArrayBag<Component> components = componentsByType.get(type.getIndex());
 		if(components == null) {
-			components = new Bag<Component>();
+			components = new ArrayBag<Component>();
 			componentsByType.set(type.getIndex(), components);
 		}
 		return components;
 	}
 	
 	protected Component getComponent(Entity e, ComponentType type) {
-		Bag<Component> components = componentsByType.get(type.getIndex());
+        ArrayBag<Component> components = componentsByType.get(type.getIndex());
 		if(components != null && components.isIndexWithinBounds(e.getId())) {
 			return components.get(e.getId());
 		}

@@ -6,12 +6,14 @@ import com.n8lm.zener.animation.AnimationSystem;
 import com.n8lm.zener.app.AppGameContainer;
 import com.n8lm.zener.collision.AABBBoundingBox;
 import com.n8lm.zener.collision.CollidableComponent;
-import com.n8lm.zener.general.AttachSystem;
+import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.collision.CollisionSystem;
 import com.n8lm.zener.general.DelayedSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.map.*;
+import com.n8lm.zener.math.MathUtil;
+import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.script.Event;
@@ -52,15 +54,21 @@ public class RangerGame extends ExampleBasicGame{
         character.addComponent(cc);
         character.addComponent(new AnimationComponent());
         //character.addComponent(new VelocityComponent(new Vector3f()));
-        character.addComponent(new TransformComponent(mapEntity, new Transform()));
+        character.addComponent(new TransformComponent());
         character.addComponent(new MapPositionComponent());
         character.addComponent(new CollidableComponent(new AABBBoundingBox(new Vector3f(0f, 0f, 0.9f), 0.5f, 0.2f, 0.9f)));
+
         world.addEntity(character);
 
         // add weapon entity
         Entity weapon = world.createEntity();
         EntityFactory.addDisplayObjectComponents(weapon, "bow", false, false);
-        weapon.addComponent(new TransformComponent(character, "Weapon.L", new Transform()));
+
+        Quaternion q = new Quaternion();
+        q.fromAngles(0, MathUtil.HALF_PI, 0);
+
+        weapon.addComponent(new TransformComponent(Vector3f.ZERO, q, Vector3f.UNIT_XYZ));
+        world.getSystem(TreeAttachSystem.class).setParent(character, weapon, "Weapon.L");
         world.addEntity(weapon);
 
         cc.setWeaponEntity(weapon);
@@ -89,7 +97,7 @@ public class RangerGame extends ExampleBasicGame{
         world.setSystem(new CollisionSystem(), true);
         world.setSystem(new PhysicsSystem(world.getSystem(CollisionSystem.class)));
         world.setSystem(new AnimationSystem());
-        world.setSystem(new AttachSystem());
+        world.setSystem(new TreeAttachSystem());
         world.setSystem(new GLRenderSystem(world));
 
         world.initialize();
@@ -120,7 +128,8 @@ public class RangerGame extends ExampleBasicGame{
         cam.addComponent(new ViewComponent(new PerspectiveProjection()));
         Transform camTransform = new Transform(0, -3, 3);
         camTransform.getRotation().lookAt(new Vector3f(0, 3, 0), new Vector3f(0, 0, 3));
-        cam.addComponent(new TransformComponent(mapEntity, camTransform));
+        cam.addComponent(new TransformComponent(camTransform));
+        world.getSystem(TreeAttachSystem.class).setParent(mapEntity, cam);
         world.addEntity(cam);
 
         mainCharacter = createCharacter();
@@ -133,7 +142,8 @@ public class RangerGame extends ExampleBasicGame{
         lc1.setDiffuse(new Vector3f(0.8f, 0.8f, 0.8f));
         light1 = world.createEntity();
         light1.addComponent(lc1);
-        light1.addComponent(new TransformComponent(mainCharacter, new Transform(0, 0, 10)));
+        light1.addComponent(new TransformComponent(new Transform(0, 0, 10)));
+        world.getSystem(TreeAttachSystem.class).setParent(mainCharacter, light1);
         world.addEntity(light1);
 
         Mouse.setGrabbed(true);

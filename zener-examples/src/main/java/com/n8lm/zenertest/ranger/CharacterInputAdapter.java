@@ -184,7 +184,6 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             if (button1Frame == 1) {
                 cc.setAction(CharacterComponent.Action.Bow);
                 cc.setActionTime(0);
-                System.out.println("bow1");
             }
             //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
             seeDir.z = 0;
@@ -247,19 +246,8 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             }
 
             cc.getMovement().addLocal(moveDir.mult(speed * runConstant).mult((0.10f * runConstant - cc.getMovement().length()) * 20f));
-
-            if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Run") == null)
-                character.getComponent(AnimationComponent.class).add(new SkeletonAnimationController(model.getAnimation("Run"), true, runConstant));
-            else
-                character.getComponent(AnimationComponent.class).getAnimationControllerByName("Run").setSpeed(runConstant);
-        } else {
-            if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Run") != null) {
-
-                character.getComponent(AnimationComponent.class).removeAnimationControllerByName("Run");
-                character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Idle").getFrame(0).getPoseMatrices());
-            }
         }
-
+        /*
         Vector3f f = cc.getMovement().normalize().multLocal(0.003f);
         if (cc.getMovement().lengthSquared() > f.lengthSquared())
             cc.getMovement().subtractLocal(f);
@@ -267,11 +255,8 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             cc.getMovement().set(Vector3f.ZERO);
         Vector3f charTrans = character.getComponent(TransformComponent.class).getLocalTransform().getTranslation();
         charTrans.addLocal(cc.getMovement());
-
+        */
         //Helper.angleToVector(cc.getHeadAngles(), tempdir);
-        tempdir = cc.getMovement().normalize();
-        character.getComponent(TransformComponent.class).getLocalTransform().getRotation().lookAt(Vector3f.UNIT_Z, tempdir.negate());
-
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().multLocal(camLength).addLocal(0, 0, camHeight);
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().addLocal(character.getComponent(TransformComponent.class).getLocalTransform().getTranslation());
 

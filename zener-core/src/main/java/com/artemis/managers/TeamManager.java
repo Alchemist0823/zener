@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.artemis.Manager;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -43,7 +44,7 @@ public class TeamManager extends Manager {
 		
 		Bag<String> players = playersByTeam.get(team);
 		if(players == null) {
-			players = new Bag<String>();
+			players = new ArrayBag<String>();
 			playersByTeam.put(team, players);
 		}
 		players.add(player);

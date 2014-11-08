@@ -3,7 +3,7 @@ package com.n8lm.zenertest.graphics;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.n8lm.zener.app.AppGameContainer;
-import com.n8lm.zener.general.AttachSystem;
+import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
@@ -37,7 +37,7 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
         super.init();
 
         world.setSystem(new GlobalScriptSystem());
-        world.setSystem(new AttachSystem());
+        world.setSystem(new TreeAttachSystem());
         world.setSystem(new GLRenderSystem(world));
 
         world.initialize();

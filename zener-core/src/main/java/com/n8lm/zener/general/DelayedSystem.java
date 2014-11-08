@@ -36,7 +36,10 @@ public class DelayedSystem extends DelayedEntityProcessingSystem {
 
 	@Override
 	protected float getRemainingDelay(Entity e) {
-		return em.get(e).getRemain() * 1000;
+        if (em.has(e))
+		    return em.get(e).getRemain() * 1000;
+        else
+            return 100.f;
 	}
 
 	@Override

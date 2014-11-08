@@ -22,13 +22,86 @@ import com.artemis.Entity;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.ViewComponent;
 
+import java.util.Random;
+
 public class MathUtil {
 
+
+    /** A "close to zero" double epsilon value for use*/
+    public static final double DBL_EPSILON = 2.220446049250313E-16d;
     /** A "close to zero" float epsilon value for use*/
     public static final float FLT_EPSILON = 1.1920928955078125E-7f;
+    /** A "close to zero" float epsilon value for use*/
     public static final float ZERO_TOLERANCE = 0.0001f;
+    public static final float ONE_THIRD = 1f / 3f;
+    /** The value PI as a float. (180 degrees) */
     public static final float PI = (float) Math.PI;
-    
+    /** The value 2PI as a float. (360 degrees) */
+    public static final float TWO_PI = 2.0f * PI;
+    /** The value PI/2 as a float. (90 degrees) */
+    public static final float HALF_PI = 0.5f * PI;
+    /** The value PI/4 as a float. (45 degrees) */
+    public static final float QUARTER_PI = 0.25f * PI;
+    /** The value 1/PI as a float. */
+    public static final float INV_PI = 1.0f / PI;
+    /** The value 1/(2PI) as a float. */
+    public static final float INV_TWO_PI = 1.0f / TWO_PI;
+    /** A value to multiply a degree value by, to convert it to radians. */
+    public static final float DEG_TO_RAD = PI / 180.0f;
+    /** A value to multiply a radian value by, to convert it to degrees. */
+    public static final float RAD_TO_DEG = 180.0f / PI;
+    /** A precreated random object for random numbers. */
+    public static final Random rand = new Random(System.currentTimeMillis());
+    /** A "close to zero" float epsilon value for use*/
+
+    private MathUtil() {
+        new AssertionError();
+    }
+
+    /**
+     * Returns true if the number is a power of 2 (2,4,8,16...)
+     *
+     * A good implementation found on the Java boards. note: a number is a power
+     * of two if and only if it is the smallest number with that number of
+     * significant bits. Therefore, if you subtract 1, you know that the new
+     * number will have fewer bits, so ANDing the original number with anything
+     * less than it will give 0.
+     *
+     * @param number
+     *            The number to test.
+     * @return True if it is a power of two.
+     */
+    public static boolean isPowerOfTwo(int number) {
+        return (number > 0) && (number & (number - 1)) == 0;
+    }
+
+
+    public static int nearestPowerOfTwo(int number) {
+        return (int) Math.pow(2, Math.ceil(Math.log(number) / Math.log(2)));
+    }
+
+    /**
+     * Take a float input and clamp it between min and max.
+     *
+     * @param input
+     * @param min
+     * @param max
+     * @return clamped input
+     */
+    public static float clamp(float input, float min, float max) {
+        return (input < min) ? min : (input > max) ? max : input;
+    }
+
+    /**
+     * Clamps the given float to be between 0 and 1.
+     *
+     * @param input
+     * @return input clamped between 0 and 1.
+     */
+    public static float saturate(float input) {
+        return clamp(input, 0f, 1f);
+    }
+
     public static int roundUpPOT(int value) {
         return 1 << (32 - Integer.numberOfLeadingZeros(value-1));
     }
@@ -39,6 +112,31 @@ public class MathUtil {
 
     public static float sin(float angle) {
         return (float) Math.sin(angle);
+    }
+
+
+    /**
+     * Returns a random float between 0 and 1.
+     *
+     * @return A random float between <tt>0.0f</tt> (inclusive) to
+     *         <tt>1.0f</tt> (exclusive).
+     */
+    public static float nextRandomFloat() {
+        return rand.nextFloat();
+    }
+
+    /**
+     * Returns a random integer between min and max.
+     *
+     * @return A random int between <tt>min</tt> (inclusive) to
+     *         <tt>max</tt> (inclusive).
+     */
+    public static int nextRandomInt(int min, int max) {
+        return (int) (nextRandomFloat() * (max - min + 1)) + min;
+    }
+
+    public static int nextRandomInt() {
+        return rand.nextInt();
     }
 	/*public static Matrix4f translateToMatrix4f(float x, float y, float z) {
     	Matrix4f mat = new Matrix4f();

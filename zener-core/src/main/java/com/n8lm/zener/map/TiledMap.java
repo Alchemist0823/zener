@@ -349,6 +349,8 @@ public class TiledMap implements Cloneable{
     }
 
     public float getPositionAltitude(float x, float y) {
+        if (x < 0 || y < 0 || x > (width - 1) * tileWidth || y > (height - 1) * tileHeight)
+            return 0;
         int tx = (int) (x / tileWidth);
         int ty = (int) (y / tileHeight);
         float dx = (tx + 1 - x / tileWidth);

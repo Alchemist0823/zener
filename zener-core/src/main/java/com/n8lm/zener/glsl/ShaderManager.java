@@ -143,7 +143,7 @@ public class ShaderManager {
 
     public String generateShaderKey(String name, List<String> macros) {
 
-        StringBuffer key = new StringBuffer(name);
+        StringBuilder key = new StringBuilder(name);
         key.append('(');
 
         for (String macro: macros) {
@@ -155,7 +155,7 @@ public class ShaderManager {
 
 
     public String generateProgramKey(String vertName, String fragName, List<String> options) {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         key.append(vertName);
         key.append('_');
         key.append(fragName);

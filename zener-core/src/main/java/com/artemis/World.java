@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.artemis.annotations.Mapper;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -38,16 +39,16 @@ public class World {
 
 	public World() {
 		managers = new HashMap<Class<? extends Manager>, Manager>();
-		managersBag = new Bag<Manager>();
+		managersBag = new ArrayBag<Manager>();
 		
 		systems = new HashMap<Class<?>, EntitySystem>();
-		systemsBag = new Bag<EntitySystem>();
+		systemsBag = new ArrayBag<EntitySystem>();
 
-		added = new Bag<Entity>();
-		changed = new Bag<Entity>();
-		deleted = new Bag<Entity>();
-		enable = new Bag<Entity>();
-		disable = new Bag<Entity>();
+		added = new ArrayBag<Entity>();
+		changed = new ArrayBag<Entity>();
+		deleted = new ArrayBag<Entity>();
+		enable = new ArrayBag<Entity>();
+		disable = new ArrayBag<Entity>();
 
 		cm = new ComponentManager();
 		setManager(cm);

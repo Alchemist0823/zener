@@ -23,6 +23,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.n8lm.zener.animation.SkeletonComponent;
@@ -119,9 +120,9 @@ public class ViewRenderSystem extends EntitySystem {
         globalUniforms.setModelMatrix(modelMat);
         globalUniforms.setProjectionMatrix(projectionMat);
 
-        opaqueEntities = new Bag<Entity>();
-        transEntities = new Bag<Entity>();
-        lightEntities = new Bag<Entity>();
+        opaqueEntities = new ArrayBag<Entity>();
+        transEntities = new ArrayBag<Entity>();
+        lightEntities = new ArrayBag<Entity>();
 
         tmpTransQueue = new Stack<Entity>();
     }
@@ -159,7 +160,7 @@ public class ViewRenderSystem extends EntitySystem {
 */
 
     @Override
-    protected void processEntities(ImmutableBag<Entity> entities) {
+    protected void processEntities() {
 
         if (renderMode == RenderMode.NormalRender) {
             for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
@@ -296,9 +297,9 @@ public class ViewRenderSystem extends EntitySystem {
 		}*/
 		/*
 		if (renderMode == RenderMode.NormalRender) {
-			System.out.println(vrs.getDepthPV());
+			//System.out.println(vrs.getDepthPV());
 			//System.out.println(vrs.getDepthP());
-			System.out.println(projectionMat.mult(viewMat));
+			//System.out.println(projectionMat.mult(viewMat));
 			//System.out.println(projectionMat);
 			//System.out.println(vrs.getDepthV());
 			//System.out.println(viewMat);

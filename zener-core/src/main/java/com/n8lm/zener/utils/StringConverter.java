@@ -239,7 +239,7 @@ public class StringConverter {
 		if (len == 0)
 			return "";
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		for (int i = 0; i < len; i++) {
 			buffer.append(buf[off + i]);
@@ -255,7 +255,7 @@ public class StringConverter {
 		if (len == 0)
 			return "";
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		for (int i = 0; i < len; i++) {
 			buffer.append(buf[off + i]);
@@ -529,7 +529,7 @@ public class StringConverter {
 		if (value.length == 0)
 			return "";
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		for (int i = 0; i < value.length; i++) {
 			buffer.append(StringConverter.formatNumber(value[i], before, after));
@@ -627,7 +627,7 @@ public class StringConverter {
 		String s0 = StringConverter.formatNumber(s, 2, 0);
 		String ms0 = StringConverter.formatNumber(ms, 3, 0);
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < format.length(); i++) {
 			switch (format.charAt(i)) {
@@ -673,7 +673,7 @@ public class StringConverter {
 		String mm0 = StringConverter.formatNumber(mm, 2, 0);
 		String hh0 = StringConverter.formatNumber(hh, 2, 0);
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < format.length(); i++) {
 			switch (format.charAt(i)) {

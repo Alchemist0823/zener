@@ -149,6 +149,21 @@ public final class Quaternion implements Cloneable, Serializable {
     }
 
     /**
+     * Constructor instantiates a new <code>Quaternion</code> object from rotation angles.
+     *
+     * @param angleX
+     *            the angles of rotation x
+     * @param angleY
+     *            the angles of rotation y
+     * @param angleZ
+     *            the angles of rotation z
+     */
+    public Quaternion(float angleX, float angleY, float angleZ) {
+        fromAngles(angleX, angleY, angleZ);
+    }
+
+
+    /**
      * Constructor instantiates a new <code>Quaternion</code> object from an
      * interpolation between two other quaternions.
      *

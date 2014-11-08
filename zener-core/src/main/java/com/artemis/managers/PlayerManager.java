@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.artemis.Entity;
 import com.artemis.Manager;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -30,7 +31,7 @@ public class PlayerManager extends Manager {
 		playerByEntity.put(e, player);
 		Bag<Entity> entities = entitiesByPlayer.get(player);
 		if(entities == null) {
-			entities = new Bag<Entity>();
+			entities = new ArrayBag<>();
 			entitiesByPlayer.put(player, entities);
 		}
 		entities.add(e);
@@ -39,7 +40,7 @@ public class PlayerManager extends Manager {
 	public ImmutableBag<Entity> getEntitiesOfPlayer(String player) {
 		Bag<Entity> entities = entitiesByPlayer.get(player);
 		if(entities == null) {
-			entities = new Bag<Entity>();
+			entities = new ArrayBag<>();
 		}
 		return entities;
 	}

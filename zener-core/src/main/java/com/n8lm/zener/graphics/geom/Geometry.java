@@ -188,9 +188,9 @@ public abstract class Geometry extends GLObject {
     protected void log() {
 
         for (VertexBuffer vb : vbs.values()) {
-            LOGGER.info("VBO: ID " + vb.getID() + " " + vb.getType() + " " + vb.getSize() + " " + vb.getComponents() + " ");
+            LOGGER.fine("VBO: ID " + vb.getID() + " " + vb.getType() + " " + vb.getSize() + " " + vb.getComponents() + " ");
         }
-        LOGGER.info("VAO: ID " + id);
+        LOGGER.fine("VAO: ID " + id);
         //LOGGER.info("Uniform: " + uniformGroup);
     }
 

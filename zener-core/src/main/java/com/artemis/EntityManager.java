@@ -2,10 +2,11 @@ package com.artemis;
 
 import java.util.BitSet;
 
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 
 public class EntityManager extends Manager {
-	private Bag<Entity> entities;
+	private ArrayBag<Entity> entities;
 	private BitSet disabled;
 	
 	private int active;
@@ -16,7 +17,7 @@ public class EntityManager extends Manager {
 	private IdentifierPool identifierPool;
 	
 	public EntityManager() {
-		entities = new Bag<Entity>();
+		entities = new ArrayBag<>();
 		disabled = new BitSet();
 		identifierPool = new IdentifierPool();
 	}
@@ -132,11 +133,11 @@ public class EntityManager extends Manager {
 	 * Used only internally to generate distinct ids for entities and reuse them.
 	 */
 	private class IdentifierPool {
-		private Bag<Integer> ids;
+		private ArrayBag<Integer> ids;
 		private int nextAvailableId;
 
 		public IdentifierPool() {
-			ids = new Bag<Integer>();
+			ids = new ArrayBag<Integer>();
 		}
 		
 		public int checkOut() {

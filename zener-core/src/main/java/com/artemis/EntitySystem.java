@@ -3,6 +3,7 @@ package com.artemis;
 import java.util.BitSet;
 import java.util.HashMap;
 
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -19,7 +20,7 @@ public abstract class EntitySystem implements EntityObserver {
 
 	protected World world;
 
-	private Bag<Entity> actives;
+	//private Bag<Entity> actives;
 
 	private Aspect aspect;
 
@@ -36,7 +37,6 @@ public abstract class EntitySystem implements EntityObserver {
 	 * @param aspect to match against entities
 	 */
 	public EntitySystem(Aspect aspect) {
-		actives = new Bag<Entity>();
 		this.aspect = aspect;
 		allSet = aspect.getAllSet();
 		exclusionSet = aspect.getExclusionSet();
@@ -55,7 +55,7 @@ public abstract class EntitySystem implements EntityObserver {
 	public final void process() {
 		if(checkProcessing()) {
 			begin();
-			processEntities(actives);
+			processEntities();
 			end();
 		}
 	}
@@ -69,10 +69,9 @@ public abstract class EntitySystem implements EntityObserver {
 	/**
 	 * Any implementing entity system must implement this method and the logic
 	 * to process the given entities of the system.
-	 * 
-	 * @param entities the entities this system contains.
+	 *
 	 */
-	protected abstract void processEntities(ImmutableBag<Entity> entities);
+	protected abstract void processEntities();
 	
 	/**
 	 * 
@@ -139,14 +138,14 @@ public abstract class EntitySystem implements EntityObserver {
 	}
 
 	private void removeFromSystem(Entity e) {
-		actives.remove(e);
+		//actives.remove(e);
 		e.getSystemBits().clear(systemIndex);
 		removed(e);
 	}
 
 	private void insertToSystem(Entity e) {
         inserted(e);
-		actives.add(e);
+		//actives.add(e);
 		e.getSystemBits().set(systemIndex);
 	}
 	
@@ -193,9 +192,9 @@ public abstract class EntitySystem implements EntityObserver {
 		this.passive = passive;
 	}
 	
-	public ImmutableBag<Entity> getActives() {
+	/*public ImmutableBag<Entity> getActives() {
 		return actives;
-	}
+	}*/
 	
 	
 	

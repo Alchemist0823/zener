@@ -2,7 +2,7 @@ package com.n8lm.zenertest.network;
 
 import com.artemis.Entity;
 import com.n8lm.zener.app.AppGameContainer;
-import com.n8lm.zener.general.AttachSystem;
+import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.graphics.geom.Geometry;
@@ -45,7 +45,7 @@ public class NetworkTest extends ExampleBasicGame {
         NetworkConfiguration config = new MyNetworkConfiguration();
 
         world.setSystem(new GlobalScriptSystem());
-        world.setSystem(new AttachSystem());
+        world.setSystem(new TreeAttachSystem());
         world.setSystem(new GLRenderSystem(world));
         world.setSystem(new CharacterSystem());
         world.setSystem(new ClientNetworkSystem(new MyNetworkConfiguration(), new ClientNetworkAdapter(world, this)));

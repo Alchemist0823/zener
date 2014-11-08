@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.artemis.Manager;
 import com.artemis.Entity;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -59,7 +60,7 @@ public abstract class MappingGroupManager<T> extends Manager {
     	
         Bag<Entity> entities = entitiesByGroup.get(group);
         if(entities == null) {
-                entities = new Bag<Entity>();
+                entities = new ArrayBag<Entity>();
                 entitiesByGroup.put(group, entities);
         }
         entities.add(e);
@@ -92,7 +93,7 @@ public abstract class MappingGroupManager<T> extends Manager {
     public ImmutableBag<Entity> getEntities(T group) {
         Bag<Entity> entities = entitiesByGroup.get(group);
         if(entities == null) {
-                entities = new Bag<Entity>();
+                entities = new ArrayBag<Entity>();
                 entitiesByGroup.put(group, entities);
         }
         return entities;

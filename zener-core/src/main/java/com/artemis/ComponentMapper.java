@@ -1,5 +1,6 @@
 package com.artemis;
 
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 
 /**
@@ -13,7 +14,7 @@ import com.artemis.utils.Bag;
 public class ComponentMapper<A extends Component> {
 	private ComponentType type;
 	private Class<A> classType;
-	private Bag<Component> components;
+	private ArrayBag<Component> components;
 
 	private ComponentMapper(Class<A> type, World world) {
 		this.type = ComponentType.getTypeFor(type);

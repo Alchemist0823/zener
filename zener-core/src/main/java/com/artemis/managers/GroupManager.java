@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.artemis.Entity;
 import com.artemis.Manager;
+import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
@@ -41,14 +42,14 @@ public class GroupManager extends Manager {
 	public void add(Entity e, String group) {
 		Bag<Entity> entities = entitiesByGroup.get(group);
 		if(entities == null) {
-			entities = new Bag<Entity>();
+			entities = new ArrayBag<Entity>();
 			entitiesByGroup.put(group, entities);
 		}
 		entities.add(e);
 		
 		Bag<String> groups = groupsByEntity.get(e);
 		if(groups == null) {
-			groups = new Bag<String>();
+			groups = new ArrayBag<String>();
 			groupsByEntity.put(e, groups);
 		}
 		groups.add(group);
@@ -92,7 +93,7 @@ public class GroupManager extends Manager {
 	public ImmutableBag<Entity> getEntities(String group) {
 		Bag<Entity> entities = entitiesByGroup.get(group);
 		if(entities == null) {
-			entities = new Bag<Entity>();
+			entities = new ArrayBag<Entity>();
 			entitiesByGroup.put(group, entities);
 		}
 		return entities;

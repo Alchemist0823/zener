@@ -20,6 +20,8 @@ package com.n8lm.zener.general;
 
 import java.util.List;
 
+import com.artemis.utils.ArrayBag;
+import com.artemis.utils.Bag;
 import com.n8lm.zener.animation.Joint;
 import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.math.Quaternion;
@@ -31,11 +33,12 @@ import com.n8lm.zener.utils.ZenerException;
 
 public class TransformComponent extends Component {
 	
-	private Entity attached;
-	private int joint = -1;
+	private Entity parent;
+    private Bag<Entity> children;
+	private int joint;
 	final private Transform worldTransform;
 	final private Transform localTransform;
-	
+	/*
 	public TransformComponent(Vector3f trans, Quaternion rot, Vector3f scale) {
 		this(null, trans, rot, scale);
 	}
@@ -44,36 +47,32 @@ public class TransformComponent extends Component {
 		this(null, transform);
 	}
 
-	public TransformComponent(Entity attached, Transform transform) {
-		this(attached, null, transform);
+	public TransformComponent(Entity parent, Transform transform) {
+		this(parent, null, transform);
 	}
 	
-	public TransformComponent(Entity attached, Vector3f trans, Quaternion rot, Vector3f scale) {
-		this(attached, null, trans, rot, scale);
-	}
+	public TransformComponent(Entity parent, Vector3f trans, Quaternion rot, Vector3f scale) {
+		this(parent, null, trans, rot, scale);
+	}*/
+    public TransformComponent(){
+        this(Transform.UNIT);
+    }
 	
-	public TransformComponent(Entity attached, String bone, Transform transform) {
-		joint = -1;
-        try {
-            setAttached(attached, bone);
-        } catch (ZenerException e) {
-            e.printStackTrace();
-        }
+	public TransformComponent(Transform transform) {
+        joint = -1;
+        parent = null;
         worldTransform = new Transform();
-		localTransform = new Transform(transform);
+        localTransform = new Transform(transform);
+        children = new ArrayBag<>(4);
 	}
 	
-	public TransformComponent(Entity attached, String bone, Vector3f trans, Quaternion rot, Vector3f scale) {
+	public TransformComponent(Vector3f trans, Quaternion rot, Vector3f scale) {
 		joint = -1;
-        try {
-            setAttached(attached, bone);
-        } catch (ZenerException e) {
-            e.printStackTrace();
-        }
+        parent = null;
 		worldTransform = new Transform();
 		localTransform = new Transform(trans, rot, scale);
+        children = new ArrayBag<>(4);
 	}
-	
 	
 	public Transform getWorldTransform() {
 		return worldTransform;
@@ -83,23 +82,31 @@ public class TransformComponent extends Component {
 		return localTransform;
 	}
 
-	public Entity getAttached() {
-		return attached;
+	public Entity getParent() {
+		return parent;
 	}
 
-	public void setAttached(Entity attached) {
-		if (attached != null && attached.getComponent(TransformComponent.class) == null)
-			throw new IllegalArgumentException("attached entity has no Tranform component");
-		this.attached = attached;
+    public Bag<Entity> getChildren() {
+        return children;
+    }
+
+    public int getJoint() {
+        return joint;
+    }
+
+    void setParent(Entity parent) {
+		if (parent != null && parent.getComponent(TransformComponent.class) == null)
+			throw new IllegalArgumentException("parent entity has no Tranform component");
+		this.parent = parent;
 	}
 	
 
-	public void setAttached(Entity attached, String bone) throws ZenerException {
+	void setParent(Entity parent, String bone) {
 		if (bone != null)
-			if (attached != null && attached.getComponent(SkeletonComponent.class) == null)
-				throw new ZenerException("attached entity has no Skeleton component");
+			if (parent != null && parent.getComponent(SkeletonComponent.class) == null)
+				throw new IllegalArgumentException("parent entity has no Skeleton component");
 			else {
-				List<Joint> joints = attached.getComponent(SkeletonComponent.class).getBaseSkeleton().getJoints();
+				List<Joint> joints = parent.getComponent(SkeletonComponent.class).getBaseSkeleton().getJoints();
 				int i;
 				for (i = 0; i < joints.size(); i ++)
 					if (joints.get(i).name.equals(bone)) {
@@ -108,13 +115,18 @@ public class TransformComponent extends Component {
 					}
 				if (i == joints.size())	{
 					joint = -1;
-					throw new ZenerException("attached entity has no this bone in Skeleton component");
+					throw new IllegalArgumentException("parent entity has no this bone in Skeleton component");
 				}
 			}
-		setAttached(attached);
+		setParent(parent);
 	}
 
-	public int getJoint() {
-		return joint;
-	}
+    void removeChild(Entity child) {
+        children.remove(child);
+    }
+
+    void addChild(Entity child) {
+        if (!children.contains(child))
+            children.add(child);
+    }
 }
