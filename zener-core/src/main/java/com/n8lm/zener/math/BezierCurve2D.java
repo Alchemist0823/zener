@@ -38,10 +38,13 @@ public class BezierCurve2D {
         float t2;
         float x2;
         float d2;
-        float i;
+        int i;
 
+        float tt = (x - dx) / (sampleX(1.0f) - dx);
+
+        //System.out.println(tt);
         // First try a few iterations of Newton's method -- normally very fast.
-        for (t2 = x, i = 0; i < 8; i++) {
+        for (t2 = tt, i = 0; i < 8; i++) {
             x2 = this.sampleX(t2) - x;
             if (Math.abs (x2) < epsilon)
                 return t2;
@@ -49,12 +52,14 @@ public class BezierCurve2D {
             if (Math.abs(d2) < epsilon)
                 break;
             t2 = t2 - x2 / d2;
+            //System.out.println("t2 = " + t2);
         }
 
         // No solution found - use bi-section
         t0 = 0.0f;
         t1 = 1.0f;
-        t2 = x;
+        t2 = tt;
+        //System.out.println(tt);
 
         if (t2 < t0) return t0;
         if (t2 > t1) return t1;
@@ -67,6 +72,7 @@ public class BezierCurve2D {
             else t1 = t2;
 
             t2 = (t1 - t0) * .5f + t0;
+            //System.out.println("t2 = " + t2);
         }
 
         // Give up

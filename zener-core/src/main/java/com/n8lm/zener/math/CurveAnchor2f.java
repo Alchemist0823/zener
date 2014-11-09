@@ -13,7 +13,11 @@ public class CurveAnchor2f implements Serializable {
     private final Vector2f control2;
 
     public CurveAnchor2f(Vector2f point) {
-        this(point, new Vector2f(point.getX() - 1f, point.getY()), new Vector2f(point.getX() + 1f, point.getY()));
+        this(point, new Vector2f(point.x - 1f, point.y));
+    }
+
+    public CurveAnchor2f(Vector2f point, Vector2f control1) {
+        this(point, control1, new Vector2f(point.x * 2 - control1.x, point.y * 2 - control1.y));
     }
 
     public CurveAnchor2f(Vector2f point, Vector2f control1, Vector2f control2) {
@@ -52,5 +56,9 @@ public class CurveAnchor2f implements Serializable {
 
     public static Vector2f interpolate(CurveAnchor2f anchor1, CurveAnchor2f anchor2, float changeAmt, Vector2f store) {
         return MathUtil.interpolateBezier(changeAmt, anchor1.point, anchor1.control2, anchor2.control1, anchor2.point, store);
+    }
+
+    public String toString() {
+        return "(p =" + point + ", cp1 = " + control1 + ", cp2 =" + control2 + ")";
     }
 }

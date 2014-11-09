@@ -7,29 +7,38 @@ import java.util.List;
  *
  * @author Alchemist
  */
-public class BezierFunction extends BezierCurves2D {
+public class BezierFunction extends BezierObject2D {
 
     public BezierFunction(List<CurveAnchor2f> anchors) {
         super(anchors);
         verticalLineCheck();
     }
 
+    public BezierFunction() {
+        super();
+    }
+
     public void verticalLineCheck(){
         for (int i = 0; i < anchors.size() - 1; i ++) {
-            if (anchors.get(i).getControl1().x > anchors.get(i + 1).getPoint().x)
-                anchors.get(i).getControl1().x = anchors.get(i + 1).getPoint().x;
-            if (anchors.get(i).getPoint().x > anchors.get(i + 1).getControl2().x)
-                anchors.get(i + 1).getControl2().x = anchors.get(i).getPoint().x;
+            if (anchors.get(i).getControl2().x > anchors.get(i + 1).getPoint().x)
+                anchors.get(i).getControl2().x = anchors.get(i + 1).getPoint().x;
+            if (anchors.get(i + 1).getControl1().x < anchors.get(i).getPoint().x)
+                anchors.get(i + 1).getControl1().x = anchors.get(i).getPoint().x;
         }
     }
 
     @Override
     public void addAnchor(CurveAnchor2f anchor) {
+        if (anchor.getControl1().x > anchor.getPoint().x)
+            anchor.getControl1().x = anchor.getPoint().x * 2 - anchor.getControl1().x;
+        if (anchor.getControl2().x < anchor.getPoint().x)
+            anchor.getControl2().x = anchor.getPoint().x * 2 - anchor.getControl2().x;
+
         int segment = getSegment(anchor.getPoint().x);
         if (segment != -1)
             anchors.add(segment + 1, anchor);
         else
-            if (anchor.getPoint().x < anchors.get(0).getPoint().x)
+            if (!anchors.isEmpty() && anchor.getPoint().x < anchors.get(0).getPoint().x)
                 anchors.add(0, anchor);
             else
                 anchors.add(anchor);
@@ -37,6 +46,8 @@ public class BezierFunction extends BezierCurves2D {
     }
 
     public int getSegment(float x) {
+        if (anchors.isEmpty())
+            return -1;
         if (x < anchors.get(0).getPoint().x || anchors.get(anchors.size() - 1).getPoint().x < x)
             return -1;
 
@@ -48,13 +59,21 @@ public class BezierFunction extends BezierCurves2D {
         return i;
     }
 
+    public float getTfromX(float x) {
+        BezierCurve2D curve = getCurvefromX(x);
+        return curve.solveTfromX(x, 1e-6f);
+    }
+
     public float getYfromX(float x) {
+        BezierCurve2D curve = getCurvefromX(x);
+        return curve.sampleY(curve.solveTfromX(x, 1e-6f));
+    }
+
+    public BezierCurve2D getCurvefromX(float x) {
         int segment = getSegment(x);
         if (segment == -1)
             throw new IllegalArgumentException("x not in function range");
-        BezierCurve2D curve = new BezierCurve2D(anchors.get(segment), anchors.get(segment + 1));
-        float t = curve.solveTfromX(x, 1e-6f);
-        return curve.sampleY(t);
+        return new BezierCurve2D(anchors.get(segment), anchors.get(segment + 1));
     }
     /*
     function loop(){
