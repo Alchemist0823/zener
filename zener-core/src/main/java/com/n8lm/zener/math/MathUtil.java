@@ -126,6 +126,17 @@ public class MathUtil {
     }
 
     /**
+     * Returns a random vector3f between (0, 0 ,0) and (1, 1, 1).
+     * @return A random float between <tt>(0.0f, 0.0f, 0.0f)</tt> (inclusive) to
+     *         <tt>(1.0f, 1.0f, 1.0f)</tt> (exclusive).
+     */
+    public static Vector3f nextRandomVector3f(Vector3f vec) {
+        vec.set(nextRandomFloat(), nextRandomFloat(), nextRandomFloat());
+        return vec;
+    }
+
+
+    /**
      * Returns a random integer between min and max.
      *
      * @return A random int between <tt>min</tt> (inclusive) to
@@ -138,124 +149,163 @@ public class MathUtil {
     public static int nextRandomInt() {
         return rand.nextInt();
     }
-	/*public static Matrix4f translateToMatrix4f(float x, float y, float z) {
-    	Matrix4f mat = new Matrix4f();
 
-    	mat.m00 = 1.0f;
-    	mat.m11 = 1.0f;
-    	mat.m22 = 1.0f;
-    	mat.m33 = 1.0f;
-
-    	mat.m30 = x;
-    	mat.m31 = y;
-    	mat.m32 = z;
-    	
-    	return mat;
-    }
-    
-    public static Matrix4f translateToMatrix4f(Vector3f v) {
-    	Matrix4f mat = new Matrix4f();
-
-    	mat.m00 = 1.0f;
-    	mat.m11 = 1.0f;
-    	mat.m22 = 1.0f;
-    	mat.m33 = 1.0f;
-
-    	mat.m30 = v.x;
-    	mat.m31 = v.y;
-    	mat.m32 = v.z;
-    	
-    	return mat;
-    }*/
-    
-    /*public static Matrix4f rotate(float degree, float x, float y, float z) {
-    	Matrix4f mat = new Matrix4f();
-    	degree = (float) Math.toRadians(degree);
-    	
-    	float u = (float) Math.sqrt(x * x + y * y + z * z);
-    	float c = (float) Math.cos(degree);
-    	float s = (float) Math.sin(degree);
-    	
-    	if (u > 0.0f) {
-    		x /= u;
-    		y /= u;
-    		z /= u;
-    	}
-    	
-    	mat.m00 = c + x * x * (1 - c);
-    	mat.m10 = x * y * (1 - c) - z * s;
-    	mat.m20 = x * z * (1 - c) + y * s; 
-    	mat.m30 = 0.0f;
-    	
-    	mat.m01 = y * x * (1 - c) + z * s;
-    	mat.m11 = c + y * y * (1 - c);
-    	mat.m21 = y * z * (1 - c) - x * s;
-    	mat.m31 = 0.0f;
-    	
-    	mat.m02 = z * x * (1 - c) - y * s;
-    	mat.m12 = z * y * (1 - c) + x * s;
-    	mat.m22 = c + z * z * (1 - c);
-    	mat.m32 = 0.0f;
-    	
-    	mat.m03 = 0.0f; mat.m13 = 0.0f; mat.m23 = 0.0f; mat.m33 = 1.0f;
-    	
-    	return mat;
+    /**Interpolate a spline between at least 4 control points following the Bezier equation.
+     * here is the interpolation matrix
+     * m = [ -1.0   3.0  -3.0    1.0 ]
+     *     [  3.0  -6.0   3.0    0.0 ]
+     *     [ -3.0   3.0   0.0    0.0 ]
+     *     [  1.0   0.0   0.0    0.0 ]
+     * where T is the curve tension
+     * the result is a value between p1 and p3, t=0 for p1, t=1 for p3
+     * @param u value from 0 to 1
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @return Bezier interpolation
+     */
+    public static float interpolateBezier(float u, float p0, float p1, float p2, float p3) {
+        float oneMinusU = 1.0f - u;
+        float oneMinusU2 = oneMinusU * oneMinusU;
+        float u2 = u * u;
+        return p0 * oneMinusU2 * oneMinusU
+                + 3.0f * p1 * u * oneMinusU2
+                + 3.0f * p2 * u2 * oneMinusU
+                + p3 * u2 * u;
     }
 
-    public static Matrix4f scaleToMatrix4f(Vector3f v) {
-    	Matrix4f mat = new Matrix4f();
-
-    	mat.m00 = v.x;
-    	mat.m11 = v.y;
-    	mat.m22 = v.z;
-    	mat.m33 = 1.0f;
-    	
-    	return mat;
+    /**Interpolate a spline between at least 4 control points following the Bezier equation.
+     * here is the interpolation matrix
+     * m = [ -1.0   3.0  -3.0    1.0 ]
+     *     [  3.0  -6.0   3.0    0.0 ]
+     *     [ -3.0   3.0   0.0    0.0 ]
+     *     [  1.0   0.0   0.0    0.0 ]
+     * where T is the tension of the curve
+     * the result is a value between p1 and p3, t=0 for p1, t=1 for p3
+     * @param u value from 0 to 1
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @param store a Vector3f to store the result
+     * @return Bezier interpolation
+     */
+    public static Vector3f interpolateBezier(float u, Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, Vector3f store) {
+        if (store == null) {
+            store = new Vector3f();
+        }
+        store.x = interpolateBezier(u, p0.x, p1.x, p2.x, p3.x);
+        store.y = interpolateBezier(u, p0.y, p1.y, p2.y, p3.y);
+        store.z = interpolateBezier(u, p0.z, p1.z, p2.z, p3.z);
+        return store;
     }
-    
-    public static Matrix4f scaleToMatrix4f(float x, float y, float z) {
-    	Matrix4f mat = new Matrix4f();
 
-    	mat.m00 = x;
-    	mat.m11 = y;
-    	mat.m22 = z;
-    	mat.m33 = 1.0f;
-    	
-    	return mat;
-    }*/
-    /*
-    public static Matrix4f quaternionToMatrix4f(Quaternion q)
-    {
-    	Matrix4f matrix = new Matrix4f();
-    	matrix.m00 = 1.0f - 2.0f * ( q.getY() * q.getY() + q.getZ() * q.getZ() );
-    	matrix.m01 = 2.0f * (q.getX() * q.getY() + q.getZ() * q.getW());
-    	matrix.m02 = 2.0f * (q.getX() * q.getZ() - q.getY() * q.getW());
-    	matrix.m03 = 0.0f;
+    /**Interpolate a spline between at least 4 control points following the Bezier equation.
+     * here is the interpolation matrix
+     * m = [ -1.0   3.0  -3.0    1.0 ]
+     *     [  3.0  -6.0   3.0    0.0 ]
+     *     [ -3.0   3.0   0.0    0.0 ]
+     *     [  1.0   0.0   0.0    0.0 ]
+     * where T is the tension of the curve
+     * the result is a value between p1 and p3, t=0 for p1, t=1 for p3
+     * @param u value from 0 to 1
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @return Bezier interpolation
+     */
+    public static Vector3f interpolateBezier(float u, Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3) {
+        return interpolateBezier(u, p0, p1, p2, p3, null);
+    }
 
-    	// Second row
-    	matrix.m10 = 2.0f * ( q.getX() * q.getY() - q.getZ() * q.getW() );
-    	matrix.m11 = 1.0f - 2.0f * ( q.getX() * q.getX() + q.getZ() * q.getZ() );
-    	matrix.m12 = 2.0f * (q.getZ() * q.getY() + q.getX() * q.getW() );
-    	matrix.m13 = 0.0f;
 
-    	// Third row
-    	matrix.m20 = 2.0f * ( q.getX() * q.getZ() + q.getY() * q.getW() );
-    	matrix.m21 = 2.0f * ( q.getY() * q.getZ() - q.getX() * q.getW() );
-    	matrix.m22 = 1.0f - 2.0f * ( q.getX() * q.getX() + q.getY() * q.getY() );
-    	matrix.m23 = 0.0f;
-    
-    	// Fourth row
-    	matrix.m30 = 0;
-    	matrix.m31 = 0;
-    	matrix.m32 = 0;
-    	matrix.m33 = 1.0f;
+    /**Interpolate a spline between at least 4 control points following the Bezier equation.
+     * here is the interpolation matrix
+     * m = [ -1.0   3.0  -3.0    1.0 ]
+     *     [  3.0  -6.0   3.0    0.0 ]
+     *     [ -3.0   3.0   0.0    0.0 ]
+     *     [  1.0   0.0   0.0    0.0 ]
+     * where T is the tension of the curve
+     * the result is a value between p1 and p3, t=0 for p1, t=1 for p3
+     * @param u value from 0 to 1
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @param store a Vector2f to store the result
+     * @return Bezier interpolation
+     */
+    public static Vector2f interpolateBezier(float u, Vector2f p0, Vector2f p1, Vector2f p2, Vector2f p3, Vector2f store) {
+        if (store == null) {
+            store = new Vector2f();
+        }
+        store.x = interpolateBezier(u, p0.x, p1.x, p2.x, p3.x);
+        store.y = interpolateBezier(u, p0.y, p1.y, p2.y, p3.y);
+        return store;
+    }
 
-    	return matrix;
-    }*/
-    
-    /*public static Vector3f getNegate(Vector3f v) {
-    	return new Vector3f(-v.x, -v.y, -v.z);
-    }*/
+    /**Interpolate a spline between at least 4 control points following the Bezier equation.
+     * here is the interpolation matrix
+     * m = [ -1.0   3.0  -3.0    1.0 ]
+     *     [  3.0  -6.0   3.0    0.0 ]
+     *     [ -3.0   3.0   0.0    0.0 ]
+     *     [  1.0   0.0   0.0    0.0 ]
+     * where T is the tension of the curve
+     * the result is a value between p1 and p3, t=0 for p1, t=1 for p3
+     * @param u value from 0 to 1
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @return Bezier interpolation
+     */
+    public static Vector2f interpolateBezier(float u, Vector2f p0, Vector2f p1, Vector2f p2, Vector2f p3) {
+        return interpolateBezier(u, p0, p1, p2, p3, null);
+    }
+
+
+    /**
+     * Compute the length on a Bezier spline between control points 1 and 2.
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @return the length of the segment
+     */
+    public static float getBezierP1toP2Length(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3) {
+        float delta = 0.02f, t = 0.0f, result = 0.0f;
+        Vector3f v1 = p0.clone(), v2 = new Vector3f();
+        while (t <= 1.0f) {
+            interpolateBezier(t, p0, p1, p2, p3, v2);
+            result += v1.subtractLocal(v2).length();
+            v1.set(v2);
+            t += delta;
+        }
+        return result;
+    }
+
+
+    /**
+     * Compute the length on a Bezier spline between control points 1 and 2.
+     * @param p0 control point 0
+     * @param p1 control point 1
+     * @param p2 control point 2
+     * @param p3 control point 3
+     * @return the length of the segment
+     */
+    public static float getBezierP1toP2Length(Vector2f p0, Vector2f p1, Vector2f p2, Vector2f p3) {
+        float delta = 0.02f, t = 0.0f, result = 0.0f;
+        Vector2f v1 = p0.clone(), v2 = new Vector2f();
+        while (t <= 1.0f) {
+            interpolateBezier(t, p0, p1, p2, p3, v2);
+            result += v1.subtractLocal(v2).length();
+            v1.set(v2);
+            t += delta;
+        }
+        return result;
+    }
     
     public static Vector3f getScreenCoordinates(Vector3f worldPosition, Entity camera, Vector3f store) {
         if (store == null) {

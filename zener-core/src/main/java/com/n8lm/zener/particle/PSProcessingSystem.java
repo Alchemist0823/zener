@@ -25,12 +25,12 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.n8lm.zener.general.TransformComponent;
 
-public class ParticleProcessingSystem extends EntityProcessingSystem {
+public class PSProcessingSystem extends EntityProcessingSystem {
 
 	@Mapper ComponentMapper<ParticleSystemComponent> pm;
 	@Mapper ComponentMapper<TransformComponent> tm;
 	
-	public ParticleProcessingSystem() {
+	public PSProcessingSystem() {
 		super(Aspect.getAspectForAll(ParticleSystemComponent.class));
 	}
 	
@@ -40,9 +40,10 @@ public class ParticleProcessingSystem extends EntityProcessingSystem {
 		ParticleSystemComponent ps = pm.get(e);
 		ParticleController pc =  ps.getController();
 		
-		if (pc.isEnd(ps.getTime()))
+		/*if (pc.isEnd(ps.getTime()))
 			return;
-		
+		*/
+
 		Particle[] particles = ps.getParticles();
 	    float delta = world.getDelta() / 1000f;
 		int count = ps.getCount();
@@ -82,7 +83,7 @@ public class ParticleProcessingSystem extends EntityProcessingSystem {
             	
             	count --;
             }
-	        //System.out.println(p.pos);
+	        //System.out.println(p.position);
 	    }
 	    ps.passTime(delta);
 	    ps.setCount(count);

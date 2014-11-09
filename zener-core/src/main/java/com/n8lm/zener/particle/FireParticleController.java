@@ -18,17 +18,17 @@
 
 package com.n8lm.zener.particle;
 
+import com.n8lm.zener.math.ColorRGBA;
 import com.n8lm.zener.math.Vector3f;
-import com.n8lm.zener.math.Vector4f;
 
 public class FireParticleController implements ParticleController {
 
 
 	static final float plife = 2;
 	static final Vector3f g = new Vector3f(0.0f, 0.0f, -1f);
-    static final Vector4f color = new Vector4f(1f, 1f, 1f, 0.5f);
-	static final Vector4f color1 = new Vector4f(248.0f/256, 229.0f/256, 13.0f/256, 100f/256);
-	static final Vector4f color2 = new Vector4f(239.0f/256, 97.0f/256, 11.0f/256, 0);
+    static final ColorRGBA color = new ColorRGBA(1f, 1f, 1f, 0.5f);
+	static final ColorRGBA color1 = new ColorRGBA(248.0f/256, 229.0f/256, 13.0f/256, 100f/256);
+	static final ColorRGBA color2 = new ColorRGBA(239.0f/256, 97.0f/256, 11.0f/256, 0);
 
     private int atlasCount = 1;
 
@@ -38,16 +38,16 @@ public class FireParticleController implements ParticleController {
 
 	@Override
 	public void process(Particle p, float delta) {
-        p.speed.addLocal(g.mult(delta * 0.5f));
-        p.pos.addLocal(p.speed.mult(delta));
+        p.velocity.addLocal(g.mult(delta * 0.5f));
+        p.position.addLocal(p.velocity.mult(delta));
         //p.color.interpolateLocal(color1, color2, (plife - p.life) / plife);
         p.texIndex = (int) ((plife - p.life) / plife * atlasCount);
     }
 
 	@Override
 	public Particle setNewParticle(Particle p) {
-		p.pos.set(0, 0, 0);
-		p.speed.set((float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 3 + 2)/3);
+		p.position.set(0, 0, 0);
+		p.velocity.set((float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 1 - 0.5)/3, (float) (Math.random() * 3 + 2)/3);
 		p.size = (float) (Math.random() * 0.1 + 0.3);
         p.color.set(color);
         //p.color.z = (float) (Math.random() * 0.5 + 0.2);
@@ -72,12 +72,6 @@ public class FireParticleController implements ParticleController {
 	public int getMaxCount() {
 		// TODO Auto-generated method stub
 		return 120;
-	}
-
-	@Override
-	public boolean isEnd(double time) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -28,15 +28,26 @@ public class ParticleSystemComponent extends Component {
 	private int count;
 
     /**
+     * the total time from the initialization of particles
+     */
+    private double time;
+
+    /**
      * the count of the particles which is produced in this second
      */
     private int countPerSecond;
 
-	private Particle[] particles;
     /**
-     * the total time from the initialization of particles
+     * the duration of this system
      */
-	private double time;
+    private double duration;
+
+    /**
+     * the maximum number of the particles
+     */
+    private int maxCount;
+
+    private Particle[] particles;
 	private ParticleController controller;
 	
 	public ParticleSystemComponent(ParticleController controller) {

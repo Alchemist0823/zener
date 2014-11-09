@@ -47,11 +47,8 @@ package com.n8lm.zener.utils;
  * either expressed or implied, of the FreeBSD Project.
  */
 
+import com.n8lm.zener.math.*;
 import org.lwjgl.BufferUtils;
-import com.n8lm.zener.math.Matrix4f;
-import com.n8lm.zener.math.Vector2f;
-import com.n8lm.zener.math.Vector3f;
-import com.n8lm.zener.math.Vector4f;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -87,6 +84,15 @@ public class BufferTools {
         return new float[]{v.x, v.y};
     }
 
+
+    /**
+     * @param color the color that is to be turned into an array of floats
+     * @return a float array presenting color
+     */
+    public static float[] asFloats(ColorRGBA color) {
+        return new float[]{color.r, color.g, color.b, color.a};
+    }
+
     /**
      * @param elements the amount of elements to check
      *
@@ -117,7 +123,7 @@ public class BufferTools {
     }
 
     /**
-     * @param values the byte values that are to be turned into a readable ByteBuffer
+     * @param b the byte values that are to be turned into a readable ByteBuffer
      *
      * @return a readable ByteBuffer
      */
@@ -211,5 +217,5 @@ public class BufferTools {
       temp.order(ByteOrder.nativeOrder());
 
       return temp.asIntBuffer();
-    }    
+    }
 }

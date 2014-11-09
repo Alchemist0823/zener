@@ -18,7 +18,9 @@
 
 package com.n8lm.zener.math;
 
-public class Transform {
+import java.io.Serializable;
+
+public class Transform implements Serializable {
 	
 	public static final Transform UNIT = new Transform(Vector3f.ZERO, Quaternion.IDENTITY, Vector3f.UNIT_XYZ);
 	
@@ -161,9 +163,9 @@ public class Transform {
 
 	public void moveFromLook(Vector3f d) {
     	/*
-        this.pos.z += d.x * (float) Math.cos(Math.toRadians(rot.y - 90)) + d.z * Math.cos(Math.toRadians(rot.y));
-        this.pos.x -= d.x * (float) Math.sin(Math.toRadians(rot.y - 90)) + d.z * Math.sin(Math.toRadians(rot.y));
-        this.pos.y += d.y * (float) Math.sin(Math.toRadians(rot.x - 90)) + d.z * Math.sin(Math.toRadians(rot.x));
+        this.position.z += d.x * (float) Math.cos(Math.toRadians(rot.y - 90)) + d.z * Math.cos(Math.toRadians(rot.y));
+        this.position.x -= d.x * (float) Math.sin(Math.toRadians(rot.y - 90)) + d.z * Math.sin(Math.toRadians(rot.y));
+        this.position.y += d.y * (float) Math.sin(Math.toRadians(rot.x - 90)) + d.z * Math.sin(Math.toRadians(rot.x));
         */
         //float hypotenuseX = dx;
         //float adjacentX = hypotenuseX * (float) Math.cos(Math.toRadians(yaw - 90));

@@ -50,15 +50,6 @@ public interface ParticleController {
 	 * tell the controll particle system starts
 	 */
 	public void init();
-	
-	/**
-	 * @return whether the Particle System is end
-	 */
-	public boolean isEnd(double time);
-	
-	/**
-	 * @return whether the Particle System is still creating new particles
-	 */
-	//public boolean isCreating();
+
 }
 

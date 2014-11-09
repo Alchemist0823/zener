@@ -123,7 +123,7 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 		Particle[] particles = particleSystem.getParticles();
 		int count = particleSystem.getCount();
 		for (int i = 0; i < count; i ++) {
-        	    Vector3f a = modelViewProjectionMatrix.mult(particles[i].pos);
+        	    Vector3f a = modelViewProjectionMatrix.mult(particles[i].position);
         	    particles[i].cameradistance = a.z;
 		}
 
@@ -134,7 +134,7 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 
 		for (int i = 0; i < count; i ++) {
             textureIndexs.put((byte) particles[i].texIndex);
-            positions.put(BufferTools.asFloats(particles[i].pos));
+            positions.put(BufferTools.asFloats(particles[i].position));
 			sizes.put(particles[i].size);
 			colors.put(BufferTools.asFloats(particles[i].color));
 		}
