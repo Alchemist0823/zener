@@ -17,18 +17,6 @@
     <name>Zener Core</name>
     <url>http://zener.me</url>
 
-    <repositories>
-        <repository>
-            <id>nifty-maven-repo.sourceforge.net</id>
-            <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
-        </repository>
-
-        <repository>
-            <id>b2s-repo</id>
-            <url>http://b2s-repo.googlecode.com/svn/trunk/mvn-repo</url>
-        </repository>
-    </repositories>
-
     <developers>
         <developer>
             <id>Alchemist0823</id>

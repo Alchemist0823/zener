@@ -13,6 +13,7 @@
     <modules>
         <module>zener-core</module>
         <module>zener-examples</module>
+        <module>zener-sdk</module>
     </modules>
 
     <properties>
@@ -22,6 +23,18 @@
         <lwjgl.version>2.9.1</lwjgl.version>
         <nifty.version>1.4.0</nifty.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>nifty-maven-repo.sourceforge.net</id>
+            <url>http://nifty-gui.sourceforge.net/nifty-maven-repo</url>
+        </repository>
+
+        <repository>
+            <id>b2s-repo</id>
+            <url>http://b2s-repo.googlecode.com/svn/trunk/mvn-repo</url>
+        </repository>
+    </repositories>
 
     <developers>
         <developer>

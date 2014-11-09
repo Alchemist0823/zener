@@ -11,12 +11,11 @@
     </parent>
 
     <groupId>zener</groupId>
-    <artifactId>zener-examples</artifactId>
+    <artifactId>zener-sdk</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Zener Example</name>
+    <name>Zener SDK</name>
     <url>http://zener.me</url>
-
     <developers>
         <developer>
             <id>Alchemist0823</id>
@@ -39,21 +38,6 @@
             <groupId>com.esotericsoftware</groupId>
             <artifactId>kryonet</artifactId>
             <version>2.22.0-RC1</version>
-        </dependency>
-        <dependency>
-            <groupId>lessvoid</groupId>
-            <artifactId>nifty-lwjgl-renderer</artifactId>
-            <version>${nifty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>lessvoid</groupId>
-            <artifactId>nifty</artifactId>
-            <version>${nifty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>lessvoid</groupId>
-            <artifactId>nifty-default-controls</artifactId>
-            <version>${nifty.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
