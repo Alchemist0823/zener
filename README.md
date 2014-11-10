@@ -7,3 +7,5 @@ Go to Website [zener.me](http://zener.me "Zener Engine")
 
 Read more [Wiki](https://github.com/no8-lightning-man/zener/wiki "Zener Wiki")
 
+[How to Install](https://github.com/no8-lightning-man/zener/wiki/Install "Zener Install")
+

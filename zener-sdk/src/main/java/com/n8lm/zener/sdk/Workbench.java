@@ -27,7 +27,8 @@ public class Workbench extends TabPane {
     }
 
     public void generateNewViewer() {
-        Tab tab = new Tab("new tab", new Rectangle(200, 200, Color.LIGHTSTEELBLUE));
+        Tab tab = new Tab("new tab");
+        tab.setContent(new Rectangle(200, 200, Color.LIGHTSTEELBLUE));
         this.getTabs().add(tab);
     }
 

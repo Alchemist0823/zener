@@ -13,7 +13,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class Main extends Application {
+import java.awt.*;
+
+public class MainSDKApp extends Application {
 
     private Stage primaryStage;
     private MainWindow root;
@@ -31,13 +33,14 @@ public class Main extends Application {
         this.primaryStage.setY(bounds.getMinY());
         this.primaryStage.setWidth(bounds.getWidth());
         this.primaryStage.setHeight(bounds.getHeight());
+        this.primaryStage.setMaximized(true);
         this.primaryStage.setScene(new Scene(root));
         this.primaryStage.show();
         this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                event.consume();
-                Main.this.primaryStage.setFullScreen(true);
+                //event.consume();
+                //Main.this.primaryStage.setFullScreen(true);
             }
         });
 
