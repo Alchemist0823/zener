@@ -9,7 +9,7 @@ in vec3 normal;
 #endif
 
 #ifdef SHADOW_MAPPING
-uniform sampler2DShadow depthMap;
+uniform sampler2D depthMap;
 in vec4 shadowCoord;
 #endif
 
@@ -52,8 +52,7 @@ void main(){
     m_material.Ks = vec3(0.0);
     m_material.Shininess = 0.0;
 
-    colorOut = texColor;
     vec3 totalLighting = La * m_material.Ka + lightingModel(position, normal, Light, LightCount, m_material, visibility);
 
-    //colorOut = texColor;// * color;// * MultipleColor + AddColor;
+    colorOut = vec4(totalLighting, 1.0) * color * MultipleColor + AddColor;
 }

@@ -1,28 +1,13 @@
-/*
- * This file is part of Zener.
- *
- * Zener is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of
- * the License, or any later version.
- *
- * Zener is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with Zener.  If not, see
- * <http://www.gnu.org/licenses/>.
- */
-
 // Generated from GLSL430.g4 by ANTLR 4.2.2
 package com.n8lm.zener.glsl;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GLSL430Parser extends Parser {
@@ -34,32 +19,32 @@ public class GLSL430Parser extends Parser {
 		CONTINUE=9, DISCARD=10, DO=11, DVEC2=12, DVEC3=13, DVEC4=14, ELSE=15, 
 		FALSE=16, FLOAT=17, FOR=18, IF=19, IN=20, INOUT=21, INT=22, INVARIANT=23, 
 		IVEC2=24, IVEC3=25, IVEC4=26, LAYOUT=27, LOCATION=28, MAT2=29, MAT3=30, 
-		MAT4=31, OUT=32, RETURN=33, SAMPLER2D=34, SAMPLERCUBE=35, STRUCT=36, TRUE=37, 
-		UNIFORM=38, UINT=39, UVEC2=40, UVEC3=41, UVEC4=42, VARYING=43, VEC2=44, 
-		VEC3=45, VEC4=46, VOID=47, WHILE=48, FLAT=49, NOPERSPECTIVE=50, SMOOTH=51, 
-		IDENTIFIER=52, FLOATCONSTANT=53, INTCONSTANT=54, BOOLCONSTANT=55, INC_OP=56, 
-		DEC_OP=57, LE_OP=58, GE_OP=59, EQ_OP=60, NE_OP=61, AND_OP=62, OR_OP=63, 
-		XOR_OP=64, MUL_ASSIGN=65, DIV_ASSIGN=66, ADD_ASSIGN=67, MOD_ASSIGN=68, 
-		SUB_ASSIGN=69, LEFT_PAREN=70, RIGHT_PAREN=71, LEFT_BRACKET=72, RIGHT_BRACKET=73, 
-		LEFT_BRACE=74, RIGHT_BRACE=75, DOT=76, COMMA=77, COLON=78, EQUAL=79, SEMICOLON=80, 
-		BANG=81, DASH=82, TILDE=83, PLUS=84, STAR=85, SLASH=86, PERCENT=87, LEFT_ANGLE=88, 
-		RIGHT_ANGLE=89, VERTICAL_BAR=90, CARET=91, AMPERSAND=92, QUESTION=93, 
-		PREPROCESSOR=94, WHITESPACE=95, COMMENT=96, MULTILINE_COMMENT=97;
+		MAT4=31, OUT=32, RETURN=33, SAMPLER2D=34, SAMPLER2DSHADOW=35, SAMPLERCUBE=36, 
+		STRUCT=37, TRUE=38, UNIFORM=39, UINT=40, UVEC2=41, UVEC3=42, UVEC4=43, 
+		VARYING=44, VEC2=45, VEC3=46, VEC4=47, VOID=48, WHILE=49, FLAT=50, NOPERSPECTIVE=51, 
+		SMOOTH=52, IDENTIFIER=53, FLOATCONSTANT=54, INTCONSTANT=55, BOOLCONSTANT=56, 
+		INC_OP=57, DEC_OP=58, LE_OP=59, GE_OP=60, EQ_OP=61, NE_OP=62, AND_OP=63, 
+		OR_OP=64, XOR_OP=65, MUL_ASSIGN=66, DIV_ASSIGN=67, ADD_ASSIGN=68, MOD_ASSIGN=69, 
+		SUB_ASSIGN=70, LEFT_PAREN=71, RIGHT_PAREN=72, LEFT_BRACKET=73, RIGHT_BRACKET=74, 
+		LEFT_BRACE=75, RIGHT_BRACE=76, DOT=77, COMMA=78, COLON=79, EQUAL=80, SEMICOLON=81, 
+		BANG=82, DASH=83, TILDE=84, PLUS=85, STAR=86, SLASH=87, PERCENT=88, LEFT_ANGLE=89, 
+		RIGHT_ANGLE=90, VERTICAL_BAR=91, CARET=92, AMPERSAND=93, QUESTION=94, 
+		PREPROCESSOR=95, WHITESPACE=96, COMMENT=97, MULTILINE_COMMENT=98;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'attribute'", "'bool'", "'break'", "'bvec2'", "'bvec3'", 
 		"'bvec4'", "'double'", "'const'", "'continue'", "'discard'", "'do'", "'dvec2'", 
 		"'dvec3'", "'dvec4'", "'else'", "'false'", "'float'", "'for'", "'if'", 
 		"'in'", "'inout'", "'int'", "'invariant'", "'ivec2'", "'ivec3'", "'ivec4'", 
 		"'layout'", "'location'", "'mat2'", "'mat3'", "'mat4'", "'out'", "'return'", 
-		"'sampler2D'", "'samplerCube'", "'struct'", "'true'", "'uniform'", "'uint'", 
-		"'uvec2'", "'uvec3'", "'uvec4'", "'varying'", "'vec2'", "'vec3'", "'vec4'", 
-		"'void'", "'while'", "'flat'", "'noperspective'", "'smooth'", "IDENTIFIER", 
-		"FLOATCONSTANT", "INTCONSTANT", "BOOLCONSTANT", "'++'", "'--'", "'<='", 
-		"'>='", "'=='", "'!='", "'&&'", "'||'", "'^^'", "'*='", "'/='", "'+='", 
-		"'%='", "'-='", "'('", "')'", "'['", "']'", "'{'", "'}'", "'.'", "','", 
-		"':'", "'='", "';'", "'!'", "'-'", "'~'", "'+'", "'*'", "'/'", "'%'", 
-		"'<'", "'>'", "'|'", "'^'", "'&'", "'?'", "PREPROCESSOR", "WHITESPACE", 
-		"COMMENT", "MULTILINE_COMMENT"
+		"'sampler2D'", "'sampler2DShadow'", "'samplerCube'", "'struct'", "'true'", 
+		"'uniform'", "'uint'", "'uvec2'", "'uvec3'", "'uvec4'", "'varying'", "'vec2'", 
+		"'vec3'", "'vec4'", "'void'", "'while'", "'flat'", "'noperspective'", 
+		"'smooth'", "IDENTIFIER", "FLOATCONSTANT", "INTCONSTANT", "BOOLCONSTANT", 
+		"'++'", "'--'", "'<='", "'>='", "'=='", "'!='", "'&&'", "'||'", "'^^'", 
+		"'*='", "'/='", "'+='", "'%='", "'-='", "'('", "')'", "'['", "']'", "'{'", 
+		"'}'", "'.'", "','", "':'", "'='", "';'", "'!'", "'-'", "'~'", "'+'", 
+		"'*'", "'/'", "'%'", "'<'", "'>'", "'|'", "'^'", "'&'", "'?'", "PREPROCESSOR", 
+		"WHITESPACE", "COMMENT", "MULTILINE_COMMENT"
 	};
 	public static final int
 		RULE_translation_unit = 0, RULE_variable_identifier = 1, RULE_primary_expression = 2, 
@@ -130,10 +115,10 @@ public class GLSL430Parser extends Parser {
 		public External_declarationContext external_declaration(int i) {
 			return getRuleContext(External_declarationContext.class,i);
 		}
-		public TerminalNode EOF() { return getToken(GLSL430Parser.EOF, 0); }
 		public List<External_declarationContext> external_declaration() {
 			return getRuleContexts(External_declarationContext.class);
 		}
+		public TerminalNode EOF() { return getToken(GLSL430Parser.EOF, 0); }
 		public Translation_unitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -163,7 +148,7 @@ public class GLSL430Parser extends Parser {
 			setState(137);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER))) != 0)) {
 				{
 				{
 				setState(134); external_declaration();
@@ -229,17 +214,17 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Primary_expressionContext extends ParserRuleContext {
+		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public TerminalNode BOOLCONSTANT() { return getToken(GLSL430Parser.BOOLCONSTANT, 0); }
 		public TerminalNode INTCONSTANT() { return getToken(GLSL430Parser.INTCONSTANT, 0); }
 		public TerminalNode FLOATCONSTANT() { return getToken(GLSL430Parser.FLOATCONSTANT, 0); }
 		public Variable_identifierContext variable_identifier() {
 			return getRuleContext(Variable_identifierContext.class,0);
 		}
+		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public Primary_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -312,38 +297,38 @@ public class GLSL430Parser extends Parser {
 		public Primary_expression_or_function_callContext primary_expression_or_function_call() {
 			return getRuleContext(Primary_expression_or_function_callContext.class,0);
 		}
-		public List<Integer_expressionContext> integer_expression() {
-			return getRuleContexts(Integer_expressionContext.class);
-		}
-		public TerminalNode RIGHT_BRACKET(int i) {
-			return getToken(GLSL430Parser.RIGHT_BRACKET, i);
-		}
-		public List<TerminalNode> DOT() { return getTokens(GLSL430Parser.DOT); }
-		public TerminalNode LEFT_BRACKET(int i) {
-			return getToken(GLSL430Parser.LEFT_BRACKET, i);
-		}
-		public List<Field_selectionContext> field_selection() {
-			return getRuleContexts(Field_selectionContext.class);
-		}
-		public TerminalNode INC_OP(int i) {
-			return getToken(GLSL430Parser.INC_OP, i);
+		public Field_selectionContext field_selection(int i) {
+			return getRuleContext(Field_selectionContext.class,i);
 		}
 		public Integer_expressionContext integer_expression(int i) {
 			return getRuleContext(Integer_expressionContext.class,i);
 		}
-		public List<TerminalNode> DEC_OP() { return getTokens(GLSL430Parser.DEC_OP); }
+		public TerminalNode RIGHT_BRACKET(int i) {
+			return getToken(GLSL430Parser.RIGHT_BRACKET, i);
+		}
+		public TerminalNode LEFT_BRACKET(int i) {
+			return getToken(GLSL430Parser.LEFT_BRACKET, i);
+		}
 		public List<TerminalNode> INC_OP() { return getTokens(GLSL430Parser.INC_OP); }
-		public List<TerminalNode> LEFT_BRACKET() { return getTokens(GLSL430Parser.LEFT_BRACKET); }
-		public TerminalNode DEC_OP(int i) {
-			return getToken(GLSL430Parser.DEC_OP, i);
-		}
-		public Field_selectionContext field_selection(int i) {
-			return getRuleContext(Field_selectionContext.class,i);
-		}
 		public TerminalNode DOT(int i) {
 			return getToken(GLSL430Parser.DOT, i);
 		}
+		public List<Field_selectionContext> field_selection() {
+			return getRuleContexts(Field_selectionContext.class);
+		}
+		public List<TerminalNode> DOT() { return getTokens(GLSL430Parser.DOT); }
+		public List<Integer_expressionContext> integer_expression() {
+			return getRuleContexts(Integer_expressionContext.class);
+		}
+		public TerminalNode DEC_OP(int i) {
+			return getToken(GLSL430Parser.DEC_OP, i);
+		}
+		public List<TerminalNode> LEFT_BRACKET() { return getTokens(GLSL430Parser.LEFT_BRACKET); }
 		public List<TerminalNode> RIGHT_BRACKET() { return getTokens(GLSL430Parser.RIGHT_BRACKET); }
+		public List<TerminalNode> DEC_OP() { return getTokens(GLSL430Parser.DEC_OP); }
+		public TerminalNode INC_OP(int i) {
+			return getToken(GLSL430Parser.INC_OP, i);
+		}
 		public Postfix_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -374,7 +359,7 @@ public class GLSL430Parser extends Parser {
 			setState(163);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((((_la - 56)) & ~0x3f) == 0 && ((1L << (_la - 56)) & ((1L << (INC_OP - 56)) | (1L << (DEC_OP - 56)) | (1L << (LEFT_BRACKET - 56)) | (1L << (DOT - 56)))) != 0)) {
+			while (((((_la - 57)) & ~0x3f) == 0 && ((1L << (_la - 57)) & ((1L << (INC_OP - 57)) | (1L << (DEC_OP - 57)) | (1L << (LEFT_BRACKET - 57)) | (1L << (DOT - 57)))) != 0)) {
 				{
 				setState(161);
 				switch (_input.LA(1)) {
@@ -570,17 +555,17 @@ public class GLSL430Parser extends Parser {
 		public List<Assignment_expressionContext> assignment_expression() {
 			return getRuleContexts(Assignment_expressionContext.class);
 		}
+		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
 		public TerminalNode VOID() { return getToken(GLSL430Parser.VOID, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public Function_call_headerContext function_call_header() {
 			return getRuleContext(Function_call_headerContext.class,0);
 		}
-		public TerminalNode COMMA(int i) {
-			return getToken(GLSL430Parser.COMMA, i);
-		}
 		public Assignment_expressionContext assignment_expression(int i) {
 			return getRuleContext(Assignment_expressionContext.class,i);
+		}
+		public TerminalNode COMMA(int i) {
+			return getToken(GLSL430Parser.COMMA, i);
 		}
 		public Function_call_genericContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -781,30 +766,30 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Constructor_identifierContext extends ParserRuleContext {
-		public TerminalNode MAT2() { return getToken(GLSL430Parser.MAT2, 0); }
-		public TerminalNode UVEC4() { return getToken(GLSL430Parser.UVEC4, 0); }
-		public TerminalNode FLOAT() { return getToken(GLSL430Parser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(GLSL430Parser.INT, 0); }
-		public TerminalNode UINT() { return getToken(GLSL430Parser.UINT, 0); }
-		public TerminalNode MAT4() { return getToken(GLSL430Parser.MAT4, 0); }
-		public TerminalNode IVEC3() { return getToken(GLSL430Parser.IVEC3, 0); }
-		public TerminalNode DOUBLE() { return getToken(GLSL430Parser.DOUBLE, 0); }
+		public TerminalNode UVEC2() { return getToken(GLSL430Parser.UVEC2, 0); }
 		public TerminalNode DVEC2() { return getToken(GLSL430Parser.DVEC2, 0); }
-		public TerminalNode DVEC3() { return getToken(GLSL430Parser.DVEC3, 0); }
-		public TerminalNode BVEC3() { return getToken(GLSL430Parser.BVEC3, 0); }
 		public TerminalNode BOOL() { return getToken(GLSL430Parser.BOOL, 0); }
+		public TerminalNode DVEC3() { return getToken(GLSL430Parser.DVEC3, 0); }
 		public TerminalNode UVEC3() { return getToken(GLSL430Parser.UVEC3, 0); }
-		public TerminalNode BVEC2() { return getToken(GLSL430Parser.BVEC2, 0); }
-		public TerminalNode VEC3() { return getToken(GLSL430Parser.VEC3, 0); }
+		public TerminalNode IVEC4() { return getToken(GLSL430Parser.IVEC4, 0); }
+		public TerminalNode BVEC4() { return getToken(GLSL430Parser.BVEC4, 0); }
+		public TerminalNode MAT4() { return getToken(GLSL430Parser.MAT4, 0); }
 		public TerminalNode MAT3() { return getToken(GLSL430Parser.MAT3, 0); }
 		public TerminalNode DVEC4() { return getToken(GLSL430Parser.DVEC4, 0); }
+		public TerminalNode INT() { return getToken(GLSL430Parser.INT, 0); }
+		public TerminalNode DOUBLE() { return getToken(GLSL430Parser.DOUBLE, 0); }
+		public TerminalNode FLOAT() { return getToken(GLSL430Parser.FLOAT, 0); }
 		public TerminalNode IVEC2() { return getToken(GLSL430Parser.IVEC2, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
-		public TerminalNode BVEC4() { return getToken(GLSL430Parser.BVEC4, 0); }
-		public TerminalNode VEC4() { return getToken(GLSL430Parser.VEC4, 0); }
+		public TerminalNode VEC3() { return getToken(GLSL430Parser.VEC3, 0); }
+		public TerminalNode BVEC3() { return getToken(GLSL430Parser.BVEC3, 0); }
+		public TerminalNode IVEC3() { return getToken(GLSL430Parser.IVEC3, 0); }
 		public TerminalNode VEC2() { return getToken(GLSL430Parser.VEC2, 0); }
-		public TerminalNode UVEC2() { return getToken(GLSL430Parser.UVEC2, 0); }
-		public TerminalNode IVEC4() { return getToken(GLSL430Parser.IVEC4, 0); }
+		public TerminalNode UINT() { return getToken(GLSL430Parser.UINT, 0); }
+		public TerminalNode BVEC2() { return getToken(GLSL430Parser.BVEC2, 0); }
+		public TerminalNode VEC4() { return getToken(GLSL430Parser.VEC4, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
+		public TerminalNode MAT2() { return getToken(GLSL430Parser.MAT2, 0); }
+		public TerminalNode UVEC4() { return getToken(GLSL430Parser.UVEC4, 0); }
 		public Constructor_identifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -851,22 +836,22 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Unary_expressionContext extends ParserRuleContext {
+		public Postfix_expressionContext postfix_expression() {
+			return getRuleContext(Postfix_expressionContext.class,0);
+		}
+		public TerminalNode DEC_OP(int i) {
+			return getToken(GLSL430Parser.DEC_OP, i);
+		}
 		public Unary_operatorContext unary_operator(int i) {
 			return getRuleContext(Unary_operatorContext.class,i);
-		}
-		public TerminalNode INC_OP(int i) {
-			return getToken(GLSL430Parser.INC_OP, i);
 		}
 		public List<Unary_operatorContext> unary_operator() {
 			return getRuleContexts(Unary_operatorContext.class);
 		}
 		public List<TerminalNode> DEC_OP() { return getTokens(GLSL430Parser.DEC_OP); }
 		public List<TerminalNode> INC_OP() { return getTokens(GLSL430Parser.INC_OP); }
-		public TerminalNode DEC_OP(int i) {
-			return getToken(GLSL430Parser.DEC_OP, i);
-		}
-		public Postfix_expressionContext postfix_expression() {
-			return getRuleContext(Postfix_expressionContext.class,0);
+		public TerminalNode INC_OP(int i) {
+			return getToken(GLSL430Parser.INC_OP, i);
 		}
 		public Unary_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -897,7 +882,7 @@ public class GLSL430Parser extends Parser {
 			setState(202);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((((_la - 56)) & ~0x3f) == 0 && ((1L << (_la - 56)) & ((1L << (INC_OP - 56)) | (1L << (DEC_OP - 56)) | (1L << (BANG - 56)) | (1L << (DASH - 56)) | (1L << (PLUS - 56)))) != 0)) {
+			while (((((_la - 57)) & ~0x3f) == 0 && ((1L << (_la - 57)) & ((1L << (INC_OP - 57)) | (1L << (DEC_OP - 57)) | (1L << (BANG - 57)) | (1L << (DASH - 57)) | (1L << (PLUS - 57)))) != 0)) {
 				{
 				setState(200);
 				switch (_input.LA(1)) {
@@ -941,9 +926,9 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Unary_operatorContext extends ParserRuleContext {
-		public TerminalNode BANG() { return getToken(GLSL430Parser.BANG, 0); }
-		public TerminalNode DASH() { return getToken(GLSL430Parser.DASH, 0); }
 		public TerminalNode PLUS() { return getToken(GLSL430Parser.PLUS, 0); }
+		public TerminalNode DASH() { return getToken(GLSL430Parser.DASH, 0); }
+		public TerminalNode BANG() { return getToken(GLSL430Parser.BANG, 0); }
 		public Unary_operatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -972,7 +957,7 @@ public class GLSL430Parser extends Parser {
 			{
 			setState(207);
 			_la = _input.LA(1);
-			if ( !(((((_la - 81)) & ~0x3f) == 0 && ((1L << (_la - 81)) & ((1L << (BANG - 81)) | (1L << (DASH - 81)) | (1L << (PLUS - 81)))) != 0)) ) {
+			if ( !(((((_la - 82)) & ~0x3f) == 0 && ((1L << (_la - 82)) & ((1L << (BANG - 82)) | (1L << (DASH - 82)) | (1L << (PLUS - 82)))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -990,20 +975,20 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Multiplicative_expressionContext extends ParserRuleContext {
-		public TerminalNode SLASH(int i) {
-			return getToken(GLSL430Parser.SLASH, i);
+		public TerminalNode STAR(int i) {
+			return getToken(GLSL430Parser.STAR, i);
 		}
 		public List<Unary_expressionContext> unary_expression() {
 			return getRuleContexts(Unary_expressionContext.class);
 		}
-		public List<TerminalNode> STAR() { return getTokens(GLSL430Parser.STAR); }
-		public TerminalNode STAR(int i) {
-			return getToken(GLSL430Parser.STAR, i);
-		}
+		public List<TerminalNode> SLASH() { return getTokens(GLSL430Parser.SLASH); }
 		public Unary_expressionContext unary_expression(int i) {
 			return getRuleContext(Unary_expressionContext.class,i);
 		}
-		public List<TerminalNode> SLASH() { return getTokens(GLSL430Parser.SLASH); }
+		public List<TerminalNode> STAR() { return getTokens(GLSL430Parser.STAR); }
+		public TerminalNode SLASH(int i) {
+			return getToken(GLSL430Parser.SLASH, i);
+		}
 		public Multiplicative_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1064,20 +1049,20 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Additive_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> DASH() { return getTokens(GLSL430Parser.DASH); }
+		public List<TerminalNode> PLUS() { return getTokens(GLSL430Parser.PLUS); }
 		public Multiplicative_expressionContext multiplicative_expression(int i) {
 			return getRuleContext(Multiplicative_expressionContext.class,i);
-		}
-		public TerminalNode DASH(int i) {
-			return getToken(GLSL430Parser.DASH, i);
-		}
-		public List<TerminalNode> PLUS() { return getTokens(GLSL430Parser.PLUS); }
-		public List<Multiplicative_expressionContext> multiplicative_expression() {
-			return getRuleContexts(Multiplicative_expressionContext.class);
 		}
 		public TerminalNode PLUS(int i) {
 			return getToken(GLSL430Parser.PLUS, i);
 		}
+		public TerminalNode DASH(int i) {
+			return getToken(GLSL430Parser.DASH, i);
+		}
+		public List<Multiplicative_expressionContext> multiplicative_expression() {
+			return getRuleContexts(Multiplicative_expressionContext.class);
+		}
+		public List<TerminalNode> DASH() { return getTokens(GLSL430Parser.DASH); }
 		public Additive_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1181,27 +1166,27 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Relational_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> LE_OP() { return getTokens(GLSL430Parser.LE_OP); }
-		public TerminalNode LEFT_ANGLE(int i) {
-			return getToken(GLSL430Parser.LEFT_ANGLE, i);
-		}
-		public List<TerminalNode> LEFT_ANGLE() { return getTokens(GLSL430Parser.LEFT_ANGLE); }
-		public List<Shift_expressionContext> shift_expression() {
-			return getRuleContexts(Shift_expressionContext.class);
-		}
-		public List<TerminalNode> GE_OP() { return getTokens(GLSL430Parser.GE_OP); }
-		public Shift_expressionContext shift_expression(int i) {
-			return getRuleContext(Shift_expressionContext.class,i);
-		}
-		public TerminalNode GE_OP(int i) {
-			return getToken(GLSL430Parser.GE_OP, i);
-		}
-		public List<TerminalNode> RIGHT_ANGLE() { return getTokens(GLSL430Parser.RIGHT_ANGLE); }
 		public TerminalNode RIGHT_ANGLE(int i) {
 			return getToken(GLSL430Parser.RIGHT_ANGLE, i);
 		}
+		public List<TerminalNode> GE_OP() { return getTokens(GLSL430Parser.GE_OP); }
+		public List<TerminalNode> LEFT_ANGLE() { return getTokens(GLSL430Parser.LEFT_ANGLE); }
+		public TerminalNode GE_OP(int i) {
+			return getToken(GLSL430Parser.GE_OP, i);
+		}
+		public TerminalNode LEFT_ANGLE(int i) {
+			return getToken(GLSL430Parser.LEFT_ANGLE, i);
+		}
+		public List<Shift_expressionContext> shift_expression() {
+			return getRuleContexts(Shift_expressionContext.class);
+		}
+		public List<TerminalNode> LE_OP() { return getTokens(GLSL430Parser.LE_OP); }
+		public List<TerminalNode> RIGHT_ANGLE() { return getTokens(GLSL430Parser.RIGHT_ANGLE); }
 		public TerminalNode LE_OP(int i) {
 			return getToken(GLSL430Parser.LE_OP, i);
+		}
+		public Shift_expressionContext shift_expression(int i) {
+			return getRuleContext(Shift_expressionContext.class,i);
 		}
 		public Relational_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1233,12 +1218,12 @@ public class GLSL430Parser extends Parser {
 			setState(232);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((((_la - 58)) & ~0x3f) == 0 && ((1L << (_la - 58)) & ((1L << (LE_OP - 58)) | (1L << (GE_OP - 58)) | (1L << (LEFT_ANGLE - 58)) | (1L << (RIGHT_ANGLE - 58)))) != 0)) {
+			while (((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & ((1L << (LE_OP - 59)) | (1L << (GE_OP - 59)) | (1L << (LEFT_ANGLE - 59)) | (1L << (RIGHT_ANGLE - 59)))) != 0)) {
 				{
 				{
 				setState(228);
 				_la = _input.LA(1);
-				if ( !(((((_la - 58)) & ~0x3f) == 0 && ((1L << (_la - 58)) & ((1L << (LE_OP - 58)) | (1L << (GE_OP - 58)) | (1L << (LEFT_ANGLE - 58)) | (1L << (RIGHT_ANGLE - 58)))) != 0)) ) {
+				if ( !(((((_la - 59)) & ~0x3f) == 0 && ((1L << (_la - 59)) & ((1L << (LE_OP - 59)) | (1L << (GE_OP - 59)) | (1L << (LEFT_ANGLE - 59)) | (1L << (RIGHT_ANGLE - 59)))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
@@ -1263,20 +1248,20 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Equality_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> NE_OP() { return getTokens(GLSL430Parser.NE_OP); }
-		public List<Relational_expressionContext> relational_expression() {
-			return getRuleContexts(Relational_expressionContext.class);
-		}
 		public TerminalNode NE_OP(int i) {
 			return getToken(GLSL430Parser.NE_OP, i);
+		}
+		public List<Relational_expressionContext> relational_expression() {
+			return getRuleContexts(Relational_expressionContext.class);
 		}
 		public Relational_expressionContext relational_expression(int i) {
 			return getRuleContext(Relational_expressionContext.class,i);
 		}
-		public List<TerminalNode> EQ_OP() { return getTokens(GLSL430Parser.EQ_OP); }
 		public TerminalNode EQ_OP(int i) {
 			return getToken(GLSL430Parser.EQ_OP, i);
 		}
+		public List<TerminalNode> NE_OP() { return getTokens(GLSL430Parser.NE_OP); }
+		public List<TerminalNode> EQ_OP() { return getTokens(GLSL430Parser.EQ_OP); }
 		public Equality_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1466,15 +1451,15 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Logical_and_expressionContext extends ParserRuleContext {
-		public List<Inclusive_or_expressionContext> inclusive_or_expression() {
-			return getRuleContexts(Inclusive_or_expressionContext.class);
+		public Inclusive_or_expressionContext inclusive_or_expression(int i) {
+			return getRuleContext(Inclusive_or_expressionContext.class,i);
 		}
 		public TerminalNode AND_OP(int i) {
 			return getToken(GLSL430Parser.AND_OP, i);
 		}
 		public List<TerminalNode> AND_OP() { return getTokens(GLSL430Parser.AND_OP); }
-		public Inclusive_or_expressionContext inclusive_or_expression(int i) {
-			return getRuleContext(Inclusive_or_expressionContext.class,i);
+		public List<Inclusive_or_expressionContext> inclusive_or_expression() {
+			return getRuleContexts(Inclusive_or_expressionContext.class);
 		}
 		public Logical_and_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1532,14 +1517,14 @@ public class GLSL430Parser extends Parser {
 
 	public static class Logical_xor_expressionContext extends ParserRuleContext {
 		public List<TerminalNode> XOR_OP() { return getTokens(GLSL430Parser.XOR_OP); }
+		public Logical_and_expressionContext logical_and_expression(int i) {
+			return getRuleContext(Logical_and_expressionContext.class,i);
+		}
 		public List<Logical_and_expressionContext> logical_and_expression() {
 			return getRuleContexts(Logical_and_expressionContext.class);
 		}
 		public TerminalNode XOR_OP(int i) {
 			return getToken(GLSL430Parser.XOR_OP, i);
-		}
-		public Logical_and_expressionContext logical_and_expression(int i) {
-			return getRuleContext(Logical_and_expressionContext.class,i);
 		}
 		public Logical_xor_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1596,15 +1581,15 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Logical_or_expressionContext extends ParserRuleContext {
-		public List<TerminalNode> OR_OP() { return getTokens(GLSL430Parser.OR_OP); }
-		public List<Logical_xor_expressionContext> logical_xor_expression() {
-			return getRuleContexts(Logical_xor_expressionContext.class);
+		public Logical_xor_expressionContext logical_xor_expression(int i) {
+			return getRuleContext(Logical_xor_expressionContext.class,i);
 		}
 		public TerminalNode OR_OP(int i) {
 			return getToken(GLSL430Parser.OR_OP, i);
 		}
-		public Logical_xor_expressionContext logical_xor_expression(int i) {
-			return getRuleContext(Logical_xor_expressionContext.class,i);
+		public List<TerminalNode> OR_OP() { return getTokens(GLSL430Parser.OR_OP); }
+		public List<Logical_xor_expressionContext> logical_xor_expression() {
+			return getRuleContexts(Logical_xor_expressionContext.class);
 		}
 		public Logical_or_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1661,17 +1646,17 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Conditional_expressionContext extends ParserRuleContext {
-		public TerminalNode QUESTION() { return getToken(GLSL430Parser.QUESTION, 0); }
 		public Assignment_expressionContext assignment_expression() {
 			return getRuleContext(Assignment_expressionContext.class,0);
 		}
+		public TerminalNode COLON() { return getToken(GLSL430Parser.COLON, 0); }
 		public Logical_or_expressionContext logical_or_expression() {
 			return getRuleContext(Logical_or_expressionContext.class,0);
 		}
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(GLSL430Parser.COLON, 0); }
+		public TerminalNode QUESTION() { return getToken(GLSL430Parser.QUESTION, 0); }
 		public Conditional_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1727,11 +1712,11 @@ public class GLSL430Parser extends Parser {
 		public Assignment_expressionContext assignment_expression() {
 			return getRuleContext(Assignment_expressionContext.class,0);
 		}
-		public Assignment_operatorContext assignment_operator() {
-			return getRuleContext(Assignment_operatorContext.class,0);
-		}
 		public Unary_expressionContext unary_expression() {
 			return getRuleContext(Unary_expressionContext.class,0);
+		}
+		public Assignment_operatorContext assignment_operator() {
+			return getRuleContext(Assignment_operatorContext.class,0);
 		}
 		public Conditional_expressionContext conditional_expression() {
 			return getRuleContext(Conditional_expressionContext.class,0);
@@ -1790,11 +1775,11 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Assignment_operatorContext extends ParserRuleContext {
-		public TerminalNode SUB_ASSIGN() { return getToken(GLSL430Parser.SUB_ASSIGN, 0); }
-		public TerminalNode DIV_ASSIGN() { return getToken(GLSL430Parser.DIV_ASSIGN, 0); }
 		public TerminalNode EQUAL() { return getToken(GLSL430Parser.EQUAL, 0); }
-		public TerminalNode ADD_ASSIGN() { return getToken(GLSL430Parser.ADD_ASSIGN, 0); }
 		public TerminalNode MUL_ASSIGN() { return getToken(GLSL430Parser.MUL_ASSIGN, 0); }
+		public TerminalNode DIV_ASSIGN() { return getToken(GLSL430Parser.DIV_ASSIGN, 0); }
+		public TerminalNode SUB_ASSIGN() { return getToken(GLSL430Parser.SUB_ASSIGN, 0); }
+		public TerminalNode ADD_ASSIGN() { return getToken(GLSL430Parser.ADD_ASSIGN, 0); }
 		public Assignment_operatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1823,7 +1808,7 @@ public class GLSL430Parser extends Parser {
 			{
 			setState(288);
 			_la = _input.LA(1);
-			if ( !(((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (MUL_ASSIGN - 65)) | (1L << (DIV_ASSIGN - 65)) | (1L << (ADD_ASSIGN - 65)) | (1L << (SUB_ASSIGN - 65)) | (1L << (EQUAL - 65)))) != 0)) ) {
+			if ( !(((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & ((1L << (MUL_ASSIGN - 66)) | (1L << (DIV_ASSIGN - 66)) | (1L << (ADD_ASSIGN - 66)) | (1L << (SUB_ASSIGN - 66)) | (1L << (EQUAL - 66)))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -1845,11 +1830,11 @@ public class GLSL430Parser extends Parser {
 			return getRuleContexts(Assignment_expressionContext.class);
 		}
 		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(GLSL430Parser.COMMA, i);
-		}
 		public Assignment_expressionContext assignment_expression(int i) {
 			return getRuleContext(Assignment_expressionContext.class,i);
+		}
+		public TerminalNode COMMA(int i) {
+			return getToken(GLSL430Parser.COMMA, i);
 		}
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2055,18 +2040,18 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Function_declaratorContext extends ParserRuleContext {
-		public Parameter_declarationContext parameter_declaration(int i) {
-			return getRuleContext(Parameter_declarationContext.class,i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
 		public List<Parameter_declarationContext> parameter_declaration() {
 			return getRuleContexts(Parameter_declarationContext.class);
 		}
-		public TerminalNode COMMA(int i) {
-			return getToken(GLSL430Parser.COMMA, i);
-		}
+		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
 		public Function_headerContext function_header() {
 			return getRuleContext(Function_headerContext.class,0);
+		}
+		public Parameter_declarationContext parameter_declaration(int i) {
+			return getRuleContext(Parameter_declarationContext.class,i);
+		}
+		public TerminalNode COMMA(int i) {
+			return getToken(GLSL430Parser.COMMA, i);
 		}
 		public Function_declaratorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2097,7 +2082,7 @@ public class GLSL430Parser extends Parser {
 			setState(311); function_header();
 			setState(320);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER))) != 0)) {
 				{
 				setState(312); parameter_declaration();
 				setState(317);
@@ -2131,10 +2116,10 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Function_headerContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public Fully_specified_typeContext fully_specified_type() {
 			return getRuleContext(Fully_specified_typeContext.class,0);
 		}
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public Function_headerContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2181,18 +2166,18 @@ public class GLSL430Parser extends Parser {
 		public Type_specifierContext type_specifier() {
 			return getRuleContext(Type_specifierContext.class,0);
 		}
-		public Parameter_qualifierContext parameter_qualifier() {
-			return getRuleContext(Parameter_qualifierContext.class,0);
-		}
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
-		public Constant_expressionContext constant_expression() {
-			return getRuleContext(Constant_expressionContext.class,0);
-		}
 		public Type_qualifierContext type_qualifier() {
 			return getRuleContext(Type_qualifierContext.class,0);
 		}
+		public Parameter_qualifierContext parameter_qualifier() {
+			return getRuleContext(Parameter_qualifierContext.class,0);
+		}
 		public TerminalNode LEFT_BRACKET() { return getToken(GLSL430Parser.LEFT_BRACKET, 0); }
 		public TerminalNode RIGHT_BRACKET() { return getToken(GLSL430Parser.RIGHT_BRACKET, 0); }
+		public Constant_expressionContext constant_expression() {
+			return getRuleContext(Constant_expressionContext.class,0);
+		}
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public Parameter_declarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2270,9 +2255,9 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Parameter_qualifierContext extends ParserRuleContext {
+		public TerminalNode INOUT() { return getToken(GLSL430Parser.INOUT, 0); }
 		public TerminalNode IN() { return getToken(GLSL430Parser.IN, 0); }
 		public TerminalNode OUT() { return getToken(GLSL430Parser.OUT, 0); }
-		public TerminalNode INOUT() { return getToken(GLSL430Parser.INOUT, 0); }
 		public Parameter_qualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2319,20 +2304,20 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Init_declarator_listContext extends ParserRuleContext {
-		public TerminalNode INVARIANT() { return getToken(GLSL430Parser.INVARIANT, 0); }
 		public Single_declaratorContext single_declarator(int i) {
 			return getRuleContext(Single_declaratorContext.class,i);
 		}
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
-		public List<Single_declaratorContext> single_declarator() {
-			return getRuleContexts(Single_declaratorContext.class);
-		}
 		public Fully_specified_typeContext fully_specified_type() {
 			return getRuleContext(Fully_specified_typeContext.class,0);
 		}
+		public TerminalNode INVARIANT() { return getToken(GLSL430Parser.INVARIANT, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public TerminalNode COMMA(int i) {
 			return getToken(GLSL430Parser.COMMA, i);
+		}
+		public List<Single_declaratorContext> single_declarator() {
+			return getRuleContexts(Single_declaratorContext.class);
 		}
 		public Init_declarator_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2381,6 +2366,7 @@ public class GLSL430Parser extends Parser {
 			case MAT4:
 			case OUT:
 			case SAMPLER2D:
+			case SAMPLER2DSHADOW:
 			case SAMPLERCUBE:
 			case STRUCT:
 			case UNIFORM:
@@ -2499,15 +2485,15 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Init_declaratorContext extends ParserRuleContext {
-		public InitializerContext initializer() {
-			return getRuleContext(InitializerContext.class,0);
-		}
-		public Constant_expressionContext constant_expression() {
-			return getRuleContext(Constant_expressionContext.class,0);
-		}
 		public TerminalNode EQUAL() { return getToken(GLSL430Parser.EQUAL, 0); }
 		public TerminalNode LEFT_BRACKET() { return getToken(GLSL430Parser.LEFT_BRACKET, 0); }
 		public TerminalNode RIGHT_BRACKET() { return getToken(GLSL430Parser.RIGHT_BRACKET, 0); }
+		public Constant_expressionContext constant_expression() {
+			return getRuleContext(Constant_expressionContext.class,0);
+		}
+		public InitializerContext initializer() {
+			return getRuleContext(InitializerContext.class,0);
+		}
 		public Init_declaratorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2612,6 +2598,7 @@ public class GLSL430Parser extends Parser {
 			case MAT3:
 			case MAT4:
 			case SAMPLER2D:
+			case SAMPLER2DSHADOW:
 			case SAMPLERCUBE:
 			case STRUCT:
 			case UINT:
@@ -2658,14 +2645,14 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Type_qualifierContext extends ParserRuleContext {
-		public Interpolation_qualifierContext interpolation_qualifier() {
-			return getRuleContext(Interpolation_qualifierContext.class,0);
+		public Storage_qualifierContext storage_qualifier() {
+			return getRuleContext(Storage_qualifierContext.class,0);
 		}
 		public Layout_qualifierContext layout_qualifier() {
 			return getRuleContext(Layout_qualifierContext.class,0);
 		}
-		public Storage_qualifierContext storage_qualifier() {
-			return getRuleContext(Storage_qualifierContext.class,0);
+		public Interpolation_qualifierContext interpolation_qualifier() {
+			return getRuleContext(Interpolation_qualifierContext.class,0);
 		}
 		public Type_qualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2724,12 +2711,12 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Layout_qualifierContext extends ParserRuleContext {
-		public TerminalNode INTCONSTANT() { return getToken(GLSL430Parser.INTCONSTANT, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public TerminalNode EQUAL() { return getToken(GLSL430Parser.EQUAL, 0); }
-		public TerminalNode LOCATION() { return getToken(GLSL430Parser.LOCATION, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public TerminalNode LAYOUT() { return getToken(GLSL430Parser.LAYOUT, 0); }
+		public TerminalNode LOCATION() { return getToken(GLSL430Parser.LOCATION, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
+		public TerminalNode INTCONSTANT() { return getToken(GLSL430Parser.INTCONSTANT, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public Layout_qualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2775,10 +2762,10 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Storage_qualifierContext extends ParserRuleContext {
-		public TerminalNode IN() { return getToken(GLSL430Parser.IN, 0); }
-		public TerminalNode UNIFORM() { return getToken(GLSL430Parser.UNIFORM, 0); }
-		public TerminalNode OUT() { return getToken(GLSL430Parser.OUT, 0); }
 		public TerminalNode CONST() { return getToken(GLSL430Parser.CONST, 0); }
+		public TerminalNode UNIFORM() { return getToken(GLSL430Parser.UNIFORM, 0); }
+		public TerminalNode IN() { return getToken(GLSL430Parser.IN, 0); }
+		public TerminalNode OUT() { return getToken(GLSL430Parser.OUT, 0); }
 		public Storage_qualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2825,9 +2812,9 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Interpolation_qualifierContext extends ParserRuleContext {
-		public TerminalNode NOPERSPECTIVE() { return getToken(GLSL430Parser.NOPERSPECTIVE, 0); }
-		public TerminalNode SMOOTH() { return getToken(GLSL430Parser.SMOOTH, 0); }
 		public TerminalNode FLAT() { return getToken(GLSL430Parser.FLAT, 0); }
+		public TerminalNode SMOOTH() { return getToken(GLSL430Parser.SMOOTH, 0); }
+		public TerminalNode NOPERSPECTIVE() { return getToken(GLSL430Parser.NOPERSPECTIVE, 0); }
 		public Interpolation_qualifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2874,36 +2861,37 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Type_specifierContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(GLSL430Parser.INT, 0); }
-		public TerminalNode SAMPLERCUBE() { return getToken(GLSL430Parser.SAMPLERCUBE, 0); }
-		public TerminalNode UINT() { return getToken(GLSL430Parser.UINT, 0); }
-		public TerminalNode VOID() { return getToken(GLSL430Parser.VOID, 0); }
-		public TerminalNode DOUBLE() { return getToken(GLSL430Parser.DOUBLE, 0); }
 		public TerminalNode DVEC2() { return getToken(GLSL430Parser.DVEC2, 0); }
-		public TerminalNode BVEC3() { return getToken(GLSL430Parser.BVEC3, 0); }
 		public Struct_specifierContext struct_specifier() {
 			return getRuleContext(Struct_specifierContext.class,0);
 		}
-		public TerminalNode SAMPLER2D() { return getToken(GLSL430Parser.SAMPLER2D, 0); }
+		public TerminalNode UVEC3() { return getToken(GLSL430Parser.UVEC3, 0); }
+		public TerminalNode IVEC4() { return getToken(GLSL430Parser.IVEC4, 0); }
+		public TerminalNode BVEC4() { return getToken(GLSL430Parser.BVEC4, 0); }
+		public TerminalNode MAT4() { return getToken(GLSL430Parser.MAT4, 0); }
 		public TerminalNode DVEC4() { return getToken(GLSL430Parser.DVEC4, 0); }
+		public TerminalNode INT() { return getToken(GLSL430Parser.INT, 0); }
+		public TerminalNode BVEC3() { return getToken(GLSL430Parser.BVEC3, 0); }
+		public TerminalNode UINT() { return getToken(GLSL430Parser.UINT, 0); }
+		public TerminalNode BVEC2() { return getToken(GLSL430Parser.BVEC2, 0); }
+		public TerminalNode SAMPLERCUBE() { return getToken(GLSL430Parser.SAMPLERCUBE, 0); }
+		public TerminalNode VEC4() { return getToken(GLSL430Parser.VEC4, 0); }
+		public TerminalNode UVEC2() { return getToken(GLSL430Parser.UVEC2, 0); }
+		public TerminalNode BOOL() { return getToken(GLSL430Parser.BOOL, 0); }
+		public TerminalNode DVEC3() { return getToken(GLSL430Parser.DVEC3, 0); }
+		public TerminalNode SAMPLER2D() { return getToken(GLSL430Parser.SAMPLER2D, 0); }
 		public TerminalNode MAT3() { return getToken(GLSL430Parser.MAT3, 0); }
+		public TerminalNode DOUBLE() { return getToken(GLSL430Parser.DOUBLE, 0); }
+		public TerminalNode FLOAT() { return getToken(GLSL430Parser.FLOAT, 0); }
 		public TerminalNode IVEC2() { return getToken(GLSL430Parser.IVEC2, 0); }
+		public TerminalNode VEC3() { return getToken(GLSL430Parser.VEC3, 0); }
+		public TerminalNode IVEC3() { return getToken(GLSL430Parser.IVEC3, 0); }
+		public TerminalNode VEC2() { return getToken(GLSL430Parser.VEC2, 0); }
+		public TerminalNode SAMPLER2DSHADOW() { return getToken(GLSL430Parser.SAMPLER2DSHADOW, 0); }
+		public TerminalNode VOID() { return getToken(GLSL430Parser.VOID, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public TerminalNode MAT2() { return getToken(GLSL430Parser.MAT2, 0); }
 		public TerminalNode UVEC4() { return getToken(GLSL430Parser.UVEC4, 0); }
-		public TerminalNode FLOAT() { return getToken(GLSL430Parser.FLOAT, 0); }
-		public TerminalNode IVEC3() { return getToken(GLSL430Parser.IVEC3, 0); }
-		public TerminalNode MAT4() { return getToken(GLSL430Parser.MAT4, 0); }
-		public TerminalNode DVEC3() { return getToken(GLSL430Parser.DVEC3, 0); }
-		public TerminalNode BOOL() { return getToken(GLSL430Parser.BOOL, 0); }
-		public TerminalNode BVEC2() { return getToken(GLSL430Parser.BVEC2, 0); }
-		public TerminalNode UVEC3() { return getToken(GLSL430Parser.UVEC3, 0); }
-		public TerminalNode VEC3() { return getToken(GLSL430Parser.VEC3, 0); }
-		public TerminalNode BVEC4() { return getToken(GLSL430Parser.BVEC4, 0); }
-		public TerminalNode VEC4() { return getToken(GLSL430Parser.VEC4, 0); }
-		public TerminalNode VEC2() { return getToken(GLSL430Parser.VEC2, 0); }
-		public TerminalNode UVEC2() { return getToken(GLSL430Parser.UVEC2, 0); }
-		public TerminalNode IVEC4() { return getToken(GLSL430Parser.IVEC4, 0); }
 		public Type_specifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2947,6 +2935,7 @@ public class GLSL430Parser extends Parser {
 			case MAT3:
 			case MAT4:
 			case SAMPLER2D:
+			case SAMPLER2DSHADOW:
 			case SAMPLERCUBE:
 			case UINT:
 			case UVEC2:
@@ -2960,7 +2949,7 @@ public class GLSL430Parser extends Parser {
 				{
 				setState(396);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
@@ -2994,13 +2983,13 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Struct_specifierContext extends ParserRuleContext {
+		public TerminalNode STRUCT() { return getToken(GLSL430Parser.STRUCT, 0); }
 		public Struct_declaration_listContext struct_declaration_list() {
 			return getRuleContext(Struct_declaration_listContext.class,0);
 		}
-		public TerminalNode STRUCT() { return getToken(GLSL430Parser.STRUCT, 0); }
-		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public TerminalNode LEFT_BRACE() { return getToken(GLSL430Parser.LEFT_BRACE, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
+		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
 		public Struct_specifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3097,7 +3086,7 @@ public class GLSL430Parser extends Parser {
 				setState(412); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << IDENTIFIER))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << IDENTIFIER))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -3112,12 +3101,12 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Struct_declarationContext extends ParserRuleContext {
-		public Struct_declarator_listContext struct_declarator_list() {
-			return getRuleContext(Struct_declarator_listContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(GLSL430Parser.SEMICOLON, 0); }
 		public Type_specifierContext type_specifier() {
 			return getRuleContext(Type_specifierContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(GLSL430Parser.SEMICOLON, 0); }
+		public Struct_declarator_listContext struct_declarator_list() {
+			return getRuleContext(Struct_declarator_listContext.class,0);
 		}
 		public Struct_declarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3161,12 +3150,12 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Struct_declarator_listContext extends ParserRuleContext {
-		public Struct_declaratorContext struct_declarator(int i) {
-			return getRuleContext(Struct_declaratorContext.class,i);
-		}
 		public List<TerminalNode> COMMA() { return getTokens(GLSL430Parser.COMMA); }
 		public List<Struct_declaratorContext> struct_declarator() {
 			return getRuleContexts(Struct_declaratorContext.class);
+		}
+		public Struct_declaratorContext struct_declarator(int i) {
+			return getRuleContext(Struct_declaratorContext.class,i);
 		}
 		public TerminalNode COMMA(int i) {
 			return getToken(GLSL430Parser.COMMA, i);
@@ -3226,12 +3215,12 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Struct_declaratorContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
+		public TerminalNode LEFT_BRACKET() { return getToken(GLSL430Parser.LEFT_BRACKET, 0); }
+		public TerminalNode RIGHT_BRACKET() { return getToken(GLSL430Parser.RIGHT_BRACKET, 0); }
 		public Constant_expressionContext constant_expression() {
 			return getRuleContext(Constant_expressionContext.class,0);
 		}
-		public TerminalNode LEFT_BRACKET() { return getToken(GLSL430Parser.LEFT_BRACKET, 0); }
-		public TerminalNode RIGHT_BRACKET() { return getToken(GLSL430Parser.RIGHT_BRACKET, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
 		public Struct_declaratorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3435,6 +3424,7 @@ public class GLSL430Parser extends Parser {
 			case OUT:
 			case RETURN:
 			case SAMPLER2D:
+			case SAMPLER2DSHADOW:
 			case SAMPLERCUBE:
 			case STRUCT:
 			case UNIFORM:
@@ -3482,20 +3472,20 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Simple_statementContext extends ParserRuleContext {
-		public Iteration_statementContext iteration_statement() {
-			return getRuleContext(Iteration_statementContext.class,0);
-		}
 		public Selection_statementContext selection_statement() {
 			return getRuleContext(Selection_statementContext.class,0);
 		}
 		public Declaration_statementContext declaration_statement() {
 			return getRuleContext(Declaration_statementContext.class,0);
 		}
+		public Jump_statementContext jump_statement() {
+			return getRuleContext(Jump_statementContext.class,0);
+		}
 		public Expression_statementContext expression_statement() {
 			return getRuleContext(Expression_statementContext.class,0);
 		}
-		public Jump_statementContext jump_statement() {
-			return getRuleContext(Jump_statementContext.class,0);
+		public Iteration_statementContext iteration_statement() {
+			return getRuleContext(Iteration_statementContext.class,0);
 		}
 		public Simple_statementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3570,8 +3560,8 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Compound_statement_with_scopeContext extends ParserRuleContext {
-		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
 		public TerminalNode LEFT_BRACE() { return getToken(GLSL430Parser.LEFT_BRACE, 0); }
+		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
 		public Statement_listContext statement_list() {
 			return getRuleContext(Statement_listContext.class,0);
 		}
@@ -3604,7 +3594,7 @@ public class GLSL430Parser extends Parser {
 			setState(448); match(LEFT_BRACE);
 			setState(450);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (LEFT_BRACE - 70)) | (1L << (SEMICOLON - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (LEFT_BRACE - 71)) | (1L << (SEMICOLON - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 				{
 				setState(449); statement_list();
 				}
@@ -3625,11 +3615,11 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Statement_with_scopeContext extends ParserRuleContext {
-		public Compound_statement_no_new_scopeContext compound_statement_no_new_scope() {
-			return getRuleContext(Compound_statement_no_new_scopeContext.class,0);
-		}
 		public Simple_statementContext simple_statement() {
 			return getRuleContext(Simple_statementContext.class,0);
+		}
+		public Compound_statement_no_new_scopeContext compound_statement_no_new_scope() {
+			return getRuleContext(Compound_statement_no_new_scopeContext.class,0);
 		}
 		public Statement_with_scopeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3691,6 +3681,7 @@ public class GLSL430Parser extends Parser {
 			case OUT:
 			case RETURN:
 			case SAMPLER2D:
+			case SAMPLER2DSHADOW:
 			case SAMPLERCUBE:
 			case STRUCT:
 			case UNIFORM:
@@ -3738,8 +3729,8 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Compound_statement_no_new_scopeContext extends ParserRuleContext {
-		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
 		public TerminalNode LEFT_BRACE() { return getToken(GLSL430Parser.LEFT_BRACE, 0); }
+		public TerminalNode RIGHT_BRACE() { return getToken(GLSL430Parser.RIGHT_BRACE, 0); }
 		public Statement_listContext statement_list() {
 			return getRuleContext(Statement_listContext.class,0);
 		}
@@ -3772,7 +3763,7 @@ public class GLSL430Parser extends Parser {
 			setState(458); match(LEFT_BRACE);
 			setState(460);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (LEFT_BRACE - 70)) | (1L << (SEMICOLON - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (LEFT_BRACE - 71)) | (1L << (SEMICOLON - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 				{
 				setState(459); statement_list();
 				}
@@ -3793,11 +3784,11 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Statement_listContext extends ParserRuleContext {
-		public Statement_no_new_scopeContext statement_no_new_scope(int i) {
-			return getRuleContext(Statement_no_new_scopeContext.class,i);
-		}
 		public List<Statement_no_new_scopeContext> statement_no_new_scope() {
 			return getRuleContexts(Statement_no_new_scopeContext.class);
+		}
+		public Statement_no_new_scopeContext statement_no_new_scope(int i) {
+			return getRuleContext(Statement_no_new_scopeContext.class,i);
 		}
 		public Statement_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3837,7 +3828,7 @@ public class GLSL430Parser extends Parser {
 				setState(467); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (LEFT_BRACE - 70)) | (1L << (SEMICOLON - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BREAK) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << CONTINUE) | (1L << DISCARD) | (1L << DO) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << FOR) | (1L << IF) | (1L << IN) | (1L << INT) | (1L << INVARIANT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << RETURN) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << WHILE) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (LEFT_BRACE - 71)) | (1L << (SEMICOLON - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -3884,7 +3875,7 @@ public class GLSL430Parser extends Parser {
 			{
 			setState(470);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 				{
 				setState(469); expression();
 				}
@@ -3905,19 +3896,19 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Selection_statementContext extends ParserRuleContext {
+		public TerminalNode ELSE() { return getToken(GLSL430Parser.ELSE, 0); }
 		public TerminalNode IF() { return getToken(GLSL430Parser.IF, 0); }
 		public List<Statement_with_scopeContext> statement_with_scope() {
 			return getRuleContexts(Statement_with_scopeContext.class);
 		}
+		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public Statement_with_scopeContext statement_with_scope(int i) {
 			return getRuleContext(Statement_with_scopeContext.class,i);
 		}
-		public TerminalNode ELSE() { return getToken(GLSL430Parser.ELSE, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public Selection_statementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3980,17 +3971,17 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
-		public InitializerContext initializer() {
-			return getRuleContext(InitializerContext.class,0);
-		}
-		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
+		public TerminalNode EQUAL() { return getToken(GLSL430Parser.EQUAL, 0); }
 		public Fully_specified_typeContext fully_specified_type() {
 			return getRuleContext(Fully_specified_typeContext.class,0);
 		}
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode EQUAL() { return getToken(GLSL430Parser.EQUAL, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(GLSL430Parser.IDENTIFIER, 0); }
+		public InitializerContext initializer() {
+			return getRuleContext(InitializerContext.class,0);
+		}
 		public ConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -4046,29 +4037,29 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Iteration_statementContext extends ParserRuleContext {
-		public TerminalNode WHILE() { return getToken(GLSL430Parser.WHILE, 0); }
 		public TerminalNode SEMICOLON() { return getToken(GLSL430Parser.SEMICOLON, 0); }
 		public Statement_with_scopeContext statement_with_scope() {
 			return getRuleContext(Statement_with_scopeContext.class,0);
 		}
-		public ConditionContext condition() {
-			return getRuleContext(ConditionContext.class,0);
-		}
-		public TerminalNode DO() { return getToken(GLSL430Parser.DO, 0); }
-		public TerminalNode FOR() { return getToken(GLSL430Parser.FOR, 0); }
-		public Statement_no_new_scopeContext statement_no_new_scope() {
-			return getRuleContext(Statement_no_new_scopeContext.class,0);
-		}
+		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
 		public For_init_statementContext for_init_statement() {
 			return getRuleContext(For_init_statementContext.class,0);
 		}
+		public TerminalNode DO() { return getToken(GLSL430Parser.DO, 0); }
+		public Statement_no_new_scopeContext statement_no_new_scope() {
+			return getRuleContext(Statement_no_new_scopeContext.class,0);
+		}
+		public TerminalNode FOR() { return getToken(GLSL430Parser.FOR, 0); }
+		public For_rest_statementContext for_rest_statement() {
+			return getRuleContext(For_rest_statementContext.class,0);
+		}
+		public TerminalNode WHILE() { return getToken(GLSL430Parser.WHILE, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RIGHT_PAREN() { return getToken(GLSL430Parser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(GLSL430Parser.LEFT_PAREN, 0); }
-		public For_rest_statementContext for_rest_statement() {
-			return getRuleContext(For_rest_statementContext.class,0);
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
 		}
 		public Iteration_statementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -4202,12 +4193,12 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class For_rest_statementContext extends ParserRuleContext {
-		public ConditionContext condition() {
-			return getRuleContext(ConditionContext.class,0);
-		}
 		public TerminalNode SEMICOLON() { return getToken(GLSL430Parser.SEMICOLON, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
+		}
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
 		}
 		public For_rest_statementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -4237,7 +4228,7 @@ public class GLSL430Parser extends Parser {
 			{
 			setState(526);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << CONST) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << IN) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << LAYOUT) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << OUT) | (1L << SAMPLER2D) | (1L << SAMPLER2DSHADOW) | (1L << SAMPLERCUBE) | (1L << STRUCT) | (1L << UNIFORM) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << VOID) | (1L << FLAT) | (1L << NOPERSPECTIVE) | (1L << SMOOTH) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 				{
 				setState(525); condition();
 				}
@@ -4246,7 +4237,7 @@ public class GLSL430Parser extends Parser {
 			setState(528); match(SEMICOLON);
 			setState(530);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 				{
 				setState(529); expression();
 				}
@@ -4266,14 +4257,14 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class Jump_statementContext extends ParserRuleContext {
-		public TerminalNode DISCARD() { return getToken(GLSL430Parser.DISCARD, 0); }
 		public TerminalNode SEMICOLON() { return getToken(GLSL430Parser.SEMICOLON, 0); }
 		public TerminalNode RETURN() { return getToken(GLSL430Parser.RETURN, 0); }
+		public TerminalNode BREAK() { return getToken(GLSL430Parser.BREAK, 0); }
+		public TerminalNode CONTINUE() { return getToken(GLSL430Parser.CONTINUE, 0); }
+		public TerminalNode DISCARD() { return getToken(GLSL430Parser.DISCARD, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode BREAK() { return getToken(GLSL430Parser.BREAK, 0); }
-		public TerminalNode CONTINUE() { return getToken(GLSL430Parser.CONTINUE, 0); }
 		public Jump_statementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -4320,7 +4311,7 @@ public class GLSL430Parser extends Parser {
 				setState(536); match(RETURN);
 				setState(538);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LEFT_PAREN - 70)) | (1L << (BANG - 70)) | (1L << (DASH - 70)) | (1L << (PLUS - 70)))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << BVEC2) | (1L << BVEC3) | (1L << BVEC4) | (1L << DOUBLE) | (1L << DVEC2) | (1L << DVEC3) | (1L << DVEC4) | (1L << FLOAT) | (1L << INT) | (1L << IVEC2) | (1L << IVEC3) | (1L << IVEC4) | (1L << MAT2) | (1L << MAT3) | (1L << MAT4) | (1L << UINT) | (1L << UVEC2) | (1L << UVEC3) | (1L << UVEC4) | (1L << VEC2) | (1L << VEC3) | (1L << VEC4) | (1L << IDENTIFIER) | (1L << FLOATCONSTANT) | (1L << INTCONSTANT) | (1L << BOOLCONSTANT) | (1L << INC_OP) | (1L << DEC_OP))) != 0) || ((((_la - 71)) & ~0x3f) == 0 && ((1L << (_la - 71)) & ((1L << (LEFT_PAREN - 71)) | (1L << (BANG - 71)) | (1L << (DASH - 71)) | (1L << (PLUS - 71)))) != 0)) {
 					{
 					setState(537); expression();
 					}
@@ -4352,11 +4343,11 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static class External_declarationContext extends ParserRuleContext {
-		public DeclarationContext declaration() {
-			return getRuleContext(DeclarationContext.class,0);
-		}
 		public Function_definitionContext function_definition() {
 			return getRuleContext(Function_definitionContext.class,0);
+		}
+		public DeclarationContext declaration() {
+			return getRuleContext(DeclarationContext.class,0);
 		}
 		public External_declarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -4498,7 +4489,7 @@ public class GLSL430Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3c\u022d\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3d\u022d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -4538,10 +4529,10 @@ public class GLSL430Parser extends Parser {
 		"\n@\3@\3@\5@\u0215\n@\3A\3A\3A\3A\3A\3A\5A\u021d\nA\3A\3A\3A\5A\u0222"+
 		"\nA\3B\3B\5B\u0226\nB\3C\3C\3C\3D\3D\3D\2\2E\2\4\6\b\n\f\16\20\22\24\26"+
 		"\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bdfhjlnprtvxz|"+
-		"~\u0080\u0082\u0084\u0086\2\16\3\2\679\f\2\4\4\6\t\16\20\23\23\30\30\32"+
-		"\34\37!),.\60\66\66\4\2STVV\3\2WX\4\2TTVV\4\2<=Z[\3\2>?\5\2CEGGQQ\4\2"+
-		"\26\27\"\"\6\2\n\n\26\26\"\"((\3\2\63\65\f\2\4\4\6\t\16\20\23\23\30\30"+
-		"\32\34\37!$%),.\61\u022c\2\u008b\3\2\2\2\4\u0090\3\2\2\2\6\u0098\3\2\2"+
+		"~\u0080\u0082\u0084\u0086\2\16\3\28:\f\2\4\4\6\t\16\20\23\23\30\30\32"+
+		"\34\37!*-/\61\67\67\4\2TUWW\3\2XY\4\2UUWW\4\2=>[\\\3\2?@\5\2DFHHRR\4\2"+
+		"\26\27\"\"\6\2\n\n\26\26\"\"))\3\2\64\66\f\2\4\4\6\t\16\20\23\23\30\30"+
+		"\32\34\37!$&*-/\62\u022c\2\u008b\3\2\2\2\4\u0090\3\2\2\2\6\u0098\3\2\2"+
 		"\2\b\u009a\3\2\2\2\n\u00aa\3\2\2\2\f\u00ac\3\2\2\2\16\u00ae\3\2\2\2\20"+
 		"\u00b0\3\2\2\2\22\u00c0\3\2\2\2\24\u00c3\3\2\2\2\26\u00c5\3\2\2\2\30\u00cc"+
 		"\3\2\2\2\32\u00d1\3\2\2\2\34\u00d3\3\2\2\2\36\u00db\3\2\2\2 \u00e3\3\2"+
@@ -4559,25 +4550,25 @@ public class GLSL430Parser extends Parser {
 		"\2\2\u0086\u022a\3\2\2\2\u0088\u008a\5\u0082B\2\u0089\u0088\3\2\2\2\u008a"+
 		"\u008d\3\2\2\2\u008b\u0089\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008e\3\2"+
 		"\2\2\u008d\u008b\3\2\2\2\u008e\u008f\7\2\2\3\u008f\3\3\2\2\2\u0090\u0091"+
-		"\7\66\2\2\u0091\5\3\2\2\2\u0092\u0099\t\2\2\2\u0093\u0099\5\4\3\2\u0094"+
-		"\u0095\7H\2\2\u0095\u0096\58\35\2\u0096\u0097\7I\2\2\u0097\u0099\3\2\2"+
+		"\7\67\2\2\u0091\5\3\2\2\2\u0092\u0099\t\2\2\2\u0093\u0099\5\4\3\2\u0094"+
+		"\u0095\7I\2\2\u0095\u0096\58\35\2\u0096\u0097\7J\2\2\u0097\u0099\3\2\2"+
 		"\2\u0098\u0092\3\2\2\2\u0098\u0093\3\2\2\2\u0098\u0094\3\2\2\2\u0099\7"+
-		"\3\2\2\2\u009a\u00a5\5\n\6\2\u009b\u009c\7J\2\2\u009c\u009d\5\f\7\2\u009d"+
-		"\u009e\7K\2\2\u009e\u00a4\3\2\2\2\u009f\u00a0\7N\2\2\u00a0\u00a4\5\u0086"+
-		"D\2\u00a1\u00a4\7:\2\2\u00a2\u00a4\7;\2\2\u00a3\u009b\3\2\2\2\u00a3\u009f"+
+		"\3\2\2\2\u009a\u00a5\5\n\6\2\u009b\u009c\7K\2\2\u009c\u009d\5\f\7\2\u009d"+
+		"\u009e\7L\2\2\u009e\u00a4\3\2\2\2\u009f\u00a0\7O\2\2\u00a0\u00a4\5\u0086"+
+		"D\2\u00a1\u00a4\7;\2\2\u00a2\u00a4\7<\2\2\u00a3\u009b\3\2\2\2\u00a3\u009f"+
 		"\3\2\2\2\u00a3\u00a1\3\2\2\2\u00a3\u00a2\3\2\2\2\u00a4\u00a7\3\2\2\2\u00a5"+
 		"\u00a3\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\t\3\2\2\2\u00a7\u00a5\3\2\2\2"+
 		"\u00a8\u00ab\5\16\b\2\u00a9\u00ab\5\6\4\2\u00aa\u00a8\3\2\2\2\u00aa\u00a9"+
 		"\3\2\2\2\u00ab\13\3\2\2\2\u00ac\u00ad\58\35\2\u00ad\r\3\2\2\2\u00ae\u00af"+
-		"\5\20\t\2\u00af\17\3\2\2\2\u00b0\u00bc\5\22\n\2\u00b1\u00b3\7\61\2\2\u00b2"+
+		"\5\20\t\2\u00af\17\3\2\2\2\u00b0\u00bc\5\22\n\2\u00b1\u00b3\7\62\2\2\u00b2"+
 		"\u00b1\3\2\2\2\u00b2\u00b3\3\2\2\2\u00b3\u00bd\3\2\2\2\u00b4\u00b9\5\64"+
-		"\33\2\u00b5\u00b6\7O\2\2\u00b6\u00b8\5\64\33\2\u00b7\u00b5\3\2\2\2\u00b8"+
+		"\33\2\u00b5\u00b6\7P\2\2\u00b6\u00b8\5\64\33\2\u00b7\u00b5\3\2\2\2\u00b8"+
 		"\u00bb\3\2\2\2\u00b9\u00b7\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba\u00bd\3\2"+
 		"\2\2\u00bb\u00b9\3\2\2\2\u00bc\u00b2\3\2\2\2\u00bc\u00b4\3\2\2\2\u00bd"+
-		"\u00be\3\2\2\2\u00be\u00bf\7I\2\2\u00bf\21\3\2\2\2\u00c0\u00c1\5\24\13"+
-		"\2\u00c1\u00c2\7H\2\2\u00c2\23\3\2\2\2\u00c3\u00c4\5\26\f\2\u00c4\25\3"+
-		"\2\2\2\u00c5\u00c6\t\3\2\2\u00c6\27\3\2\2\2\u00c7\u00cb\7:\2\2\u00c8\u00cb"+
-		"\7;\2\2\u00c9\u00cb\5\32\16\2\u00ca\u00c7\3\2\2\2\u00ca\u00c8\3\2\2\2"+
+		"\u00be\3\2\2\2\u00be\u00bf\7J\2\2\u00bf\21\3\2\2\2\u00c0\u00c1\5\24\13"+
+		"\2\u00c1\u00c2\7I\2\2\u00c2\23\3\2\2\2\u00c3\u00c4\5\26\f\2\u00c4\25\3"+
+		"\2\2\2\u00c5\u00c6\t\3\2\2\u00c6\27\3\2\2\2\u00c7\u00cb\7;\2\2\u00c8\u00cb"+
+		"\7<\2\2\u00c9\u00cb\5\32\16\2\u00ca\u00c7\3\2\2\2\u00ca\u00c8\3\2\2\2"+
 		"\u00ca\u00c9\3\2\2\2\u00cb\u00ce\3\2\2\2\u00cc\u00ca\3\2\2\2\u00cc\u00cd"+
 		"\3\2\2\2\u00cd\u00cf\3\2\2\2\u00ce\u00cc\3\2\2\2\u00cf\u00d0\5\b\5\2\u00d0"+
 		"\31\3\2\2\2\u00d1\u00d2\t\4\2\2\u00d2\33\3\2\2\2\u00d3\u00d8\5\30\r\2"+
@@ -4593,102 +4584,102 @@ public class GLSL430Parser extends Parser {
 		"\3\2\2\2\u00f2\u00f0\3\2\2\2\u00f2\u00f3\3\2\2\2\u00f3%\3\2\2\2\u00f4"+
 		"\u00f2\3\2\2\2\u00f5\u00f6\5$\23\2\u00f6\'\3\2\2\2\u00f7\u00f8\5&\24\2"+
 		"\u00f8)\3\2\2\2\u00f9\u00fa\5(\25\2\u00fa+\3\2\2\2\u00fb\u0100\5*\26\2"+
-		"\u00fc\u00fd\7@\2\2\u00fd\u00ff\5*\26\2\u00fe\u00fc\3\2\2\2\u00ff\u0102"+
+		"\u00fc\u00fd\7A\2\2\u00fd\u00ff\5*\26\2\u00fe\u00fc\3\2\2\2\u00ff\u0102"+
 		"\3\2\2\2\u0100\u00fe\3\2\2\2\u0100\u0101\3\2\2\2\u0101-\3\2\2\2\u0102"+
-		"\u0100\3\2\2\2\u0103\u0108\5,\27\2\u0104\u0105\7B\2\2\u0105\u0107\5,\27"+
+		"\u0100\3\2\2\2\u0103\u0108\5,\27\2\u0104\u0105\7C\2\2\u0105\u0107\5,\27"+
 		"\2\u0106\u0104\3\2\2\2\u0107\u010a\3\2\2\2\u0108\u0106\3\2\2\2\u0108\u0109"+
 		"\3\2\2\2\u0109/\3\2\2\2\u010a\u0108\3\2\2\2\u010b\u0110\5.\30\2\u010c"+
-		"\u010d\7A\2\2\u010d\u010f\5.\30\2\u010e\u010c\3\2\2\2\u010f\u0112\3\2"+
+		"\u010d\7B\2\2\u010d\u010f\5.\30\2\u010e\u010c\3\2\2\2\u010f\u0112\3\2"+
 		"\2\2\u0110\u010e\3\2\2\2\u0110\u0111\3\2\2\2\u0111\61\3\2\2\2\u0112\u0110"+
-		"\3\2\2\2\u0113\u0119\5\60\31\2\u0114\u0115\7_\2\2\u0115\u0116\58\35\2"+
-		"\u0116\u0117\7P\2\2\u0117\u0118\5\64\33\2\u0118\u011a\3\2\2\2\u0119\u0114"+
+		"\3\2\2\2\u0113\u0119\5\60\31\2\u0114\u0115\7`\2\2\u0115\u0116\58\35\2"+
+		"\u0116\u0117\7Q\2\2\u0117\u0118\5\64\33\2\u0118\u011a\3\2\2\2\u0119\u0114"+
 		"\3\2\2\2\u0119\u011a\3\2\2\2\u011a\63\3\2\2\2\u011b\u011c\5\30\r\2\u011c"+
 		"\u011d\5\66\34\2\u011d\u011e\5\64\33\2\u011e\u0121\3\2\2\2\u011f\u0121"+
 		"\5\62\32\2\u0120\u011b\3\2\2\2\u0120\u011f\3\2\2\2\u0121\65\3\2\2\2\u0122"+
-		"\u0123\t\t\2\2\u0123\67\3\2\2\2\u0124\u0129\5\64\33\2\u0125\u0126\7O\2"+
+		"\u0123\t\t\2\2\u0123\67\3\2\2\2\u0124\u0129\5\64\33\2\u0125\u0126\7P\2"+
 		"\2\u0126\u0128\5\64\33\2\u0127\u0125\3\2\2\2\u0128\u012b\3\2\2\2\u0129"+
 		"\u0127\3\2\2\2\u0129\u012a\3\2\2\2\u012a9\3\2\2\2\u012b\u0129\3\2\2\2"+
 		"\u012c\u012d\5\62\32\2\u012d;\3\2\2\2\u012e\u012f\5> \2\u012f\u0130\7"+
-		"R\2\2\u0130\u0135\3\2\2\2\u0131\u0132\5H%\2\u0132\u0133\7R\2\2\u0133\u0135"+
+		"S\2\2\u0130\u0135\3\2\2\2\u0131\u0132\5H%\2\u0132\u0133\7S\2\2\u0133\u0135"+
 		"\3\2\2\2\u0134\u012e\3\2\2\2\u0134\u0131\3\2\2\2\u0135=\3\2\2\2\u0136"+
-		"\u0137\5@!\2\u0137\u0138\7I\2\2\u0138?\3\2\2\2\u0139\u0142\5B\"\2\u013a"+
-		"\u013f\5D#\2\u013b\u013c\7O\2\2\u013c\u013e\5D#\2\u013d\u013b\3\2\2\2"+
+		"\u0137\5@!\2\u0137\u0138\7J\2\2\u0138?\3\2\2\2\u0139\u0142\5B\"\2\u013a"+
+		"\u013f\5D#\2\u013b\u013c\7P\2\2\u013c\u013e\5D#\2\u013d\u013b\3\2\2\2"+
 		"\u013e\u0141\3\2\2\2\u013f\u013d\3\2\2\2\u013f\u0140\3\2\2\2\u0140\u0143"+
 		"\3\2\2\2\u0141\u013f\3\2\2\2\u0142\u013a\3\2\2\2\u0142\u0143\3\2\2\2\u0143"+
-		"A\3\2\2\2\u0144\u0145\5N(\2\u0145\u0146\7\66\2\2\u0146\u0147\7H\2\2\u0147"+
+		"A\3\2\2\2\u0144\u0145\5N(\2\u0145\u0146\7\67\2\2\u0146\u0147\7I\2\2\u0147"+
 		"C\3\2\2\2\u0148\u014a\5P)\2\u0149\u0148\3\2\2\2\u0149\u014a\3\2\2\2\u014a"+
 		"\u014c\3\2\2\2\u014b\u014d\5F$\2\u014c\u014b\3\2\2\2\u014c\u014d\3\2\2"+
-		"\2\u014d\u014e\3\2\2\2\u014e\u0150\5X-\2\u014f\u0151\7\66\2\2\u0150\u014f"+
-		"\3\2\2\2\u0150\u0151\3\2\2\2\u0151\u0156\3\2\2\2\u0152\u0153\7J\2\2\u0153"+
-		"\u0154\5:\36\2\u0154\u0155\7K\2\2\u0155\u0157\3\2\2\2\u0156\u0152\3\2"+
+		"\2\u014d\u014e\3\2\2\2\u014e\u0150\5X-\2\u014f\u0151\7\67\2\2\u0150\u014f"+
+		"\3\2\2\2\u0150\u0151\3\2\2\2\u0151\u0156\3\2\2\2\u0152\u0153\7K\2\2\u0153"+
+		"\u0154\5:\36\2\u0154\u0155\7L\2\2\u0155\u0157\3\2\2\2\u0156\u0152\3\2"+
 		"\2\2\u0156\u0157\3\2\2\2\u0157E\3\2\2\2\u0158\u0159\t\n\2\2\u0159G\3\2"+
 		"\2\2\u015a\u015c\5N(\2\u015b\u015d\5J&\2\u015c\u015b\3\2\2\2\u015c\u015d"+
-		"\3\2\2\2\u015d\u0162\3\2\2\2\u015e\u015f\7O\2\2\u015f\u0161\5J&\2\u0160"+
+		"\3\2\2\2\u015d\u0162\3\2\2\2\u015e\u015f\7P\2\2\u015f\u0161\5J&\2\u0160"+
 		"\u015e\3\2\2\2\u0161\u0164\3\2\2\2\u0162\u0160\3\2\2\2\u0162\u0163\3\2"+
 		"\2\2\u0163\u0168\3\2\2\2\u0164\u0162\3\2\2\2\u0165\u0166\7\31\2\2\u0166"+
-		"\u0168\7\66\2\2\u0167\u015a\3\2\2\2\u0167\u0165\3\2\2\2\u0168I\3\2\2\2"+
-		"\u0169\u016b\7\66\2\2\u016a\u016c\5L\'\2\u016b\u016a\3\2\2\2\u016b\u016c"+
-		"\3\2\2\2\u016cK\3\2\2\2\u016d\u016e\7J\2\2\u016e\u016f\5:\36\2\u016f\u0170"+
-		"\7K\2\2\u0170\u0174\3\2\2\2\u0171\u0172\7Q\2\2\u0172\u0174\5d\63\2\u0173"+
+		"\u0168\7\67\2\2\u0167\u015a\3\2\2\2\u0167\u0165\3\2\2\2\u0168I\3\2\2\2"+
+		"\u0169\u016b\7\67\2\2\u016a\u016c\5L\'\2\u016b\u016a\3\2\2\2\u016b\u016c"+
+		"\3\2\2\2\u016cK\3\2\2\2\u016d\u016e\7K\2\2\u016e\u016f\5:\36\2\u016f\u0170"+
+		"\7L\2\2\u0170\u0174\3\2\2\2\u0171\u0172\7R\2\2\u0172\u0174\5d\63\2\u0173"+
 		"\u016d\3\2\2\2\u0173\u0171\3\2\2\2\u0174M\3\2\2\2\u0175\u017a\5X-\2\u0176"+
 		"\u0177\5P)\2\u0177\u0178\5X-\2\u0178\u017a\3\2\2\2\u0179\u0175\3\2\2\2"+
 		"\u0179\u0176\3\2\2\2\u017aO\3\2\2\2\u017b\u017d\5V,\2\u017c\u017b\3\2"+
 		"\2\2\u017c\u017d\3\2\2\2\u017d\u017f\3\2\2\2\u017e\u0180\5R*\2\u017f\u017e"+
 		"\3\2\2\2\u017f\u0180\3\2\2\2\u0180\u0181\3\2\2\2\u0181\u0182\5T+\2\u0182"+
-		"Q\3\2\2\2\u0183\u0184\7\35\2\2\u0184\u0185\7H\2\2\u0185\u0186\7\36\2\2"+
-		"\u0186\u0187\7Q\2\2\u0187\u0188\78\2\2\u0188\u0189\7I\2\2\u0189S\3\2\2"+
+		"Q\3\2\2\2\u0183\u0184\7\35\2\2\u0184\u0185\7I\2\2\u0185\u0186\7\36\2\2"+
+		"\u0186\u0187\7R\2\2\u0187\u0188\79\2\2\u0188\u0189\7J\2\2\u0189S\3\2\2"+
 		"\2\u018a\u018b\t\13\2\2\u018bU\3\2\2\2\u018c\u018d\t\f\2\2\u018dW\3\2"+
-		"\2\2\u018e\u0192\t\r\2\2\u018f\u0192\5Z.\2\u0190\u0192\7\66\2\2\u0191"+
+		"\2\2\u018e\u0192\t\r\2\2\u018f\u0192\5Z.\2\u0190\u0192\7\67\2\2\u0191"+
 		"\u018e\3\2\2\2\u0191\u018f\3\2\2\2\u0191\u0190\3\2\2\2\u0192Y\3\2\2\2"+
-		"\u0193\u0195\7&\2\2\u0194\u0196\7\66\2\2\u0195\u0194\3\2\2\2\u0195\u0196"+
-		"\3\2\2\2\u0196\u0197\3\2\2\2\u0197\u0198\7L\2\2\u0198\u0199\5\\/\2\u0199"+
-		"\u019a\7M\2\2\u019a[\3\2\2\2\u019b\u019d\5^\60\2\u019c\u019b\3\2\2\2\u019d"+
+		"\u0193\u0195\7\'\2\2\u0194\u0196\7\67\2\2\u0195\u0194\3\2\2\2\u0195\u0196"+
+		"\3\2\2\2\u0196\u0197\3\2\2\2\u0197\u0198\7M\2\2\u0198\u0199\5\\/\2\u0199"+
+		"\u019a\7N\2\2\u019a[\3\2\2\2\u019b\u019d\5^\60\2\u019c\u019b\3\2\2\2\u019d"+
 		"\u019e\3\2\2\2\u019e\u019c\3\2\2\2\u019e\u019f\3\2\2\2\u019f]\3\2\2\2"+
-		"\u01a0\u01a1\5X-\2\u01a1\u01a2\5`\61\2\u01a2\u01a3\7R\2\2\u01a3_\3\2\2"+
-		"\2\u01a4\u01a9\5b\62\2\u01a5\u01a6\7O\2\2\u01a6\u01a8\5b\62\2\u01a7\u01a5"+
+		"\u01a0\u01a1\5X-\2\u01a1\u01a2\5`\61\2\u01a2\u01a3\7S\2\2\u01a3_\3\2\2"+
+		"\2\u01a4\u01a9\5b\62\2\u01a5\u01a6\7P\2\2\u01a6\u01a8\5b\62\2\u01a7\u01a5"+
 		"\3\2\2\2\u01a8\u01ab\3\2\2\2\u01a9\u01a7\3\2\2\2\u01a9\u01aa\3\2\2\2\u01aa"+
-		"a\3\2\2\2\u01ab\u01a9\3\2\2\2\u01ac\u01b1\7\66\2\2\u01ad\u01ae\7J\2\2"+
-		"\u01ae\u01af\5:\36\2\u01af\u01b0\7K\2\2\u01b0\u01b2\3\2\2\2\u01b1\u01ad"+
+		"a\3\2\2\2\u01ab\u01a9\3\2\2\2\u01ac\u01b1\7\67\2\2\u01ad\u01ae\7K\2\2"+
+		"\u01ae\u01af\5:\36\2\u01af\u01b0\7L\2\2\u01b0\u01b2\3\2\2\2\u01b1\u01ad"+
 		"\3\2\2\2\u01b1\u01b2\3\2\2\2\u01b2c\3\2\2\2\u01b3\u01b4\5\64\33\2\u01b4"+
 		"e\3\2\2\2\u01b5\u01b6\5<\37\2\u01b6g\3\2\2\2\u01b7\u01ba\5l\67\2\u01b8"+
 		"\u01ba\5j\66\2\u01b9\u01b7\3\2\2\2\u01b9\u01b8\3\2\2\2\u01bai\3\2\2\2"+
 		"\u01bb\u01c1\5f\64\2\u01bc\u01c1\5t;\2\u01bd\u01c1\5v<\2\u01be\u01c1\5"+
 		"z>\2\u01bf\u01c1\5\u0080A\2\u01c0\u01bb\3\2\2\2\u01c0\u01bc\3\2\2\2\u01c0"+
 		"\u01bd\3\2\2\2\u01c0\u01be\3\2\2\2\u01c0\u01bf\3\2\2\2\u01c1k\3\2\2\2"+
-		"\u01c2\u01c4\7L\2\2\u01c3\u01c5\5r:\2\u01c4\u01c3\3\2\2\2\u01c4\u01c5"+
-		"\3\2\2\2\u01c5\u01c6\3\2\2\2\u01c6\u01c7\7M\2\2\u01c7m\3\2\2\2\u01c8\u01cb"+
+		"\u01c2\u01c4\7M\2\2\u01c3\u01c5\5r:\2\u01c4\u01c3\3\2\2\2\u01c4\u01c5"+
+		"\3\2\2\2\u01c5\u01c6\3\2\2\2\u01c6\u01c7\7N\2\2\u01c7m\3\2\2\2\u01c8\u01cb"+
 		"\5p9\2\u01c9\u01cb\5j\66\2\u01ca\u01c8\3\2\2\2\u01ca\u01c9\3\2\2\2\u01cb"+
-		"o\3\2\2\2\u01cc\u01ce\7L\2\2\u01cd\u01cf\5r:\2\u01ce\u01cd\3\2\2\2\u01ce"+
-		"\u01cf\3\2\2\2\u01cf\u01d0\3\2\2\2\u01d0\u01d1\7M\2\2\u01d1q\3\2\2\2\u01d2"+
+		"o\3\2\2\2\u01cc\u01ce\7M\2\2\u01cd\u01cf\5r:\2\u01ce\u01cd\3\2\2\2\u01ce"+
+		"\u01cf\3\2\2\2\u01cf\u01d0\3\2\2\2\u01d0\u01d1\7N\2\2\u01d1q\3\2\2\2\u01d2"+
 		"\u01d4\5h\65\2\u01d3\u01d2\3\2\2\2\u01d4\u01d5\3\2\2\2\u01d5\u01d3\3\2"+
 		"\2\2\u01d5\u01d6\3\2\2\2\u01d6s\3\2\2\2\u01d7\u01d9\58\35\2\u01d8\u01d7"+
-		"\3\2\2\2\u01d8\u01d9\3\2\2\2\u01d9\u01da\3\2\2\2\u01da\u01db\7R\2\2\u01db"+
-		"u\3\2\2\2\u01dc\u01dd\7\25\2\2\u01dd\u01de\7H\2\2\u01de\u01df\58\35\2"+
-		"\u01df\u01e0\7I\2\2\u01e0\u01e1\5n8\2\u01e1\u01e2\7\21\2\2\u01e2\u01e3"+
-		"\5n8\2\u01e3\u01eb\3\2\2\2\u01e4\u01e5\7\25\2\2\u01e5\u01e6\7H\2\2\u01e6"+
-		"\u01e7\58\35\2\u01e7\u01e8\7I\2\2\u01e8\u01e9\5n8\2\u01e9\u01eb\3\2\2"+
+		"\3\2\2\2\u01d8\u01d9\3\2\2\2\u01d9\u01da\3\2\2\2\u01da\u01db\7S\2\2\u01db"+
+		"u\3\2\2\2\u01dc\u01dd\7\25\2\2\u01dd\u01de\7I\2\2\u01de\u01df\58\35\2"+
+		"\u01df\u01e0\7J\2\2\u01e0\u01e1\5n8\2\u01e1\u01e2\7\21\2\2\u01e2\u01e3"+
+		"\5n8\2\u01e3\u01eb\3\2\2\2\u01e4\u01e5\7\25\2\2\u01e5\u01e6\7I\2\2\u01e6"+
+		"\u01e7\58\35\2\u01e7\u01e8\7J\2\2\u01e8\u01e9\5n8\2\u01e9\u01eb\3\2\2"+
 		"\2\u01ea\u01dc\3\2\2\2\u01ea\u01e4\3\2\2\2\u01ebw\3\2\2\2\u01ec\u01f3"+
-		"\58\35\2\u01ed\u01ee\5N(\2\u01ee\u01ef\7\66\2\2\u01ef\u01f0\7Q\2\2\u01f0"+
+		"\58\35\2\u01ed\u01ee\5N(\2\u01ee\u01ef\7\67\2\2\u01ef\u01f0\7R\2\2\u01f0"+
 		"\u01f1\5d\63\2\u01f1\u01f3\3\2\2\2\u01f2\u01ec\3\2\2\2\u01f2\u01ed\3\2"+
-		"\2\2\u01f3y\3\2\2\2\u01f4\u01f5\7\62\2\2\u01f5\u01f6\7H\2\2\u01f6\u01f7"+
-		"\5x=\2\u01f7\u01f8\7I\2\2\u01f8\u01f9\5h\65\2\u01f9\u020a\3\2\2\2\u01fa"+
-		"\u01fb\7\r\2\2\u01fb\u01fc\5n8\2\u01fc\u01fd\7\62\2\2\u01fd\u01fe\7H\2"+
-		"\2\u01fe\u01ff\58\35\2\u01ff\u0200\7I\2\2\u0200\u0201\7R\2\2\u0201\u020a"+
-		"\3\2\2\2\u0202\u0203\7\24\2\2\u0203\u0204\7H\2\2\u0204\u0205\5|?\2\u0205"+
-		"\u0206\5~@\2\u0206\u0207\7I\2\2\u0207\u0208\5h\65\2\u0208\u020a\3\2\2"+
+		"\2\2\u01f3y\3\2\2\2\u01f4\u01f5\7\63\2\2\u01f5\u01f6\7I\2\2\u01f6\u01f7"+
+		"\5x=\2\u01f7\u01f8\7J\2\2\u01f8\u01f9\5h\65\2\u01f9\u020a\3\2\2\2\u01fa"+
+		"\u01fb\7\r\2\2\u01fb\u01fc\5n8\2\u01fc\u01fd\7\63\2\2\u01fd\u01fe\7I\2"+
+		"\2\u01fe\u01ff\58\35\2\u01ff\u0200\7J\2\2\u0200\u0201\7S\2\2\u0201\u020a"+
+		"\3\2\2\2\u0202\u0203\7\24\2\2\u0203\u0204\7I\2\2\u0204\u0205\5|?\2\u0205"+
+		"\u0206\5~@\2\u0206\u0207\7J\2\2\u0207\u0208\5h\65\2\u0208\u020a\3\2\2"+
 		"\2\u0209\u01f4\3\2\2\2\u0209\u01fa\3\2\2\2\u0209\u0202\3\2\2\2\u020a{"+
 		"\3\2\2\2\u020b\u020e\5t;\2\u020c\u020e\5f\64\2\u020d\u020b\3\2\2\2\u020d"+
 		"\u020c\3\2\2\2\u020e}\3\2\2\2\u020f\u0211\5x=\2\u0210\u020f\3\2\2\2\u0210"+
-		"\u0211\3\2\2\2\u0211\u0212\3\2\2\2\u0212\u0214\7R\2\2\u0213\u0215\58\35"+
+		"\u0211\3\2\2\2\u0211\u0212\3\2\2\2\u0212\u0214\7S\2\2\u0213\u0215\58\35"+
 		"\2\u0214\u0213\3\2\2\2\u0214\u0215\3\2\2\2\u0215\177\3\2\2\2\u0216\u0217"+
-		"\7\13\2\2\u0217\u0222\7R\2\2\u0218\u0219\7\5\2\2\u0219\u0222\7R\2\2\u021a"+
+		"\7\13\2\2\u0217\u0222\7S\2\2\u0218\u0219\7\5\2\2\u0219\u0222\7S\2\2\u021a"+
 		"\u021c\7#\2\2\u021b\u021d\58\35\2\u021c\u021b\3\2\2\2\u021c\u021d\3\2"+
-		"\2\2\u021d\u021e\3\2\2\2\u021e\u0222\7R\2\2\u021f\u0220\7\f\2\2\u0220"+
-		"\u0222\7R\2\2\u0221\u0216\3\2\2\2\u0221\u0218\3\2\2\2\u0221\u021a\3\2"+
+		"\2\2\u021d\u021e\3\2\2\2\u021e\u0222\7S\2\2\u021f\u0220\7\f\2\2\u0220"+
+		"\u0222\7S\2\2\u0221\u0216\3\2\2\2\u0221\u0218\3\2\2\2\u0221\u021a\3\2"+
 		"\2\2\u0221\u021f\3\2\2\2\u0222\u0081\3\2\2\2\u0223\u0226\5\u0084C\2\u0224"+
 		"\u0226\5<\37\2\u0225\u0223\3\2\2\2\u0225\u0224\3\2\2\2\u0226\u0083\3\2"+
 		"\2\2\u0227\u0228\5> \2\u0228\u0229\5p9\2\u0229\u0085\3\2\2\2\u022a\u022b"+
-		"\7\66\2\2\u022b\u0087\3\2\2\2:\u008b\u0098\u00a3\u00a5\u00aa\u00b2\u00b9"+
+		"\7\67\2\2\u022b\u0087\3\2\2\2:\u008b\u0098\u00a3\u00a5\u00aa\u00b2\u00b9"+
 		"\u00bc\u00ca\u00cc\u00d8\u00e0\u00ea\u00f2\u0100\u0108\u0110\u0119\u0120"+
 		"\u0129\u0134\u013f\u0142\u0149\u014c\u0150\u0156\u015c\u0162\u0167\u016b"+
 		"\u0173\u0179\u017c\u017f\u0191\u0195\u019e\u01a9\u01b1\u01b9\u01c0\u01c4"+

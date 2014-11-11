@@ -93,7 +93,7 @@ vec3 lightingModel (vec4 position, vec3 normal, LightInfo Light[10], int LightCo
 }
 
 #ifdef SHADOW_MAPPING
-float shadowModel (in vec4 shadowCoord,in sampler2DShadow depthMap)
+float shadowModel (in vec4 shadowCoord,in sampler2D depthMap)
 {
 	float visibility = 1.0;
 	float depth;
@@ -101,8 +101,8 @@ float shadowModel (in vec4 shadowCoord,in sampler2DShadow depthMap)
 	for (y = -0.5 ; y <= 0.5 ; y += 1.0)
 		for (x = -0.5 ; x <= 0.5 ; x += 1.0)
 		{
-			depth = textureProj(depthMap, shadowCoord + vec4(x * shadowCoord.w / 1024.0, y * shadowCoord.w / 1024.0, 0, 0));
-			if (depth < (shadowCoord.z / shadowCoord.w - 0.001))
+			depth = textureProj(depthMap, shadowCoord + vec4(x * shadowCoord.w / 1024.0, y * shadowCoord.w / 1024.0, 0, 0)).z;
+			if (depth < (shadowCoord.z - 0.001) / shadowCoord.w)
 				visibility -= 1.0 / 4;
 		}
 	return visibility;

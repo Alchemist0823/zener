@@ -19,7 +19,7 @@ public class MainWindow extends VBox {
     public MainWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-window.fxml"));
         loader.setRoot(this);
-        //loader.setController(this);
+        loader.setController(this);
 
         try {
             loader.load();

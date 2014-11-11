@@ -75,6 +75,18 @@ public class BezierFunction extends BezierObject2D {
             throw new IllegalArgumentException("x not in function range");
         return new BezierCurve2D(anchors.get(segment), anchors.get(segment + 1));
     }
+
+    public float getStartX() {
+        if (anchors.isEmpty())
+            throw new IllegalStateException();
+        return anchors.get(0).getPoint().x;
+    }
+
+    public float getEndX() {
+        if (anchors.isEmpty())
+            throw new IllegalStateException();
+        return anchors.get(anchors.size() - 1).getPoint().x;
+    }
     /*
     function loop(){
         var t = (now - animationStartTime) / ( animationDuration*1000 );
