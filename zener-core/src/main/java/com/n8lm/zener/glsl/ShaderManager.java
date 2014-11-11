@@ -94,6 +94,7 @@ public class ShaderManager {
             List<String> codes = new ArrayList<String>();
 
             StringBuilder sb = new StringBuilder();
+            sb.append("#version 330" + "\n");
             for (String macro : macros)
                 sb.append("#define " + macro + "\n");
             codes.add(sb.toString());

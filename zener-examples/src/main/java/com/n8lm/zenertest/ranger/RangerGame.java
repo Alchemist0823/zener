@@ -12,10 +12,7 @@ import com.n8lm.zener.general.DelayedSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.map.*;
-import com.n8lm.zener.math.MathUtil;
-import com.n8lm.zener.math.Quaternion;
-import com.n8lm.zener.math.Transform;
-import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.math.*;
 import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.script.ScriptComponent;
@@ -109,9 +106,15 @@ public class RangerGame extends ExampleBasicGame{
             for (int j = 0; j < vis[i].length; j ++) {
                 vis[i][j] = 1;
             }
+        /*Vector4f color[][] = new Vector4f[40][40];
+        for (int i = 0; i < vis.length; i ++)
+            for (int j = 0; j < vis[i].length; j ++) {
+                color[i][j] = new Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
+            }*/
 
         world.getSystem(TiledMapRenderingSystem.class).init(map);
         world.getSystem(TiledMapRenderingSystem.class).updateVisibleArea(vis);
+        //world.getSystem(TiledMapRenderingSystem.class).updateHighlightArea(color);
 
         // add the structure entity of the character
         /*

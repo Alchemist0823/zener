@@ -18,7 +18,7 @@ in vec3 normal;
 #endif
 
 #ifdef SHADOW_MAPPING
-uniform sampler2D depthMap;
+uniform sampler2DShadow depthMap;
 in vec4 shadowCoord;
 #endif
 

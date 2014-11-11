@@ -24,47 +24,48 @@ package com.n8lm.zener.glsl;
 public class GLSLHelper {
 
     public static VarType getVarTypeFromDef(String type, boolean isArray) {
-        if (type.equals("mat4")) {
-            if (isArray)
-                return VarType.Matrix4Array;
-            else
-                return VarType.Matrix4;
-        } else if (type.equals("mat3")) {
-            if (isArray)
-                return VarType.Matrix3Array;
-            else
-                return VarType.Matrix3;
-        } else if (type.equals("vec4")) {
-            if (isArray)
-                return VarType.Vector4Array;
-            else
-                return VarType.Vector4f;
-        } else if (type.equals("vec3")) {
-            if (isArray)
-                return VarType.Vector3Array;
-            else
-                return VarType.Vector3f;
-        } else if (type.equals("vec2")) {
-            if (isArray)
-                return VarType.Vector2Array;
-            else
-                return VarType.Vector2f;
-        } else if (type.equals("sampler2D")) {
+        switch (type) {
+            case "mat4":
+                if (isArray)
+                    return VarType.Matrix4Array;
+                else
+                    return VarType.Matrix4;
+            case "mat3":
+                if (isArray)
+                    return VarType.Matrix3Array;
+                else
+                    return VarType.Matrix3;
+            case "vec4":
+                if (isArray)
+                    return VarType.Vector4Array;
+                else
+                    return VarType.Vector4f;
+            case "vec3":
+                if (isArray)
+                    return VarType.Vector3Array;
+                else
+                    return VarType.Vector3f;
+            case "vec2":
+                if (isArray)
+                    return VarType.Vector2Array;
+                else
+                    return VarType.Vector2f;
+            case "sampler2D":
+            case "sampler2DShadow":
                 return VarType.Texture2D;
-        } else if (type.equals("float")) {
-            if (isArray)
-                return VarType.FloatArray;
-            else
-                return VarType.Float;
+            case "float":
+                if (isArray)
+                    return VarType.FloatArray;
+                else
+                    return VarType.Float;
+            case "int":
+                if (isArray)
+                    return VarType.IntArray;
+                else
+                    return VarType.Int;
+            default:
+                throw new IllegalArgumentException(type);
         }
-        else if (type.equals("int")) {
-            if (isArray)
-                return VarType.IntArray;
-            else
-                return VarType.Int;
-        }
-        else
-            throw new IllegalArgumentException(type);
     }
 
     public static void addGLSLVariables(VariableContainer container, String type, String varName, int arrayLength) {

@@ -15,7 +15,7 @@ out vec4 colorOut;
 
 #ifdef SHADOW_MAPPING
 in vec4 shadowCoord;
-uniform sampler2D depthMap;
+uniform sampler2DShadow depthMap;
 #endif
 
 uniform mat4 g_ViewMatrix;

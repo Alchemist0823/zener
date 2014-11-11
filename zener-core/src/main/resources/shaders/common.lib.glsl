@@ -1,5 +1,3 @@
-#version 330
-
 struct LightInfo {
 	vec4 Position; // Light position in eye coords.
 	vec3 La; // Ambient light intensity
@@ -91,11 +89,11 @@ vec3 lightingModel (vec4 position, vec3 normal, LightInfo Light[10], int LightCo
         } else
             totalLighting = totalLighting + diffuseReflection + specularReflection;
     }
-    return totalLighting;//totalLighting;
+    return totalLighting;
 }
 
 #ifdef SHADOW_MAPPING
-float shadowModel (in vec4 shadowCoord,in sampler2D depthMap)
+float shadowModel (in vec4 shadowCoord,in sampler2DShadow depthMap)
 {
 	float visibility = 1.0;
 	float depth;
@@ -103,7 +101,7 @@ float shadowModel (in vec4 shadowCoord,in sampler2D depthMap)
 	for (y = -0.5 ; y <= 0.5 ; y += 1.0)
 		for (x = -0.5 ; x <= 0.5 ; x += 1.0)
 		{
-			depth = textureProj(depthMap, shadowCoord + vec4(x * shadowCoord.w * 1 / 1024, y * shadowCoord.w * 1 / 1024, 0, 0));
+			depth = textureProj(depthMap, shadowCoord + vec4(x * shadowCoord.w / 1024.0, y * shadowCoord.w / 1024.0, 0, 0));
 			if (depth < (shadowCoord.z / shadowCoord.w - 0.001))
 				visibility -= 1.0 / 4;
 		}
