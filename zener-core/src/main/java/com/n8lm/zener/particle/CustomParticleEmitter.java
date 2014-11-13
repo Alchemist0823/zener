@@ -22,13 +22,15 @@ public class CustomParticleEmitter implements ParticleEmitter{
     private float rotationScatter = 0f;
     private float initialSize = 1.0f;
     private float sizeScatter = 0f;
-    private float initialEmitSpeed = 10;
+    private float initialEmitSpeed = 60;
     private float emitSpeedScatter = 0;
+    private int atlasCount = 1;
 
     private ColorRGBA initialColor = new ColorRGBA();
     private Vector3f initialVelocity = new Vector3f();
     private Vector3f velocityScatter = new Vector3f();
-    private float initialLife = 2f;
+    private float initialLife = 3f;
+    private float lifeReducer = 1f;
 
     public CustomParticleEmitter() {
     }
@@ -73,20 +75,20 @@ public class CustomParticleEmitter implements ParticleEmitter{
         this.initialLife = initialLife;
     }
 
-    public float getInitialEmitSpeed() {
-        return initialEmitSpeed;
+    public void setLifeReducer(float lifeReducer) {
+        this.lifeReducer = lifeReducer;
     }
 
     public void setInitialEmitSpeed(float initialEmitSpeed) {
         this.initialEmitSpeed = initialEmitSpeed;
     }
 
-    public float getEmitSpeedScatter() {
-        return emitSpeedScatter;
-    }
-
     public void setEmitSpeedScatter(float emitSpeedScatter) {
         this.emitSpeedScatter = emitSpeedScatter;
+    }
+
+    public void setAtlasCount(int atlasCount) {
+        this.atlasCount = atlasCount;
     }
 
     @Override
@@ -106,9 +108,11 @@ public class CustomParticleEmitter implements ParticleEmitter{
 
         p.color.set(initialColor);
 
-        p.life = initialLife;
+        p.life = initialLife - lifeReducer * MathUtil.nextRandomFloat();
 
         p.size = initialSize + sizeScatter * (MathUtil.nextRandomFloat() - 0.5f);
+
+        //p.texIndex = MathUtil.nextRandomInt(0, atlasCount - 1);
 
         tempVars.release();
     }
@@ -123,5 +127,15 @@ public class CustomParticleEmitter implements ParticleEmitter{
     @Override
     public int getEmitSpeed(float time) {
         return (int) (initialEmitSpeed + emitSpeedScatter * (MathUtil.nextRandomFloat() - 0.5f));
+    }
+
+    @Override
+    public int getAtlasCount() {
+        return atlasCount;
+    }
+
+    @Override
+    public float getFullLife() {
+        return initialLife;
     }
 }

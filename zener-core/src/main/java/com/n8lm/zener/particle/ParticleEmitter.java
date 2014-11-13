@@ -29,4 +29,17 @@ public interface ParticleEmitter {
      * @param time when the particle will be set
      */
     public void setNewParticle(Particle particle, float time);
+
+
+    /**
+     * @return the atlas texture count
+     */
+    public int getAtlasCount();
+
+    /**
+     * Get the longest life of the particle used for texture
+     * altas calculation
+     * @return the life time in second
+     */
+    public float getFullLife();
 }

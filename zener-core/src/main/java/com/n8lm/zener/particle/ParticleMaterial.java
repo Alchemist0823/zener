@@ -33,6 +33,10 @@ import com.n8lm.zener.graphics.material.UniformsMaterial;
  */
 public class ParticleMaterial extends UniformsMaterial {
 
+    /**
+     * @param material the diffuse atlas texture material
+     * @param atlasCount the texture count in the atlas
+     */
     public ParticleMaterial(Material material, int atlasCount) {
         addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         addUniform("AtlasRowCount", VarType.Int, ((int) Math.sqrt(atlasCount)));

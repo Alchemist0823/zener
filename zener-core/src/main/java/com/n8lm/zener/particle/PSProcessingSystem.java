@@ -48,8 +48,12 @@ public class PSProcessingSystem extends EntityProcessingSystem {
 	@Override
 	protected void process(Entity e) {
 
-		ParticleSystemComponent ps = pm.get(e);
-		ParticleEmitter emitter =  ps.getEmitter();
+        ParticleSystemComponent ps = pm.get(e);
+
+        if (ps.getDuration() != 0 && ps.getTime() > ps.getDuration())
+            return;
+
+        ParticleEmitter emitter =  ps.getEmitter();
         Bag<ParticleField> fields = ps.getFields();
 		
 		/*if (pc.isEnd(ps.getTime()))
@@ -62,13 +66,13 @@ public class PSProcessingSystem extends EntityProcessingSystem {
 		int maxSize = ps.getMaxCount();
 
         float time = ps.getTime();
-        int numSecond = Math.round(emitter.getEmitSpeed(ps.getTime()) * (time - (int)(time)));
+        int numSecond = Math.round(emitter.getEmitSpeed(time) * (time - (int)(time)));
 
-		int newparticles = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitSpeed(ps.getTime()) * delta);
+		int newCount = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitSpeed(ps.getTime()) * delta);
 
         int lastCount = count;
 
-	    for(int i = 0; i < newparticles; i ++){
+	    for(int i = 0; i < newCount; i ++){
 	    	if (count < maxSize) {
                 if (particles[count] == null)
                     particles[count++] = emitter.newParticle(time);
@@ -94,6 +98,7 @@ public class PSProcessingSystem extends EntityProcessingSystem {
             	for (int j = 0; j < fields.size(); j ++)
                     fields.get(j).apply(p, delta);
 
+                p.texIndex = (int) ((emitter.getFullLife() - p.life) / emitter.getFullLife() * emitter.getAtlasCount());
                 p.position.addLocal(p.velocity.mult(delta, tempVars.vect1));
 
             } else {
@@ -103,11 +108,11 @@ public class PSProcessingSystem extends EntityProcessingSystem {
             	
             	count --;
             }
-	        //System.out.println(p.position);
 	    }
 
         tempVars.release();
 
+        //System.out.println(count);
 	    ps.passTime(delta);
 	    ps.setCount(count);
 	}

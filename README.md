@@ -9,3 +9,4 @@ Read more [Wiki](https://github.com/no8-lightning-man/zener/wiki "Zener Wiki")
 
 [How to Install](https://github.com/no8-lightning-man/zener/wiki/Install "Zener Install")
 
+It is still **under development**, but you can try our snapshot engine and demos.
