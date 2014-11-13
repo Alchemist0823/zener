@@ -22,7 +22,11 @@ import com.n8lm.zener.math.ColorRGBA;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
 
-
+/**
+ * The basic Particle class for the particle system.
+ *
+ * @author Forrest Sun
+ */
 public class Particle implements Comparable<Particle> {
 	public final Vector3f position = new Vector3f();
 	public final Vector3f velocity = new Vector3f();

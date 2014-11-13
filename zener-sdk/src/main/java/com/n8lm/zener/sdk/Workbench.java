@@ -42,11 +42,12 @@ public class Workbench extends TabPane {
         bezier.addAnchor(new CurveAnchor2f(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
         bezier.addAnchor(new CurveAnchor2f(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
 
-        FunctionCanvas canvas = new FunctionCanvas(bezier, 100);
+        FunctionEditor editor = new FunctionEditor(bezier);
         //gc.scale(100f, 100f);
         //Pane pane = new Pane(canvas);
         //pane.setPrefSize(300, 300);
-        tab.setContent(canvas);
+        tab.setContent(editor);
+        //tab.setContextMenu();
         //tab.setContent(new Rectangle(500, 500, Color.LIGHTSTEELBLUE));
         this.getTabs().add(tab);
     }

@@ -35,6 +35,16 @@ import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
 import org.lwjgl.BufferUtils;
 
+/**
+ * <p>A <code>Geometry</code> of an entire Particle System.
+ * It utilizes the Instancing Technology to render the particles.
+ * It contains the mesh of a single particle and the VBOs of the
+ * information of all the particles.</p>
+ * <p>The information of all the particles includes the position, size,
+ * rotation, textureIndex and color.</p>
+ *
+ * @author Forrest Sun
+ */
 public class ParticleSystemGeometry extends InstancingGeometry {
 
 	private ParticleSystemComponent particleSystem;
@@ -49,12 +59,17 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 		this.particleSystem = particleSystem;
 	}
 
+    /**
+     * generates all the VBOs we need and add them to VAO
+     * @param particle the mesh of a single particle
+     */
 	private void generate(Mesh particle) {
         FloatBuffer vertices = null;
         FloatBuffer textureCoordinates = null;
         ByteBuffer textureIndex = null;
         FloatBuffer positions = null;
         FloatBuffer sizes = null;
+        FloatBuffer rots = null;
         FloatBuffer colors = null;
 
         vertexCount = particle.faces.size() * 3;
@@ -83,7 +98,7 @@ public class ParticleSystemGeometry extends InstancingGeometry {
     		this.vbs.put(Type.TexCoord, new VertexBuffer(Type.TexCoord, Usage.Static, DataType.Float, 2, vertexCount, textureCoordinates));
         }
         
-        int maxCount = particleSystem.getController().getMaxCount();
+        int maxCount = particleSystem.getMaxCount();
 
         textureIndex = BufferUtils.createByteBuffer(maxCount * 1);
         positions = BufferTools.reserveData(maxCount * 3);
@@ -104,7 +119,11 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         
         ///this.uniformGroup = new MaterialUniforms(particle.material);
 	}
-	
+
+    /**
+     * update the VBOs which contains the information of all the particles.
+     * @param subRenderSystem the rendering system
+     */
 	@Override
 	public void update(ViewRenderSystem subRenderSystem) {
         ByteBuffer textureIndexs = (ByteBuffer) this.vbs.get(Type.Custom).getData();

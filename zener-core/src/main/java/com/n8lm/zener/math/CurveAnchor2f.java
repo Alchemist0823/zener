@@ -61,4 +61,19 @@ public class CurveAnchor2f implements Serializable {
     public String toString() {
         return "(p =" + point + ", cp1 = " + control1 + ", cp2 =" + control2 + ")";
     }
+
+    public CurveAnchor2f addLocal(Vector2f p) {
+        this.point.addLocal(p);
+        this.control1.addLocal(p);
+        this.control2.addLocal(p);
+        return this;
+    }
+
+    public void balanceControl1() {
+        control1.set(point.x * 2 - control2.x, point.y * 2 - control2.y);
+    }
+
+    public void balanceControl2() {
+        control2.set(point.x * 2 - control1.x, point.y * 2 - control1.y);
+    }
 }

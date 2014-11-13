@@ -19,12 +19,61 @@ public class BezierFunction extends BezierObject2D {
     }
 
     public void verticalLineCheck(){
-        for (int i = 0; i < anchors.size() - 1; i ++) {
-            if (anchors.get(i).getControl2().x > anchors.get(i + 1).getPoint().x)
-                anchors.get(i).getControl2().x = anchors.get(i + 1).getPoint().x;
-            if (anchors.get(i + 1).getControl1().x < anchors.get(i).getPoint().x)
-                anchors.get(i + 1).getControl1().x = anchors.get(i).getPoint().x;
+
+        for (int i = 0; i < anchors.size(); i ++) {
+            CurveAnchor2f anchor = anchors.get(i);
+            if (anchor.getControl1().x > anchor.getPoint().x)
+                anchor.getControl1().x = anchor.getPoint().x;
+            if (anchor.getControl2().x < anchor.getPoint().x)
+                anchor.getControl2().x = anchor.getPoint().x;
         }
+
+        for (int i = 0; i < anchors.size() - 1; i ++) {
+            if (anchors.get(i).getControl2().x > anchors.get(i + 1).getPoint().x) {
+                anchors.get(i).getControl2().x = anchors.get(i + 1).getPoint().x;
+                anchors.get(i).balanceControl1();
+            }
+            if (anchors.get(i + 1).getControl1().x < anchors.get(i).getPoint().x) {
+                anchors.get(i + 1).getControl1().x = anchors.get(i).getPoint().x;
+                anchors.get(i + 1).balanceControl2();
+            }
+        }
+    }
+
+    public void setAnchorPoint(int i, Vector2f p) {
+        if (0 <= i && i < anchors.size()) {
+            p.subtractLocal(anchors.get(i).getPoint());
+            anchors.get(i).addLocal(p);
+
+            if (0 <= i - 1 && anchors.get(i).getPoint().x < anchors.get(i - 1).getPoint().x + 0.01f) {
+                p.set(anchors.get(i - 1).getPoint().x + 0.01f, anchors.get(i).getPoint().y);
+                p.subtractLocal(anchors.get(i).getPoint());
+                anchors.get(i).addLocal(p);
+                //anchors.get(i).getPoint().x = anchors.get(i - 1).getPoint().x + 0.01f;
+            }
+            if (i + 1 < anchors.size() && anchors.get(i).getPoint().x > anchors.get(i + 1).getPoint().x - 0.01f) {
+                p.set(anchors.get(i + 1).getPoint().x - 0.01f, anchors.get(i).getPoint().y);
+                p.subtractLocal(anchors.get(i).getPoint());
+                anchors.get(i).addLocal(p);
+            }
+            verticalLineCheck();
+        }
+    }
+
+    public void setAnchorControl1(int i, Vector2f cp) {
+        if (0 <= i && i < anchors.size()) {
+            anchors.get(i).getControl1().set(cp);
+            anchors.get(i).balanceControl2();
+        }
+        verticalLineCheck();
+    }
+
+    public void setAnchorControl2(int i, Vector2f cp) {
+        if (0 <= i && i < anchors.size()) {
+            anchors.get(i).getControl2().set(cp);
+            anchors.get(i).balanceControl1();
+        }
+        verticalLineCheck();
     }
 
     @Override
@@ -87,20 +136,9 @@ public class BezierFunction extends BezierObject2D {
             throw new IllegalStateException();
         return anchors.get(anchors.size() - 1).getPoint().x;
     }
-    /*
-    function loop(){
-        var t = (now - animationStartTime) / ( animationDuration*1000 );
-
-        var curve = new UnitBezier(Bx, By, Cx, Cy);
-        var t1 = curve.solve(t, UnitBezier.prototype.epsilon);
-        var s1 = 1.0-t1;
-
-        // Lerp using solved T
-        var finalPosition.x = (startPosition.x * s1) + (endPosition.x * t1);
-        var finalPosition.y = (startPosition.y * s1) + (endPosition.y * t1);
-    }
 
 
+/*
 while (Math.Abs(x - x0) > 0.0001)
 {
     if (itr++ > maxIteration)
@@ -122,9 +160,5 @@ while (Math.Abs(x - x0) > 0.0001)
         return x;
     else
         x += 1;
-}
-// Find new T as a function of Y along curve X
-    UnitBezier.prototype.solve = function (x, epsilon) {
-        return this.sampleCurveY( this.solveCurveX(x, epsilon) );
-    }*/
+}*/
 }

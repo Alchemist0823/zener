@@ -6,9 +6,13 @@ import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.TempVars;
 
 /**
+ * CustomParticleEmitter is a particle emitter which has a lots of
+ * parameters. it should be defined the User or an class that other
+ * Emitters inherited.
+ *
  * Created on 2014/11/8.
  *
- * @author Alchemist
+ * @author Forrest Sun
  */
 public class CustomParticleEmitter implements ParticleEmitter{
 
@@ -18,11 +22,13 @@ public class CustomParticleEmitter implements ParticleEmitter{
     private float rotationScatter = 0f;
     private float initialSize = 1.0f;
     private float sizeScatter = 0f;
+    private float initialEmitSpeed = 10;
+    private float emitSpeedScatter = 0;
 
     private ColorRGBA initialColor = new ColorRGBA();
     private Vector3f initialVelocity = new Vector3f();
     private Vector3f velocityScatter = new Vector3f();
-    private float initialLife = 60f;
+    private float initialLife = 2f;
 
     public CustomParticleEmitter() {
     }
@@ -67,6 +73,23 @@ public class CustomParticleEmitter implements ParticleEmitter{
         this.initialLife = initialLife;
     }
 
+    public float getInitialEmitSpeed() {
+        return initialEmitSpeed;
+    }
+
+    public void setInitialEmitSpeed(float initialEmitSpeed) {
+        this.initialEmitSpeed = initialEmitSpeed;
+    }
+
+    public float getEmitSpeedScatter() {
+        return emitSpeedScatter;
+    }
+
+    public void setEmitSpeedScatter(float emitSpeedScatter) {
+        this.emitSpeedScatter = emitSpeedScatter;
+    }
+
+    @Override
     public void setNewParticle(Particle p, float time) {
         TempVars tempVars = TempVars.get();
         p.rotation = initialRotation + rotationScatter * (MathUtil.nextRandomFloat() - 0.5f);
@@ -90,9 +113,15 @@ public class CustomParticleEmitter implements ParticleEmitter{
         tempVars.release();
     }
 
+    @Override
     public Particle newParticle(float time) {
         Particle p = new Particle();
         setNewParticle(p, time);
         return p;
+    }
+
+    @Override
+    public int getEmitSpeed(float time) {
+        return (int) (initialEmitSpeed + emitSpeedScatter * (MathUtil.nextRandomFloat() - 0.5f));
     }
 }

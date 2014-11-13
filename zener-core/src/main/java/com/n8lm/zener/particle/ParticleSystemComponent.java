@@ -19,7 +19,15 @@
 package com.n8lm.zener.particle;
 
 import com.artemis.Component;
+import com.artemis.utils.ArrayBag;
+import com.artemis.utils.Bag;
 
+/**
+ * A ParticleSystemComponent is a Component
+ * which contains the setting of a Particle System
+ *
+ * @author Forrest Sun
+ */
 public class ParticleSystemComponent extends Component {
 
     /**
@@ -28,9 +36,9 @@ public class ParticleSystemComponent extends Component {
 	private int count;
 
     /**
-     * the total time from the initialization of particles
+     * the total time from start
      */
-    private double time;
+    private float time;
 
     /**
      * the count of the particles which is produced in this second
@@ -40,23 +48,37 @@ public class ParticleSystemComponent extends Component {
     /**
      * the duration of this system
      */
-    private double duration;
+    private float duration;
 
     /**
      * the maximum number of the particles
      */
     private int maxCount;
 
-    private Particle[] particles;
-	private ParticleController controller;
+    /**
+     * the array of particles
+     */
+    private final Particle[] particles;
+    private final ParticleEmitter emitter;
+    private final Bag<ParticleField> fields;
+
+    public ParticleSystemComponent(ParticleEmitter emitter) {
+        this(emitter, 500);
+    }
+
+    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount) {
+        this(emitter, maxCount, 0);
+    }
 	
-	public ParticleSystemComponent(ParticleController controller) {
-		particles = new Particle[controller.getMaxCount()];
-		count = 0;
-		time = 0;
-        countPerSecond = 0;
-		this.controller = controller;
-		controller.init();
+	public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration) {
+        this.emitter = emitter;
+        this.duration = duration;
+        this.maxCount = maxCount;
+        this.fields = new ArrayBag<>();
+        this.particles = new Particle[maxCount];
+		this.count = 0;
+		this.time = 0;
+        this.countPerSecond = 0;
 	}
 
     public int getCountPerSecond() {
@@ -79,21 +101,37 @@ public class ParticleSystemComponent extends Component {
 		this.count = count;
 	}
 
-	public ParticleController getController() {
-		return controller;
-	}
-
-	public void setController(ParticleController controller) {
-		this.controller = controller;
-	}
-
-	public double getTime() {
+	public float getTime() {
 		return time;
 	}
 
-	public void passTime(double time) {
+	public void passTime(float time) {
         if ((int)(this.time) < (int)(this.time + time))
             countPerSecond = 0;
 		this.time += time;
 	}
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
+    public int getMaxCount() {
+        return maxCount;
+    }
+
+    public void setMaxCount(int maxCount) {
+        this.maxCount = maxCount;
+    }
+
+    public ParticleEmitter getEmitter() {
+        return emitter;
+    }
+
+    public Bag<ParticleField> getFields() {
+        return fields;
+    }
 }

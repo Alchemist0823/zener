@@ -24,7 +24,12 @@ import com.n8lm.zener.graphics.Texture;
 import com.n8lm.zener.graphics.material.UniformsMaterial;
 
 /**
- * Created by Alchemist on 2014/6/28.
+ * The Material for Particle System Geometry. Except the diffuse map,
+ * It also includes a Uniform called AtlasRowCount which defines the
+ * number of subImages per row of an atlas.
+ *
+ * Created on 2014/6/28.
+ * @author Forrest Sun
  */
 public class ParticleMaterial extends UniformsMaterial {
 
