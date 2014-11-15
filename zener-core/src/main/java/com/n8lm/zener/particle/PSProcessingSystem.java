@@ -50,15 +50,8 @@ public class PSProcessingSystem extends EntityProcessingSystem {
 
         ParticleSystemComponent ps = pm.get(e);
 
-        if (ps.getDuration() != 0 && ps.getTime() > ps.getDuration())
-            return;
-
         ParticleEmitter emitter =  ps.getEmitter();
         Bag<ParticleField> fields = ps.getFields();
-		
-		/*if (pc.isEnd(ps.getTime()))
-			return;
-		*/
 
 		Particle[] particles = ps.getParticles();
 	    float delta = world.getDelta() / 1000f;
@@ -66,23 +59,25 @@ public class PSProcessingSystem extends EntityProcessingSystem {
 		int maxSize = ps.getMaxCount();
 
         float time = ps.getTime();
-        int numSecond = Math.round(emitter.getEmitSpeed(time) * (time - (int)(time)));
 
-		int newCount = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitSpeed(ps.getTime()) * delta);
+        // emit new particles
+        if (ps.getDuration() == 0 || ps.getTime() < ps.getDuration()) {
+            int numSecond = Math.round(emitter.getEmitSpeed(time) * (time - (int) (time)));
+            int newCount = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitSpeed(ps.getTime()) * delta);
+            int lastCount = count;
 
-        int lastCount = count;
+            for (int i = 0; i < newCount; i++) {
+                if (count < maxSize) {
+                    if (particles[count] == null)
+                        particles[count++] = emitter.newParticle(time);
+                    else
+                        emitter.setNewParticle(particles[count++], time);
+                } else
+                    break;
+            }
 
-	    for(int i = 0; i < newCount; i ++){
-	    	if (count < maxSize) {
-                if (particles[count] == null)
-                    particles[count++] = emitter.newParticle(time);
-                else
-                    emitter.setNewParticle(particles[count++], time);
-            } else
-	    		break;
-	    }
-
-        ps.setCountPerSecond(ps.getCountPerSecond() + count - lastCount);
+            ps.setCountPerSecond(ps.getCountPerSecond() + count - lastCount);
+        }
 
         TempVars tempVars = TempVars.get();
 		// Simulate all particles

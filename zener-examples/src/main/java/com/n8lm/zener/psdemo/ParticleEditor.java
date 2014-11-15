@@ -6,6 +6,7 @@ import com.n8lm.zener.app.AppGameContainer;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.graphics.*;
+import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.particle.*;
@@ -32,18 +33,18 @@ public class ParticleEditor extends ExampleBasicGame{
 
         world.initialize();
 
-
-
         // create a particle system
         CustomParticleEmitter emitter = new CustomParticleEmitter();
-        emitter.setInitialVelocity(new Vector3f(0.0f, 0.0f, 1.0f));
-        emitter.setVelocityScatter(new Vector3f(0.5f, 0.5f, 0.0f));
-        emitter.setPositionScatter(new Vector3f(1.0f, 1.0f, 0.0f));
+        emitter.setInitialVelocity(new Vector3f(0.0f, 0.0f, 2.0f));
+        emitter.setVelocityScatter(new Vector3f(1f, 1f, 0.5f));
+        emitter.setInitialPosition(new Vector3f(0.0f, 0.0f, -1.0f));
+        emitter.setPositionScatter(new Vector3f(0.5f, 0.5f, 0.0f));
         emitter.setInitialEmitSpeed(120f);
-        emitter.setLifeReducer(1.0f);
+        emitter.setEmitSpeedScatter(60f);
+        emitter.setInitialLife(3.0f);
+        emitter.setLifeReducer(0.2f);
         emitter.setAtlasCount(64);
-
-        ParticleSystemComponent psc = new ParticleSystemComponent(emitter, 1000);
+        ParticleSystemComponent psc = new ParticleSystemComponent(emitter, 3000);
         Entity ps = world.createEntity();
         ps.addComponent(new GeometryComponent(new ParticleSystemGeometry("fire", psc, resourceManager.getModel("fire").getMesh()), false));
         ps.addComponent(new MaterialComponent(new ParticleMaterial(resourceManager.getModel("fire").getMaterial(), 64), false, true));

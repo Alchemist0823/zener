@@ -81,6 +81,11 @@ public class ParticleSystemComponent extends Component {
         this.countPerSecond = 0;
 	}
 
+    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration, ParticleField field) {
+        this(emitter, maxCount, duration);
+        this.fields.add(field);
+    }
+
     public int getCountPerSecond() {
         return countPerSecond;
     }

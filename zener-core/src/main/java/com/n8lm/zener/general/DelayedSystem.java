@@ -22,7 +22,6 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
-import com.artemis.systems.DelayedEntityProcessingSystem;
 import com.n8lm.zener.script.DelayedEvent;
 import com.n8lm.zener.script.ScriptHelper;
 
@@ -35,19 +34,17 @@ public class DelayedSystem extends DelayedEntityProcessingSystem {
 	}
 
 	@Override
-	protected float getRemainingDelay(Entity e) {
-        if (em.has(e))
-		    return em.get(e).getRemain() * 1000;
-        else
-            return 100.f;
+	protected long getRemainingDelay(Entity e) {
+        return (long) (em.get(e).getRemain() * 1000);
 	}
 
+    /*
 	@Override
 	protected void processDelta(Entity e, float accumulatedDelta) {
         if (em.has(e))
     		em.get(e).substract(accumulatedDelta / 1000f);
         //TODO : Unexpected Exception
-    }
+    }*/
 
 	@Override
 	protected void processExpired(Entity e) {
