@@ -37,13 +37,12 @@ import com.n8lm.zener.math.Matrix4f;
 import com.n8lm.zener.math.Rectangle2D;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.math.Vector4f;
+import com.n8lm.zener.utils.TempVars;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Stack;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
@@ -80,11 +79,24 @@ public class ViewRenderSystem extends EntitySystem {
 
     protected GlobalUniforms globalUniforms;
 
-    protected Bag<Entity> transEntities;
-    protected Bag<Entity> opaqueEntities;
+    protected ArrayBag<DistEntity> transEntities;
+    protected ArrayBag<Entity> opaqueEntities;
     protected Bag<Entity> lightEntities;
 
-    private Stack<Entity> tmpTransQueue;
+
+    static class DistEntity implements Comparable<DistEntity> {
+        public double distance;
+        public Entity entity;
+
+        public DistEntity(Entity e) {
+            entity = e;
+        }
+
+        @Override
+        public int compareTo(DistEntity o) {
+            return Double.compare(o.distance, distance);
+        }
+    }
 
     protected RenderMode renderMode;
     private GLRenderSystem vrs;
@@ -120,11 +132,10 @@ public class ViewRenderSystem extends EntitySystem {
         globalUniforms.setModelMatrix(modelMat);
         globalUniforms.setProjectionMatrix(projectionMat);
 
-        opaqueEntities = new ArrayBag<Entity>();
-        transEntities = new ArrayBag<Entity>();
-        lightEntities = new ArrayBag<Entity>();
+        opaqueEntities = new ArrayBag<>();
+        transEntities = new ArrayBag<>();
+        lightEntities = new ArrayBag<>();
 
-        tmpTransQueue = new Stack<Entity>();
     }
 
 
@@ -165,32 +176,47 @@ public class ViewRenderSystem extends EntitySystem {
         if (renderMode == RenderMode.NormalRender) {
             for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
                 Entity e = opaqueEntities.get(i);
-
-                Vector4f multiplyColor = Vector4f.UNIT_XYZW;
-                Vector4f addColor = Vector4f.ZERO;
-                if (em.has(e)) {
-                    multiplyColor = em.get(e).getMultiplyColor();
-                    addColor = em.get(e).getAddColor();
+                if (mm.get(e).isTransparent()) {
+                    transEntities.add(new DistEntity(e));
+                    opaqueEntities.remove(i);
+                    i --;
+                    s --;
                 }
+            }
 
-                if (dm.get(e).isVisible() && (multiplyColor.w >= 0.0f || addColor.w >= 0.0f)) {
-                    if (multiplyColor.w != 1.0f)
-                        tmpTransQueue.push(e);
-                    else
-                        render(e);
+            TempVars tempVars = TempVars.get();
+            projectionMat.mult(viewMat, tempVars.tempMat4);
+
+            for (int i = 0, s = transEntities.size(); s > i; i++) {
+                Entity entity = transEntities.get(i).entity;
+                if (!mm.get(entity).isTransparent()) {
+                    opaqueEntities.add(entity);
+                    transEntities.remove(i);
+                    i --;
+                    s --;
+                } else {
+                    transEntities.get(i).distance = tempVars.tempMat4.mult(pm.get(entity)
+                            .getWorldTransform().getTranslation(), tempVars.vect1).z;
                 }
+            }
+
+            tempVars.release();
+
+            //rendering
+            for (int i = 0, s = opaqueEntities.size(); s > i; i++) {
+                if (dm.get(opaqueEntities.get(i)).isVisible())
+                    render(opaqueEntities.get(i));
             }
 
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glDepthMask(false);
 
+            transEntities.sort();
             for (int i = 0, s = transEntities.size(); s > i; i++) {
-                render(transEntities.get(i));
+                if (dm.get(transEntities.get(i).entity).isVisible())
+                    render(transEntities.get(i).entity);
             }
-
-            while (!tmpTransQueue.empty())
-                render(tmpTransQueue.pop());
 
             glDepthMask(true);
             glDisable(GL_BLEND);
@@ -213,7 +239,7 @@ public class ViewRenderSystem extends EntitySystem {
         super.inserted(e);
         if (mm.has(e)) {
             if (mm.get(e).isTransparent()) {
-                transEntities.add(e);
+                transEntities.add(new DistEntity(e));
             } else {
                 opaqueEntities.add(e);
             }
@@ -227,7 +253,11 @@ public class ViewRenderSystem extends EntitySystem {
     protected void removed(Entity e) {
         if (mm.has(e)) {
             if (mm.get(e).isTransparent()) {
-                transEntities.remove(e);
+                for (int i = 0, s = transEntities.size(); s > i; i++)
+                    if (transEntities.get(i).entity == e) {
+                        transEntities.remove(i);
+                        break;
+                    }
             } else {
                 opaqueEntities.remove(e);
             }

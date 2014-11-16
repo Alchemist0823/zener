@@ -1,5 +1,7 @@
 package com.artemis.utils;
 
+import java.util.Arrays;
+
 /**
  * Created on 2014/11/7.
  *
@@ -243,5 +245,12 @@ public class ArrayBag<E> implements Bag<E>{
         for(int i = 0; items.size() > i; i++) {
             add(items.get(i));
         }
+    }
+
+    /**
+     * Sort all items in this bag
+     */
+    public void sort() {
+        Arrays.sort(data, 0, size);
     }
 }

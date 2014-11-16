@@ -147,7 +147,7 @@ unary_operator
 
 multiplicative_expression
   : unary_expression ((STAR | SLASH) unary_expression)*
-//| multiplicative_expression PERCENT unary_expression   // reserved
+  | multiplicative_expression PERCENT unary_expression   // reserved
   ;
 
 additive_expression
@@ -208,7 +208,7 @@ assignment_operator
   : EQUAL
   | MUL_ASSIGN
   | DIV_ASSIGN
-//| MOD_ASSIGN   // reserved
+  | MOD_ASSIGN   // reserved
   | ADD_ASSIGN
   | SUB_ASSIGN
 //| LEFT_ASSIGN  // reserved
