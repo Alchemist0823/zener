@@ -104,18 +104,21 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         positions = BufferTools.reserveData(maxCount * 3);
         sizes = BufferTools.reserveData(maxCount * 1);
         colors = BufferTools.reserveData(maxCount * 4);
+        rots = BufferTools.reserveData(maxCount * 1);
 
         this.vbs.put(Type.Custom, new VertexBuffer(Type.Custom, Usage.Stream, DataType.Byte, 1, maxCount,textureIndex, false));
         this.vbs.put(Type.ParticlePos, new VertexBuffer(Type.ParticlePos, Usage.Stream, DataType.Float, 3, maxCount, positions, false));
         this.vbs.put(Type.ParticleSize, new VertexBuffer(Type.ParticleSize, Usage.Stream, DataType.Float, 1, maxCount, sizes, false));
         this.vbs.put(Type.ParticleColor, new VertexBuffer(Type.ParticleColor, Usage.Stream, DataType.Float, 4, maxCount, colors, false));
-        
+        this.vbs.put(Type.ParticleRot, new VertexBuffer(Type.ParticleRot, Usage.Stream, DataType.Float, 1, maxCount, rots, false));
+
 		this.divisors.put(Type.Position, 0);
 		this.divisors.put(Type.TexCoord, 0);
         this.divisors.put(Type.Custom, 1);
 		this.divisors.put(Type.ParticlePos, 1);
 		this.divisors.put(Type.ParticleSize, 1);
 		this.divisors.put(Type.ParticleColor, 1);
+        this.divisors.put(Type.ParticleRot, 1);
         
         ///this.uniformGroup = new MaterialUniforms(particle.material);
 	}
@@ -130,12 +133,14 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         FloatBuffer positions = (FloatBuffer) this.vbs.get(Type.ParticlePos).getData();
 		FloatBuffer sizes = (FloatBuffer) this.vbs.get(Type.ParticleSize).getData();
 		FloatBuffer colors = (FloatBuffer) this.vbs.get(Type.ParticleColor).getData();
+        FloatBuffer rots = (FloatBuffer) this.vbs.get(Type.ParticleRot).getData();
 		//System.out.println(positions.limit());
 
         textureIndexs.clear();
 		positions.clear();
 		sizes.clear();
 		colors.clear();
+        rots.clear();
 		
 		Matrix4f modelViewProjectionMatrix = subRenderSystem.getModelViewProjectionMatrix();
 		
@@ -156,17 +161,20 @@ public class ParticleSystemGeometry extends InstancingGeometry {
             positions.put(BufferTools.asFloats(particles[i].position));
 			sizes.put(particles[i].size);
 			colors.put(BufferTools.asFloats(particles[i].color));
+            rots.put(particles[i].rotation);
 		}
 
         textureIndexs.flip();
 		positions.flip();
 		sizes.flip();
 		colors.flip();
+        rots.flip();
 
         this.vbs.get(Type.Custom).updateSubData(0);
 		this.vbs.get(Type.ParticlePos).updateSubData(0);
 		this.vbs.get(Type.ParticleSize).updateSubData(0);
 		this.vbs.get(Type.ParticleColor).updateSubData(0);
+        this.vbs.get(Type.ParticleRot).updateSubData(0);
 		
 		instancesCount = count;
 		//this.instancesCount;

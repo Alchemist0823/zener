@@ -6,6 +6,7 @@ import com.n8lm.zener.app.AppGameContainer;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.graphics.*;
+import com.n8lm.zener.math.MathUtil;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
@@ -43,6 +44,8 @@ public class ParticleEditor extends ExampleBasicGame{
         emitter.setEmitSpeedScatter(60f);
         emitter.setInitialLife(3.0f);
         emitter.setLifeReducer(0.2f);
+        emitter.setInitialRotation(0f);
+        emitter.setRotationScatter(MathUtil.PI * 2);
         emitter.setAtlasCount(64);
         ParticleSystemComponent psc = new ParticleSystemComponent(emitter, 3000);
         Entity ps = world.createEntity();
