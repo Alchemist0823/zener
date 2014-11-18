@@ -76,11 +76,11 @@ public class CharacterSystem extends EntityProcessingSystem{
                     aac.stop();
                 }
             }
-        } else if (action == Action.Run) {
+        } else if (action == Action.Run || action == Action.RunWithArrow) {
             if (cc.getActionTime() == 0) {
 
             }
-
+            cc.getMovement().addLocal(cc.getAccDir().mult(cc.getActionPower()).mult((cc.getActionPower() - cc.getMovement().length()) * 2f));
         } else if (action == Action.Shoot) {
             if (cc.getActionTime() == 0) {
                 if (ac != null) {
@@ -109,11 +109,16 @@ public class CharacterSystem extends EntityProcessingSystem{
             }
         }
 
-        Vector3f f = cc.getMovement().normalize().multLocal(0.003f);
-        if (cc.getMovement().lengthSquared() > f.lengthSquared())
-            cc.getMovement().subtractLocal(f);
-        else
-            cc.getMovement().set(Vector3f.ZERO);
+        // friction
+        //if (cc.getAction() != Action.Run) {
+            Vector3f f = cc.getMovement().normalize().multLocal(0.003f);
+            if (cc.getMovement().lengthSquared() > f.lengthSquared())
+                cc.getMovement().subtractLocal(f);
+            else
+                cc.getMovement().set(Vector3f.ZERO);
+        //}
+
+        // transform
         Vector3f charTrans = tm.get(e).getLocalTransform().getTranslation();
         charTrans.addLocal(cc.getMovement());
         tempdir = cc.getMovement().normalize();

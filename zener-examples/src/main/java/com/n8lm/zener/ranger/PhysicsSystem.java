@@ -35,7 +35,7 @@ public class PhysicsSystem extends EntityProcessingSystem{
     @Override
     protected void process(Entity e) {
         float second = world.getDelta() / 1000f;
-        vm.get(e).getVelocity().addLocal(new Vector3f(0, 0, -1f).mult(second));
+        vm.get(e).getVelocity().addLocal(new Vector3f(0, 0, -5f).mult(second));
         //System.out.println(tm.get(e).getLocalTransform().getTranslation());
 
         collisionSystem.setRay(new Ray(tm.get(e).getWorldTransform().getTranslation(),

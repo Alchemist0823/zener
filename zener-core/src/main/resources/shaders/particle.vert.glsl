@@ -10,8 +10,7 @@ layout(location = 7) in float inTexIndex;
 layout(location = 8) in vec3 inParticlePosition;
 layout(location = 9) in float inParticleSize;
 layout(location = 10) in vec4 inParticleColor;
-layout(location = 15) in vec4 inParticleRot;
-
+layout(location = 15) in float inParticleRot;
 
 out vec2 texCoord;
 out vec4 particleColor;

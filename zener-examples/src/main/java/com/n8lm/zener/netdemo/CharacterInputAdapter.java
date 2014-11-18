@@ -19,7 +19,7 @@ public class CharacterInputAdapter extends InputAdapter{
     }
 
     @Override
-    public void keyReleased(int key, char c) {
+    public void keyPressed(int key, char c) {
         switch (c) {
             case 'w':
             case 's':

@@ -31,6 +31,7 @@ public class CharacterComponent extends Component {
 
     private final float[] headAngles;
     private final Vector3f movement;
+    private final Vector3f accDir;
     private float health;
 
 
@@ -41,6 +42,7 @@ public class CharacterComponent extends Component {
         this.abilityData = abilityData;
         this.headAngles = new float[3];
         this.movement = new Vector3f();
+        this.accDir = new Vector3f();
 
         this.action = Action.Idle;
         this.actionTime = 0;
@@ -55,6 +57,11 @@ public class CharacterComponent extends Component {
                         weaponEntity.toString(),
                         abilityData.toString(),
                         health, maxhp);
+    }
+
+
+    public Vector3f getAccDir() {
+        return accDir;
     }
 
     public int getLevel() {

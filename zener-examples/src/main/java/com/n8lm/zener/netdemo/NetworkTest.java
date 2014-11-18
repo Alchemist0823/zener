@@ -47,7 +47,7 @@ public class NetworkTest extends ExampleBasicGame {
         world.setSystem(new TreeAttachSystem());
         world.setSystem(new GLRenderSystem(world));
         world.setSystem(new CharacterSystem());
-        world.setSystem(new ClientNetworkSystem(new MyNetworkConfiguration(), new ClientNetworkAdapter(world, this)));
+        world.setSystem(new ClientNetworkSystem(true, new MyNetworkConfiguration(), new ClientNetworkAdapter(world, this)));
 
         world.initialize();
 

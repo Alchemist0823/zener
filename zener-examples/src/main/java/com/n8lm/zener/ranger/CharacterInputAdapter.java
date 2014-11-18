@@ -14,6 +14,7 @@ import com.n8lm.zener.input.InputAdapter;
 import com.n8lm.zener.math.MathUtil;
 import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.ranger.CharacterComponent.Action;
 import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.NativeScript;
 import org.lwjgl.input.Mouse;
@@ -158,8 +159,6 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
         Helper.angleToQuaternion(seeAngles, temprot);
         cam.getComponent(TransformComponent.class).getLocalTransform().getRotation().set(temprot);
 
-        Model model = ResourceManager.getInstance().getModel("human");
-
         float camHeight = 2.0f;
         float camLength = 3.0f;
         float camFov = 90f;
@@ -180,7 +179,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         if (button1Frame > 0) {
             if (button1Frame == 1) {
-                cc.setAction(CharacterComponent.Action.Bow);
+                cc.setAction(Action.Bow);
                 cc.setActionTime(0);
             }
             //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
@@ -189,7 +188,7 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             button1Frame ++;
         }
 
-        if (move && cc.getAction() != CharacterComponent.Action.Bow) {
+        if (move && cc.getAction() != Action.Bow) {
             Vector3f moveDir = new Vector3f();
 
             float angle = 0;
@@ -233,17 +232,26 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
             float speed;
             if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow") == null) {
-                speed = 0.005f;
+                speed = 0.1f;
             } else {
-                speed = 0.002f;
+                speed = 0.3f;
             }
 
             float runConstant = 1.0f;
             if (leftShift) {
-                runConstant *= 2;
+                runConstant *= 1.5f;
             }
 
-            cc.getMovement().addLocal(moveDir.mult(speed * runConstant).mult((0.10f * runConstant - cc.getMovement().length()) * 20f));
+            if (cc.getAction() == Action.Bow)
+                cc.setAction(Action.RunWithArrow);
+            else
+                cc.setAction(Action.Run);
+
+            cc.getAccDir().set(moveDir);
+            cc.setActionPower(speed * runConstant);
+        } else {
+            if (cc.getAction() == Action.Run)
+                cc.setAction(Action.Idle);
         }
         /*
         Vector3f f = cc.getMovement().normalize().multLocal(0.003f);

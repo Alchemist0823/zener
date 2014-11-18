@@ -249,7 +249,7 @@ public class GLProgram extends GLObject {
                     break;
             }
             if (GLHelper.checkGLError())
-                LOGGER.severe(var.getName() + " " + location);
+                LOGGER.severe("Uniform " + var.getName() + "(" + location + ") Invalid value");
         } else
             LOGGER.info("no variable: " + var.getName());
     }

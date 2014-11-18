@@ -46,7 +46,7 @@ public class GLSLTest {
 		UniformsDetector visitor = new UniformsDetector(svisitor, glShader);
 		visitor.visit(tree);
 
-		Assert.assertEquals("the numbers of uniforms not equal", glShader.getUniforms().size(), 7);
+		Assert.assertEquals("the numbers of uniforms not equal", glShader.getUniforms().size(), 8);
 		/*for (VariableDef var : glShader.getUniforms()) {
 			System.out.println("var.getName() = " + var.getName());
 			System.out.println("var.getType() = " + var.getType());
