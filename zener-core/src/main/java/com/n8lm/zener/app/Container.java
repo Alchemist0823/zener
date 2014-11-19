@@ -1,7 +1,9 @@
 package com.n8lm.zener.app;
 
+import com.n8lm.zener.data.ResourceManager;
 import org.lwjgl.Sys;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -29,21 +31,20 @@ public abstract class Container {
      *
      * @return The build number of zener
      */
-    public static int getBuildVersion() {
-        try {/*
+    public static String getBuildVersion() {
+        try {
 			Properties props = new Properties();
 			props.load(ResourceManager.getInstance().getResourceAsStream(
 					"version"));
-            *
-            */
-            int build = 0;
+
+            String build = props.getProperty("build");
             //int build = Integer.parseInt(props.getProperty("build"));
             LOGGER.info("Zener Build #" + build);
 
             return build;
         } catch (Exception e) {
             LOGGER.severe("Unable to determine Zener build number");
-            return -1;
+            return "";
         }
     }
 

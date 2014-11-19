@@ -56,6 +56,7 @@ public class CharacterSystem extends EntityProcessingSystem{
 
     private NativeScript deleteScript = new ExpiredDeleteScript();
 
+
     @Override
     protected void process(Entity e) {
         CharacterComponent cc = cm.get(e);
@@ -63,17 +64,34 @@ public class CharacterSystem extends EntityProcessingSystem{
         Action action = cc.getAction();
         AnimationController<?> aac = ac.getAnimationControllerByName("Attack_bow");
 
+        /*
+          ---------------|
+          |   move       v
+        Idle <-> Run -> Bow -> Shoot -> Idle
+                         ^ move  ^
+                         v       |
+                         RunWithArrow
+        */
+
         if (action == Action.Bow) {
             if (cc.getActionTime() == 0) {
 
-                List<AnimationController<?>> acList = am.get(e).getAnimationControllers();
+                List<AnimationController<?>> acList = ac.getAnimationControllers();
                 for (AnimationController<?> aci : acList) {
                     aci.delete();
                 }
                 am.get(e).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f));
-            } else if (cc.getActionTime() == 40) {
-                if (ac != null) {
+            } else if (cc.getActionTime() >= 40) {
+                if (aac != null) {
                     aac.stop();
+                } else {
+                    List<AnimationController<?>> acList = ac.getAnimationControllers();
+                    for (AnimationController<?> aci : acList) {
+                        aci.delete();
+                    }
+                    aac = new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f, 40f);
+                    aac.stop();
+                    am.get(e).add(aac);
                 }
             }
         } else if (action == Action.Run || action == Action.RunWithArrow) {
@@ -83,8 +101,14 @@ public class CharacterSystem extends EntityProcessingSystem{
             cc.getMovement().addLocal(cc.getAccDir().mult(cc.getActionPower()).mult((cc.getActionPower() - cc.getMovement().length()) * 2f));
         } else if (action == Action.Shoot) {
             if (cc.getActionTime() == 0) {
-                if (ac != null) {
+                if (aac != null) {
                     aac.play();
+                } else {
+                    List<AnimationController<?>> acList = ac.getAnimationControllers();
+                    for (AnimationController<?> aci : acList) {
+                        aci.delete();
+                    }
+                    am.get(e).add(new SkeletonAnimationController(model.getAnimation("Attack_bow"), false, 1.0f, 40f));
                 }
 
                 System.out.println("shoot1");
@@ -128,15 +152,31 @@ public class CharacterSystem extends EntityProcessingSystem{
 
 
         if (cc.getMovement().length() > 0.001) {
-            if (ac.getAnimationControllerByName("Run") == null)
-                ac.add(new SkeletonAnimationController(model.getAnimation("Run"), true, cc.getMovement().length() * 10f));
-            else
-                ac.getAnimationControllerByName("Run").setSpeed(cc.getMovement().length() * 10f);
+            if (cc.getAction() == Action.Run || cc.getAction() == Action.Idle) {
+                if (ac.getAnimationControllerByName("Run") == null) {
+                    List<AnimationController<?>> acList = ac.getAnimationControllers();
+                    for (AnimationController<?> aci : acList) {
+                        aci.delete();
+                    }
+                    ac.add(new SkeletonAnimationController(model.getAnimation("Run"), true, cc.getMovement().length() * 10f));
+                } else
+                    ac.getAnimationControllerByName("Run").setSpeed(cc.getMovement().length() * 10f);
+            } else if (cc.getAction() == Action.RunWithArrow) {
+                if (ac.getAnimationControllerByName("RunWithArrow") == null) {
+                    List<AnimationController<?>> acList = ac.getAnimationControllers();
+                    for (AnimationController<?> aci : acList) {
+                        aci.delete();
+                    }
+                    ac.add(new SkeletonAnimationController(model.getAnimation("RunWithArrow"), true, cc.getMovement().length() * 10f));
+                } else
+                    ac.getAnimationControllerByName("RunWithArrow").setSpeed(cc.getMovement().length() * 10f);
+            }
         } else {
-            if (ac.getAnimationControllerByName("Run") != null) {
-
-                ac.removeAnimationControllerByName("Run");
-                sm.get(e).setCurrentPosesMatrices(model.getAnimation("Idle").getFrame(0).getPoseMatrices());
+            if (cc.getAction() == Action.Idle) {
+                if (ac.getAnimationControllerByName("Run") != null) {
+                    ac.removeAnimationControllerByName("Run");
+                    sm.get(e).setCurrentPosesMatrices(model.getAnimation("Idle").getFrame(0).getPoseMatrices());
+                }
             }
         }
 

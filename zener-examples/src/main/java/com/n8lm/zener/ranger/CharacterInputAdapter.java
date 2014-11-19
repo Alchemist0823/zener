@@ -97,12 +97,15 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
     @Override
     public void mousePressed(int button, int x, int y) {
+        CharacterComponent cc = character.getComponent(CharacterComponent.class);
+
         if (button == 0) {
             button1Frame = 1;
-        }
-        if (button == 1) {
-            button2Frame = 1;
-            seeAngles[0] = character.getComponent(CharacterComponent.class).getHeadAngles()[0];
+            if (cc.getAction() == Action.Idle || cc.getAction() == Action.Run)
+                cc.setAction(Action.Bow);
+            cc.setActionTime(0);
+        } else if (button == 1) {
+            button2Frame = 1;seeAngles[0] = character.getComponent(CharacterComponent.class).getHeadAngles()[0];
             seeAngles[1] = character.getComponent(CharacterComponent.class).getHeadAngles()[1];
             seeAngles[2] = character.getComponent(CharacterComponent.class).getHeadAngles()[2];
 
@@ -149,10 +152,6 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             seeAngles[0] = 2.8f;
 
         Helper.angleToVector(seeAngles, seeDir);
-        //seeRot.fromAngles(seeAngles);
-        //Vector3f[] v = new Vector3f[3];
-        //seeRot.toAxis(v);
-        //seeDir = v[2];
 
         cam.getComponent(TransformComponent.class).getLocalTransform().getTranslation().set(seeDir.negate());
 
@@ -179,8 +178,6 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
 
         if (button1Frame > 0) {
             if (button1Frame == 1) {
-                cc.setAction(Action.Bow);
-                cc.setActionTime(0);
             }
             //character.getComponent(SkeletonComponent.class).setCurrentPosesMatrices(model.getAnimation("Attack_bow").getFrame(40).getPoseMatrices());
             seeDir.z = 0;
@@ -188,70 +185,75 @@ public class CharacterInputAdapter extends InputAdapter implements NativeScript{
             button1Frame ++;
         }
 
-        if (move && cc.getAction() != Action.Bow) {
-            Vector3f moveDir = new Vector3f();
-
-            float angle = 0;
-            if (keyw) {
-                angle = DIRS[0];
-            }
-            if (keyd) {
-                angle = DIRS[2];
-            }
-            if (keys) {
-                angle = DIRS[4];
-            }
-            if (keya) {
-                angle = DIRS[6];
-            }
-            if (keyw && keyd) {
-                angle = DIRS[1];
-            }
-            if (keyd && keys) {
-                angle = DIRS[3];
-            }
-            if (keys && keya) {
-                angle = DIRS[5];
-            }
-            if (keya && keyw) {
-                angle = DIRS[7];
-            }
-
-            moveAngles[2] = seeAngles[2] + angle;
-            moveAngles[0] = MathUtil.PI / 2;//seeAngles[0];
-            moveAngles[1] = seeAngles[1];
-            Helper.angleToVector(moveAngles, moveDir);
-            moveDir.z = 0;
-            moveDir.normalizeLocal();
-
-            if (button2Frame == 0) {
-                cc.getHeadAngles()[0] = moveAngles[0];
-                cc.getHeadAngles()[1] = moveAngles[1];
-                cc.getHeadAngles()[2] = moveAngles[2];
-            }
-
-            float speed;
-            if (character.getComponent(AnimationComponent.class).getAnimationControllerByName("Attack_bow") == null) {
-                speed = 0.1f;
-            } else {
-                speed = 0.3f;
-            }
-
-            float runConstant = 1.0f;
-            if (leftShift) {
-                runConstant *= 1.5f;
-            }
-
-            if (cc.getAction() == Action.Bow)
+        if (move) {
+            if (cc.getAction() == Action.Bow && cc.getActionTime() >= 40) {
                 cc.setAction(Action.RunWithArrow);
-            else
+            }
+            else if (cc.getAction() == Action.Idle)
                 cc.setAction(Action.Run);
 
-            cc.getAccDir().set(moveDir);
-            cc.setActionPower(speed * runConstant);
+            if (cc.getAction() == Action.Run || cc.getAction() == Action.RunWithArrow) {
+                Vector3f moveDir = new Vector3f();
+
+                float angle = 0;
+                if (keyw) {
+                    angle = DIRS[0];
+                }
+                if (keyd) {
+                    angle = DIRS[2];
+                }
+                if (keys) {
+                    angle = DIRS[4];
+                }
+                if (keya) {
+                    angle = DIRS[6];
+                }
+                if (keyw && keyd) {
+                    angle = DIRS[1];
+                }
+                if (keyd && keys) {
+                    angle = DIRS[3];
+                }
+                if (keys && keya) {
+                    angle = DIRS[5];
+                }
+                if (keya && keyw) {
+                    angle = DIRS[7];
+                }
+
+                moveAngles[2] = seeAngles[2] + angle;
+                moveAngles[0] = MathUtil.PI / 2;//seeAngles[0];
+                moveAngles[1] = seeAngles[1];
+                Helper.angleToVector(moveAngles, moveDir);
+                moveDir.z = 0;
+                moveDir.normalizeLocal();
+
+                if (button2Frame == 0) {
+                    cc.getHeadAngles()[0] = moveAngles[0];
+                    cc.getHeadAngles()[1] = moveAngles[1];
+                    cc.getHeadAngles()[2] = moveAngles[2];
+                }
+
+                float speed;
+                if (cc.getAction() == Action.RunWithArrow)
+                    speed = 0.05f;
+                else
+                    speed = 0.1f;
+
+                float runConstant = 1.0f;
+                if (leftShift) {
+                    runConstant *= 1.5f;
+                }
+
+
+                cc.getAccDir().set(moveDir);
+                cc.setActionPower(speed * runConstant);
+            }
         } else {
             if (cc.getAction() == Action.Run)
                 cc.setAction(Action.Idle);
+            else if (cc.getAction() == Action.RunWithArrow)
+                cc.setAction(Action.Bow);
         }
         /*
         Vector3f f = cc.getMovement().normalize().multLocal(0.003f);

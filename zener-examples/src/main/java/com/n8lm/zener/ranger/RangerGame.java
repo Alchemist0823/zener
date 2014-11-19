@@ -53,7 +53,7 @@ public class RangerGame extends ExampleBasicGame{
         //character.addComponent(new VelocityComponent(new Vector3f()));
         character.addComponent(new TransformComponent());
         character.addComponent(new MapPositionComponent());
-        character.addComponent(new CollidableComponent(new AABBBoundingBox(new Vector3f(0f, 0f, 0.9f), 0.5f, 0.2f, 0.9f)));
+        character.addComponent(new CollidableComponent(new AABBBoundingBox(new Vector3f(0f, 0f, 0.9f), 0.4f, 0.2f, 0.9f)));
 
         world.addEntity(character);
 
