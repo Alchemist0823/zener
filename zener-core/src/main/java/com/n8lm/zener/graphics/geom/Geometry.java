@@ -48,7 +48,8 @@ public abstract class Geometry extends GLObject {
         TriangleStrip(GL_TRIANGLE_STRIP),
         Lines(GL_LINE),
         LineStrip(GL_LINE_STRIP),
-        Points(GL_POINTS);
+        Points(GL_POINTS),
+        Quads(GL_QUADS);
 
         int glcode;
 

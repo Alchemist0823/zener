@@ -18,10 +18,14 @@
 
 package com.n8lm.zener.map;
 
+import com.n8lm.zener.math.Vector4f;
+
 import java.io.*;
 
 /**
- * handle the information of tiled map, can not operate components of entity.
+ * TiledMap is a class which store the data of a tiled map.
+ *
+ * @author Forrest Sun
  */
 public class TiledMap implements Cloneable{
 
@@ -48,10 +52,7 @@ public class TiledMap implements Cloneable{
 	
 	/** the altitude of the tile*/
 	protected final int altitude[][];
-	
-	/** the structure on the tile*/
-	//protected final int structure[][];
-	
+
 	/** the properties of the map */
 	//protected Properties props;
 	
@@ -67,7 +68,6 @@ public class TiledMap implements Cloneable{
         this.terrian = new int[width][height];
         this.texture = new int[width][height];
         this.altitude = new int[width][height];
-        //this.structure = new int[width][height];
 
 		tileWidth = tileHeight = 2;
 		tileAltitude = 1f;
@@ -86,7 +86,7 @@ public class TiledMap implements Cloneable{
             TiledMap tilemap =  (TiledMap) super.clone();
             //tilemap.props = (Properties) props.clone();
             return tilemap;
-        } catch (CloneNotSupportedException e) {        
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
@@ -131,15 +131,6 @@ public class TiledMap implements Cloneable{
                 map.altitude[i][j] = Integer.parseInt(strs[j]);
             }
         }
-
-        /*
-        reader.readLine();
-        for (int i = 0; i < width; i++) {
-            strs = reader.readLine().split(" ");
-            for (int j = 0; j < height; j++) {
-                map.setStructure(new Location(i, j), Integer.parseInt(strs[j]));
-            }
-        }*/
     }
 
     /**
@@ -339,6 +330,10 @@ public class TiledMap implements Cloneable{
     public Tile getTile(Location l) {
         return tileSet.getTile(terrian[l.x][l.y]);
     }
+
+    public Tile getTile(int x, int y) {
+        return tileSet.getTile(terrian[x][y]);
+    }
 	
 	public TileSet getTileSet() {
 		return tileSet;
@@ -357,4 +352,5 @@ public class TiledMap implements Cloneable{
         float dy = (ty + 1 - y / tileHeight);
         return (altitude[tx][ty] * dx * dy + altitude[tx + 1][ty] * (1 - dx) * dy + altitude[tx][ty + 1] * dx * (1 - dy) + altitude[tx + 1][ty + 1] * (1 - dx) * (1 - dy)) * tileAltitude;
     }
+
 }

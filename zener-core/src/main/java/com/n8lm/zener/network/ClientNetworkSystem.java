@@ -1,8 +1,5 @@
 package com.n8lm.zener.network;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.systems.VoidEntitySystem;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Listener;
@@ -10,15 +7,22 @@ import com.esotericsoftware.kryonet.Listener;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * ClientNetworkSystem is a VoidEntitySystem that utilizes Kyronet to send request
+ * to the server and receive data from the server. The Kyronet client is running
+ * on a different thread. When it receives data, the class have two ways to process
+ * this data. The first way is processing the data on many different threads in
+ * order as soon as the client receives data. The second way is processing the
+ * data from servers when this system is being processed. User should enable the
+ * sync flag to use the second processing method.
+ *
  * Created on 2014/9/18.
  *
- * @author Alchemist
+ * @author Forrest Sun
  */
 public class ClientNetworkSystem extends VoidEntitySystem {
 

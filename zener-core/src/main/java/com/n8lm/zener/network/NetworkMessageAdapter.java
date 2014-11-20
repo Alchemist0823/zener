@@ -5,9 +5,15 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
 /**
+ * NetworkMessageAdapter is an interface for the user to implement.
+ * It is used to process the data received from clients or servers.
+ * It will be passed as an parameter to construct a
+ * <code>ServerNetworkSystem</code> or a <code>ClientNetworkSystem</code>.
+ *
+ *
  * Created on 2014/9/17.
  *
- * @author Alchemist
+ * @author Forrest Sun
  */
 public interface NetworkMessageAdapter {
     void init(Server server);

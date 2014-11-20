@@ -379,4 +379,15 @@ public class MathUtil {
 		
 		return new Ray(click3d, dir);
 	}
+
+    public static Vector3f hexColorToVector3f(int color) {
+        int x = (color >> 16) & 0xFF;
+        int y = (color >> 8) & 0xFF;
+        int z = color & 0xFF;
+        return new Vector3f(x / 256.0f, y / 256.0f, z / 256.0f);
+    }
+
+    public static String vector3fColorToHex(Vector3f color) {
+        return String.format("%02x%02x%02x", (int) (color.x * 256), (int) (color.y * 256), (int) (color.z * 256));
+    }
 }
