@@ -92,7 +92,7 @@ public class TreeAttachSystem extends EntitySystem {
     protected void inserted(Entity e) {
         super.inserted(e);
         if (tm.get(e).getParent() != null) {
-
+            tm.get(tm.get(e).getParent()).addChild(e);
         } else
             if (!roots.contains(e))
                 roots.add(e);
