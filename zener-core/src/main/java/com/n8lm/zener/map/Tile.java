@@ -1,5 +1,7 @@
 package com.n8lm.zener.map;
 
+import com.n8lm.zener.utils.StringUtil;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -21,7 +23,7 @@ public class Tile {
     public static class Builder implements TileBuilder<Tile>{
         @Override
         public Tile build(String line) {
-            String str[] = line.split(" ");
+            String str[] = StringUtil.split(line, ' ');
             return new Tile(Integer.parseInt(str[0]), str[1]);
         }
     }

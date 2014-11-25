@@ -19,6 +19,7 @@
 package com.n8lm.zener.map;
 
 import com.n8lm.zener.math.Vector4f;
+import com.n8lm.zener.utils.StringUtil;
 
 import java.io.*;
 
@@ -95,7 +96,7 @@ public class TiledMap implements Cloneable{
     public static TiledMap readFromText(BufferedReader reader) throws IOException {
 
         String name = reader.readLine();
-        String[] strs = reader.readLine().split(" ");
+        String[] strs = StringUtil.split(reader.readLine(), ' ');
         TiledMap map = new TiledMap(name, Integer.parseInt(strs[0]), Integer.parseInt(strs[1]));
 
         readContentFromText(reader, map);
@@ -106,11 +107,11 @@ public class TiledMap implements Cloneable{
     protected static void readContentFromText(BufferedReader reader, TiledMap map) throws IOException {
         int width = map.width;
         int height = map.height;
-        String[] strs;
+        String[] strs = new String[height + 10];
 
         reader.readLine();
         for (int i = 0; i < width; i++) {
-            strs = reader.readLine().split(" ");
+            StringUtil.splitOnWhitespace(reader.readLine(), strs);
             for (int j = 0; j < height; j++) {
                 map.terrian[i][j] = Integer.parseInt(strs[j]);
             }
@@ -118,7 +119,7 @@ public class TiledMap implements Cloneable{
 
         reader.readLine();
         for (int i = 0; i < width; i++) {
-            strs = reader.readLine().split(" ");
+            StringUtil.splitOnWhitespace(reader.readLine(), strs);
             for (int j = 0; j < height; j++) {
                 map.texture[i][j] = Integer.parseInt(strs[j]);
             }
@@ -126,7 +127,7 @@ public class TiledMap implements Cloneable{
 
         reader.readLine();
         for (int i = 0; i < width; i++) {
-            strs = reader.readLine().split(" ");
+            StringUtil.splitOnWhitespace(reader.readLine(), strs);
             for (int j = 0; j < height; j++) {
                 map.altitude[i][j] = Integer.parseInt(strs[j]);
             }

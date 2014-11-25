@@ -44,6 +44,7 @@ import com.n8lm.zener.graphics.HardResourceManager;
 import com.n8lm.zener.graphics.GLProgram;
 import com.n8lm.zener.glsl.ShaderManager;
 import com.n8lm.zener.graphics.Texture;
+import com.n8lm.zener.utils.StringUtil;
 
 
 /**
@@ -258,27 +259,33 @@ public class ResourceManager {
         String line;
 
         try {
+            String[] strs = new String[10];
+            int n;
             while ((line = reader.readLine()) != null) {
-                String[] strs = line.split(" ");
+                n = StringUtil.splitOnWhitespace(line, strs);
+                if (n == 0)
+                    continue;
                 if (strs[0].compareTo("addClassLoaderPath") == 0) {
                     addResourceLocation(new ClasspathLocation(strs[1]));
                 } else if (strs[0].compareTo("addFileSystemPath") == 0) {
                     addResourceLocation(new FileSystemLocation(new File(strs[1])));
                 } else if (strs[0].compareTo("audio") == 0) {
                     boolean isStream = false;
-                    if (strs.length > 4 && strs[3].equals("-stream"))
+                    if (n > 4 && strs[3].equals("-stream"))
                         isStream = true;
                     loadAudio(strs[1], isStream, strs[2]);
                 }
                 if (strs[0].compareTo("model") == 0) {
                     loadTexturedModel(strs[1], strs[2]);
-                    if (strs.length > 4 && strs[3].equals("-sk"))
+                    if (n > 4 && strs[3].equals("-sk"))
                         getModel(strs[1]).combineBoneToSkeleton(getModel(strs[4]).getSkeleton());
                 } else if (strs[0].compareTo("shader") == 0) {
-                    String[] filenames = new String[strs.length - 2];
+                    System.out.println(n);
+                    String[] filenames = new String[n - 2];
                     for (int i = 0; i < filenames.length; i++) {
                         filenames[i] = strs[i + 2];
                     }
+                    System.out.println(strs[1]);
                     loadShaderSource(strs[1], filenames);
                 } else if (strs[0].compareTo("texture") == 0) {
                     loadImage(strs[1], strs[2]);

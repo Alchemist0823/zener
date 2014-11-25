@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.utils.StringUtil;
 
 public class MTLLoader {
 	
@@ -42,48 +43,49 @@ public class MTLLoader {
     	
         BufferedReader materialFileReader = new BufferedReader(
         		new InputStreamReader(input));
-        String materialLine;
-        
-        while ((materialLine = materialFileReader.readLine()) != null) {
-            if (materialLine.startsWith("#")) {
+        String line;
+        String strs[] = new String[20];
+
+        while ((line = materialFileReader.readLine()) != null) {
+            if (line.startsWith("#")) {
                 continue;
             }
-            if (materialLine.startsWith("newmtl ")) {
+            StringUtil.splitOnWhitespace(line, strs);
+
+
+            if (line.startsWith("newmtl ")) {
                 //parseMaterialName = materialLine.split(" ")[1];
                 //parseMaterial = new Material();
-            } else if (materialLine.startsWith("Ns ")) {
-                parseMaterial.specularCoefficient = Float.valueOf(materialLine.split(" +")[1]);
-            } else if (materialLine.startsWith("Ka ")) {
-                String[] rgb = materialLine.split(" +");
-                parseMaterial.ambientColor.x = Float.valueOf(rgb[1]);
-                parseMaterial.ambientColor.y = Float.valueOf(rgb[2]);
-                parseMaterial.ambientColor.z = Float.valueOf(rgb[3]);
-            } else if (materialLine.startsWith("Ks ")) {
-                String[] rgb = materialLine.split(" +");
-                parseMaterial.specularColor.x = Float.valueOf(rgb[1]);
-                parseMaterial.specularColor.y = Float.valueOf(rgb[2]);
-                parseMaterial.specularColor.z = Float.valueOf(rgb[3]);
-            } else if (materialLine.startsWith("Kd ")) {
-                String[] rgb = materialLine.split(" +");
-                parseMaterial.diffuseColor.x = Float.valueOf(rgb[1]);
-                parseMaterial.diffuseColor.y = Float.valueOf(rgb[2]);
-                parseMaterial.diffuseColor.z = Float.valueOf(rgb[3]);
-            } else if (materialLine.startsWith("map_Kd")) {
+            } else if (line.startsWith("Ns ")) {
+                parseMaterial.specularCoefficient = Float.valueOf(strs[1]);
+            } else if (line.startsWith("Ka ")) {
+                parseMaterial.ambientColor.x = Float.valueOf(strs[1]);
+                parseMaterial.ambientColor.y = Float.valueOf(strs[2]);
+                parseMaterial.ambientColor.z = Float.valueOf(strs[3]);
+            } else if (line.startsWith("Ks ")) {
+                parseMaterial.specularColor.x = Float.valueOf(strs[1]);
+                parseMaterial.specularColor.y = Float.valueOf(strs[2]);
+                parseMaterial.specularColor.z = Float.valueOf(strs[3]);
+            } else if (line.startsWith("Kd ")) {
+                parseMaterial.diffuseColor.x = Float.valueOf(strs[1]);
+                parseMaterial.diffuseColor.y = Float.valueOf(strs[2]);
+                parseMaterial.diffuseColor.z = Float.valueOf(strs[3]);
+            } else if (line.startsWith("map_Kd")) {
 
-            	String textureName = materialLine.split(" +")[1];
+            	String textureName = strs[1];
     			ResourceManager.getInstance().loadImage(textureName, textureName);
                 parseMaterial.diffuseTexture = ResourceManager.getInstance().getTexture(textureName);
                 		//TextureLoader.getTexture("PNG",
                         /*new FileInputStream(new File(f.getParentFile().getAbsolutePath() + "/" + materialLine
                                 .split(" ")[1])));*/
                 		//ResourceLoader.getResourceAsStream(parseMaterial.diffuseTextureName));
-            } else if (materialLine.startsWith("map_bump")) {
+            } else if (line.startsWith("map_bump")) {
             	
-            	ResourceManager.getInstance().loadImage(materialLine.split(" +")[1], materialLine.split(" +")[1]);
-                parseMaterial.normalTexture = ResourceManager.getInstance().getTexture(materialLine.split(" +")[1]);
+            	ResourceManager.getInstance().loadImage(strs[1], strs[1]);
+                parseMaterial.normalTexture = ResourceManager.getInstance().getTexture(strs[1]);
             
             } else {
-            	LOGGER.warning("[MTL] Unknown Line: " + materialLine);
+            	LOGGER.warning("[MTL] Unknown Line: " + line);
             }
         }
         materialFileReader.close();

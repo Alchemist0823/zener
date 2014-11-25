@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import com.n8lm.zener.graphics.GLProgram;
 import com.n8lm.zener.graphics.GLShader;
+import com.n8lm.zener.utils.StringUtil;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -74,7 +75,7 @@ public class ShaderManager {
 
         String[] libnames = ss.getIndependence();
 
-        String[] groups = name.split("\\.");
+        String[] groups = StringUtil.split(name, '.');
         String type = groups[groups.length - 1];
 
         try {

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import com.n8lm.zener.math.Transform;
@@ -34,6 +35,7 @@ import com.n8lm.zener.animation.PosesKeyFrame;
 import com.n8lm.zener.animation.Skeleton;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.utils.Byte4;
+import com.n8lm.zener.utils.StringUtil;
 
 public class IQELoader {
 
@@ -53,25 +55,27 @@ public class IQELoader {
 		Animation<PosesKeyFrame> anim = null;
 		PosesKeyFrame frame = null;
 
-		String[] strs;
+		String[] strs = new String[20];
 		String line;
 		while ((line = reader.readLine()) != null) {
 			if (line.startsWith("#")) {
 				continue;
 			}
 
-			strs = line.trim().split(" +");
+            int n = StringUtil.splitOnWhitespace(line, strs);
+            if (n == 0)
+                continue;
 			if (strs[0].equals("joint")) {
 
 				Joint j = new Joint();
-
 				j.name = getStringValue(strs[1]);
 				j.parent = Integer.parseInt(strs[2]);
 
 				if ((line = reader.readLine()) != null) {
-					strs = line.trim().split(" +");
+
+					n = StringUtil.splitOnWhitespace(line, strs);
 					if (strs[0].equals("pq")) {
-						readTransform(j.pose, strs);
+						readTransform(j.pose, strs, n);
 					}
 				}
 
@@ -84,10 +88,8 @@ public class IQELoader {
 				mesh.normals.add(readVec3f(strs));
 			} else if (strs[0].equals("vb")) {
 
-				if (strs.length < 9) {
-					String[] s = { "vb", "0", "0", "0", "0", "0", "0", "0", "0" };
-					System.arraycopy(strs, 0, s, 0, strs.length);
-					strs = s;
+				while (n < 9) {
+                    strs[n ++] = "0";
 				}
 
 				Byte4 index = new Byte4(Byte.parseByte(strs[1]),
@@ -99,9 +101,6 @@ public class IQELoader {
 						(int) (Float.parseFloat(strs[6]) * 255),
 						(int) (Float.parseFloat(strs[8]) * 255));
 
-				// System.out.println(index);
-				// System.out.println(weight);
-
 				mesh.boneIndices.add(index);
 				mesh.weights.add(weight);
 			} else if (strs[0].equals("fm")) {
@@ -110,7 +109,8 @@ public class IQELoader {
 
 				LOGGER.info(line);
 				if ((line = reader.readLine()) != null) {
-					strs = line.trim().split(" +");
+
+                    StringUtil.splitOnWhitespace(line, strs);
 					if (strs[0].equals("material")) {
 
 						strs[1] = getStringValue(strs[1]);
@@ -121,7 +121,7 @@ public class IQELoader {
 											.getMaterial());
 						} else {
 							Material mat = mdl.getMaterial();
-							//mat.diffuseTextureName = strs[1];
+
 							ResourceManager.getInstance().loadImage(
 									strs[1],
 									strs[1]);
@@ -142,7 +142,7 @@ public class IQELoader {
 					mdl.add(anim);
 					frame = null;
 				}
-				anim = new Animation<PosesKeyFrame>(getStringValue(strs[1]));
+				anim = new Animation<>(getStringValue(strs[1]));
 			} else if (strs[0].equals("frame")) {
 				if (frame != null) {
 					anim.addFrame(frame);
@@ -151,7 +151,7 @@ public class IQELoader {
 			} else if (strs[0].equals("pq")) {
 
 				Transform p = new Transform();
-				readTransform(p, strs);
+				readTransform(p, strs, n);
 
 				frame.add(p);
 			}
@@ -208,7 +208,7 @@ public class IQELoader {
 				Float.parseFloat(strs[2]), Float.parseFloat(strs[3]));
 	}
 
-	private static void readTransform(Transform p, String[] strs) {
+	private static void readTransform(Transform p, String[] strs, int n) {
 		p.getTranslation().x = Float.parseFloat(strs[1]);
 		p.getTranslation().y = Float.parseFloat(strs[2]);
 		p.getTranslation().z = Float.parseFloat(strs[3]);
@@ -219,7 +219,7 @@ public class IQELoader {
 
 		// p.rotation.normalise(p.rotation);
 
-		if (strs.length > 8) {
+		if (n > 8) {
 			p.getScale().x = Float.parseFloat(strs[8]);
 			p.getScale().y = Float.parseFloat(strs[9]);
 			p.getScale().z = Float.parseFloat(strs[10]);

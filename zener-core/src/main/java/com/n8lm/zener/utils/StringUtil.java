@@ -22,6 +22,18 @@ import craterstudio.data.ByteList;
 import craterstudio.data.tuples.Pair;
 
 public class StringUtil {
+
+    private StringUtil() {
+        throw new AssertionError();
+    }
+
+    public static final boolean[] delimiters = new boolean[256];
+
+    /*static {
+        delimiters[' '] = true;
+        delimiters['\t'] = true;
+    }*/
+
 	public static boolean isNullOrEmpty(String value) {
 		return (value == null) || value.isEmpty();
 	}
@@ -418,6 +430,7 @@ public class StringUtil {
 		return StringUtil.split(normalizeLinebreaks(value), '\n');
 	}
 
+
 	public static final String[] split(String value, char d) {
 		String[] buf = new String[count(value, d) + 1];
 
@@ -475,6 +488,21 @@ public class StringUtil {
 
 		return count;
 	}
+
+    public static final int splitWithoutEmpty(String value, char d, String[] buf) {
+        int count = 0, n = value.length(), lastSplit = 0;
+        for (int i = 0; i < n; i++) {
+            if (value.charAt(i) == d) {
+                if (lastSplit < i)
+                    buf[count++] = value.substring(lastSplit, i);
+                lastSplit = i + 1;
+            }
+        }
+        if (lastSplit < n)
+            buf[count++] = value.substring(lastSplit, n);
+
+        return count;
+    }
 
 	/**
 	 * PAIR
@@ -1158,7 +1186,7 @@ public class StringUtil {
 		return StringUtil.replace(s, find, "");
 	}
 
-	public static final String convertWhiteSpaceTo(String s, char c) {
+	public static final String convertWhitespaceTo(String s, char c) {
 		char[] cs = s.toCharArray();
 		for (int i = 0; i < cs.length; i++)
 			if (cs[i] <= ' ')
@@ -1168,31 +1196,53 @@ public class StringUtil {
 
 	//
 
-	public static final int indexOfWhiteSpace(String s) {
+	public static final int indexOfWhitespace(String s) {
 		for (int i = 0; i < s.length(); i++)
 			if (s.charAt(i) <= ' ')
 				return i;
 		return -1;
 	}
 
-	public static final int lastIndexOfWhiteSpace(String s) {
+	public static final int lastIndexOfWhitespace(String s) {
 		for (int i = s.length() - 1; i >= 0; i--)
 			if (s.charAt(i) <= ' ')
 				return i;
 		return -1;
 	}
 
-	public static final String[] splitOnWhiteSpace(String s) {
-		s = StringUtil.convertWhiteSpaceTo(s, ' ');
+	/*public static final String[] splitOnWhitespace(String s) {
+		s = StringUtil.convertWhitespaceTo(s, ' ');
 		s = StringUtil.removeDuplicates(s, ' ');
 		return StringUtil.split(s, ' ');
-	}
+	}*/
 
-	public static final String[] splitPairOnWhiteSpace(String s) {
-		s = StringUtil.convertWhiteSpaceTo(s, ' ');
+    /**
+     * split strings to a array of string on whitespace
+     * @param str the string
+     * @param words output words array
+     * @return
+     */
+    public static int splitOnWhitespace(String str, String[] words) {
+        int pos = 0, n = str.length(), count = 0;
+
+        for (int i = 0; i < n; i ++) {
+            if (str.charAt(i) <= ' ') {
+                if (i > pos)
+                    words[count++] = str.substring(pos, i);
+                pos = i + 1;
+            }
+        }
+        if (pos < n)
+            words[count ++] = str.substring(pos);
+        return count;
+    }
+
+    /*
+	public static final String[] splitPairOnWhitespace(String s) {
+		s = StringUtil.convertWhitespaceTo(s, ' ');
 		s = StringUtil.removeDuplicates(s, ' ');
 		return StringUtil.splitPair(s, ' ');
-	}
+	}*/
 
 	public static final String trimBefore(String s) {
 		for (int i = 0; i < s.length(); i++)
@@ -1202,10 +1252,10 @@ public class StringUtil {
 	}
 
 	public static final String removeDuplicates(String s, char c) {
-		if (s.indexOf(c) == -1)
+		/*if (s.indexOf(c) == -1)
 			return s; // early escape
 		if (s.indexOf(c) == s.lastIndexOf(c))
-			return s; // early escape
+			return s; // early escape*/
 
 		char[] array = s.toCharArray();
 
