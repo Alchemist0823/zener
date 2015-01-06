@@ -280,12 +280,10 @@ public class ResourceManager {
                     if (n > 4 && strs[3].equals("-sk"))
                         getModel(strs[1]).combineBoneToSkeleton(getModel(strs[4]).getSkeleton());
                 } else if (strs[0].compareTo("shader") == 0) {
-                    System.out.println(n);
                     String[] filenames = new String[n - 2];
                     for (int i = 0; i < filenames.length; i++) {
                         filenames[i] = strs[i + 2];
                     }
-                    System.out.println(strs[1]);
                     loadShaderSource(strs[1], filenames);
                 } else if (strs[0].compareTo("texture") == 0) {
                     loadImage(strs[1], strs[2]);
