@@ -47,7 +47,7 @@ public class MoviePlayer {
 
 	private void init() {
 		//audioRenderer = new OpenALAudioRenderer();
-		//audioRenderer.init(movie.audioStream(), movie.framerate());
+		//audioRenderer.initialize(movie.audioStream(), movie.framerate());
 
 		// create texture holding video frame
         texture = new Texture(movie.width(), movie.height(), Texture.Format.RGB8);

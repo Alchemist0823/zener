@@ -4,6 +4,8 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.app.AppContainer;
+import com.n8lm.zener.app.AppStateManager;
+import com.n8lm.zener.app.BasicApp;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
@@ -33,8 +35,18 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
     private Entity light1, light2;
 
     @Override
-    protected void init() {
-        super.init();
+    public void attached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void detached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void initialize(AppStateManager appStateManager, BasicApp app) {
+        super.initialize(appStateManager, app);
 
         world.setSystem(new GlobalScriptSystem());
         world.setSystem(new TreeAttachSystem());
@@ -74,6 +86,21 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
         world.addEntity(light2);
 
         getContainer().getInput().addListener(new MaterialSwitchInputAdapter(model, light2));
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public void update(int delta) {
+
     }
 
     private int timer = 0;

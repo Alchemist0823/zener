@@ -3,6 +3,8 @@ package com.n8lm.zener.netdemo;
 import com.artemis.Entity;
 import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.app.AppContainer;
+import com.n8lm.zener.app.AppStateManager;
+import com.n8lm.zener.app.BasicApp;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
@@ -38,8 +40,18 @@ public class NetworkTest extends ExampleBasicApp {
     private Entity light1;
 
     @Override
-    protected void init() {
-        super.init();
+    public void attached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void detached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void initialize(AppStateManager appStateManager, BasicApp app) {
+        super.initialize(appStateManager, app);
 
         NetworkConfiguration config = new MyNetworkConfiguration();
 
@@ -78,6 +90,16 @@ public class NetworkTest extends ExampleBasicApp {
         world.addEntity(light1);
 
         getContainer().getInput().addListener(new CharacterInputAdapter(world));
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public static void main(String[] args) throws ZenerException {

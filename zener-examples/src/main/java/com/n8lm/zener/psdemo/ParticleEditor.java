@@ -3,6 +3,8 @@ package com.n8lm.zener.psdemo;
 import com.artemis.Entity;
 import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.app.AppContainer;
+import com.n8lm.zener.app.AppStateManager;
+import com.n8lm.zener.app.BasicApp;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.graphics.*;
@@ -24,8 +26,8 @@ public class ParticleEditor extends ExampleBasicApp {
     }
 
     @Override
-    protected void init() {
-        super.init();
+    public void initialize(AppStateManager appStateManager, BasicApp app) {
+        super.initialize(appStateManager, app);
 
         world.setSystem(new PSProcessingSystem());
         world.setSystem(new TreeAttachSystem());
@@ -81,5 +83,25 @@ public class ParticleEditor extends ExampleBasicApp {
         //container.setVSync(true);
         container.setTargetFrameRate(60);
         container.start();
+    }
+
+    @Override
+    public void attached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void detached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

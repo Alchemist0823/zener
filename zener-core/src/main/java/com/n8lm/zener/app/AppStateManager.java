@@ -22,7 +22,7 @@ import java.util.List;
  * <ul>
  * <li>attached() : called when the state is attached on the thread on which
  *                       the state was attached.
- * <li>init() : called ONCE on the render thread at the beginning of the next
+ * <li>initialize() : called ONCE on the render thread at the beginning of the next
  *                    AppStateManager.update().
  * <li>detached() : called when the state is detached on the thread on which
  *                       the state was detached.  This is not necessarily on the
@@ -175,7 +175,7 @@ public class AppStateManager {
         // a state can detach itself in initialize().  If we
         // did it after then it couldn't.
         for (AppState state : initializing) {
-            state.init(this, app);
+            state.initialize(this, app);
         }
 
         states.addAll(initializing);

@@ -16,7 +16,7 @@ public interface AppState {
      * @param appStateManager
      * @param app
      */
-    public void init(AppStateManager appStateManager, BasicApp app);
+    public void initialize(AppStateManager appStateManager, BasicApp app);
 
     /**
      * clean up the app state called in main loop

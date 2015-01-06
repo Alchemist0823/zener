@@ -323,7 +323,7 @@ public class OggInputStream extends InputStream implements AudioInputStream {
     dspState.synthesis_init(oggInfo); // central decode state
     vorbisBlock.init(dspState); // local state for most of the decode
     // so multiple block decodes can
-    // proceed in parallel.  We could init
+    // proceed in parallel.  We could initialize
     // multiple vorbis_block structures
     // for vd here
 

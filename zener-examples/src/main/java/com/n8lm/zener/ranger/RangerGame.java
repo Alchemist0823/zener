@@ -5,6 +5,8 @@ import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.animation.AnimationComponent;
 import com.n8lm.zener.animation.AnimationSystem;
 import com.n8lm.zener.app.AppContainer;
+import com.n8lm.zener.app.AppStateManager;
+import com.n8lm.zener.app.BasicApp;
 import com.n8lm.zener.collision.AABBBoundingBox;
 import com.n8lm.zener.collision.CollidableComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
@@ -73,8 +75,18 @@ public class RangerGame extends ExampleBasicApp {
     }
 
     @Override
-    protected void init() {
-        super.init();
+    public void attached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void detached(AppStateManager appStateManager) {
+
+    }
+
+    @Override
+    public void initialize(AppStateManager appStateManager, BasicApp app) {
+        super.initialize(appStateManager, app);
 
         TiledMap map = null;
         try {
@@ -155,6 +167,16 @@ public class RangerGame extends ExampleBasicApp {
         mainCharacter.addComponent(new ScriptComponent(Event.WORLD_UPDATE, cia));
 
         ScriptHelper.setup(world);
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public static void main(String[] args) throws ZenerException {

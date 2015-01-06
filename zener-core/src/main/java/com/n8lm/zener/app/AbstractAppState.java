@@ -26,7 +26,7 @@ public class AbstractAppState implements AppState {
     }
 
     @Override
-    public void init(AppStateManager appStateManager, BasicApp app) {
+    public void initialize(AppStateManager appStateManager, BasicApp app) {
 
     }
 

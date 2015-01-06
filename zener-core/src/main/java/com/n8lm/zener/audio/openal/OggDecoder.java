@@ -59,7 +59,7 @@ public class OggDecoder {
     //		boolean bigEndian = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
     //		// Decode setup
     //
-    //		oy.init(); // Now we can read pages
+    //		oy.initialize(); // Now we can read pages
     //
     //		while (true) { // we repeat if the bitstream is chained
     //			int eos = 0;
@@ -95,7 +95,7 @@ public class OggDecoder {
     //
     //			// Get the serial number and set up the rest of decode.
     //			// serialno first; use it to set up a logical stream
-    //			os.init(og.serialno());
+    //			os.initialize(og.serialno());
     //
     //			// extract the initial header from the first page and verify that the
     //			// Ogg bitstream is in fact Vorbis data
@@ -105,8 +105,8 @@ public class OggDecoder {
     //			// header is an easy way to identify a Vorbis bitstream and it's
     //			// useful to see that functionality seperated out.
     //
-    //			vi.init();
-    //			vc.init();
+    //			vi.initialize();
+    //			vc.initialize();
     //			if (os.pagein(og) < 0) {
     //				// error; stream version mismatch perhaps
     //				Log.error("Error reading first page of Ogg bitstream data.");
@@ -186,9 +186,9 @@ public class OggDecoder {
     //			// OK, got and parsed all three headers. Initialize the Vorbis
     //			//  packet->PCM decoder.
     //			vd.synthesis_init(vi); // central decode state
-    //			vb.init(vd); // local state for most of the decode
+    //			vb.initialize(vd); // local state for most of the decode
     //			// so multiple block decodes can
-    //			// proceed in parallel.  We could init
+    //			// proceed in parallel.  We could initialize
     //			// multiple vorbis_block structures
     //			// for vd here
     //
