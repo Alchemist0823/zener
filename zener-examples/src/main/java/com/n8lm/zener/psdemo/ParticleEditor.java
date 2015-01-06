@@ -1,13 +1,12 @@
 package com.n8lm.zener.psdemo;
 
 import com.artemis.Entity;
-import com.n8lm.zener.ExampleBasicGame;
-import com.n8lm.zener.app.AppGameContainer;
+import com.n8lm.zener.ExampleBasicApp;
+import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.math.MathUtil;
-import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.particle.*;
@@ -18,7 +17,7 @@ import com.n8lm.zener.utils.ZenerException;
  *
  * @author Forrest Sun
  */
-public class ParticleEditor extends ExampleBasicGame{
+public class ParticleEditor extends ExampleBasicApp {
 
     public ParticleEditor() {
         super("particle", "Particle System Editor");
@@ -76,7 +75,7 @@ public class ParticleEditor extends ExampleBasicGame{
 
     public static void main(String[] args) throws ZenerException {
         ParticleEditor game = new ParticleEditor();
-        AppGameContainer container = new AppGameContainer(game);
+        AppContainer container = new AppContainer(game);
         container.setDisplayMode(800, 600, false);
         container.setAlwaysRender(true);
         //container.setVSync(true);

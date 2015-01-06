@@ -18,7 +18,6 @@
 
 package com.n8lm.zener.map;
 
-import com.n8lm.zener.math.Vector4f;
 import com.n8lm.zener.utils.StringUtil;
 
 import java.io.*;
@@ -58,9 +57,9 @@ public class TiledMap implements Cloneable{
 	//protected Properties props;
 	
 	/** the tile set of the map*/
-	protected TileSet tileSet;
+	protected final TileSet tileSet;
 	
-	public TiledMap(String name, int width, int height) {
+	public TiledMap(String name, int width, int height, TileSet<?> tileSet) {
 
         this.name = name;
         this.width = width;
@@ -70,8 +69,11 @@ public class TiledMap implements Cloneable{
         this.texture = new int[width][height];
         this.altitude = new int[width][height];
 
+        this.tileSet = tileSet;
+
 		tileWidth = tileHeight = 2;
 		tileAltitude = 1f;
+
 	}
 	/**
 	 * TODO: need revision
@@ -95,9 +97,11 @@ public class TiledMap implements Cloneable{
 
     public static TiledMap readFromText(BufferedReader reader) throws IOException {
 
+        TileSet<Tile> tileSet = TileSet.readFromText(new Tile.Builder(), reader);
+
         String name = reader.readLine();
         String[] strs = StringUtil.split(reader.readLine(), ' ');
-        TiledMap map = new TiledMap(name, Integer.parseInt(strs[0]), Integer.parseInt(strs[1]));
+        TiledMap map = new TiledMap(name, Integer.parseInt(strs[0]), Integer.parseInt(strs[1]), tileSet);
 
         readContentFromText(reader, map);
 
@@ -340,9 +344,9 @@ public class TiledMap implements Cloneable{
 		return tileSet;
 	}
 
-    public void setTileSet(TileSet tileSet) {
+    /*public void setTileSet(TileSet tileSet) {
         this.tileSet = tileSet;
-    }
+    }*/
 
     public float getPositionAltitude(float x, float y) {
         if (x < 0 || y < 0 || x > (width - 1) * tileWidth || y > (height - 1) * tileHeight)

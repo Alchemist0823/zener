@@ -2,7 +2,8 @@ package com.n8lm.zener.model;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.n8lm.zener.app.AppGameContainer;
+import com.n8lm.zener.ExampleBasicApp;
+import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
@@ -16,13 +17,12 @@ import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.script.NativeScript;
 import com.n8lm.zener.script.ScriptComponent;
 import com.n8lm.zener.utils.ZenerException;
-import com.n8lm.zener.ExampleBasicGame;
 
 /**
  * Created on 2014/7/4.
  * @author Alchemist
  */
-public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
+public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
 
     public ModelRenderTest() {
         super("modelrender", "Model Render");
@@ -95,7 +95,7 @@ public class ModelRenderTest extends ExampleBasicGame implements NativeScript {
 
     public static void main(String[] args) throws ZenerException {
         ModelRenderTest game = new ModelRenderTest();
-        AppGameContainer container = new AppGameContainer(game);
+        AppContainer container = new AppContainer(game);
         container.setDisplayMode(800, 600, false);
         container.setAlwaysRender(true);
         //container.setVSync(true);

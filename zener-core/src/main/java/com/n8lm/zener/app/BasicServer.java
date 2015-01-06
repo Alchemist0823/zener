@@ -4,6 +4,8 @@ import com.artemis.World;
 import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,7 +17,7 @@ import java.util.TreeMap;
 public abstract class BasicServer {
 
 
-    protected Map<String, World> worlds;
+    protected List<World> worlds;
     protected final ResourceManager resourceManager = ResourceManager.getInstance();
     protected GameInfoManager gameInfoManager;
 
@@ -26,7 +28,7 @@ public abstract class BasicServer {
     private ServerContainer container;
 
     public BasicServer() {
-        worlds = new TreeMap<String, World>();
+        worlds = new ArrayList<>();
         gameInfoManager = new GameInfoManager();
     }
 
@@ -44,8 +46,12 @@ public abstract class BasicServer {
 
     protected abstract void init();
 
-    public void setWorld(String worldName, World world) {
-        worlds.put(worldName, world);
+    public void addWorld(World world, World before) {
+        worlds.add(worlds.indexOf(before), world);
+    }
+
+    public void addWorld(World world) {
+        worlds.add(world);
     }
 
     /**
@@ -55,7 +61,7 @@ public abstract class BasicServer {
      * @param delta The amount of time thats passed since last update in milliseconds
      */
     public void update(int delta) {
-        for (World world : worlds.values()) {
+        for (World world : worlds) {
             world.setDelta(delta);
             world.process();
         }
@@ -66,9 +72,12 @@ public abstract class BasicServer {
      */
     public abstract void destory();
 
-    public World getWorld(String name) {
-        return worlds.get(name);
-    }
 
+    public World getWorld(String name) {
+        for (World world : worlds)
+            if (world.getName().equals(name))
+                return world;
+        throw new IllegalArgumentException("World " + name + " does not exist");
+    }
 
 }

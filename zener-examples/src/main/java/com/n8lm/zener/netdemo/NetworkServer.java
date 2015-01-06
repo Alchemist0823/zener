@@ -17,9 +17,9 @@ public class NetworkServer extends BasicServer {
     @Override
     protected void init() {
 
-        World world = new World();
+        World world = new World("server");
 
-        setWorld("server", world);
+        addWorld(world);
 
         NetworkConfiguration config = new MyNetworkConfiguration();
         world.setSystem(new CharacterSystem());

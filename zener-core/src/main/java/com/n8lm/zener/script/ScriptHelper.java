@@ -42,7 +42,7 @@ public class ScriptHelper {
 				script.run(world, event);
 			}
 		else
-			LOGGER.warning("Dispatch event " + event.getType() + "  to a entity which do not has ScriptComponent");
+			LOGGER.fine("Dispatch event " + event.getType() + "  to a entity which do not has ScriptComponent");
 			
 	}
 }

@@ -2,18 +2,18 @@ package com.n8lm.zener;
 
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.n8lm.zener.app.BasicGame;
+import com.n8lm.zener.app.BasicApp;
 
 /**
  * Created on 2014/7/4.
  * @author Alchemist
  */
-public class ExampleBasicGame extends BasicGame{
+public class ExampleBasicApp extends BasicApp {
 
     protected String gameName;
     protected World world;
 
-    public ExampleBasicGame(String gameName, String gameTitle) {
+    public ExampleBasicApp(String gameName, String gameTitle) {
         super(gameTitle);
         this.gameName = gameName;
     }
@@ -23,10 +23,10 @@ public class ExampleBasicGame extends BasicGame{
 
         resourceManager.loadDataConfig("./res/" + this.gameName + "/config.cfg");
 
-        world = new World();
+        world = new World("game");
         world.setManager(new TagManager());
 
-        setWorld("game", world);
+        addWorld(world);
     }
 
     @Override

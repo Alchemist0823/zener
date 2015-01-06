@@ -38,15 +38,15 @@ import com.n8lm.zener.utils.ZenerException;
 
 
 /**
- * A game container that will display the game as an stand alone
+ * A app container that will display the app as an stand alone
  * application.
  *
- * @author kevin, Alchemist
+ * @author kevin, Forrest Sun
  */
-public class AppGameContainer extends GameContainer {
+public class AppContainer extends AbstractAppContainer {
 	
 
-	  private final static Logger LOGGER = Logger.getLogger(AppGameContainer.class
+	  private final static Logger LOGGER = Logger.getLogger(AppContainer.class
 	      .getName());
 	
 	static {
@@ -80,7 +80,7 @@ public class AppGameContainer extends GameContainer {
 	 * @param game The game to be wrapped
 	 * @throws ZenerException Indicates a failure to initialise the display
 	 */
-	public AppGameContainer(BasicGame game) throws ZenerException {
+	public AppContainer(BasicApp game) throws ZenerException {
 		this(game,640,480,false);
 	}
 
@@ -93,7 +93,7 @@ public class AppGameContainer extends GameContainer {
 	 * @param fullscreen True if we want fullscreen mode
 	 * @throws ZenerException Indicates a failure to initialise the display
 	 */
-	public AppGameContainer(BasicGame game,int width,int height,boolean fullscreen) throws ZenerException {
+	public AppContainer(BasicApp game, int width, int height, boolean fullscreen) throws ZenerException {
 		super(game);
 		
 		originalDisplayMode = Display.getDisplayMode();
@@ -322,7 +322,7 @@ public class AppGameContainer extends GameContainer {
     }*/
     
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setMouseCursor(com.n8lm.zener.app.Image, int, int)
+	 * @see AbstractAppContainer#setMouseCursor(com.n8lm.zener.app.Image, int, int)
 	 */
     /*
 	public void setMouseCursor(Image image, int hotSpotX, int hotSpotY) throws ZenerException {
@@ -344,7 +344,7 @@ public class AppGameContainer extends GameContainer {
 	}*/
 	
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#reinit()
+	 * @see AbstractAppContainer#reinit()
 	 */
 	public void reinit() throws ZenerException {
 		destroy();
@@ -504,42 +504,42 @@ public class AppGameContainer extends GameContainer {
 	}
 	
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setUpdateOnlyWhenVisible(boolean)
+	 * @see AbstractAppContainer#setUpdateOnlyWhenVisible(boolean)
 	 */
 	public void setUpdateOnlyWhenVisible(boolean updateOnlyWhenVisible) {
 		updateOnlyOnVisible = updateOnlyWhenVisible;
 	}
 	
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#isUpdatingOnlyWhenVisible()
+	 * @see AbstractAppContainer#isUpdatingOnlyWhenVisible()
 	 */
 	public boolean isUpdatingOnlyWhenVisible() {
 		return updateOnlyOnVisible;
 	}
 	
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setIcon(java.lang.String)
+	 * @see AbstractAppContainer#setIcon(java.lang.String)
 	 */
 	public void setIcon(String ref) throws ZenerException {
 		setIcons(new String[] {ref});
 	}
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setMouseGrabbed(boolean)
+	 * @see AbstractAppContainer#setMouseGrabbed(boolean)
 	 */
 	public void setMouseGrabbed(boolean grabbed) {
 		Mouse.setGrabbed(grabbed);
 	}
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#isMouseGrabbed()
+	 * @see AbstractAppContainer#isMouseGrabbed()
 	 */
 	public boolean isMouseGrabbed() {
 		return Mouse.isGrabbed();
 	}
 	
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#hasFocus()
+	 * @see AbstractAppContainer#hasFocus()
 	 */
 	public boolean hasFocus() {
 		// hmm, not really the right thing, talk to the LWJGL guys
@@ -547,14 +547,14 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#getScreenHeight()
+	 * @see AbstractAppContainer#getScreenHeight()
 	 */
 	public int getScreenHeight() {
 		return originalDisplayMode.getHeight();
 	}
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#getScreenWidth()
+	 * @see AbstractAppContainer#getScreenWidth()
 	 */
 	public int getScreenWidth() {
 		return originalDisplayMode.getWidth();
@@ -574,7 +574,7 @@ public class AppGameContainer extends GameContainer {
 	}*/
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setIcons(java.lang.String[])
+	 * @see AbstractAppContainer#setIcons(java.lang.String[])
 	 */
 	/*
 	public void setIcons(String[] refs) throws ZenerException {
@@ -619,7 +619,7 @@ public class AppGameContainer extends GameContainer {
 	}
 
 	/**
-	 * @see com.n8lm.zener.app.GameContainer#setDefaultMouseCursor()
+	 * @see AbstractAppContainer#setDefaultMouseCursor()
 	 */
 	public void setDefaultMouseCursor() {
 		try {

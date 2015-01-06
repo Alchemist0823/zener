@@ -24,6 +24,9 @@ public class World {
 	private EntityManager em;
 	private ComponentManager cm;
 
+    private String name;
+    private boolean isEnable;
+
 	public float delta;
 	private Bag<Entity> added;
 	private Bag<Entity> changed;
@@ -37,18 +40,21 @@ public class World {
 	private Map<Class<?>, EntitySystem> systems;
 	private Bag<EntitySystem> systemsBag;
 
-	public World() {
-		managers = new HashMap<Class<? extends Manager>, Manager>();
-		managersBag = new ArrayBag<Manager>();
-		
-		systems = new HashMap<Class<?>, EntitySystem>();
-		systemsBag = new ArrayBag<EntitySystem>();
+	public World(String name) {
+        this.name = name;
+        this.isEnable = true;
 
-		added = new ArrayBag<Entity>();
-		changed = new ArrayBag<Entity>();
-		deleted = new ArrayBag<Entity>();
-		enable = new ArrayBag<Entity>();
-		disable = new ArrayBag<Entity>();
+		managers = new HashMap<>();
+		managersBag = new ArrayBag<>();
+		
+		systems = new HashMap<>();
+		systemsBag = new ArrayBag<>();
+
+		added = new ArrayBag<>();
+		changed = new ArrayBag<>();
+		deleted = new ArrayBag<>();
+		enable = new ArrayBag<>();
+		disable = new ArrayBag<>();
 
 		cm = new ComponentManager();
 		setManager(cm);
@@ -368,11 +374,26 @@ public class World {
 	public <T extends Component> ComponentMapper<T> getMapper(Class<T> type) {
 		return ComponentMapper.getFor(type, this);
 	}
-	
 
-	/*
-	 * Only used internally to maintain clean code.
-	 */
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /*
+     * Only used internally to maintain clean code.
+     */
 	private interface Performer {
 		void perform(EntityObserver observer, Entity e);
 	}

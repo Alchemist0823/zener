@@ -1,9 +1,10 @@
 package com.n8lm.zener.ranger;
 
 import com.artemis.Entity;
+import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.animation.AnimationComponent;
 import com.n8lm.zener.animation.AnimationSystem;
-import com.n8lm.zener.app.AppGameContainer;
+import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.collision.AABBBoundingBox;
 import com.n8lm.zener.collision.CollidableComponent;
 import com.n8lm.zener.general.TreeAttachSystem;
@@ -19,7 +20,6 @@ import com.n8lm.zener.script.ScriptComponent;
 import com.n8lm.zener.script.ScriptHelper;
 import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zener.utils.ZenerException;
-import com.n8lm.zener.ExampleBasicGame;
 import org.lwjgl.input.Mouse;
 
 import java.io.BufferedReader;
@@ -31,7 +31,7 @@ import java.io.InputStreamReader;
  *
  * @author Alchemist
  */
-public class RangerGame extends ExampleBasicGame{
+public class RangerGame extends ExampleBasicApp {
 
     public RangerGame() {
         super("ranger", "Ranger Game");
@@ -79,9 +79,7 @@ public class RangerGame extends ExampleBasicGame{
         TiledMap map = null;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(resourceManager.getResourceAsStream("map.txt")));
-            TileSet<Tile> tileSet = TileSet.readFromText(new Tile.Builder(), reader);
             map = TiledMap.readFromText(reader);
-            map.setTileSet(tileSet);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,7 +159,7 @@ public class RangerGame extends ExampleBasicGame{
 
     public static void main(String[] args) throws ZenerException {
         RangerGame game = new RangerGame();
-        AppGameContainer container = new AppGameContainer(game);
+        AppContainer container = new AppContainer(game);
         container.setDisplayMode(800, 600, false);
         container.setAlwaysRender(true);
         container.setVSync(true);

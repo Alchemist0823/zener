@@ -1,7 +1,8 @@
 package com.n8lm.zener.netdemo;
 
 import com.artemis.Entity;
-import com.n8lm.zener.app.AppGameContainer;
+import com.n8lm.zener.ExampleBasicApp;
+import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.*;
@@ -15,7 +16,6 @@ import com.n8lm.zener.network.NetworkConfiguration;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.utils.EntityFactory;
 import com.n8lm.zener.utils.ZenerException;
-import com.n8lm.zener.ExampleBasicGame;
 
 import javax.swing.*;
 
@@ -23,7 +23,7 @@ import javax.swing.*;
  * Created on 2014/11/1.
  * @author Alchemist
  */
-public class NetworkTest extends ExampleBasicGame {
+public class NetworkTest extends ExampleBasicApp {
 
     private String playerName;
     private String host;
@@ -89,7 +89,7 @@ public class NetworkTest extends ExampleBasicGame {
                 null, null, "player1");
 
         NetworkTest game = new NetworkTest(name, host);
-        AppGameContainer container = new AppGameContainer(game);
+        AppContainer container = new AppContainer(game);
         container.setDisplayMode(800, 600, false);
         container.setAlwaysRender(true);
         //container.setVSync(true);

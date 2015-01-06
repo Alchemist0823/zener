@@ -21,37 +21,42 @@ package com.n8lm.zener.app;
 import com.artemis.World;
 import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.utils.ZenerException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Basic Game
- * Any game class should extend this class
- * @author Alchemist
+ * Basic Application
+ * Any client application should extend this class
+ * @author Forrest Sun
  *
  */
-public abstract class BasicGame {
-	
-	static protected BasicGame game;
-	
-	protected Map<String, World> worlds;
-	protected GameContainer container;
-	protected final ResourceManager resourceManager = ResourceManager.getInstance();
+public abstract class BasicApp {
+
+	protected List<World> worlds;
+    protected AppStateManager appStateManager;
+	protected AbstractAppContainer container;
+	protected final ResourceManager resourceManager;
 	protected GameInfoManager gameInfoManager;
 	protected String title;
 
 	//protected boolean gameStarted;
 	//protected boolean running;
 	protected boolean isCloseRequested;
-	
-	static public BasicGame getInstance() {
+
+    static protected BasicApp game;
+	static public BasicApp getInstance() {
 		return game;
 	}
 	
-	public BasicGame(String title) {
+	public BasicApp(String title) {
 		this.title = title;
-        worlds = new TreeMap<String, World>();
+        worlds = new ArrayList<>();
+        appStateManager = new AppStateManager(this);
+        resourceManager = ResourceManager.getInstance();
 		game = this;
 	}
 	
@@ -61,7 +66,7 @@ public abstract class BasicGame {
 	 * 
 	 * @param container The container holding the game
 	 */
-	public void init(GameContainer container) {
+	public void init(AbstractAppContainer container) {
 		this.container = container;
 
         isCloseRequested = false;
@@ -73,8 +78,12 @@ public abstract class BasicGame {
         //afterInit();
 	}
 
-    public void setWorld(String worldName, World world) {
-        worlds.put(worldName, world);
+    public void addWorld(World world, World before) {
+        worlds.add(worlds.indexOf(before), world);
+    }
+
+    public void addWorld(World world) {
+        worlds.add(world);
     }
 
 	/**
@@ -94,11 +103,13 @@ public abstract class BasicGame {
 	 * @param container The container holing this game
 	 * @param delta The amount of time thats passed since last update in milliseconds
 	 */
-	public void update(GameContainer container, int delta) {
-        for (World world : worlds.values()) {
+	public void update(AbstractAppContainer container, int delta) {
+        appStateManager.update(delta);
+        /*
+        for (World world : worlds) {
             world.setDelta(delta);
             world.process();
-        }
+        }*/
 	}
 	
 	/**
@@ -114,7 +125,7 @@ public abstract class BasicGame {
 		isCloseRequested = true;
 	}
 
-	public GameContainer getContainer() {
+	public AbstractAppContainer getContainer() {
 		return container;
 	}
 
@@ -135,8 +146,22 @@ public abstract class BasicGame {
 	 */
 	public abstract void destory();
 
-	public World getWorld(String name) {
-		return worlds.get(name);
+	public World getWorld(int index) {
+		return worlds.get(index);
 	}
-	
+
+    public GameInfoManager getGameInfoManager() {
+        return gameInfoManager;
+    }
+
+    public AppStateManager getAppStateManager() {
+        return appStateManager;
+    }
+
+    public World getWorld(String name) {
+        for (World world : worlds)
+            if (world.getName().equals(name))
+                return world;
+        throw new IllegalArgumentException("World " + name + " does not exist");
+    }
 }

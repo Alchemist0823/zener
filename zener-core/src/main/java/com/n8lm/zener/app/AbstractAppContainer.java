@@ -34,9 +34,9 @@ import com.n8lm.zener.audio.openal.SoundStore;
 import com.n8lm.zener.input.Input;
 import com.n8lm.zener.utils.ZenerException;
 
-public abstract class GameContainer extends Container{
+public abstract class AbstractAppContainer extends Container{
 
-	private final static Logger LOGGER = Logger.getLogger(GameContainer.class
+	private final static Logger LOGGER = Logger.getLogger(AbstractAppContainer.class
 			.getName());
 
 	/** The width of the display */
@@ -44,7 +44,7 @@ public abstract class GameContainer extends Container{
 	/** The height of the display */
 	protected int height;
 	/** The game being managed */
-	protected BasicGame game;
+	protected BasicApp game;
 	/** The shared drawable if any */
 	protected static Drawable SHARED_DRAWABLE;
 
@@ -93,7 +93,7 @@ public abstract class GameContainer extends Container{
 	 *
 	 * 
 	 */
-	public GameContainer(BasicGame game) {
+	public AbstractAppContainer(BasicApp game) {
 		this.game = game;
 		lastFrame = getTime();
 
@@ -508,7 +508,7 @@ public abstract class GameContainer extends Container{
 	public abstract void setMouseCursor(Cursor cursor, int hotSpotX,
 			int hotSpotY) throws ZenerException;
 	 */
-	/**
+    /*
 	 * Get a cursor based on a image reference on the classpath. The image is
 	 * assumed to be a set/strip of cursor animation frames running from top to
 	 * bottom.
@@ -529,8 +529,7 @@ public abstract class GameContainer extends Container{
 	 * @throws ZenerException
 	 *             Indicates a failure to load the image or a failure to create
 	 *             the hardware cursor
-	 */
-	/*
+
 	public void setAnimatedMouseCursor(String ref, int x, int y, int width,
 			int height, int[] cursorDelays) throws ZenerException {
 		try {
@@ -543,7 +542,8 @@ public abstract class GameContainer extends Container{
 		} catch (LWJGLException e) {
 			throw new ZenerException("Failed to set mouse cursor", e);
 		}
-	}8/
+	}
+	*/
 
 	/**
 	 * Set the default mouse cursor - i.e. the original cursor before any native

@@ -24,13 +24,14 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import java.util.List;
 
+import com.n8lm.zener.app.BasicApp;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendFactory;
+import de.lessvoid.nifty.screen.ScreenController;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.artemis.systems.VoidEntitySystem;
-import com.n8lm.zener.app.BasicGame;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.intent.InputIntentGenerator;
 import com.n8lm.zener.nifty.input.ZenerInputSystem;
@@ -45,17 +46,15 @@ import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
 
 public class NiftyGUISystem extends VoidEntitySystem {
 	
-	private BasicGame game;
+	private BasicApp game;
 	private Nifty nifty;
 	//private ZenerInputSystem inputSystem;
 	private InputIntentGenerator iig;
-	private String startScreen;
 	
-	public NiftyGUISystem(BasicGame game, InputIntentGenerator iig, String startScreen) {
+	public NiftyGUISystem(InputIntentGenerator iig) {
 		super();
-		this.game = game;
+		this.game = BasicApp.getInstance();
 		this.iig = iig;
-		this.startScreen = startScreen;
 
         ZenerInputSystem inputSystem = new ZenerZenerInputSystem(iig);
 		inputSystem.setInput(game.getContainer().getInput());
@@ -74,10 +73,9 @@ public class NiftyGUISystem extends VoidEntitySystem {
 
 	}
 
-    public NiftyGUISystem(BasicGame game, String startScreen) {
+    public NiftyGUISystem(BasicApp game) {
         super();
         this.game = game;
-        this.startScreen = startScreen;
 
         BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendFactory.create());
         //BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendCoreProfileFactory.create());
@@ -136,24 +134,16 @@ public class NiftyGUISystem extends VoidEntitySystem {
 		
 		//this.screenCallbacks.clear();
 
-	    /*final HelloWorldStartScreen screen = new HelloWorldStartScreen();
-	    nifty.registerScreenController(screen);
-
-	    screen.prepareStart(nifty);
+	    /*
 	    */
 		List<String> xmls = ResourceManager.getInstance().getGUIXmls();
 		for (String xml : xmls)
 			nifty.addXml(ResourceManager.getInstance().getResourceAsStream(xml));
-	    nifty.gotoScreen(startScreen);
-	}
-	
-	public String getStartScreen() {
-		return startScreen;
 	}
 
-	public void setStartScreen(String startScreen) {
-		this.startScreen = startScreen;
-	}
+    public void addScreenController(ScreenController screenController) {
+        nifty.registerScreenController(screenController);
+    }
 
 	public Nifty getNifty() {
 		return nifty;
