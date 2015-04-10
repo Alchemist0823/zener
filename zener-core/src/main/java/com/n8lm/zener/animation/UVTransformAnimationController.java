@@ -6,6 +6,9 @@ import com.n8lm.zener.graphics.material.UVTransformMaterial;
 import com.n8lm.zener.math.Vector2f;
 
 /**
+ * Material UV Mapping Transform Animation Controller.
+ * it changes the UV Mapping coordinates by time.
+ *
  * Created on 2014/9/8.
  *
  * @author Alchemist

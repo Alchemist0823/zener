@@ -3,8 +3,10 @@ package com.n8lm.zener.animation;
 import com.n8lm.zener.math.Vector2f;
 
 /**
- * Created on 2014/9/8.
+ * It stores a vector2d that represents the UV Mapping transform.
+ * @see com.n8lm.zener.animation.UVTransformAnimationController
  *
+ * Created on 2014/9/8.
  * @author Alchemist
  */
 public class UVTransformKeyFrame extends  KeyFrame {
