@@ -116,7 +116,6 @@ public class AppStateManager {
     public boolean detach(AppState state){
         if (states.contains(state)){
             state.detached(this);
-            states.remove(state);
             terminating.add(state);
             return true;
         } else if(initializing.contains(state)){
@@ -191,6 +190,7 @@ public class AppStateManager {
         }
 
         // Remove just the states that were terminated...
+        states.removeAll(terminating);
         // which might now be a subset of the total terminating
         // list.
         terminating.clear();

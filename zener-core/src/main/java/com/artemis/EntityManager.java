@@ -126,9 +126,12 @@ public class EntityManager extends Manager {
 	public long getTotalDeleted() {
 		return deleted;
 	}
-	
-	
-	
+
+	public Bag<Entity> getActiveEntities() {
+		return entities;
+	}
+
+
 	/*
 	 * Used only internally to generate distinct ids for entities and reuse them.
 	 */

@@ -86,6 +86,10 @@ public abstract class BasicApp {
         worlds.add(world);
     }
 
+	public void removeWorld(World world) {
+		worlds.remove(world);
+	}
+
 	/**
 	 * Set up Database, Resource, EntitySystems and Managers
 	 */

@@ -77,6 +77,16 @@ public class World {
 			systemsBag.get(i).initialize();
 		}
 	}
+
+	/**
+	 * Destroy the World by deleting all the entities in it
+	 */
+	public void destroy() {
+		Bag<Entity> entities = em.getActiveEntities();
+		for (int i = 0; i < entities.size(); i++)
+			if (entities != null)
+				deleteEntity(entities.get(i));
+	}
 	
 	
 	/**
@@ -248,7 +258,7 @@ public class World {
         system.setWorld(this);
 
         systems.put(system.getClass(), system);
-        systemsBag.add(system);
+		systemsBag.add(system);
 
         return system;
 	}
@@ -391,7 +401,7 @@ public class World {
         this.name = name;
     }
 
-    /*
+	/*
      * Only used internally to maintain clean code.
      */
 	private interface Performer {
