@@ -5,9 +5,13 @@ import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.app.AppStateManager;
 import com.n8lm.zener.app.BasicApp;
-import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
-import com.n8lm.zener.graphics.*;
+import com.n8lm.zener.general.TreeAttachSystem;
+import com.n8lm.zener.general.ZenerException;
+import com.n8lm.zener.graphics.GLRenderSystem;
+import com.n8lm.zener.graphics.LightComponent;
+import com.n8lm.zener.graphics.PerspectiveProjection;
+import com.n8lm.zener.graphics.ViewComponent;
 import com.n8lm.zener.graphics.geom.Geometry;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
 import com.n8lm.zener.math.Transform;
@@ -17,7 +21,6 @@ import com.n8lm.zener.network.ClientNetworkSystem;
 import com.n8lm.zener.network.NetworkConfiguration;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.utils.EntityFactory;
-import com.n8lm.zener.utils.ZenerException;
 
 import javax.swing.*;
 

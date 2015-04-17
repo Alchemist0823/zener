@@ -6,8 +6,9 @@ import com.n8lm.zener.ExampleBasicApp;
 import com.n8lm.zener.app.AppContainer;
 import com.n8lm.zener.app.AppStateManager;
 import com.n8lm.zener.app.BasicApp;
-import com.n8lm.zener.general.TreeAttachSystem;
 import com.n8lm.zener.general.TransformComponent;
+import com.n8lm.zener.general.TreeAttachSystem;
+import com.n8lm.zener.general.ZenerException;
 import com.n8lm.zener.graphics.*;
 import com.n8lm.zener.graphics.geom.ModelGeometry;
 import com.n8lm.zener.graphics.material.NormalMaterial;
@@ -18,7 +19,6 @@ import com.n8lm.zener.script.Event;
 import com.n8lm.zener.script.GlobalScriptSystem;
 import com.n8lm.zener.script.NativeScript;
 import com.n8lm.zener.script.ScriptComponent;
-import com.n8lm.zener.utils.ZenerException;
 
 /**
  * Created on 2014/7/4.
@@ -31,8 +31,10 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
     }
 
     private Entity model;
+    private Entity model2;
     private Entity cam;
     private Entity light1, light2;
+
 
     @Override
     public void attached(AppStateManager appStateManager) {
@@ -57,9 +59,16 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
         model = world.createEntity();
         model.addComponent(new GeometryComponent(new ModelGeometry("suzanne", resourceManager.getModel("suzanne").getMesh()), false));
         model.addComponent(new MaterialComponent(new NormalMaterial(resourceManager.getModel("suzanne").getMaterial()), false));
-        model.addComponent(new TransformComponent(new Transform(0, 0, 0)));
+        model.addComponent(new TransformComponent(new Transform(2, 0, 0)));
         model.addComponent(new ScriptComponent(Event.WORLD_UPDATE, this));
         world.addEntity(model);
+
+        // add cube with normal mapping
+        model2 = world.createEntity();
+        model2.addComponent(new GeometryComponent(new ModelGeometry("cube", resourceManager.getModel("cube").getMesh()), false));
+        model2.addComponent(new MaterialComponent(new NormalMaterial(resourceManager.getModel("cube").getMaterial()), false));
+        model2.addComponent(new TransformComponent(new Transform(-2, 0, 0)));
+        world.addEntity(model2);
 
         // add camera entity
         cam = world.createEntity();
@@ -96,11 +105,6 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public void update(int delta) {
-
     }
 
     private int timer = 0;
