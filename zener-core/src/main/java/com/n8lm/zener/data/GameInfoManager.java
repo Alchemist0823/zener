@@ -39,7 +39,7 @@ public class GameInfoManager {
 	
 	public GameInfoManager() {
 		instance = this;
-		gamedata = new HashMap<Class<? extends UniqueGameInfo>, UniqueGameInfo>();
+		gamedata = new HashMap<>();
 	}
 
     public <T extends UniqueGameInfo> T setGameInfo(T data) {
