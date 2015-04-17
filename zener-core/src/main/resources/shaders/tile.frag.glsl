@@ -27,18 +27,29 @@ uniform sampler2D normalMap[4];
 
 void main(){
 
+    vec4 texColor = vec4(0.0, 0.0, 0.0, 0.0);
+    int i = 0;
+
 #ifdef NORMAL_MAPPING
-    vec3 normal = normalize(TBN * normalize(texture2D(normal[i], texCoord).rgb * 2.0 - 1.0));
+    vec3 normal = normalize(TBN * normalize(texture2D(normal[i], texCoord[i]).rgb * 2.0 - 1.0));
 #endif
 
-    vec4 texColor = vec4(0.0, 0.0, 0.0, 0.0);
+    vec4 resultColor = texture2D(texture[0], texCoord[0]);
+    alphaBlend(resultColor, texColor, texColor);
 
-    int i = 0;
-    while (texCoord[i].x >= 0 && i < 4) {
-        vec4 resultColor = texture2D(texture[i], texCoord[i]);
-	    alphaBlend(resultColor, texColor, texColor);
-        i ++;
+    if (texCoord[1].x >= 0) {
+        vec4 resultColor = texture2D(texture[1], texCoord[1]);
+        alphaBlend(resultColor, texColor, texColor);
+        if (texCoord[2].x >= 0) {
+            vec4 resultColor = texture2D(texture[2], texCoord[2]);
+            alphaBlend(resultColor, texColor, texColor);
+            if (texCoord[3].x >= 0) {
+                vec4 resultColor = texture2D(texture[3], texCoord[3]);
+                alphaBlend(resultColor, texColor, texColor);
+            }
+        }
     }
+
 
 #ifdef SHADOW_MAPPING
 	float visibility = shadowModel(shadowCoord, depthMap);
