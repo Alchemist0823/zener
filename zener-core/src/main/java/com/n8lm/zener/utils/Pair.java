@@ -2,7 +2,7 @@
  * Created on 31 okt 2008
  */
 
-package craterstudio.data.tuples;
+package com.n8lm.zener.utils;
 
 import java.io.Serializable;
 

@@ -16,7 +16,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.utils;
+package com.n8lm.zener.general;
 
 /**
  * A generic exception thrown by everything in the library

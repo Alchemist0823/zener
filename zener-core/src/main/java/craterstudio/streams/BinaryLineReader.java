@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import com.n8lm.zener.utils.StringUtil;
-import craterstudio.data.ByteList;
+import com.n8lm.zener.utils.ByteList;
 
 public class BinaryLineReader {
 

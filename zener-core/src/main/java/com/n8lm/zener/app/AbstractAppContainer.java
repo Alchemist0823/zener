@@ -32,7 +32,7 @@ import org.lwjgl.opengl.Pbuffer;
 import com.n8lm.zener.audio.openal.SoundStore;
 
 import com.n8lm.zener.input.Input;
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 public abstract class AbstractAppContainer extends Container{
 

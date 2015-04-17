@@ -12,7 +12,7 @@ import com.n8lm.zener.math.MathUtil;
 import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.particle.*;
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 /**
  * Created on 2014/11/12.

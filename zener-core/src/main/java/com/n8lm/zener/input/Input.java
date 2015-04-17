@@ -33,7 +33,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 /**
  * A wrapped for all keyboard, mouse and controller input

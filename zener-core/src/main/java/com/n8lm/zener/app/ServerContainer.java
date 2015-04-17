@@ -1,6 +1,6 @@
 package com.n8lm.zener.app;
 
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 import org.lwjgl.Sys;
 
 import java.util.logging.Logger;

@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.n8lm.zener.utils.StringConverter;
-import craterstudio.data.ByteList;
+import com.n8lm.zener.utils.ByteList;
 
 public abstract class AudioRenderer implements Closeable {
 	public static enum State {

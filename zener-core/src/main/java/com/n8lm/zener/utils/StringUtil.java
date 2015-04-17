@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
-import craterstudio.data.ByteList;
-import craterstudio.data.tuples.Pair;
-
 public class StringUtil {
 
     private StringUtil() {

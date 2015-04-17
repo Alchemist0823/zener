@@ -33,7 +33,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 import com.n8lm.zener.assets.PNGLoader;
 import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 
 

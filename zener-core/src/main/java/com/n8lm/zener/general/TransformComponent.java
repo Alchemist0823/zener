@@ -29,7 +29,6 @@ import com.n8lm.zener.math.Transform;
 import com.n8lm.zener.math.Vector3f;
 import com.artemis.Component;
 import com.artemis.Entity;
-import com.n8lm.zener.utils.ZenerException;
 
 public class TransformComponent extends Component {
 	

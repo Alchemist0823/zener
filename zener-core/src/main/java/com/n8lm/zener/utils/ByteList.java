@@ -1,4 +1,4 @@
-package craterstudio.data;
+package com.n8lm.zener.utils;
 
 import java.util.Arrays;
 

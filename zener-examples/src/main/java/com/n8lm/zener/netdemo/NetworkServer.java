@@ -5,7 +5,7 @@ import com.n8lm.zener.app.BasicServer;
 import com.n8lm.zener.app.ServerContainer;
 import com.n8lm.zener.network.NetworkConfiguration;
 import com.n8lm.zener.network.ServerNetworkSystem;
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 /**
  * Created on 2014/11/1.

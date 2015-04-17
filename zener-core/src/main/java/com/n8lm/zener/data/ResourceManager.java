@@ -79,19 +79,19 @@ public class ResourceManager {
      *
      */
     private ResourceManager() {
-        models = new HashMap<String, Model>();
-        materials = new HashMap<String, Material>();
-        sounds = new HashMap<String, Audio>();
-        textures = new HashMap<String, Texture>();
-        guiXmls = new ArrayList<String>();
+        models = new HashMap<>();
+        materials = new HashMap<>();
+        sounds = new HashMap<>();
+        textures = new HashMap<>();
+        guiXmls = new ArrayList<>();
 
         shaderManager = new ShaderManager(this);
 
-        databases = new HashMap<Class<? extends GameDatabase>, GameDatabase>();
+        databases = new HashMap<>();
 
         geometryManager = new HardResourceManager();
 
-        locations = new ArrayList<ResourceLocation>();
+        locations = new ArrayList<>();
         locations.add(new ClasspathLocation(""));
         locations.add(new FileSystemLocation(new File("")));
     }
@@ -374,7 +374,7 @@ public class ResourceManager {
         URL url = null;
 
         for (ResourceLocation location1 : locations) {
-            ResourceLocation location = (ResourceLocation) location1;
+            ResourceLocation location = location1;
             url = location.getResource(ref);
             if (url != null) {
                 return true;
@@ -395,7 +395,7 @@ public class ResourceManager {
         URL url = null;
 
         for (ResourceLocation location1 : locations) {
-            ResourceLocation location = (ResourceLocation) location1;
+            ResourceLocation location = location1;
             url = location.getResource(ref);
             if (url != null) {
                 break;

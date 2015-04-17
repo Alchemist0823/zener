@@ -1,6 +1,6 @@
 package com.n8lm.zener.ai;
 
-import com.n8lm.zener.utils.ZenerException;
+import com.n8lm.zener.general.ZenerException;
 
 /**
  * Created on 2014/11/23.
