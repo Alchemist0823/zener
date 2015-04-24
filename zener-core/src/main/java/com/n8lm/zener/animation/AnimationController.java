@@ -44,13 +44,21 @@ public abstract class AnimationController<T extends KeyFrame>{
 	public AnimationController(Animation<T> anim) {
 		this(anim, false, 1.0f, 0f);
 	}
-	
-	public AnimationController(Animation<T> anim, boolean isLoop, float speed, float time) {
+
+	/**
+	 * Construct a Animation Controller
+	 *
+	 * @param anim      the animation data
+	 * @param isLoop    whether the animation will loop
+	 * @param speed     the speed of animation default value is one.
+	 * @param startTime the start time of the animation
+	 */
+	public AnimationController(Animation<T> anim, boolean isLoop, float speed, float startTime) {
 		if (anim == null)
 			throw new IllegalArgumentException("Animation is empty");
 		this.anim = anim;
 		//listeners = new ArrayList<EndEventListener>();
-		this.time = time;
+		this.time = startTime;
 		frameIndex  = -1;
 		this.isLoop = isLoop;
         this.speed = speed;
