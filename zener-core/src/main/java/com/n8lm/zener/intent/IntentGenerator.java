@@ -23,10 +23,6 @@ import com.artemis.World;
 abstract public class IntentGenerator {
 
 	protected World world;
-
-    public IntentGenerator() {
-
-    }
 	
 	public IntentGenerator(World world) {
 		this.world = world;

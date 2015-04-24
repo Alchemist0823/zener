@@ -32,7 +32,7 @@ package com.n8lm.zener.input;
  * 
  * @author kevin
  */
-public interface ControlledInputReciever {
+public interface ControlledInputReceiver {
 
 	/**
 	 * Set the input that events are being sent from

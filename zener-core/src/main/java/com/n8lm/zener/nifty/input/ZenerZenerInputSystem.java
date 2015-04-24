@@ -18,7 +18,7 @@
 
 package com.n8lm.zener.nifty.input;
 
-import com.n8lm.zener.input.InputListener;
+import com.n8lm.zener.input.InputManager;
 import com.n8lm.zener.nifty.input.events.InputEvent;
 
 /**
@@ -31,19 +31,19 @@ public final class ZenerZenerInputSystem extends AbstractZenerInputSystem implem
   /**
    * The input listener that will receive any events the NiftyGUI does not use.
    */
-  private final InputListener listener;
+  private final InputManager inputManager;
 
   /**
    * Create the input system and set the listener that will receive any unused input events.
    *
-   * @param targetListener the listener
+   * @param inputManager the listener
    * @throws IllegalArgumentException in case the targetListener parameter is {@code null}
    */
-  public ZenerZenerInputSystem(final InputListener targetListener) {
-    if (targetListener == null) {
+  public ZenerZenerInputSystem(final InputManager inputManager) {
+    if (inputManager == null) {
       throw new IllegalArgumentException("The target listener must not be NULL.");
     }
-    listener = targetListener;
+    this.inputManager = inputManager;
   }
 
   /**
@@ -51,7 +51,7 @@ public final class ZenerZenerInputSystem extends AbstractZenerInputSystem implem
    */
   @Override
   protected void handleInputEvent(final InputEvent event) {
-    event.sendToZener(listener);
+    event.sendToZener(inputManager);
   }
 
   @Override
@@ -82,5 +82,30 @@ public final class ZenerZenerInputSystem extends AbstractZenerInputSystem implem
   @Override
   public void releaseExclusiveInput() {
     disableForwardingMode(ForwardingMode.all);
+  }
+
+  @Override
+  public void controllerButtonPressed(int controller, int button) {
+    inputManager.controllerButtonPressed(controller, button);
+  }
+
+  @Override
+  public void controllerButtonReleased(int controller, int button) {
+    inputManager.controllerButtonReleased(controller, button);
+  }
+
+  @Override
+  public boolean isAcceptingInput() {
+    return true;
+  }
+
+  @Override
+  public void inputEnded() {
+    inputManager.inputEnded();
+  }
+
+  @Override
+  public void inputStarted() {
+    inputManager.inputStarted();
   }
 }

@@ -18,21 +18,16 @@
 
 package com.n8lm.zener.app;
 
-import java.util.logging.Logger;
-
 import com.n8lm.zener.audio.Music;
+import com.n8lm.zener.audio.openal.SoundStore;
+import com.n8lm.zener.general.ZenerException;
 import com.n8lm.zener.graphics.GLRenderSystem;
+import com.n8lm.zener.input.Input;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.openal.AL;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.Drawable;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.opengl.Pbuffer;
-import com.n8lm.zener.audio.openal.SoundStore;
+import org.lwjgl.opengl.*;
 
-import com.n8lm.zener.input.Input;
-import com.n8lm.zener.general.ZenerException;
+import java.util.logging.Logger;
 
 public abstract class AbstractAppContainer extends Container{
 
@@ -702,7 +697,7 @@ public abstract class AbstractAppContainer extends Container{
 		initDisplay(width, height);
 
 		if (input == null) {
-			input = new Input(height);
+			input = new Input(height, game.getInputManager());
 		}
 		input.init(height);
 		// no need to remove listeners?
@@ -723,9 +718,7 @@ public abstract class AbstractAppContainer extends Container{
 
 	/**
 	 * Initialize the system components, OpenGL and OpenAL.
-	 * 
-	 * @throws ZenerException
-	 *             Indicates a failure to create a native handler
+	 *
 	 */
 	protected void initSystem() {
 		initGL();

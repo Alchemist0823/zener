@@ -94,7 +94,7 @@ public class ModelRenderTest extends ExampleBasicApp implements NativeScript {
         light2.addComponent(new TransformComponent(new Transform()));
         world.addEntity(light2);
 
-        getContainer().getInput().addListener(new MaterialSwitchInputAdapter(model, light2));
+        inputManager.addListener(new MaterialSwitchInputAdapter(model, light2));
     }
 
     @Override

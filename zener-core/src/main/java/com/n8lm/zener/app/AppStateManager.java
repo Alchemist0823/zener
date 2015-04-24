@@ -33,7 +33,7 @@ import java.util.List;
  *                 terminating.
  * </ul>
  *
- * @author Kirill Vainer, Paul Speed, Forrest Sun
+ * @author Forrest Sun
  */
 public class AppStateManager {
 
@@ -141,8 +141,8 @@ public class AppStateManager {
 
     /**
      * Returns the first state that is an instance of subclass of the specified class.
-     * @param <T>
-     * @param stateClass
+     * @param <T> the state class
+     * @param stateClass the state class
      * @return First attached state that is an instance of stateClass
      */
     public <T extends AppState> T getState(Class<T> stateClass){

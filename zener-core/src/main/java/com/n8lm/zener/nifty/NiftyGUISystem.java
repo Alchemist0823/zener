@@ -18,48 +18,38 @@
 
 package com.n8lm.zener.nifty;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
-import java.util.List;
-
+import com.artemis.systems.VoidEntitySystem;
 import com.n8lm.zener.app.BasicApp;
+import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.nifty.audio.OpenALSoundDevice;
+import com.n8lm.zener.nifty.input.ZenerInputSystem;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.render.batch.BatchRenderDevice;
 import de.lessvoid.nifty.renderer.lwjgl.input.LwjglInputSystem;
 import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendFactory;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import com.artemis.systems.VoidEntitySystem;
-import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.intent.InputIntentGenerator;
-import com.n8lm.zener.nifty.input.ZenerInputSystem;
-import com.n8lm.zener.nifty.input.ZenerZenerInputSystem;
+import java.util.List;
 
-import de.lessvoid.nifty.Nifty;
-//import de.lessvoid.nifty.renderer.lwjgl.render.LwjglBatchRenderBackendCoreProfileFactory;
-//import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
-import de.lessvoid.nifty.render.batch.BatchRenderDevice;
-import com.n8lm.zener.nifty.audio.OpenALSoundDevice;
-import de.lessvoid.nifty.spi.time.impl.AccurateTimeProvider;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class NiftyGUISystem extends VoidEntitySystem {
 	
 	private BasicApp game;
 	private Nifty nifty;
 	//private ZenerInputSystem inputSystem;
-	private InputIntentGenerator iig;
-	
-	public NiftyGUISystem(InputIntentGenerator iig) {
+
+	public NiftyGUISystem(ZenerInputSystem inputSystem) {
 		super();
 		this.game = BasicApp.getInstance();
-		this.iig = iig;
-
-        ZenerInputSystem inputSystem = new ZenerZenerInputSystem(iig);
 		inputSystem.setInput(game.getContainer().getInput());
-		
-		game.getContainer().getInput().addListener(inputSystem);
+
+		game.getContainer().getInput().setRawInputListener(inputSystem);
 
         BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendFactory.create());
         //BatchRenderDevice renderDevice = new BatchRenderDevice(LwjglBatchRenderBackendCoreProfileFactory.create());
@@ -148,11 +138,6 @@ public class NiftyGUISystem extends VoidEntitySystem {
 	public Nifty getNifty() {
 		return nifty;
 	}
-
-    public InputIntentGenerator getInputIntentGenerator() {
-        return iig;
-    }
-
 	/*public void addCallback(GameCallback callback) {
 		screenCallbacks.add(callback);
 	}*/

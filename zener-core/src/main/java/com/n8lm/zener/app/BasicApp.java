@@ -21,6 +21,7 @@ package com.n8lm.zener.app;
 import com.artemis.World;
 import com.n8lm.zener.data.GameInfoManager;
 import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.input.InputManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public abstract class BasicApp {
 	protected AbstractAppContainer container;
 	protected final ResourceManager resourceManager;
 	protected GameInfoManager gameInfoManager;
+	protected InputManager inputManager;
 	protected String title;
 
 	//protected boolean gameStarted;
@@ -45,6 +47,7 @@ public abstract class BasicApp {
 	protected boolean isCloseRequested;
 
     static protected BasicApp game;
+
 	static public BasicApp getInstance() {
 		return game;
 	}
@@ -54,6 +57,7 @@ public abstract class BasicApp {
         worlds = new ArrayList<>();
         appStateManager = new AppStateManager(this);
         resourceManager = ResourceManager.getInstance();
+		inputManager = new InputManager();
 		game = this;
 	}
 	
@@ -76,8 +80,8 @@ public abstract class BasicApp {
 	}
 
     public void addWorld(World world, World before) {
-        worlds.add(worlds.indexOf(before), world);
-    }
+		worlds.add(worlds.indexOf(before), world);
+	}
 
     public void addWorld(World world) {
         worlds.add(world);
@@ -158,6 +162,10 @@ public abstract class BasicApp {
     public AppStateManager getAppStateManager() {
         return appStateManager;
     }
+
+	public InputManager getInputManager() {
+		return inputManager;
+	}
 
     public World getWorld(String name) {
         for (World world : worlds)

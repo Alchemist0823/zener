@@ -355,7 +355,17 @@ public class TiledMap implements Cloneable{
         int ty = (int) (y / tileHeight);
         float dx = (tx + 1 - x / tileWidth);
         float dy = (ty + 1 - y / tileHeight);
-        return (altitude[tx][ty] * dx * dy + altitude[tx + 1][ty] * (1 - dx) * dy + altitude[tx][ty + 1] * dx * (1 - dy) + altitude[tx + 1][ty + 1] * (1 - dx) * (1 - dy)) * tileAltitude;
+
+        float ans = altitude[tx][ty] * dx * dy;
+        if (1 - dx != 0) {
+            ans += altitude[tx + 1][ty] * (1 - dx) * dy;
+            if (1 - dy != 0) {
+                ans += altitude[tx + 1][ty + 1] * (1 - dx) * (1 - dy);
+            }
+        }
+        if (1 - dy != 0)
+            ans += altitude[tx][ty + 1] * dx * (1 - dy);
+        return ans * tileAltitude;
     }
 
 }

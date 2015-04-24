@@ -18,18 +18,15 @@
 
 package com.n8lm.zener.nifty.input;
 
-import org.lwjgl.input.Mouse;
-
 import com.n8lm.zener.input.Input;
-import com.n8lm.zener.input.InputAdapter;
 import com.n8lm.zener.nifty.input.events.*;
+import de.lessvoid.nifty.NiftyInputConsumer;
+import de.lessvoid.nifty.tools.resourceloader.NiftyResourceLoader;
+import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.lessvoid.nifty.NiftyInputConsumer;
-import de.lessvoid.nifty.tools.resourceloader.NiftyResourceLoader;
 
 /**
  * This is the abstract Input System implementation to connect the Input of Slick and Nifty.
@@ -37,7 +34,7 @@ import de.lessvoid.nifty.tools.resourceloader.NiftyResourceLoader;
  * @author Martin Karing &lt;nitram@illarion.org&gt;
  */
 @SuppressWarnings("AbstractClassExtendsConcreteClass")
-public abstract class AbstractZenerInputSystem extends InputAdapter implements ZenerInputSystem {
+public abstract class AbstractZenerInputSystem implements ZenerInputSystem {
   /**
    * This constants holds the initial size of the storage list that holds the received input events.
    */
@@ -78,8 +75,8 @@ public abstract class AbstractZenerInputSystem extends InputAdapter implements Z
    * Prepare all required instances to work with this class.
    */
   protected AbstractZenerInputSystem() {
-    inputEventList = new ArrayList<InputEvent>(INPUT_EVENT_BUFFER_INIT_SIZE);
-    buttonPressedStack = new LinkedList<Integer>();
+    inputEventList = new ArrayList<>(INPUT_EVENT_BUFFER_INIT_SIZE);
+    buttonPressedStack = new LinkedList<>();
     inputState = new InputState();
     forwardMode = ForwardingMode.none;
   }

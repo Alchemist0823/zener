@@ -7,24 +7,24 @@ package com.n8lm.zener.app;
  */
 public interface AppState {
 
-    public void attached(AppStateManager appStateManager);
+    void attached(AppStateManager appStateManager);
 
-    public void detached(AppStateManager appStateManager);
+    void detached(AppStateManager appStateManager);
 
     /**
      * initialize the app state called in main loop
-     * @param appStateManager
-     * @param app
+     * @param appStateManager the AppStateManager
+     * @param app the BasicApp
      */
-    public void initialize(AppStateManager appStateManager, BasicApp app);
+    void initialize(AppStateManager appStateManager, BasicApp app);
 
     /**
      * clean up the app state called in main loop
      */
-    public void cleanup();
+    void cleanup();
 
-    public boolean isEnabled();
+    boolean isEnabled();
 
-    public void update(int delta);
+    void update(int delta);
 
 }

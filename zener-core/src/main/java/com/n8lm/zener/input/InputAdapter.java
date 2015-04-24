@@ -40,54 +40,6 @@ public class InputAdapter implements InputListener {
 	}
 
 	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerDownPressed(int)
-	 */
-	public void controllerDownPressed(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerDownReleased(int)
-	 */
-	public void controllerDownReleased(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerLeftPressed(int)
-	 */
-	public void controllerLeftPressed(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerLeftReleased(int)
-	 */
-	public void controllerLeftReleased(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerRightPressed(int)
-	 */
-	public void controllerRightPressed(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerRightReleased(int)
-	 */
-	public void controllerRightReleased(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerUpPressed(int)
-	 */
-	public void controllerUpPressed(int controller) {
-	}
-
-	/**
-	 * @see com.n8lm.zener.input.InputListener#controllerUpReleased(int)
-	 */
-	public void controllerUpReleased(int controller) {
-	}
-
-	/**
 	 * @see com.n8lm.zener.input.InputListener#inputEnded()
 	 */
 	public void inputEnded() {
@@ -146,7 +98,7 @@ public class InputAdapter implements InputListener {
 	}
 
 	/**
-	 * @see com.n8lm.zener.input.InputListener#setInput(com.n8lm.zener..Input)
+	 * @see com.n8lm.zener.input.InputListener#setInput(com.n8lm.zener.input.Input)
 	 */
 	public void setInput(Input input) {
 	}
@@ -161,7 +113,7 @@ public class InputAdapter implements InputListener {
 	}
 
 	/**
-	 * @see com.n8lm.zener..ControlledInputReciever#inputStarted()
+	 * @see com.n8lm.zener.input.ControlledInputReceiver#inputStarted()
 	 */
 	public void inputStarted() {
 		

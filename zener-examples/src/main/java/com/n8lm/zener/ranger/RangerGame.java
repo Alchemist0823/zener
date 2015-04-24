@@ -169,7 +169,7 @@ public class RangerGame extends ExampleBasicApp {
         Mouse.setGrabbed(true);
 
         CharacterInputAdapter cia = new CharacterInputAdapter(world, mainCharacter, cam, mapEntity);
-        getContainer().getInput().addListener(cia);
+        inputManager.addListener(cia);
 
         mainCharacter.addComponent(new ScriptComponent(Event.WORLD_UPDATE, cia));
 

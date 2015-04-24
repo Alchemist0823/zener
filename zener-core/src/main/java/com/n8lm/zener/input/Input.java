@@ -18,14 +18,7 @@
 
 package com.n8lm.zener.input;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.logging.Logger;
-
+import com.n8lm.zener.general.ZenerException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
@@ -33,18 +26,21 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import com.n8lm.zener.general.ZenerException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 /**
  * A wrapped for all keyboard, mouse and controller input
  *
- * @author kevin, Alchemist
+ * @author kevin, Forrest Sun
  */
 public class Input {
-	
 
-	  private final static Logger LOGGER = Logger.getLogger(Input.class
-	      .getName());
+	private final static Logger LOGGER = Logger.getLogger(Input.class
+			.getName());
 	
 	/** The controller index to pass to check all controllers */
 	public static final int ANY_CONTROLLER = -1;
@@ -365,20 +361,12 @@ public class Input {
 	
 	/** The control states from the controllers */
 	private boolean[][] controls = new boolean[10][MAX_BUTTONS+10];
-	/** True if the event has been consumed */
-	protected boolean consumed = false;
-	/** A list of listeners to be notified of input events */
-	protected HashSet<ControlledInputReciever> allListeners = new HashSet<ControlledInputReciever>();
-	/** The listeners to notify of key events */
-	protected ArrayList<KeyListener> keyListeners = new ArrayList<KeyListener>();
-	/** The listener to add */
-	protected ArrayList<KeyListener> keyListenersToAdd = new ArrayList<KeyListener>();
-	/** The listeners to notify of mouse events */
-	protected ArrayList<MouseListener> mouseListeners = new ArrayList<MouseListener>();
-	/** The listener to add */
-	protected ArrayList<MouseListener> mouseListenersToAdd = new ArrayList<MouseListener>();
-	/** The listener to nofiy of controller events */
-	protected ArrayList<ControllerListener> controllerListeners = new ArrayList<ControllerListener>();
+
+	/**
+	 * The only input listener
+	 */
+	protected InputListener rawInputListener;
+
 	/** The current value of the wheel */
 	private int wheel;
 	/** The height of the display */
@@ -426,6 +414,10 @@ public class Input {
 	/** The pixel distance the mouse can move to accept a mouse click */
 	private int mouseClickTolerance = 5;
 
+	public void setRawInputListener(InputListener rawInputListener) {
+		this.rawInputListener = rawInputListener;
+	}
+
 	/**
 	 * Disables support for controllers. This means the jinput JAR and native libs 
 	 * are not required.
@@ -439,8 +431,9 @@ public class Input {
 	 * 
 	 * @param height The height of the screen
 	 */
-	public Input(int height) {
+	public Input(int height, InputListener rawInputListener) {
 		init(height);
+		setRawInputListener(rawInputListener);
 	}
 	
 	/**
@@ -493,174 +486,7 @@ public class Input {
 	    setOffset(0, 0);
 	    setScale(1, 1);
 	}
-	
-	/**
-	 * Add a listener to be notified of input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	public void addListener(InputListener listener) {
-		addKeyListener(listener);
-		addMouseListener(listener);
-		addControllerListener(listener);
-	}
 
-	/**
-	 * Add a key listener to be notified of key input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	public void addKeyListener(KeyListener listener) {
-		keyListenersToAdd.add(listener);
-	}
-	
-	/**
-	 * Add a key listener to be notified of key input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	private void addKeyListenerImpl(KeyListener listener) {
-		if (keyListeners.contains(listener)) {
-			return;
-		}
-		keyListeners.add(listener);
-		allListeners.add(listener);
-	}
-
-	/**
-	 * Add a mouse listener to be notified of mouse input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	public void addMouseListener(MouseListener listener) {
-		mouseListenersToAdd.add(listener);
-	}
-	
-	/**
-	 * Add a mouse listener to be notified of mouse input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	private void addMouseListenerImpl(MouseListener listener) {
-		if (mouseListeners.contains(listener)) {
-			return;
-		}
-		mouseListeners.add(listener);
-		allListeners.add(listener);
-	}
-	
-	/**
-	 * Add a controller listener to be notified of controller input events
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	public void addControllerListener(ControllerListener listener) {
-		if (controllerListeners.contains(listener)) {
-			return;
-		}
-		controllerListeners.add(listener);
-		allListeners.add(listener);
-	}
-	
-	/**
-	 * Remove all the listeners from this input
-	 */
-	public void removeAllListeners() {
-		removeAllKeyListeners();
-		removeAllMouseListeners();
-		removeAllControllerListeners();
-	}
-
-	/**
-	 * Remove all the key listeners from this input
-	 */
-	public void removeAllKeyListeners() {
-		allListeners.removeAll(keyListeners);
-		keyListeners.clear();
-	}
-
-	/**
-	 * Remove all the mouse listeners from this input
-	 */
-	public void removeAllMouseListeners() {
-		allListeners.removeAll(mouseListeners);
-		mouseListeners.clear();
-	}
-
-	/**
-	 * Remove all the controller listeners from this input
-	 */
-	public void removeAllControllerListeners() {
-		allListeners.removeAll(controllerListeners);
-		controllerListeners.clear();
-	}
-	
-	/**
-	 * Add a listener to be notified of input events. This listener
-	 * will get events before others that are currently registered
-	 * 
-	 * @param listener The listener to be notified
-	 */
-	public void addPrimaryListener(InputListener listener) {
-		removeListener(listener);
-		
-		keyListeners.add(0, listener);
-		mouseListeners.add(0, listener);
-		controllerListeners.add(0, listener);
-		
-		allListeners.add(listener);
-	}
-	
-	/**
-	 * Remove a listener that will no longer be notified
-	 * 
-	 * @param listener The listen to be removed
-	 */
-	public void removeListener(InputListener listener) {
-		removeKeyListener(listener);
-		removeMouseListener(listener);
-		removeControllerListener(listener);
-	}
-
-	/**
-	 * Remove a key listener that will no longer be notified
-	 * 
-	 * @param listener The listen to be removed
-	 */
-	public void removeKeyListener(KeyListener listener) {
-		keyListeners.remove(listener);
-		
-		if (!mouseListeners.contains(listener) && !controllerListeners.contains(listener)) {
-			allListeners.remove(listener);
-		}
-	}
-
-	/**
-	 * Remove a controller listener that will no longer be notified
-	 * 
-	 * @param listener The listen to be removed
-	 */
-	public void removeControllerListener(ControllerListener listener) {
-		controllerListeners.remove(listener);
-		
-		if (!mouseListeners.contains(listener) && !keyListeners.contains(listener)) {
-			allListeners.remove(listener);
-		}
-	}
-
-	/**
-	 * Remove a mouse listener that will no longer be notified
-	 * 
-	 * @param listener The listen to be removed
-	 */
-	public void removeMouseListener(MouseListener listener) {
-		mouseListeners.remove(listener);
-		
-		if (!controllerListeners.contains(listener) && !keyListeners.contains(listener)) {
-			allListeners.remove(listener);
-		}
-	}
-	
 	/**
 	 * Initialize the input system
 	 * 
@@ -866,7 +692,7 @@ public class Input {
 	 * @return The number of axis available on the controller
 	 */
 	public int getAxisCount(int controller) {
-		return ((Controller) controllers.get(controller)).getAxisCount();
+		return controllers.get(controller).getAxisCount();
 	}
 	
 	/**
@@ -877,7 +703,7 @@ public class Input {
 	 * @return The axis value at time of reading
 	 */ 
 	public float getAxisValue(int controller, int axis) {
-		return ((Controller) controllers.get(controller)).getAxisValue(axis);
+		return controllers.get(controller).getAxisValue(axis);
 	}
 
 	/**
@@ -961,8 +787,8 @@ public class Input {
 			
 			return false;
 		}
-		return ((Controller) controllers.get(controller)).getYAxisValue() < -0.5f
-		   		|| ((Controller) controllers.get(controller)).getPovY() < -0.5f;
+		return (controllers.get(controller)).getYAxisValue() < -0.5f
+				|| (controllers.get(controller)).getPovY() < -0.5f;
 	}
 
 	/**
@@ -985,10 +811,10 @@ public class Input {
 			
 			return false;
 		}
-		
-		return ((Controller) controllers.get(controller)).getYAxisValue() > 0.5f
-			   || ((Controller) controllers.get(controller)).getPovY() > 0.5f;
-	       
+
+		return (controllers.get(controller)).getYAxisValue() > 0.5f
+				|| (controllers.get(controller)).getPovY() > 0.5f;
+
 	}
 
 	/**
@@ -1012,8 +838,8 @@ public class Input {
 			
 			return false;
 		}
-		
-		return ((Controller) controllers.get(controller)).isButtonPressed(index);
+
+		return (controllers.get(controller)).isButtonPressed(index);
 	}
 	
 	/**
@@ -1071,7 +897,7 @@ public class Input {
 			
 			LOGGER.info("Found "+controllers.size()+" controllers");
 			for (int i=0;i<controllers.size();i++) {
-				LOGGER.info(i+" : "+((Controller) controllers.get(i)).getName());
+				LOGGER.info(i + " : " + (controllers.get(i)).getName());
 			}
 		} catch (LWJGLException e) {
 			if (e.getCause() instanceof ClassNotFoundException) {
@@ -1081,13 +907,6 @@ public class Input {
 		} catch (NoClassDefFoundError e) {
 			// forget it, no jinput availble
 		}
-	}
-	
-	/**
-	 * Notification from an event handle that an event has been consumed
-	 */
-	public void consumeEvent() {
-		consumed = true;
 	}
 	
 	/**
@@ -1159,9 +978,9 @@ public class Input {
 			clearControlPressedRecord();
 			clearKeyPressedRecord();
 			clearMousePressedRecord();
-			
-			while (Keyboard.next()) {}
-			while (Mouse.next()) {}
+
+			while (Keyboard.next()) ;
+			while (Mouse.next());
 			return;
 		}
 
@@ -1171,16 +990,6 @@ public class Input {
 			clearMousePressedRecord();
 		}
 		
-		// add any listeners requested since last time
-		for (int i=0;i<keyListenersToAdd.size();i++) {
-			addKeyListenerImpl((KeyListener) keyListenersToAdd.get(i));
-		}
-		keyListenersToAdd.clear();
-		for (int i=0;i<mouseListenersToAdd.size();i++) {
-			addMouseListenerImpl((MouseListener) mouseListenersToAdd.get(i));
-		}
-		mouseListenersToAdd.clear();
-		
 		if (doubleClickTimeout != 0) {
 			if (System.currentTimeMillis() > doubleClickTimeout) {
 				doubleClickTimeout = 0;
@@ -1189,11 +998,7 @@ public class Input {
 		
 		this.height = height;
 
-		Iterator<ControlledInputReciever> allStarts = allListeners.iterator();
-		while (allStarts.hasNext()) {
-			ControlledInputReciever listener = (ControlledInputReciever) allStarts.next();
-			listener.inputStarted();
-		}
+		rawInputListener.inputStarted();
 		
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
@@ -1202,55 +1007,27 @@ public class Input {
 				keys[eventKey] = Keyboard.getEventCharacter();
 				pressed[eventKey] = true;
 				nextRepeat[eventKey] = System.currentTimeMillis() + keyRepeatInitial;
-				
-				consumed = false;
-				for (int i=0;i<keyListeners.size();i++) {
-					KeyListener listener = (KeyListener) keyListeners.get(i);
-					
-					if (listener.isAcceptingInput()) {
-						listener.keyPressed(eventKey, Keyboard.getEventCharacter());
-						if (consumed) {
-							break;
-						}
-					}
+
+				if (rawInputListener.isAcceptingInput()) {
+					rawInputListener.keyPressed(eventKey, Keyboard.getEventCharacter());
 				}
 			} else {
 				int eventKey = resolveEventKey(Keyboard.getEventKey(), Keyboard.getEventCharacter());
 				nextRepeat[eventKey] = 0;
-				
-				consumed = false;
-				for (int i=0;i<keyListeners.size();i++) {
-					KeyListener listener = (KeyListener) keyListeners.get(i);
-					if (listener.isAcceptingInput()) {
-						listener.keyReleased(eventKey, keys[eventKey]);
-						if (consumed) {
-							break;
-						}
-					}
-				}
 			}
 		}
 		
 		while (Mouse.next()) {
 			if (Mouse.getEventButton() >= 0) {
 				if (Mouse.getEventButtonState()) {
-					consumed = false;
 					mousePressed[Mouse.getEventButton()] = true;
 
 					pressedX = (int) (xoffset + (Mouse.getEventX() * scaleX));
 					pressedY =  (int) (yoffset + ((height-Mouse.getEventY()) * scaleY));
 
-					for (int i=0;i<mouseListeners.size();i++) {
-						MouseListener listener = (MouseListener) mouseListeners.get(i);
-						if (listener.isAcceptingInput()) {
-							listener.mousePressed(Mouse.getEventButton(), pressedX, pressedY);
-							if (consumed) {
-								break;
-							}
-						}
-					}
+					if (rawInputListener.isAcceptingInput())
+						rawInputListener.mousePressed(Mouse.getEventButton(), pressedX, pressedY);
 				} else {
-					consumed = false;
 					mousePressed[Mouse.getEventButton()] = false;
 					
 					int releasedX = (int) (xoffset + (Mouse.getEventX() * scaleX));
@@ -1262,34 +1039,17 @@ public class Input {
 						considerDoubleClick(Mouse.getEventButton(), releasedX, releasedY);
 						pressedX = pressedY = -1;
 					}
-
-					for (int i=0;i<mouseListeners.size();i++) {
-						MouseListener listener = (MouseListener) mouseListeners.get(i);
-						if (listener.isAcceptingInput()) {
-							listener.mouseReleased(Mouse.getEventButton(), releasedX, releasedY);
-							if (consumed) {
-								break;
-							}
-						}
-					}
+					if (rawInputListener.isAcceptingInput())
+						rawInputListener.mouseReleased(Mouse.getEventButton(), releasedX, releasedY);
 				}
 			} else {
 				if (Mouse.isGrabbed() && displayActive) {
 					if ((Mouse.getEventDX() != 0) || (Mouse.getEventDY() != 0)) {
-						consumed = false;
-						for (int i=0;i<mouseListeners.size();i++) {
-							MouseListener listener = (MouseListener) mouseListeners.get(i);
-							if (listener.isAcceptingInput()) {
-								if (anyMouseDown()) {
-									listener.mouseDragged(0, 0, Mouse.getEventDX(), -Mouse.getEventDY());	
-								} else {
-									listener.mouseMoved(0, 0, Mouse.getEventDX(), -Mouse.getEventDY());
-								}
-								
-								if (consumed) {
-									break;
-								}
+						if (rawInputListener.isAcceptingInput()) {
+							if (anyMouseDown()) {
+								rawInputListener.mouseDragged(0, 0, Mouse.getEventDX(), -Mouse.getEventDY());
 							}
+							rawInputListener.mouseMoved(0, 0, Mouse.getEventDX(), -Mouse.getEventDY());
 						}
 					}
 				}
@@ -1297,16 +1057,8 @@ public class Input {
 				int dwheel = Mouse.getEventDWheel();
 				wheel += dwheel;
 				if (dwheel != 0) {
-					consumed = false;
-					for (int i=0;i<mouseListeners.size();i++) {
-						MouseListener listener = (MouseListener) mouseListeners.get(i);
-						if (listener.isAcceptingInput()) {
-							listener.mouseWheelMoved(dwheel);
-							if (consumed) {
-								break;
-							}
-						}
-					}
+					if (rawInputListener.isAcceptingInput())
+						rawInputListener.mouseWheelMoved(dwheel);
 				}
 			}
 		}
@@ -1316,19 +1068,11 @@ public class Input {
 			lastMouseY = getMouseY();
 		} else {
 			if ((lastMouseX != getMouseX()) || (lastMouseY != getMouseY())) {
-				consumed = false;
-				for (int i=0;i<mouseListeners.size();i++) {
-					MouseListener listener = (MouseListener) mouseListeners.get(i);
-					if (listener.isAcceptingInput()) {
-						if (anyMouseDown()) {
-							listener.mouseDragged(lastMouseX ,  lastMouseY, getMouseX(), getMouseY());
-						} else {
-							listener.mouseMoved(lastMouseX ,  lastMouseY, getMouseX(), getMouseY());	
-						}
-						if (consumed) {
-							break;
-						}
+				if (rawInputListener.isAcceptingInput()) {
+					if (anyMouseDown()) {
+						rawInputListener.mouseDragged(lastMouseX, lastMouseY, getMouseX(), getMouseY());
 					}
+					rawInputListener.mouseMoved(lastMouseX, lastMouseY, getMouseX(), getMouseY());
 				}
 				lastMouseX = getMouseX();
 				lastMouseY = getMouseY();
@@ -1336,8 +1080,8 @@ public class Input {
 		}
 		
 		if (controllersInited) {
-			for (int i=0;i<getControllerCount();i++) {
-				int count = ((Controller) controllers.get(i)).getButtonCount()+3;
+			for (int i = 0; i < getControllerCount(); i++) {
+				int count = controllers.get(i).getButtonCount()+3;
 				count = Math.min(count, 24);
 				for (int c=0;c<=count;c++) {
 					if (controls[i][c] && !isControlDwn(c, i)) {
@@ -1357,29 +1101,14 @@ public class Input {
 				if (pressed[i] && (nextRepeat[i] != 0)) {
 					if (System.currentTimeMillis() > nextRepeat[i]) {
 						nextRepeat[i] = System.currentTimeMillis() + keyRepeatInterval;
-						consumed = false;
-						for (int j=0;j<keyListeners.size();j++) {
-							KeyListener listener = (KeyListener) keyListeners.get(j);
-
-							if (listener.isAcceptingInput()) {
-								listener.keyPressed(i, keys[i]);
-								if (consumed) {
-									break;
-								}
-							}
-						}
+						if (rawInputListener.isAcceptingInput())
+							rawInputListener.keyReleased(i, keys[i]);
 					}
 				}
 			}
 		}
 
-		
-		Iterator<ControlledInputReciever> all = allListeners.iterator();
-		while (all.hasNext()) {
-			ControlledInputReciever listener = (ControlledInputReciever) all.next();
-			listener.inputEnded();
-		}
-		
+		rawInputListener.inputEnded();
 		if (Display.isCreated()) {
 			displayActive = Display.isActive();
 		}
@@ -1428,32 +1157,8 @@ public class Input {
 	 * @param controllerIndex The index of the controller on which the control was pressed
 	 */
 	private void fireControlPress(int index, int controllerIndex) {
-		consumed = false;
-		for (int i=0;i<controllerListeners.size();i++) {
-			ControllerListener listener = (ControllerListener) controllerListeners.get(i);
-			if (listener.isAcceptingInput()) {
-				switch (index) {
-				case LEFT:
-					listener.controllerLeftPressed(controllerIndex);
-					break;
-				case RIGHT:
-					listener.controllerRightPressed(controllerIndex);
-					break;
-				case UP:
-					listener.controllerUpPressed(controllerIndex);
-					break;
-				case DOWN:
-					listener.controllerDownPressed(controllerIndex);
-					break;
-				default:
-					// assume button pressed
-					listener.controllerButtonPressed(controllerIndex, (index - BUTTON1) + 1);
-					break;
-				}
-				if (consumed) {
-					break;
-				}
-			}
+		if (rawInputListener.isAcceptingInput()) {
+			rawInputListener.controllerButtonPressed(controllerIndex, index);
 		}
 	}
 
@@ -1464,32 +1169,8 @@ public class Input {
 	 * @param controllerIndex The index of the controller on which the control was released
 	 */
 	private void fireControlRelease(int index, int controllerIndex) {
-		consumed = false;
-		for (int i=0;i<controllerListeners.size();i++) {
-			ControllerListener listener = (ControllerListener) controllerListeners.get(i);
-			if (listener.isAcceptingInput()) {
-				switch (index) {
-				case LEFT:
-					listener.controllerLeftReleased(controllerIndex);
-					break;
-				case RIGHT:
-					listener.controllerRightReleased(controllerIndex);
-					break;
-				case UP:
-					listener.controllerUpReleased(controllerIndex);
-					break;
-				case DOWN:
-					listener.controllerDownReleased(controllerIndex);
-					break;
-				default:
-					// assume button release
-					listener.controllerButtonReleased(controllerIndex, (index - BUTTON1) + 1);
-					break;
-				}
-				if (consumed) {
-					break;
-				}
-			}
+		if (rawInputListener.isAcceptingInput()) {
+			rawInputListener.controllerButtonReleased(controllerIndex, index);
 		}
 	}
 	
@@ -1548,15 +1229,7 @@ public class Input {
 	 * @param clickCount The number of times the button was clicked (single or double click)
 	 */
 	private void fireMouseClicked(int button, int x, int y, int clickCount) {
-		consumed = false;
-		for (int i=0;i<mouseListeners.size();i++) {
-			MouseListener listener = (MouseListener) mouseListeners.get(i);
-			if (listener.isAcceptingInput()) {
-				listener.mouseClicked(button, x, y, clickCount);
-				if (consumed) {
-					break;
-				}
-			}
-		}
+		if (rawInputListener.isAcceptingInput())
+			rawInputListener.mouseClicked(button, x, y, clickCount);
 	}
 }

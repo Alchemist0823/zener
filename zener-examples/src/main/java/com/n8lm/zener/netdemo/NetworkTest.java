@@ -92,7 +92,7 @@ public class NetworkTest extends ExampleBasicApp {
         light1.addComponent(new TransformComponent(new Transform(0f, 0f, 10f)));
         world.addEntity(light1);
 
-        getContainer().getInput().addListener(new CharacterInputAdapter(world));
+        inputManager.addListener(new CharacterInputAdapter(world));
     }
 
     @Override
