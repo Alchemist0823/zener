@@ -29,7 +29,10 @@ import java.io.*;
  */
 public class TiledMap implements Cloneable{
 
-	protected final String name;
+    /**
+     * The name of the map
+     */
+    protected final String name;
 	/** The width of the map */
 	protected final int width;
 	/** The height of the map */
@@ -262,8 +265,12 @@ public class TiledMap implements Cloneable{
         	}
         }
 		//writer.flush();
-	}
+    }
 
+
+    public String getName() {
+        return name;
+    }
 
 	public boolean inBorder(Location l) {
 		return (l.x < width) && (l.y < height) && (l.x >= 0) && (l.y >= 0);
@@ -284,6 +291,7 @@ public class TiledMap implements Cloneable{
     public int getTexture(int x, int y) {
         return texture[x][y];
     }
+
     private void setTexture(Location l, int t) {
         this.texture[l.x][l.y] = t;
     }

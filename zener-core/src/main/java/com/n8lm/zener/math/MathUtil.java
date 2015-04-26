@@ -382,21 +382,21 @@ public class MathUtil {
 	}
 
     public static Vector3f hexColorToVector3f(int color) {
-        int x = (color >> 16) & 0xFF;
-        int y = (color >> 8) & 0xFF;
-        int z = color & 0xFF;
-        return new Vector3f(x / 256.0f, y / 256.0f, z / 256.0f);
+        return colorToVector3f(new Color(color));
     }
 
     public static String vector3fColorToHex(Vector3f color) {
-        return String.format("%02x%02x%02x", (int) (color.x * 256), (int) (color.y * 256), (int) (color.z * 256));
+        Color c = vector3fToColor(color);
+        return String.format("%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
     }
 
     public static Color vector3fToColor(Vector3f color) {
-        return new Color((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255));
+        return new Color(color.x, color.y, color.z);
     }
 
     public static Vector3f colorToVector3f(Color color) {
-        return new Vector3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
+        float[] comp = new float[4];
+        color.getColorComponents(comp);
+        return new Vector3f(comp[0], comp[1], comp[2]);
     }
 }
