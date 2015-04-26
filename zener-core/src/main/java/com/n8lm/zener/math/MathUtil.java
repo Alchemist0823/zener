@@ -22,6 +22,7 @@ import com.artemis.Entity;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.graphics.ViewComponent;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MathUtil {
@@ -389,5 +390,13 @@ public class MathUtil {
 
     public static String vector3fColorToHex(Vector3f color) {
         return String.format("%02x%02x%02x", (int) (color.x * 256), (int) (color.y * 256), (int) (color.z * 256));
+    }
+
+    public static Color vector3fToColor(Vector3f color) {
+        return new Color((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255));
+    }
+
+    public static Vector3f colorToVector3f(Color color) {
+        return new Vector3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
     }
 }
