@@ -1,26 +1,23 @@
 package net.indiespot.media;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_RGB;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.graphics.Texture;
+import craterstudio.util.RunningAvg;
+import net.indiespot.media.impl.OpenALAudioRenderer;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.graphics.Texture;
-
-import craterstudio.util.RunningAvg;
 import static org.lwjgl.opengl.ARBBufferObject.*;
-import static org.lwjgl.opengl.ARBPixelBufferObject.*;
+import static org.lwjgl.opengl.ARBPixelBufferObject.GL_PIXEL_UNPACK_BUFFER_ARB;
+import static org.lwjgl.opengl.GL11.*;
 
 public class MoviePlayer {
 
 	public File movieFile;
 	public Movie movie;
-	//public OpenALAudioRenderer audioRenderer;
+	public OpenALAudioRenderer audioRenderer;
 
 	public MoviePlayer(File movieFile) throws IOException {
 		this.movieFile = movieFile;
@@ -46,8 +43,8 @@ public class MoviePlayer {
 	}
 
 	private void init() {
-		//audioRenderer = new OpenALAudioRenderer();
-		//audioRenderer.initialize(movie.audioStream(), movie.framerate());
+		audioRenderer = new OpenALAudioRenderer();
+		audioRenderer.init(movie.audioStream(), movie.framerate());
 
 		// create texture holding video frame
         texture = new Texture(movie.width(), movie.height(), Texture.Format.RGB8);
@@ -95,8 +92,8 @@ public class MoviePlayer {
 
 
 	public void tick() {
-		movie.onRenderedAudioBuffer();
-		//audioRenderer.tick(movie);
+		//movie.onRenderedAudioBuffer();
+		audioRenderer.tick(movie);
 	}
     /*
 	public AudioRenderer audio() {

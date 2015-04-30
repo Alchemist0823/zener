@@ -30,18 +30,14 @@
 
 package com.n8lm.zener.assets;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.regex.Pattern;
-
 import com.n8lm.zener.utils.RegexUtil;
 import com.n8lm.zener.utils.StringConverter;
 import com.n8lm.zener.utils.SystemInformation;
 import craterstudio.io.Streams;
 import craterstudio.streams.NullOutputStream;
+
+import java.io.*;
+import java.util.regex.Pattern;
 
 public class FFmpeg {
 
@@ -49,7 +45,7 @@ public class FFmpeg {
 	public static boolean FFMPEG_VERBOSE = false;
 
 	static {
-		String resourceName = "./lib/ffmpeg/ffmpeg";
+		String resourceName = "./ffmpeg";
 		if (SystemInformation.isMac) {
 			resourceName += "-mac";
 		} else {
