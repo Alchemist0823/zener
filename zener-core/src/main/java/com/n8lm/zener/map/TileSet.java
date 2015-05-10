@@ -59,6 +59,10 @@ public class TileSet<T extends Tile>{
         return tiles.get(tile);
     }
 
+    public void remove(int tile) {
+        tiles.remove(tile);
+    }
+
     /*public S getStructure(int structure) {
         return structures.get(structure);
     }*/
@@ -88,5 +92,4 @@ public class TileSet<T extends Tile>{
         writer.write("-------------------------------------");
         writer.newLine();*/
     }
-
 }
