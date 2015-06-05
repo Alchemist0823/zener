@@ -22,5 +22,11 @@ import com.n8lm.zener.graphics.UniformGroup;
 
 public abstract class UniformsMaterial extends UniformGroup {
 
+    protected BlendMode blendMode = BlendMode.Normal;
+
+    public BlendMode getBlendMode() {
+        return blendMode;
+    }
+
     public abstract String getShaderName();
 }

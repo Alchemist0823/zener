@@ -33,7 +33,7 @@ public class GLShader extends GLObject implements VariableContainer {
     private final static Logger LOGGER = Logger.getLogger(GLShader.class
             .getName());
 
-    public static enum ShaderType {
+    public enum ShaderType {
         /**
          * Control fragment rasterization. (e.g color of pixel).
          */

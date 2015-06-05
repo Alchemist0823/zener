@@ -34,7 +34,7 @@ public class NormalMaterial extends UniformsMaterial {
             addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         if (material.normalTexture != null)
             addUniform("Material_NormalMap", VarType.Texture2D, material.normalTexture);
-        //diffuseTextureName = material.diffuseTextureName;
+        blendMode = material.blendMode;
     }
 
     @Override

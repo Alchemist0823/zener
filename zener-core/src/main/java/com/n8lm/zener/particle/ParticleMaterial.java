@@ -40,7 +40,7 @@ public class ParticleMaterial extends UniformsMaterial {
     public ParticleMaterial(Material material, int atlasCount) {
         addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         addUniform("AtlasRowCount", VarType.Int, ((int) Math.sqrt(atlasCount)));
-        //diffuseTextureName = material.diffuseTextureName;
+        blendMode = material.blendMode;
     }
 
     @Override

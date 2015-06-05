@@ -12,8 +12,12 @@ import com.n8lm.zener.math.Vector3f;
  */
 public class UnshadedMaterial extends UniformsMaterial {
 
-    public UnshadedMaterial(Texture diffuseTexture) {
+    public UnshadedMaterial(Texture diffuseTexture, boolean isTransparent) {
         addUniform("Material_DiffuseMap", VarType.Texture2D, diffuseTexture);
+        if (isTransparent)
+            blendMode = BlendMode.Alpha;
+        else
+            blendMode = BlendMode.Normal;
     }
 
     public UnshadedMaterial(Material material) {
@@ -22,6 +26,7 @@ public class UnshadedMaterial extends UniformsMaterial {
             addUniform("Material_DiffuseMap", VarType.Texture2D, material.diffuseTexture);
         if (material.normalTexture != null)
             addUniform("Material_NormalMap", VarType.Texture2D, material.normalTexture);
+        blendMode = material.blendMode;
     }
 
     @Override

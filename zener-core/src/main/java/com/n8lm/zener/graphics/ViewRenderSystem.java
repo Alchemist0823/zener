@@ -25,13 +25,14 @@ import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ArrayBag;
 import com.artemis.utils.Bag;
-import com.artemis.utils.ImmutableBag;
 import com.n8lm.zener.animation.SkeletonComponent;
 import com.n8lm.zener.data.ResourceManager;
 import com.n8lm.zener.general.TransformComponent;
 import com.n8lm.zener.glsl.VarType;
 import com.n8lm.zener.graphics.geom.Geometry;
 import com.n8lm.zener.graphics.geom.InstancingGeometry;
+import com.n8lm.zener.graphics.material.BlendFactor;
+import com.n8lm.zener.graphics.material.BlendMode;
 import com.n8lm.zener.graphics.material.UniformsMaterial;
 import com.n8lm.zener.math.Matrix4f;
 import com.n8lm.zener.math.Rectangle2D;
@@ -41,7 +42,8 @@ import com.n8lm.zener.utils.TempVars;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -209,7 +211,7 @@ public class ViewRenderSystem extends EntitySystem {
             }
 
             glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             glDepthMask(false);
 
             transEntities.sort();
@@ -350,6 +352,10 @@ public class ViewRenderSystem extends EntitySystem {
         Geometry geometry = dm.get(e).getGeometry();
         UniformsMaterial material = mm.get(e).getMaterial();
 
+        // set up material's blendMode
+        BlendMode blendMode = material.getBlendMode();
+        glBlendFunc(convertGL(blendMode.srcFactor), convertGL(blendMode.dstFactor));
+
         TransformComponent tc = pm.get(e);
         tc.getWorldTransform().getModelMatrix(modelMat);
         //setModelMatrix(pm.get(e));
@@ -424,6 +430,33 @@ public class ViewRenderSystem extends EntitySystem {
         // Vertex Array
         // draw
         program.unbind();
+    }
+
+    private static int convertGL(BlendFactor factor) {
+        switch (factor) {
+            case ZERO:
+                return GL_ZERO;
+            case ONE:
+                return GL_ONE;
+            case SRC_COLOR:
+                return GL_SRC_COLOR;
+            case ONE_MINUS_SRC_COLOR:
+                return GL_ONE_MINUS_SRC_COLOR;
+            case DST_COLOR:
+                return GL_DST_COLOR;
+            case ONE_MINUS_DST_COLOR:
+                return GL_ONE_MINUS_DST_COLOR;
+            case SRC_ALPHA:
+                return GL_SRC_ALPHA;
+            case ONE_MINUS_SRC_ALPHA:
+                return GL_ONE_MINUS_SRC_ALPHA;
+            case DST_ALPHA:
+                return GL_DST_ALPHA;
+            case ONE_MINUS_DST_ALPHA:
+                return GL_ONE_MINUS_DST_ALPHA;
+            default:
+                return GL_ZERO;
+        }
     }
 
     private void addLightUniforms(GLProgram program) {

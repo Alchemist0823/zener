@@ -18,14 +18,15 @@
 
 package com.n8lm.zener.assets;
 
+import com.n8lm.zener.data.ResourceManager;
+import com.n8lm.zener.graphics.material.BlendMode;
+import com.n8lm.zener.utils.StringUtil;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
-
-import com.n8lm.zener.data.ResourceManager;
-import com.n8lm.zener.utils.StringUtil;
 
 public class MTLLoader {
 	
@@ -46,6 +47,8 @@ public class MTLLoader {
         String line;
         String strs[] = new String[20];
 
+        boolean hasBlendMode = false;
+
         while ((line = materialFileReader.readLine()) != null) {
             if (line.startsWith("#")) {
                 continue;
@@ -56,6 +59,13 @@ public class MTLLoader {
             if (line.startsWith("newmtl ")) {
                 //parseMaterialName = materialLine.split(" ")[1];
                 //parseMaterial = new Material();
+            } else if (line.startsWith("Bm ")) {
+                try {
+                    parseMaterial.blendMode = BlendMode.valueOf(strs[1]);
+                    hasBlendMode = true;
+                } catch (IllegalArgumentException e) {
+                    LOGGER.warning("[MTL] Unknown BlendMode: " + line);
+                }
             } else if (line.startsWith("Ns ")) {
                 parseMaterial.specularCoefficient = Float.valueOf(strs[1]);
             } else if (line.startsWith("Ka ")) {
@@ -70,7 +80,7 @@ public class MTLLoader {
                 parseMaterial.diffuseColor.x = Float.valueOf(strs[1]);
                 parseMaterial.diffuseColor.y = Float.valueOf(strs[2]);
                 parseMaterial.diffuseColor.z = Float.valueOf(strs[3]);
-            } else if (line.startsWith("map_Kd")) {
+            } else if (line.startsWith("map_Kd ")) {
 
             	String textureName = strs[1];
     			ResourceManager.getInstance().loadImage(textureName, textureName);
@@ -79,15 +89,19 @@ public class MTLLoader {
                         /*new FileInputStream(new File(f.getParentFile().getAbsolutePath() + "/" + materialLine
                                 .split(" ")[1])));*/
                 		//ResourceLoader.getResourceAsStream(parseMaterial.diffuseTextureName));
-            } else if (line.startsWith("map_bump")) {
-            	
-            	ResourceManager.getInstance().loadImage(strs[1], strs[1]);
+            } else if (line.startsWith("map_bump ")) {
+
+                ResourceManager.getInstance().loadImage(strs[1], strs[1]);
                 parseMaterial.normalTexture = ResourceManager.getInstance().getTexture(strs[1]);
             
             } else {
             	LOGGER.warning("[MTL] Unknown Line: " + line);
             }
         }
+
+        if (!hasBlendMode)
+            LOGGER.warning("[MTL] no blend mode ");
+
         materialFileReader.close();
     	
     }
