@@ -1,4 +1,4 @@
-package com.n8lm.zener.particle;
+package com.n8lm.zener.legacy.particle;
 
 import org.junit.Test;
 

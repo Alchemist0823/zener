@@ -1,4 +1,4 @@
-package com.n8lm.zener.particle;
+package com.n8lm.zener.legacy.particle;
 
 import com.n8lm.zener.math.ColorRGBA;
 import com.n8lm.zener.math.MathUtil;
@@ -14,7 +14,7 @@ import com.n8lm.zener.utils.TempVars;
  *
  * @author Forrest Sun
  */
-public class CustomParticleEmitter implements ParticleEmitter {
+public class CustomParticleEmitter implements ParticleEmitter{
 
     private Vector3f initialPosition = new Vector3f();
     private Vector3f positionScatter = new Vector3f();
@@ -94,7 +94,7 @@ public class CustomParticleEmitter implements ParticleEmitter {
     @Override
     public void setNewParticle(Particle p, float time) {
         TempVars tempVars = TempVars.get();
-        //p.rotation = initialRotation + rotationScatter * (MathUtil.nextRandomFloat() - 0.5f);
+        p.rotation = initialRotation + rotationScatter * (MathUtil.nextRandomFloat() - 0.5f);
 
         MathUtil.nextRandomVector3f(tempVars.vect1);
         tempVars.vect1.subtractLocal(0.5f, 0.5f, 0.5f);

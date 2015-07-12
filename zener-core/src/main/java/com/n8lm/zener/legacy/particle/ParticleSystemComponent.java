@@ -16,7 +16,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.particle;
+package com.n8lm.zener.legacy.particle;
 
 import com.artemis.Component;
 import com.artemis.utils.ArrayBag;
@@ -69,7 +69,7 @@ public class ParticleSystemComponent extends Component {
     public ParticleSystemComponent(ParticleEmitter emitter, int maxCount) {
         this(emitter, maxCount, 0);
     }
-
+	
 	public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration) {
         this.emitter = emitter;
         this.duration = duration;

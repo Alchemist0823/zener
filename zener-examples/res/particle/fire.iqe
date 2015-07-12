@@ -1,7 +1,7 @@
 # Inter-Quake Export
 
 mesh "Plane"
-	material "fire8x8.png"
+	material "fire.mtl"
 
 vp -0.20000000 -0.20000000 0.00000000
 	vt 0.00000000 1.00000000

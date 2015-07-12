@@ -18,6 +18,8 @@
 
 package com.n8lm.zener.math;
 
+import com.n8lm.zener.utils.TempVars;
+
 import java.io.Serializable;
 
 public class Transform implements Serializable {
@@ -89,10 +91,11 @@ public class Transform implements Serializable {
 	public Matrix4f getModelMatrix(Matrix4f modelMat) {
 		if (modelMat == null)
 			modelMat = new Matrix4f();
-		
-		modelMat.setTransform(trans, scale, rot.toRotationMatrix());
-		
-		return modelMat;
+
+        TempVars tempVars = TempVars.get();
+        modelMat.setTransform(trans, scale, rot.toRotationMatrix(tempVars.tempMat3));
+        tempVars.release();
+        return modelMat;
 	}
 
     /** Applies the camera translations and rotations to Matrix. */

@@ -16,10 +16,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.particle;
+package com.n8lm.zener.legacy.particle;
 
 import com.n8lm.zener.math.ColorRGBA;
-import com.n8lm.zener.math.Quaternion;
 import com.n8lm.zener.math.Vector3f;
 
 /**
@@ -30,22 +29,19 @@ import com.n8lm.zener.math.Vector3f;
 public class Particle implements Comparable<Particle> {
 	public final Vector3f position = new Vector3f();
 	public final Vector3f velocity = new Vector3f();
-    public final Quaternion rotation = new Quaternion();
-    public final ColorRGBA color = new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+    public float rotation;
     public int texIndex;
 	public float size;
 	public float life; // Remaining life of the particle. if < 0 : dead and unused.
-	public float order;
+	public final ColorRGBA color = new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+	public float cameradistance;
 
     Particle(){
-        texIndex = 0;
-        size = 1.0f;
-        life = 1.0f;
-        order = 0;
+
     }
 
 	@Override
 	public int compareTo(Particle other) {
-		return -Float.compare(this.order, other.order);
+		return -Float.compare(this.cameradistance, other.cameradistance);
 	}
 }

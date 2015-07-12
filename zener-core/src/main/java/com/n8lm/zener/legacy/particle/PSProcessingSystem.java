@@ -16,7 +16,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.particle;
+package com.n8lm.zener.legacy.particle;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -32,7 +32,7 @@ import com.n8lm.zener.utils.TempVars;
  * in a World. It simulates the changes of all particles in every
  * ParticleSystemComponent.
  *
- * @see ParticleSystemComponent
+ * @see com.n8lm.zener.legacy.particle.ParticleSystemComponent
  *
  * @author Forrest Sun
  */

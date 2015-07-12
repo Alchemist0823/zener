@@ -126,6 +126,11 @@ public class MathUtil {
         return rand.nextFloat();
     }
 
+
+    public static float nextRandomFloat(float lower, float upper) {
+        return nextRandomFloat() * (upper - lower) + lower;
+    }
+
     /**
      * Returns a random vector3f between (0, 0 ,0) and (1, 1, 1).
      * @return A random float between <tt>(0.0f, 0.0f, 0.0f)</tt> (inclusive) to

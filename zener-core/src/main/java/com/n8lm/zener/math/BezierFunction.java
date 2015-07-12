@@ -127,13 +127,13 @@ public class BezierFunction extends BezierObject2D {
 
     public float getStartX() {
         if (anchors.isEmpty())
-            throw new IllegalStateException();
+            return 0;
         return anchors.get(0).getPoint().x;
     }
 
     public float getEndX() {
         if (anchors.isEmpty())
-            throw new IllegalStateException();
+            return 0;
         return anchors.get(anchors.size() - 1).getPoint().x;
     }
 

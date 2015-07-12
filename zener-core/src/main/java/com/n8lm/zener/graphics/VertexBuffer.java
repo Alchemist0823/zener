@@ -51,7 +51,8 @@ public class VertexBuffer extends GLObject {
         TexCoord2(12),
         TexCoord3(13),
         TexCoord4(14),
-        ParticleRot(15);
+        ParticleRot(15),
+        ParticleMatrix(16);
 
         public int id;
 
