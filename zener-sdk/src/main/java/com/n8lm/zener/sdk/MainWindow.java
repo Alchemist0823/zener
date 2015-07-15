@@ -42,4 +42,10 @@ public class MainWindow extends VBox {
     private void onNewFile() {
         workbench.generateNewViewer();
     }
+
+    @FXML
+    private void onNewFile2() {
+        workbench.generateNewColor();
+    }
+
 }

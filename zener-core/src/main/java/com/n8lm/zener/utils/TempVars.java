@@ -155,6 +155,9 @@ public class TempVars {
      */
     public final Vector2f vect2d = new Vector2f();
     public final Vector2f vect2d2 = new Vector2f();
+    public final Vector2f vect2d3 = new Vector2f();
+    public final Vector2f vect2d4 = new Vector2f();
+    public final Vector2f vect2d5 = new Vector2f();
     /**
      * General matrices.
      */

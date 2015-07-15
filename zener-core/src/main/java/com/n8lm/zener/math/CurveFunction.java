@@ -1,26 +1,22 @@
 package com.n8lm.zener.math;
 
-import java.util.List;
-
 /**
  * Created on 2014/11/8.
  *
  * @author Alchemist
  */
-public class BezierFunction extends BezierObject2D {
+public class CurveFunction extends EditableCurve2f {
 
-    public BezierFunction(List<CurveAnchor2f> anchors) {
-        super(anchors);
-        verticalLineCheck();
-    }
-
-    public BezierFunction() {
+    public CurveFunction() {
         super();
     }
 
-    public void verticalLineCheck(){
-
-        for (int i = 0; i < anchors.size(); i ++) {
+    public void verticalLineCheck(int from, int to) {
+        if (from < 0)
+            from = 0;
+        if (to >= anchors.size())
+            to = anchors.size() - 1;
+        for (int i = from; i <= to; i++) {
             CurveAnchor2f anchor = anchors.get(i);
             if (anchor.getControl1().x > anchor.getPoint().x)
                 anchor.getControl1().x = anchor.getPoint().x;
@@ -28,14 +24,14 @@ public class BezierFunction extends BezierObject2D {
                 anchor.getControl2().x = anchor.getPoint().x;
         }
 
-        for (int i = 0; i < anchors.size() - 1; i ++) {
+        for (int i = from; i <= to - 1; i++) {
             if (anchors.get(i).getControl2().x > anchors.get(i + 1).getPoint().x) {
                 anchors.get(i).getControl2().x = anchors.get(i + 1).getPoint().x;
-                anchors.get(i).balanceControl1();
+                //anchors.get(i).balanceControl1();
             }
             if (anchors.get(i + 1).getControl1().x < anchors.get(i).getPoint().x) {
                 anchors.get(i + 1).getControl1().x = anchors.get(i).getPoint().x;
-                anchors.get(i + 1).balanceControl2();
+                //anchors.get(i + 1).balanceControl2();
             }
         }
     }
@@ -56,42 +52,48 @@ public class BezierFunction extends BezierObject2D {
                 p.subtractLocal(anchors.get(i).getPoint());
                 anchors.get(i).addLocal(p);
             }
-            verticalLineCheck();
+            calculate(i - 1, i + 1);
+            verticalLineCheck(i - 1, i + 1);
         }
     }
 
     public void setAnchorControl1(int i, Vector2f cp) {
         if (0 <= i && i < anchors.size()) {
             anchors.get(i).getControl1().set(cp);
-            anchors.get(i).balanceControl2();
+            //anchors.get(i).balanceControl2();
+            calculate(i - 1, i + 1);
+            verticalLineCheck(i - 1, i + 1);
         }
-        verticalLineCheck();
     }
 
     public void setAnchorControl2(int i, Vector2f cp) {
         if (0 <= i && i < anchors.size()) {
             anchors.get(i).getControl2().set(cp);
-            anchors.get(i).balanceControl1();
+            //anchors.get(i).balanceControl1();
+            calculate(i - 1, i + 1);
+            verticalLineCheck(i - 1, i + 1);
         }
-        verticalLineCheck();
     }
 
     @Override
-    public void addAnchor(CurveAnchor2f anchor) {
+    public void addAnchor(EditableCurveAnchor2f anchor) {
         if (anchor.getControl1().x > anchor.getPoint().x)
             anchor.getControl1().x = anchor.getPoint().x * 2 - anchor.getControl1().x;
         if (anchor.getControl2().x < anchor.getPoint().x)
             anchor.getControl2().x = anchor.getPoint().x * 2 - anchor.getControl2().x;
 
+        int i;
         int segment = getSegment(anchor.getPoint().x);
         if (segment != -1)
-            anchors.add(segment + 1, anchor);
+            i = segment + 1;
+        else if (!anchors.isEmpty() && anchor.getPoint().x < anchors.get(0).getPoint().x)
+            i = 0;
         else
-            if (!anchors.isEmpty() && anchor.getPoint().x < anchors.get(0).getPoint().x)
-                anchors.add(0, anchor);
-            else
-                anchors.add(anchor);
-        verticalLineCheck();
+            i = anchors.size();
+
+        anchors.add(i, anchor);
+        calculate(i - 1, i + 1);
+        verticalLineCheck(i - 1, i + 1);
     }
 
     public int getSegment(float x) {
@@ -101,7 +103,7 @@ public class BezierFunction extends BezierObject2D {
             return -1;
 
         int i;
-        for (i = 0; i < anchors.size() - 1; i ++) {
+        for (i = 0; i < anchors.size() - 1; i++) {
             if (anchors.get(i).getPoint().x <= x && x <= anchors.get(i + 1).getPoint().x)
                 break;
         }
@@ -109,20 +111,20 @@ public class BezierFunction extends BezierObject2D {
     }
 
     public float getTfromX(float x) {
-        BezierCurve2D curve = getCurvefromX(x);
+        CurveSegment2D curve = getCurvefromX(x);
         return curve.solveTfromX(x, 1e-6f);
     }
 
     public float getYfromX(float x) {
-        BezierCurve2D curve = getCurvefromX(x);
+        CurveSegment2D curve = getCurvefromX(x);
         return curve.sampleY(curve.solveTfromX(x, 1e-6f));
     }
 
-    public BezierCurve2D getCurvefromX(float x) {
+    public CurveSegment2D getCurvefromX(float x) {
         int segment = getSegment(x);
         if (segment == -1)
             throw new IllegalArgumentException("x not in function range");
-        return new BezierCurve2D(anchors.get(segment), anchors.get(segment + 1));
+        return new CurveSegment2D(anchors.get(segment), anchors.get(segment + 1));
     }
 
     public float getStartX() {
@@ -136,8 +138,6 @@ public class BezierFunction extends BezierObject2D {
             return 0;
         return anchors.get(anchors.size() - 1).getPoint().x;
     }
-
-
 /*
 while (Math.Abs(x - x0) > 0.0001)
 {

@@ -8,9 +8,10 @@ import java.io.Serializable;
  * @author Alchemist
  */
 public class CurveAnchor2f implements Serializable {
-    private final Vector2f point;
-    private final Vector2f control1;
-    private final Vector2f control2;
+
+    protected final Vector2f point;
+    protected final Vector2f control1;
+    protected final Vector2f control2;
 
     public CurveAnchor2f(Vector2f point) {
         this(point, new Vector2f(point.x - 1f, point.y));
@@ -25,6 +26,7 @@ public class CurveAnchor2f implements Serializable {
         this.control1 = control1;
         this.control2 = control2;
     }
+
 
     public Vector2f getPoint() {
         return point;
@@ -59,7 +61,7 @@ public class CurveAnchor2f implements Serializable {
     }
 
     public String toString() {
-        return "(p =" + point + ", cp1 = " + control1 + ", cp2 =" + control2 + ")";
+        return String.format("(p=%s, cp1=%s, cp2=%s )", point.toString(), control1.toString(), control2.toString());
     }
 
     public CurveAnchor2f addLocal(Vector2f p) {
@@ -69,11 +71,12 @@ public class CurveAnchor2f implements Serializable {
         return this;
     }
 
+    /*
     public void balanceControl1() {
         control1.set(point.x * 2 - control2.x, point.y * 2 - control2.y);
     }
 
     public void balanceControl2() {
         control2.set(point.x * 2 - control1.x, point.y * 2 - control1.y);
-    }
+    }*/
 }

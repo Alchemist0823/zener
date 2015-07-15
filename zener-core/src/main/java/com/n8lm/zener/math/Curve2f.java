@@ -9,27 +9,24 @@ import java.util.List;
  *
  * @author Alchemist
  */
-public class BezierObject2D implements Serializable{
+public class Curve2f<T extends CurveAnchor2f> implements Serializable {
 
-    protected List<CurveAnchor2f> anchors;
+    protected List<T> anchors;
 
-    public BezierObject2D(List<CurveAnchor2f> anchors) {
-        this.anchors = anchors;
-    }
-
-    public BezierObject2D() {
+    public Curve2f() {
         anchors = new ArrayList<>();
     }
 
-    public void addAnchor(CurveAnchor2f anchor) {
+    public void addAnchor(T anchor) {
         this.anchors.add(anchor);
     }
 
-    public CurveAnchor2f getAnchor(int i) {
+    public T getAnchor(int i) {
         return anchors.get(i);
     }
 
     public int getAnchorCount() {
         return anchors.size();
     }
+
 }

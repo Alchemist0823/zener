@@ -5,12 +5,12 @@ package com.n8lm.zener.math;
  *
  * @author Alchemist
  */
-public class BezierCurve2D {
+public class CurveSegment2D {
 
     protected float ax,bx,cx,dx;
     protected float ay,by,cy,dy;
-    
-    public BezierCurve2D(CurveAnchor2f anchor1, CurveAnchor2f anchor2) {
+
+    public CurveSegment2D(CurveAnchor2f anchor1, CurveAnchor2f anchor2) {
 
         Vector2f p0, p1, p2, p3;
         

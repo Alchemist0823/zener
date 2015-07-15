@@ -4,26 +4,26 @@ package com.n8lm.zener.math;
  * Created by Alchemist0823 on 6/7/2015.
  */
 public class SingleRangeFunction {
-    private BezierFunction upper;
-    private BezierFunction lower;
+    private CurveFunction upper;
+    private CurveFunction lower;
 
-    public BezierFunction getUpper() {
+    public CurveFunction getUpper() {
         return upper;
     }
 
-    public void setUpper(BezierFunction upper) {
+    public void setUpper(CurveFunction upper) {
         this.upper = upper;
     }
 
-    public BezierFunction getLower() {
+    public CurveFunction getLower() {
         return lower;
     }
 
-    public void setLower(BezierFunction lower) {
+    public void setLower(CurveFunction lower) {
         this.lower = lower;
     }
 
-    public SingleRangeFunction(BezierFunction lower, BezierFunction upper) {
+    public SingleRangeFunction(CurveFunction lower, CurveFunction upper) {
         this.lower = lower;
         this.upper = upper;
     }

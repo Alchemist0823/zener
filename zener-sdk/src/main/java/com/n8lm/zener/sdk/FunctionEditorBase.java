@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.BezierFunction;
+import com.n8lm.zener.math.CurveFunction;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -10,14 +10,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+
 /**
  * Created on 2014/11/11.
  *
  * @author Alchemist
  */
-public class FunctionEditor extends BorderPane {
+public class FunctionEditorBase extends BorderPane {
 
-    protected BezierFunction bezierFunction;
     protected FunctionCanvas canvas;
     protected TextField scaleText;
     protected Canvas rulerh;
@@ -25,8 +26,9 @@ public class FunctionEditor extends BorderPane {
 
     protected double scale;
 
-
     private void setScale(double scale) {
+        if (scale == 0)
+            scale = 1;
         this.scale = scale;
 
         GraphicsContext gc = rulerh.getGraphicsContext2D();
@@ -55,10 +57,13 @@ public class FunctionEditor extends BorderPane {
         canvas.setScale(scale);
     }
 
-    public FunctionEditor(BezierFunction bezierFunction) {
+
+    public FunctionEditorBase() {
         super();
-        this.bezierFunction = bezierFunction;
-        this.canvas = new FunctionCanvas(bezierFunction);
+
+        ArrayList<CurveFunction> beziers = new ArrayList<>();
+
+        this.canvas = new FunctionCanvas();
         this.canvas.setWidth(600);
         this.canvas.setHeight(450);
 
@@ -95,4 +100,5 @@ public class FunctionEditor extends BorderPane {
         canvas.setHeight(this.getHeight() - 100);
         rulerv.setWidth(this.getWidth() - 50);
     }
+
 }
