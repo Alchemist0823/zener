@@ -10,10 +10,17 @@ public class CurveSegment2D {
     protected float ax,bx,cx,dx;
     protected float ay,by,cy,dy;
 
-    public CurveSegment2D(CurveAnchor2f anchor1, CurveAnchor2f anchor2) {
+    public CurveSegment2D() {
 
+    }
+
+    public CurveSegment2D(CurveAnchor2f anchor1, CurveAnchor2f anchor2) {
+        set(anchor1, anchor2);
+    }
+
+    public void set(CurveAnchor2f anchor1, CurveAnchor2f anchor2) {
         Vector2f p0, p1, p2, p3;
-        
+
         p0 = anchor1.getPoint();
         p1 = anchor1.getControl2();
         p2 = anchor2.getControl1();
@@ -81,6 +88,33 @@ public class CurveSegment2D {
 
     private float sampleDerivativeX(float t) {
         return (3.0f * this.ax * t + 2.0f * this.bx) * t + this.cx;
+    }
+
+    private float sampleDerivativeY(float t) {
+        return (3.0f * this.ay * t + 2.0f * this.by) * t + this.cy;
+    }
+
+    public Range getYBound(Range r) {
+        r.l = Math.min(sampleY(0), sampleY(1));
+        r.u = Math.max(sampleY(0), sampleY(1));
+
+        float a, b, c, delta, t, s1, s2;
+        a = 3.0f * this.ay;
+        b = 2.0f * this.by;
+        c = this.cy;
+        delta = b * b - 4 * a * c;
+
+        if (delta >= 0) {
+            t = MathUtil.sqrt(delta);
+            s1 = (b + t) / (-2 * a);
+            s2 = (b - t) / (-2 * a);
+
+            r.l = Math.min(sampleY(s1), r.l);
+            r.l = Math.min(sampleY(s2), r.l);
+            r.u = Math.max(sampleY(s1), r.u);
+            r.u = Math.max(sampleY(s2), r.u);
+        }
+        return r;
     }
 
     public float sampleX(float t) {

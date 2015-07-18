@@ -38,8 +38,8 @@ public class Workbench extends TabPane {
 
         SingleFunctionEditor editor = new SingleFunctionEditor();
         editor.setFunctionValue(bezier);
-        //gc.scale(100f, 100f);
-        //Pane pane = new Pane(canvas);
+        //gc.functionScaleX(100f, 100f);
+        //Pane pane = new Pane(functionView);
         //pane.setPrefSize(300, 300);
         tab.setContent(editor);
         //tab.setContextMenu();

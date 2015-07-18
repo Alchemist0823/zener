@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -19,42 +20,42 @@ import java.util.ArrayList;
  */
 public class FunctionEditorBase extends BorderPane {
 
-    protected FunctionCanvas canvas;
+    protected EditableFunctionView functionView;
     protected TextField scaleText;
     protected Canvas rulerh;
     protected Canvas rulerv;
 
     protected double scale;
 
-    private void setScale(double scale) {
-        if (scale == 0)
-            scale = 1;
-        this.scale = scale;
+    private void setScale(double functionScaleX, double functionScaleY) {
+        if (functionScaleX == 0)
+            functionScaleX = 1;
+        this.scale = functionScaleX;
 
         GraphicsContext gc = rulerh.getGraphicsContext2D();
 
         gc.clearRect(0, 0, rulerh.getWidth(), rulerh.getHeight());
-        double y = (400 / scale / 8);
+        double y = (rulerh.getHeight() / functionScaleY / 8);
         double x = 10000;
         while (x > y)
             x /= 10;
         x = x * 10 / 4;
-        for (double i = 0 ; i < 400 / scale; i += x)
-            gc.strokeText(String.format("%.2f", i), 0, 400 - i * scale);
+        for (double i = 0; i < rulerh.getHeight() / functionScaleY; i += x)
+            gc.strokeText(String.format("%.2f", i), 0, rulerh.getHeight() - i * functionScaleY);
 
 
         gc = rulerv.getGraphicsContext2D();
 
         gc.clearRect(0, 0, rulerv.getWidth(), rulerv.getHeight());
-        y = (600 / scale / 8);
+        y = (rulerh.getWidth() / functionScaleX * 2);
         x = 10000;
         while (x > y)
             x /= 10;
-        x = x * 10 / 4;
-        for (double i = 0 ; i < rulerv.getWidth() / scale; i += x)
-            gc.strokeText(String.format("%.2f", i), 30 + i * scale, 10);
+        x = x * 10 / 2;
+        for (double i = 0; i < rulerv.getWidth() / functionScaleX; i += x)
+            gc.strokeText(String.format("%.2f", i), 30 + i * functionScaleX, 10);
 
-        canvas.setScale(scale);
+        functionView.setFunctionScaleX(functionScaleX);
     }
 
 
@@ -63,42 +64,50 @@ public class FunctionEditorBase extends BorderPane {
 
         ArrayList<CurveFunction> beziers = new ArrayList<>();
 
-        this.canvas = new FunctionCanvas();
-        this.canvas.setWidth(600);
-        this.canvas.setHeight(450);
+        this.functionView = new EditableFunctionView();
 
-        this.rulerh = new Canvas(30, 450);
-        this.rulerv = new Canvas(600, 20);
+        this.rulerh = new Canvas(30, 100);
+        rulerh.heightProperty().bind(functionView.heightProperty());
+        this.rulerv = new Canvas(200, 20);
+        rulerv.widthProperty().bind(functionView.widthProperty());
 
-        scaleText = new TextField("" + canvas.getScale());
+        scaleText = new TextField("" + functionView.getFunctionScaleX());
         scaleText.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                setScale(Double.parseDouble(scaleText.getText()));
+                setScale(Double.parseDouble(scaleText.getText()), functionView.getFunctionScaleY());
 
             }
         });
 
-        HBox hbox = new HBox(rulerh, canvas);
+        HBox hbox = new HBox(rulerh, functionView);
+        hbox.setFillHeight(true);
+        HBox.setHgrow(functionView, Priority.ALWAYS);
+
         VBox vbox = new VBox(hbox, rulerv);
+        vbox.setFillWidth(true);
+        VBox.setVgrow(hbox, Priority.ALWAYS);
 
         this.setTop(scaleText);
         this.setCenter(vbox);
 
-        setScale(canvas.getScale());
         //this.setLeft(rulerh);
-        //this.canvas.setWidth();
-        //this.canvas.setHeight();
+        //this.functionView.setWidth();
+        //this.functionView.setHeight();
     }
 
     @Override
     protected void layoutChildren() {
         super.layoutChildren();
+        setScale(functionView.getFunctionScaleX(), functionView.getFunctionScaleY());
 
+//        System.out.println(functionView.getHeight());
+//        System.out.println(functionView.getWidth());
+        /*
         rulerh.setHeight(this.getHeight() - 100);
-        canvas.setWidth(this.getWidth() - 50);
-        canvas.setHeight(this.getHeight() - 100);
-        rulerv.setWidth(this.getWidth() - 50);
+        functionView.setWidth(this.getWidth() - 50);
+        functionView.setHeight(this.getHeight() - 100);
+        rulerv.setWidth(this.getWidth() - 50);*/
     }
 
 }

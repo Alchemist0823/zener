@@ -4,6 +4,8 @@ release/
 deprecated/
 *target/
 videotest/
+*.exe
+*.mp4
 *.psd
 *.iml
 *.blend

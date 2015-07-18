@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.editor.DefaultPropertyEditorFactory;
@@ -50,6 +51,7 @@ public class ParticleSystemEditor extends VBox {
         customDataMap.put("Field#Force", new Vector3f()); // Creates a ChoiceBox
         customDataMap.put("Field#My Boolean", false); // Creates , a CheckBox
         customDataMap.put("Field#My Number", 500); // Creates a NumericField
+        customDataMap.put("Field#My Font", new Font(20f)); // Creates a NumericField
     }
 
     class CustomPropertyItem implements PropertySheet.Item {
@@ -111,7 +113,6 @@ public class ParticleSystemEditor extends VBox {
                     /*if (param.getValue() instanceof List) {
                         return Editors.createChoiceEditor(param, (List) param.getValue());
                     }*/
-
                 if (param.getValue() instanceof SingleRangeFunction) {
                     return new SingleRFuncPropertyEditor(param);
                 }

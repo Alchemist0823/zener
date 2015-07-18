@@ -10,7 +10,7 @@ import javafx.beans.value.ObservableValue;
 /**
  * Created by Alchemist0823 on 7/12/2015.
  */
-public class RangeFunctionEditor extends FunctionEditorBase {
+public class RangeFunctionEditor extends FunctionView {
 
     protected ObjectProperty<SingleRangeFunction> rangeFunction;
 
@@ -32,12 +32,12 @@ public class RangeFunctionEditor extends FunctionEditorBase {
         rangeFunctionProperty().addListener(new ChangeListener<SingleRangeFunction>() {
             @Override
             public void changed(ObservableValue<? extends SingleRangeFunction> observable, SingleRangeFunction oldValue, SingleRangeFunction newValue) {
-                canvas.replace(oldValue.getLower(), newValue.getLower());
-                canvas.replace(oldValue.getUpper(), newValue.getUpper());
+                replace(oldValue.getLower(), newValue.getLower());
+                replace(oldValue.getUpper(), newValue.getUpper());
             }
         });
-        canvas.addFunction(getRangeFunction().getLower());
-        canvas.addFunction(getRangeFunction().getUpper());
+        addFunction(getRangeFunction().getLower());
+        addFunction(getRangeFunction().getUpper());
 
     }
 }

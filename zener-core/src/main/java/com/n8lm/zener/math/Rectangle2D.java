@@ -24,7 +24,11 @@ public class Rectangle2D {
 	public float x1;
 	public float y0;
 	public float y1;
-	
+
+    public Rectangle2D() {
+        this(0, 0, 0, 0);
+    }
+
 	public Rectangle2D(int x, int y, int w, int h) {
 		x0 = x;
 		y0 = y;

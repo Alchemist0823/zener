@@ -115,6 +115,17 @@ public class MathUtil {
         return (float) Math.sin(angle);
     }
 
+    /**
+     * Returns the square root of a given value.
+     *
+     * @param fValue The value to sqrt.
+     * @return The square root of the given value.
+     * @see java.lang.Math#sqrt(double)
+     */
+    public static float sqrt(float fValue) {
+        return (float) Math.sqrt(fValue);
+    }
+
 
     /**
      * Returns a random float between 0 and 1.

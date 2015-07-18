@@ -32,9 +32,9 @@ public class SingleFunctionEditor extends FunctionEditorBase {
         functionValueProperty().addListener(new ChangeListener<CurveFunction>() {
             @Override
             public void changed(ObservableValue<? extends CurveFunction> observable, CurveFunction oldValue, CurveFunction newValue) {
-                canvas.replace(oldValue, newValue);
+                functionView.replace(oldValue, newValue);
             }
         });
-        canvas.addFunction(getFunctionValue());
+        functionView.addFunction(getFunctionValue());
     }
 }

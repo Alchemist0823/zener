@@ -138,6 +138,7 @@ public class CurveFunction extends EditableCurve2f {
             return 0;
         return anchors.get(anchors.size() - 1).getPoint().x;
     }
+
 /*
 while (Math.Abs(x - x0) > 0.0001)
 {
