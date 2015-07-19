@@ -30,10 +30,6 @@
 
 package net.indiespot.media.test;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import java.io.File;
-
 import com.n8lm.zener.utils.StringConverter;
 import com.n8lm.zener.utils.StringUtil;
 import net.indiespot.media.MoviePlayer;
@@ -44,7 +40,10 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.util.glu.GLU;
+
+import java.io.File;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class TestGameLoop {
 	public static void main(String path) throws Exception {
@@ -143,7 +142,7 @@ public class TestGameLoop {
 			if (is3D) {
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();
-				GLU.gluPerspective(60.0f, displayWidth / (float) displayHeight, 0.01f, 100.0f);
+				perspectiveGL(60.0f, displayWidth / (float) displayHeight, 0.01f, 100.0f);
 
 				glMatrixMode(GL_MODELVIEW);
 				glLoadIdentity();
@@ -295,4 +294,16 @@ public class TestGameLoop {
 
 	static int displayWidth;
 	static int displayHeight;
+
+	static void perspectiveGL( double fovY, double aspect, double zNear, double zFar )
+	{
+		final double pi = 3.1415926535897932384626433832795;
+		double fW, fH;
+
+		//fH = tan( (fovY / 2) / 180 * pi ) * zNear;
+		fH = Math.tan(fovY / 360 * pi) * zNear;
+		fW = fH * aspect;
+
+		glFrustum( -fW, fW, -fH, fH, zNear, zFar );
+	}
 }

@@ -37,6 +37,11 @@
             <version>2.22.0-RC1</version>
         </dependency>
         <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
             <groupId>lessvoid</groupId>
             <artifactId>nifty-lwjgl-renderer</artifactId>
             <version>${nifty.version}</version>
@@ -65,12 +70,17 @@
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4</artifactId>
-            <version>4.2</version>
+            <version>4.3</version>
         </dependency>
         <dependency>
             <groupId>com.projectdarkstar.ext.jorbis</groupId>
             <artifactId>jorbis</artifactId>
             <version>0.0.17</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>ibxm</groupId>
