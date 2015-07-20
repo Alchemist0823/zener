@@ -97,59 +97,13 @@ public class EditableCurveFunction extends EditableCurve2f implements CurveFunct
         verticalLineCheck(i - 1, i + 1);
     }
 
-    public int getSegment(float x) {
-        if (anchors.isEmpty())
-            return -1;
-        if (x < anchors.get(0).getPoint().x || anchors.get(anchors.size() - 1).getPoint().x < x)
-            return -1;
-
-        int i;
-        for (i = 0; i < anchors.size() - 1; i++) {
-            if (anchors.get(i).getPoint().x <= x && x <= anchors.get(i + 1).getPoint().x)
-                break;
-        }
-        return i;
-    }
-
     public float getTfromX(float x) {
         CurveSegment2D curve = getCurvefromX(x);
         return curve.solveTfromX(x, 1e-6f);
     }
 
-    @Override
-    public float getYfromX(float x) {
-        CurveSegment2D curve = getCurvefromX(x);
-        return curve.sampleY(curve.solveTfromX(x, 1e-6f));
-    }
-
-    public CurveSegment2D getCurvefromX(float x) {
-        int segment = getSegment(x);
-        if (segment == -1)
-            throw new IllegalArgumentException("x not in function range");
-        return new CurveSegment2D(anchors.get(segment), anchors.get(segment + 1));
-    }
-
-    public float getStartX() {
-        if (anchors.isEmpty())
-            return 0;
-        return anchors.get(0).getPoint().x;
-    }
-
-    public float getEndX() {
-        if (anchors.isEmpty())
-            return 0;
-        return anchors.get(anchors.size() - 1).getPoint().x;
-    }
-
-    @Override
-    public Range getXBound(Range range) {
-        if (range == null)
-            range = new Range();
-
-        range.l = getStartX();
-        range.u = getEndX();
-
-        return range;
+    public ReadonlyCurveFunction generateReadonly() {
+        return new ReadonlyCurveFunction(this.anchors);
     }
 
 /*

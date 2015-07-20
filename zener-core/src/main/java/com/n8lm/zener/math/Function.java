@@ -6,5 +6,6 @@ package com.n8lm.zener.math;
 public interface Function {
     Range getXBound(Range range);
     Range getYBound(Range range);
-    float getYfromX(float x);
+
+    float getYFromX(float x);
 }

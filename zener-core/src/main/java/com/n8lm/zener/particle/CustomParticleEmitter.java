@@ -1,8 +1,6 @@
 package com.n8lm.zener.particle;
 
-import com.n8lm.zener.math.ColorRGBA;
-import com.n8lm.zener.math.MathUtil;
-import com.n8lm.zener.math.Vector3f;
+import com.n8lm.zener.math.*;
 import com.n8lm.zener.utils.TempVars;
 
 /**
@@ -16,8 +14,7 @@ import com.n8lm.zener.utils.TempVars;
  */
 public class CustomParticleEmitter implements ParticleEmitter {
 
-    private Vector3f initialPosition = new Vector3f();
-    private Vector3f positionScatter = new Vector3f();
+    private Vector3fFunction initialPosition = new Vector3fFunction(new ReadonlyCurveFunction(), new ReadonlyCurveFunction(), new ReadonlyCurveFunction());
     private float initialRotation = 0f;
     private float rotationScatter = 0f;
     private float initialSize = 1.0f;
@@ -27,7 +24,7 @@ public class CustomParticleEmitter implements ParticleEmitter {
     private int atlasCount = 1;
 
     private ColorRGBA initialColor = new ColorRGBA();
-    private Vector3f initialVelocity = new Vector3f();
+    private Vector3fFunction initialVelocity = new Vector3fFunction(new ReadonlyCurveFunction(), new ReadonlyCurveFunction(), new ReadonlyCurveFunction());
     private Vector3f velocityScatter = new Vector3f();
     private float initialLife = 3f;
     private float lifeReducer = 1f;
@@ -35,12 +32,8 @@ public class CustomParticleEmitter implements ParticleEmitter {
     public CustomParticleEmitter() {
     }
 
-    public void setInitialPosition(Vector3f initialPosition) {
+    public void setInitialPosition(Vector3fFunction initialPosition) {
         this.initialPosition = initialPosition;
-    }
-
-    public void setPositionScatter(Vector3f positionScatter) {
-        this.positionScatter = positionScatter;
     }
 
     public void setInitialRotation(float initialRotation) {
@@ -63,7 +56,7 @@ public class CustomParticleEmitter implements ParticleEmitter {
         this.initialColor = initialColor;
     }
 
-    public void setInitialVelocity(Vector3f initialVelocity) {
+    public void setInitialVelocity(Vector3fFunction initialVelocity) {
         this.initialVelocity = initialVelocity;
     }
 
@@ -96,15 +89,11 @@ public class CustomParticleEmitter implements ParticleEmitter {
         TempVars tempVars = TempVars.get();
         //p.rotation = initialRotation + rotationScatter * (MathUtil.nextRandomFloat() - 0.5f);
 
-        MathUtil.nextRandomVector3f(tempVars.vect1);
-        tempVars.vect1.subtractLocal(0.5f, 0.5f, 0.5f);
-        tempVars.vect1.multLocal(positionScatter);
-        p.position.set(initialPosition).addLocal(tempVars.vect1);
+        initialPosition.getVector3f(time, tempVars.vect1);
+        p.position.set(tempVars.vect1);
 
-        MathUtil.nextRandomVector3f(tempVars.vect1);
-        tempVars.vect1.subtractLocal(0.5f, 0.5f, 0.5f);
-        tempVars.vect1.multLocal(velocityScatter);
-        p.velocity.set(initialVelocity).addLocal(tempVars.vect1);
+        initialVelocity.getVector3f(time, tempVars.vect1);
+        p.velocity.set(tempVars.vect1);
 
         p.color.set(initialColor);
 

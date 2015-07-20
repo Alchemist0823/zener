@@ -109,10 +109,14 @@ public class CurveSegment2D {
             s1 = (b + t) / (-2 * a);
             s2 = (b - t) / (-2 * a);
 
-            r.l = Math.min(sampleY(s1), r.l);
-            r.l = Math.min(sampleY(s2), r.l);
-            r.u = Math.max(sampleY(s1), r.u);
-            r.u = Math.max(sampleY(s2), r.u);
+            if (s1 > 0 && s1 < 1.0f) {
+                r.l = Math.min(sampleY(s1), r.l);
+                r.u = Math.max(sampleY(s1), r.u);
+            }
+            if (s2 > 0 && s2 < 1.0f) {
+                r.l = Math.min(sampleY(s2), r.l);
+                r.u = Math.max(sampleY(s2), r.u);
+            }
         }
         return r;
     }
@@ -132,10 +136,14 @@ public class CurveSegment2D {
             s1 = (b + t) / (-2 * a);
             s2 = (b - t) / (-2 * a);
 
-            r.l = Math.min(sampleX(s1), r.l);
-            r.l = Math.min(sampleX(s2), r.l);
-            r.u = Math.max(sampleX(s1), r.u);
-            r.u = Math.max(sampleX(s2), r.u);
+            if (s1 > 0 && s1 < 1.0f) {
+                r.l = Math.min(sampleX(s1), r.l);
+                r.u = Math.max(sampleX(s1), r.u);
+            }
+            if (s2 > 0 && s2 < 1.0f) {
+                r.l = Math.min(sampleX(s2), r.l);
+                r.u = Math.max(sampleX(s2), r.u);
+            }
         }
         return r;
     }

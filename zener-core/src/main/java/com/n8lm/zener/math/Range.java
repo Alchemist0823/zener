@@ -11,9 +11,9 @@ public class Range {
         this(0, 0);
     }
 
-    public Range(float u, float l) {
-        this.u = u;
+    public Range(float l, float u) {
         this.l = l;
+        this.u = u;
     }
 
     public void combine(Range range) {

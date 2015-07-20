@@ -4,35 +4,35 @@ package com.n8lm.zener.math;
  * Created by forrestsun on 7/19/15.
  */
 public class Vector3fFunction {
-    private EditableCurveFunction xFunction;
-    private EditableCurveFunction yFunction;
-    private EditableCurveFunction zFunction;
+    private CurveFunction xFunction;
+    private CurveFunction yFunction;
+    private CurveFunction zFunction;
 
-    public EditableCurveFunction getxFunction() {
+    public CurveFunction getxFunction() {
         return xFunction;
     }
 
-    public void setxFunction(EditableCurveFunction xFunction) {
+    public void setxFunction(CurveFunction xFunction) {
         this.xFunction = xFunction;
     }
 
-    public EditableCurveFunction getyFunction() {
+    public CurveFunction getyFunction() {
         return yFunction;
     }
 
-    public void setyFunction(EditableCurveFunction yFunction) {
+    public void setyFunction(CurveFunction yFunction) {
         this.yFunction = yFunction;
     }
 
-    public EditableCurveFunction getzFunction() {
+    public CurveFunction getzFunction() {
         return zFunction;
     }
 
-    public void setzFunction(EditableCurveFunction zFunction) {
+    public void setzFunction(CurveFunction zFunction) {
         this.zFunction = zFunction;
     }
 
-    public Vector3fFunction(EditableCurveFunction xFunction, EditableCurveFunction yFunction, EditableCurveFunction zFunction) {
+    public Vector3fFunction(CurveFunction xFunction, CurveFunction yFunction, CurveFunction zFunction) {
         this.xFunction = xFunction;
         this.yFunction = yFunction;
         this.zFunction = zFunction;
@@ -42,9 +42,9 @@ public class Vector3fFunction {
         if (result == null)
             result = new Vector3f();
 
-        result.x = xFunction.getYfromX(x);
-        result.y = yFunction.getYfromX(x);
-        result.z = zFunction.getYfromX(x);
+        result.x = xFunction.getYFromX(x);
+        result.y = yFunction.getYFromX(x);
+        result.z = zFunction.getYFromX(x);
 
         return result;
     }

@@ -4,31 +4,31 @@ package com.n8lm.zener.math;
  * Created by Alchemist0823 on 6/7/2015.
  */
 public class SingleRangeFunction {
-    private EditableCurveFunction upper;
-    private EditableCurveFunction lower;
+    private CurveFunction upper;
+    private CurveFunction lower;
 
-    public EditableCurveFunction getUpper() {
+    public CurveFunction getUpper() {
         return upper;
     }
 
-    public void setUpper(EditableCurveFunction upper) {
+    public void setUpper(CurveFunction upper) {
         this.upper = upper;
     }
 
-    public EditableCurveFunction getLower() {
+    public CurveFunction getLower() {
         return lower;
     }
 
-    public void setLower(EditableCurveFunction lower) {
+    public void setLower(CurveFunction lower) {
         this.lower = lower;
     }
 
-    public SingleRangeFunction(EditableCurveFunction lower, EditableCurveFunction upper) {
+    public SingleRangeFunction(CurveFunction lower, CurveFunction upper) {
         this.lower = lower;
         this.upper = upper;
     }
 
     public float randomValue(float x) {
-        return MathUtil.nextRandomFloat(lower.getYfromX(x), upper.getYfromX(x));
+        return MathUtil.nextRandomFloat(lower.getYFromX(x), upper.getYFromX(x));
     }
 }

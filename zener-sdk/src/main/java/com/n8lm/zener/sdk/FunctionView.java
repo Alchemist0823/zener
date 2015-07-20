@@ -1,10 +1,8 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.EditableCurveFunction;
+import com.n8lm.zener.math.CurveFunction;
 import com.n8lm.zener.math.Range;
 import com.n8lm.zener.math.Vector2f;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -25,7 +23,7 @@ public class FunctionView extends Pane {
 
     protected float functionScaleX;
     protected float functionScaleY;
-    protected List<EditableCurveFunction> beziers;
+    protected List<CurveFunction> beziers;
 
     protected int selectedIndex = -1;
     protected int selectedPoint = -1;
@@ -40,19 +38,13 @@ public class FunctionView extends Pane {
         this.setMinWidth(200);
         canvas.widthProperty().bind(this.widthProperty());
         canvas.heightProperty().bind(this.heightProperty());
-        canvas.widthProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                updateScale();
-                draw();
-            }
+        canvas.widthProperty().addListener(observable -> {
+            updateScale();
+            draw();
         });
-        canvas.heightProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                updateScale();
-                draw();
-            }
+        canvas.heightProperty().addListener(observable -> {
+            updateScale();
+            draw();
         });
         getChildren().add(canvas);
         this.beziers = new ArrayList<>();
@@ -62,19 +54,16 @@ public class FunctionView extends Pane {
     public void updateScale() {
         if (beziers.isEmpty())
             return;
-        float endX = beziers.get(0).getEndX(), startX = beziers.get(0).getStartX();
-        Range rangeY = new Range(Float.MIN_VALUE, Float.MAX_VALUE);
-        Range r = new Range();
-        for (EditableCurveFunction bezier : beziers) {
-            if (bezier.getEndX() > endX)
-                endX = bezier.getEndX();
-            if (bezier.getStartX() > startX)
-                startX = bezier.getStartX();
 
+        Range rangeX = new Range(Float.MAX_VALUE, Float.MIN_VALUE);
+        Range rangeY = new Range(Float.MAX_VALUE, Float.MIN_VALUE);
+        Range r = new Range();
+        for (CurveFunction bezier : beziers) {
+            rangeX.combine(bezier.getXBound(r));
             rangeY.combine(bezier.getYBound(r));
         }
-        if (endX > startX)
-            this.functionScaleX = (float) (canvas.getWidth() / (endX - startX));
+        if (rangeX.u > rangeX.l)
+            this.functionScaleX = (float) (canvas.getWidth() / (rangeX.u - rangeX.l));
         else
             this.functionScaleX = 1;
         if (rangeY.u > rangeY.l)
@@ -93,17 +82,17 @@ public class FunctionView extends Pane {
         gc.setFill(Color.LIGHTYELLOW);
         gc.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
 
-        for (EditableCurveFunction bezier : beziers) {
+        for (CurveFunction bezier : beziers) {
             if (bezier.getAnchorCount() == 0)
                 continue;
             gc.beginPath();
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(2);
 
-            float startX = bezier.getStartX();
-            gc.moveTo(startX * functionScaleX, canvas.getHeight() - bezier.getYfromX(startX) * functionScaleY);
-            for (float x = (float) (startX + 2 / functionScaleX); x < bezier.getEndX(); x += 2 / functionScaleX) {
-                gc.lineTo(x * functionScaleX, canvas.getHeight() - bezier.getYfromX(x) * functionScaleY);
+            Range range = bezier.getXBound(null);
+            gc.moveTo(range.l * functionScaleX, canvas.getHeight() - bezier.getYFromX(range.l) * functionScaleY);
+            for (float x = range.l + 2 / functionScaleX; x < range.u; x += 2 / functionScaleX) {
+                gc.lineTo(x * functionScaleX, canvas.getHeight() - bezier.getYFromX(x) * functionScaleY);
             }
             gc.stroke();
 
@@ -121,8 +110,8 @@ public class FunctionView extends Pane {
                 double x = bezier.getAnchor(i).getPoint().x * functionScaleX;
                 double y = canvas.getHeight() - bezier.getAnchor(i).getPoint().y * functionScaleY;
                 gc.fillOval(x - P_RAD, y - P_RAD, P_RAD * 2, P_RAD * 2);
-                if (bezier.getEditData(i).isSelectedP())
-                    gc.strokeOval(x - P_RAD, y - P_RAD, P_RAD * 2, P_RAD * 2);
+                //if (bezier.getEditData(i).isSelectedP())
+                //    gc.strokeOval(x - P_RAD, y - P_RAD, P_RAD * 2, P_RAD * 2);
             }
 
             gc.setFill(Color.INDIANRED);
@@ -130,14 +119,14 @@ public class FunctionView extends Pane {
                 double x = bezier.getAnchor(i).getControl1().x * functionScaleX;
                 double y = canvas.getHeight() - bezier.getAnchor(i).getControl1().y * functionScaleY;
                 gc.fillOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
-                if (bezier.getEditData(i).isSelected1())
-                    gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
+                //if (bezier.getEditData(i).isSelected1())
+                //    gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
 
                 x = bezier.getAnchor(i).getControl2().x * functionScaleX;
                 y = canvas.getHeight() - bezier.getAnchor(i).getControl2().y * functionScaleY;
                 gc.fillOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
-                if (bezier.getEditData(i).isSelected2())
-                    gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
+                //if (bezier.getEditData(i).isSelected2())
+                //    gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
             }
         }
     }
@@ -173,7 +162,7 @@ public class FunctionView extends Pane {
         this.draw();
     }
 
-    public void replace(EditableCurveFunction oldValue, EditableCurveFunction newValue) {
+    public void replace(CurveFunction oldValue, CurveFunction newValue) {
         for (int i = 0; i < beziers.size(); i++)
             if (beziers.get(i) == oldValue) {
                 beziers.set(i, newValue);
@@ -182,8 +171,13 @@ public class FunctionView extends Pane {
             }
     }
 
-    public void addFunction(EditableCurveFunction functionValue) {
+    public void addFunction(CurveFunction functionValue) {
         beziers.add(functionValue);
+        updateScale();
+    }
+
+    public void removeFunction(CurveFunction functionValue) {
+        beziers.remove(functionValue);
         updateScale();
     }
 }

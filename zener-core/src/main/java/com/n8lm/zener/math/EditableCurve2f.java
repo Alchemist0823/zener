@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class EditableCurve2f extends SimpleCurve2f {
 
-    protected List<EditableAnchorData> editableData;
+    final protected List<EditableAnchorData> editableData;
     
     public EditableCurve2f() {
         super();

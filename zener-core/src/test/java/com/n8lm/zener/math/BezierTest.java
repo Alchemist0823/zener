@@ -17,7 +17,7 @@ public class BezierTest {
         editableCurveFunction.addAnchor(new CurveAnchor2f(new Vector2f(2.0f, 2.0f), new Vector2f(1.0f, 2.0f), new Vector2f(3.0f, 2.0f)));
 
         for (float x = 0.0f; x <= 4.0f; x += 0.5f)
-            System.out.println("EditableCurveFunction.getYfromX(" + x + ") = " + editableCurveFunction.getYfromX(x));
+            System.out.println("EditableCurveFunction.getYFromX(" + x + ") = " + editableCurveFunction.getYFromX(x));
 
 
         for (int i = 0; i < editableCurveFunction.getAnchorCount() - 1; i++) {
@@ -40,7 +40,7 @@ public class BezierTest {
         }
 
         for (float x = 0.0f; x <= 4.0f; x += 0.25f) {
-            System.out.println("EditableCurveFunction.getYfromX(" + x + ") = " + editableCurveFunction.getYfromX(x));
+            System.out.println("EditableCurveFunction.getYFromX(" + x + ") = " + editableCurveFunction.getYFromX(x));
         }
 
         Assert.assertTrue("failure - Bezier is not a function", editableCurveFunction.getAnchor(0).getPoint().x <= editableCurveFunction.getAnchor(1).getControl1().x);

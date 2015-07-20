@@ -4,8 +4,6 @@ import com.n8lm.zener.math.EditableCurveFunction;
 import com.n8lm.zener.math.SingleRangeFunction;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 /**
  * Created by Alchemist0823 on 7/12/2015.
@@ -29,12 +27,9 @@ public class RangeFunctionEditor extends FunctionView {
     public RangeFunctionEditor() {
         super();
         this.rangeFunction = new SimpleObjectProperty<>(this, "rangeFunction", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
-        rangeFunctionProperty().addListener(new ChangeListener<SingleRangeFunction>() {
-            @Override
-            public void changed(ObservableValue<? extends SingleRangeFunction> observable, SingleRangeFunction oldValue, SingleRangeFunction newValue) {
-                replace(oldValue.getLower(), newValue.getLower());
-                replace(oldValue.getUpper(), newValue.getUpper());
-            }
+        rangeFunctionProperty().addListener((observable, oldValue, newValue) -> {
+            replace(oldValue.getLower(), newValue.getLower());
+            replace(oldValue.getUpper(), newValue.getUpper());
         });
         addFunction(getRangeFunction().getLower());
         addFunction(getRangeFunction().getUpper());

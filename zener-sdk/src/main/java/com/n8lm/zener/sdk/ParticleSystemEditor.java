@@ -39,7 +39,7 @@ public class ParticleSystemEditor extends VBox {
         bezier2.addAnchor(new CurveAnchor2f(new Vector2f(3.0f, 1.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
         bezier2.addAnchor(new CurveAnchor2f(new Vector2f(5.0f, 2.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
 
-        customDataMap.put("Emission#initialPositionOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
+        customDataMap.put("Emission#initialPositionOverTime", new Vector3fFunction(bezier1, bezier1, bezier2));
         customDataMap.put("Emission#initialRotationOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
         customDataMap.put("Emission#initialSizeOverTime", new SingleRangeFunction(bezier1, bezier2));
         customDataMap.put("Emission#duration", 5f);
@@ -107,18 +107,19 @@ public class ParticleSystemEditor extends VBox {
 
         final SimpleObjectProperty<Callback<PropertySheet.Item, PropertyEditor<?>>> propertyEditorFactory = new SimpleObjectProperty<Callback<PropertySheet.Item, PropertyEditor<?>>>(this, "propertyEditor", new DefaultPropertyEditorFactory());
 
-        propertySheet.setPropertyEditorFactory(new Callback<PropertySheet.Item, PropertyEditor<?>>() {
-            @Override
-            public PropertyEditor<?> call(PropertySheet.Item param) {
-                    /*if (param.getValue() instanceof List) {
-                        return Editors.createChoiceEditor(param, (List) param.getValue());
-                    }*/
-                if (param.getValue() instanceof SingleRangeFunction) {
-                    return new SingleRFuncPropertyEditor(param);
-                }
-
-                return propertyEditorFactory.get().call(param);
+        propertySheet.setPropertyEditorFactory(param -> {
+                /*if (param.getValue() instanceof List) {
+                    return Editors.createChoiceEditor(param, (List) param.getValue());
+                }*/
+            if (param.getValue() instanceof SingleRangeFunction) {
+                return FunctionPropertyEditors.createSingleRangeFunctionEditor(param);
             }
+
+            if (param.getValue() instanceof Vector3fFunction) {
+                return FunctionPropertyEditors.createVector3fFunctionEditor(param);
+            }
+
+            return propertyEditorFactory.get().call(param);
         });
     }
 }
