@@ -23,8 +23,8 @@ public class FunctionView extends Pane {
     final static double CP_RAD = 5;
     final static double P_RAD = 6;
 
-    protected double functionScaleX;
-    protected double functionScaleY;
+    protected float functionScaleX;
+    protected float functionScaleY;
     protected List<EditableCurveFunction> beziers;
 
     protected int selectedIndex = -1;
@@ -74,11 +74,11 @@ public class FunctionView extends Pane {
             rangeY.combine(bezier.getYBound(r));
         }
         if (endX > startX)
-            this.functionScaleX = canvas.getWidth() / (endX - startX);
+            this.functionScaleX = (float) (canvas.getWidth() / (endX - startX));
         else
             this.functionScaleX = 1;
         if (rangeY.u > rangeY.l)
-            this.functionScaleY = canvas.getHeight() / (rangeY.u - rangeY.l);
+            this.functionScaleY = (float) (canvas.getHeight() / (rangeY.u - rangeY.l));
         else
             this.functionScaleY = 1;
         draw();
@@ -121,7 +121,7 @@ public class FunctionView extends Pane {
                 double x = bezier.getAnchor(i).getPoint().x * functionScaleX;
                 double y = canvas.getHeight() - bezier.getAnchor(i).getPoint().y * functionScaleY;
                 gc.fillOval(x - P_RAD, y - P_RAD, P_RAD * 2, P_RAD * 2);
-                if (bezier.getAnchor(i).isSelectedP())
+                if (bezier.getEditData(i).isSelectedP())
                     gc.strokeOval(x - P_RAD, y - P_RAD, P_RAD * 2, P_RAD * 2);
             }
 
@@ -130,13 +130,13 @@ public class FunctionView extends Pane {
                 double x = bezier.getAnchor(i).getControl1().x * functionScaleX;
                 double y = canvas.getHeight() - bezier.getAnchor(i).getControl1().y * functionScaleY;
                 gc.fillOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
-                if (bezier.getAnchor(i).isSelected1())
+                if (bezier.getEditData(i).isSelected1())
                     gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
 
                 x = bezier.getAnchor(i).getControl2().x * functionScaleX;
                 y = canvas.getHeight() - bezier.getAnchor(i).getControl2().y * functionScaleY;
                 gc.fillOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
-                if (bezier.getAnchor(i).isSelected2())
+                if (bezier.getEditData(i).isSelected2())
                     gc.strokeOval(x - CP_RAD, y - CP_RAD, CP_RAD * 2, CP_RAD * 2);
             }
         }
@@ -150,12 +150,26 @@ public class FunctionView extends Pane {
         return (canvas.getHeight() - y) / functionScaleY;
     }
 
-    public double getFunctionScaleX() {
+    protected void mapToScreen(Vector2f point, Vector2f screen) {
+        screen.x = point.x * functionScaleX;
+        screen.y = (float) (canvas.getHeight()) - point.y * functionScaleY;
+    }
+
+    public float getFunctionScaleX() {
         return functionScaleX;
     }
 
-    public void setFunctionScaleX(double functionScaleX) {
+    public float getFunctionScaleY() {
+        return functionScaleY;
+    }
+
+    public void setFunctionScaleX(float functionScaleX) {
         this.functionScaleX = functionScaleX;
+        this.draw();
+    }
+
+    public void setFunctionScaleY(float functionScaleY) {
+        this.functionScaleY = functionScaleY;
         this.draw();
     }
 
@@ -171,9 +185,5 @@ public class FunctionView extends Pane {
     public void addFunction(EditableCurveFunction functionValue) {
         beziers.add(functionValue);
         updateScale();
-    }
-
-    public double getFunctionScaleY() {
-        return functionScaleY;
     }
 }

@@ -28,16 +28,16 @@ public class ParticleSystemEditor extends VBox {
 
 
         EditableCurveFunction bezier1 = new EditableCurveFunction();
-        bezier1.addAnchor(new EditableAnchorData(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
-        bezier1.addAnchor(new EditableAnchorData(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
-        bezier1.addAnchor(new EditableAnchorData(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
-        bezier1.addAnchor(new EditableAnchorData(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
+        bezier1.addAnchor(new CurveAnchor2f(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
+        bezier1.addAnchor(new CurveAnchor2f(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
+        bezier1.addAnchor(new CurveAnchor2f(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
+        bezier1.addAnchor(new CurveAnchor2f(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
 
         EditableCurveFunction bezier2 = new EditableCurveFunction();
-        bezier2.addAnchor(new EditableAnchorData(new Vector2f(0.0f, 1.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableAnchorData(new Vector2f(2.0f, 3.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableAnchorData(new Vector2f(3.0f, 1.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableAnchorData(new Vector2f(5.0f, 2.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new CurveAnchor2f(new Vector2f(0.0f, 1.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new CurveAnchor2f(new Vector2f(2.0f, 3.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new CurveAnchor2f(new Vector2f(3.0f, 1.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new CurveAnchor2f(new Vector2f(5.0f, 2.0f)), new EditableAnchorData(EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
 
         customDataMap.put("Emission#initialPositionOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
         customDataMap.put("Emission#initialRotationOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));

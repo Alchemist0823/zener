@@ -25,9 +25,9 @@ public class FunctionEditorBase extends BorderPane {
     protected Canvas rulerh;
     protected Canvas rulerv;
 
-    protected double scale;
+    protected float scale;
 
-    private void setScale(double functionScaleX, double functionScaleY) {
+    private void setScale(float functionScaleX, float functionScaleY) {
         if (functionScaleX == 0)
             functionScaleX = 1;
         this.scale = functionScaleX;
@@ -75,7 +75,7 @@ public class FunctionEditorBase extends BorderPane {
         scaleText.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                setScale(Double.parseDouble(scaleText.getText()), functionView.getFunctionScaleY());
+                setScale(Float.parseFloat(scaleText.getText()), functionView.getFunctionScaleY());
 
             }
         });

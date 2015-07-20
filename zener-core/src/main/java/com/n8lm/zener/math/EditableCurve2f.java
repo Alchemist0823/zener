@@ -28,6 +28,10 @@ public class EditableCurve2f extends SimpleCurve2f {
         calculate(anchors.size() - 2, anchors.size() - 1);
     }
 
+    public EditableAnchorData getEditData(int i) {
+        return editableData.get(i);
+    }
+
     protected void calculate(int from, int to) {
         for (int i = from; i <= to; i++)
             calculate(i, true);

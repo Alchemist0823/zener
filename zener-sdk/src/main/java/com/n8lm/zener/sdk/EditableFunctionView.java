@@ -33,6 +33,7 @@ public class EditableFunctionView extends FunctionView {
                     } else if (selectObj == 2) {
                         beziers.get(selectedIndex).setAnchorControl2(selectp, v);
                     }
+                    updateScale();
                     draw();
                 }
             }
@@ -45,33 +46,30 @@ public class EditableFunctionView extends FunctionView {
                     for (int k = 0; k < beziers.size(); k++) {
                         EditableCurveFunction bezier = beziers.get(k);
                         for (int i = 0; i < bezier.getAnchorCount(); i++) {
-                            bezier.getAnchor(i).getControl1().mult((float) functionScaleX, v);
-                            v.y = (float) canvas.getHeight() - v.y;
+                            mapToScreen(bezier.getAnchor(i).getControl1(), v);
                             if (v.x - CP_RAD <= event.getX() && event.getX() <= v.x + CP_RAD
                                     && v.y - CP_RAD <= event.getY() && event.getY() <= v.y + CP_RAD) {
                                 selectedPoint = i + bezier.getAnchorCount();
                                 selectedIndex = k;
-                                bezier.getAnchor(i).setSelected1(true);
+                                bezier.getEditData(i).setSelected1(true);
                                 return;
                             }
 
-                            bezier.getAnchor(i).getControl2().mult((float) functionScaleX, v);
-                            v.y = (float) canvas.getHeight() - v.y;
+                            mapToScreen(bezier.getAnchor(i).getControl2(), v);
                             if (v.x - CP_RAD <= event.getX() && event.getX() <= v.x + CP_RAD
                                     && v.y - CP_RAD <= event.getY() && event.getY() <= v.y + CP_RAD) {
                                 selectedPoint = i + bezier.getAnchorCount() * 2;
                                 selectedIndex = k;
-                                bezier.getAnchor(i).setSelected2(true);
+                                bezier.getEditData(i).setSelected2(true);
                                 return;
                             }
 
-                            bezier.getAnchor(i).getPoint().mult((float) functionScaleX, v);
-                            v.y = (float) canvas.getHeight() - v.y;
+                            mapToScreen(bezier.getAnchor(i).getPoint(), v);
                             if (v.x - P_RAD <= event.getX() && event.getX() <= v.x + P_RAD
                                     && v.y - P_RAD <= event.getY() && event.getY() <= v.y + P_RAD) {
                                 selectedPoint = i;
                                 selectedIndex = k;
-                                bezier.getAnchor(i).setSelectedP(true);
+                                bezier.getEditData(i).setSelectedP(true);
                                 return;
                             }
                         }
@@ -89,11 +87,11 @@ public class EditableFunctionView extends FunctionView {
                         int selectp = selectedPoint % beziers.get(selectedIndex).getAnchorCount();
                         int selectObj = selectedPoint / beziers.get(selectedIndex).getAnchorCount();
                         if (selectObj == 0) {
-                            beziers.get(selectedIndex).getAnchor(selectp).setSelectedP(false);
+                            beziers.get(selectedIndex).getEditData(selectp).setSelectedP(false);
                         } else if (selectObj == 1) {
-                            beziers.get(selectedIndex).getAnchor(selectp).setSelected1(false);
+                            beziers.get(selectedIndex).getEditData(selectp).setSelected1(false);
                         } else if (selectObj == 2) {
-                            beziers.get(selectedIndex).getAnchor(selectp).setSelected2(false);
+                            beziers.get(selectedIndex).getEditData(selectp).setSelected2(false);
                         }
                     }
                     selectedPoint = -1;
