@@ -27,24 +27,24 @@ public class ParticleSystemEditor extends VBox {
     static {
 
 
-        CurveFunction bezier1 = new CurveFunction();
-        bezier1.addAnchor(new EditableCurveAnchor2f(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
-        bezier1.addAnchor(new EditableCurveAnchor2f(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
-        bezier1.addAnchor(new EditableCurveAnchor2f(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
-        bezier1.addAnchor(new EditableCurveAnchor2f(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
+        EditableCurveFunction bezier1 = new EditableCurveFunction();
+        bezier1.addAnchor(new EditableAnchorData(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
+        bezier1.addAnchor(new EditableAnchorData(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
+        bezier1.addAnchor(new EditableAnchorData(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
+        bezier1.addAnchor(new EditableAnchorData(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
 
-        CurveFunction bezier2 = new CurveFunction();
-        bezier2.addAnchor(new EditableCurveAnchor2f(new Vector2f(0.0f, 1.0f), EditableCurveAnchor2f.ControlType.AUTO_ANIM, EditableCurveAnchor2f.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableCurveAnchor2f(new Vector2f(2.0f, 3.0f), EditableCurveAnchor2f.ControlType.AUTO_ANIM, EditableCurveAnchor2f.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableCurveAnchor2f(new Vector2f(3.0f, 1.0f), EditableCurveAnchor2f.ControlType.AUTO_ANIM, EditableCurveAnchor2f.ControlType.AUTO_ANIM));
-        bezier2.addAnchor(new EditableCurveAnchor2f(new Vector2f(5.0f, 2.0f), EditableCurveAnchor2f.ControlType.AUTO_ANIM, EditableCurveAnchor2f.ControlType.AUTO_ANIM));
+        EditableCurveFunction bezier2 = new EditableCurveFunction();
+        bezier2.addAnchor(new EditableAnchorData(new Vector2f(0.0f, 1.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new EditableAnchorData(new Vector2f(2.0f, 3.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new EditableAnchorData(new Vector2f(3.0f, 1.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
+        bezier2.addAnchor(new EditableAnchorData(new Vector2f(5.0f, 2.0f), EditableAnchorData.ControlType.AUTO_ANIM, EditableAnchorData.ControlType.AUTO_ANIM));
 
-        customDataMap.put("Emission#initialPositionOverTime", new SingleRangeFunction(new CurveFunction(), new CurveFunction()));
-        customDataMap.put("Emission#initialRotationOverTime", new SingleRangeFunction(new CurveFunction(), new CurveFunction()));
+        customDataMap.put("Emission#initialPositionOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
+        customDataMap.put("Emission#initialRotationOverTime", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
         customDataMap.put("Emission#initialSizeOverTime", new SingleRangeFunction(bezier1, bezier2));
         customDataMap.put("Emission#duration", 5f);
-        customDataMap.put("Emission#EmitSpeedOverTime", new CurveFunction());
-        customDataMap.put("Emission#EmitLifeOverTme", new SingleRangeFunction(new CurveFunction(), new CurveFunction()));
+        customDataMap.put("Emission#EmitSpeedOverTime", new EditableCurveFunction());
+        customDataMap.put("Emission#EmitLifeOverTme", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
 
         customDataMap.put("Field#ColorOverLife", new ColorGradient()); // Creates a TextField in property sheet
         customDataMap.put("Field#VelocityOverLife", LocalDate.of(2000, Month.JANUARY, 1)); // Creates a DatePicker

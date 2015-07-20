@@ -18,14 +18,11 @@
 
 package com.n8lm.zener.log;
 
-import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.MemoryHandler;
-import java.util.logging.SimpleFormatter;
-
+import com.n8lm.zener.nifty.NiftyLogHandler;
 import de.lessvoid.nifty.controls.Console;
+
+import java.io.IOException;
+import java.util.logging.*;
 
 public class LogUtil {
 

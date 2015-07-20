@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
+import com.n8lm.zener.math.EditableCurveFunction;
 import com.n8lm.zener.math.Vector2f;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
@@ -43,7 +43,7 @@ public class EditableFunctionView extends FunctionView {
             public void handle(MouseEvent event) {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     for (int k = 0; k < beziers.size(); k++) {
-                        CurveFunction bezier = beziers.get(k);
+                        EditableCurveFunction bezier = beziers.get(k);
                         for (int i = 0; i < bezier.getAnchorCount(); i++) {
                             bezier.getAnchor(i).getControl1().mult((float) functionScaleX, v);
                             v.y = (float) canvas.getHeight() - v.y;

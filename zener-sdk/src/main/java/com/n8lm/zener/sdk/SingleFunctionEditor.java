@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
+import com.n8lm.zener.math.EditableCurveFunction;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -11,27 +11,27 @@ import javafx.beans.value.ObservableValue;
  */
 public class SingleFunctionEditor extends FunctionEditorBase {
 
-    protected ObjectProperty<CurveFunction> value;
+    protected ObjectProperty<EditableCurveFunction> value;
 
-    public ObjectProperty<CurveFunction> functionValueProperty() {
+    public ObjectProperty<EditableCurveFunction> functionValueProperty() {
         return value;
     }
 
-    public final void setFunctionValue(CurveFunction value) {
+    public final void setFunctionValue(EditableCurveFunction value) {
         functionValueProperty().set(value);
     }
 
-    public final CurveFunction getFunctionValue() {
+    public final EditableCurveFunction getFunctionValue() {
         return functionValueProperty().get();
     }
 
     public SingleFunctionEditor() {
         super();
 
-        this.value = new SimpleObjectProperty<>(this, "value", new CurveFunction());
-        functionValueProperty().addListener(new ChangeListener<CurveFunction>() {
+        this.value = new SimpleObjectProperty<>(this, "value", new EditableCurveFunction());
+        functionValueProperty().addListener(new ChangeListener<EditableCurveFunction>() {
             @Override
-            public void changed(ObservableValue<? extends CurveFunction> observable, CurveFunction oldValue, CurveFunction newValue) {
+            public void changed(ObservableValue<? extends EditableCurveFunction> observable, EditableCurveFunction oldValue, EditableCurveFunction newValue) {
                 functionView.replace(oldValue, newValue);
             }
         });

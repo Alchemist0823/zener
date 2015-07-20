@@ -16,14 +16,14 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package com.n8lm.zener.log;
+package com.n8lm.zener.nifty;
+
+import de.lessvoid.nifty.controls.Console;
+import de.lessvoid.nifty.tools.Color;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
-import de.lessvoid.nifty.controls.Console;
-import de.lessvoid.nifty.tools.Color;
 
 public class NiftyLogHandler extends Handler {
 	

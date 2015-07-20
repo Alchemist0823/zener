@@ -1,7 +1,7 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
-import com.n8lm.zener.math.EditableCurveAnchor2f;
+import com.n8lm.zener.math.EditableAnchorData;
+import com.n8lm.zener.math.EditableCurveFunction;
 import com.n8lm.zener.math.Vector2f;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
@@ -30,11 +30,11 @@ public class Workbench extends TabPane {
     public void generateNewViewer() {
         Tab tab = new Tab("new tab");
 
-        CurveFunction bezier = new CurveFunction();
-        bezier.addAnchor(new EditableCurveAnchor2f(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
-        bezier.addAnchor(new EditableCurveAnchor2f(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
-        bezier.addAnchor(new EditableCurveAnchor2f(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
-        bezier.addAnchor(new EditableCurveAnchor2f(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
+        EditableCurveFunction bezier = new EditableCurveFunction();
+        bezier.addAnchor(new EditableAnchorData(new Vector2f(0.0f, 0.0f), new Vector2f(-1.0f, 0.0f)));
+        bezier.addAnchor(new EditableAnchorData(new Vector2f(2.0f, 2.0f), new Vector2f(1.5f, 2.0f)));
+        bezier.addAnchor(new EditableAnchorData(new Vector2f(3.0f, 0.0f), new Vector2f(2.0f, 0.0f)));
+        bezier.addAnchor(new EditableAnchorData(new Vector2f(5.0f, 1.0f), new Vector2f(4.0f, 2.0f)));
 
         SingleFunctionEditor editor = new SingleFunctionEditor();
         editor.setFunctionValue(bezier);

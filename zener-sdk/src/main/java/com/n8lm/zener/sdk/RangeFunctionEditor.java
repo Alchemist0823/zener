@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
+import com.n8lm.zener.math.EditableCurveFunction;
 import com.n8lm.zener.math.SingleRangeFunction;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -28,7 +28,7 @@ public class RangeFunctionEditor extends FunctionView {
 
     public RangeFunctionEditor() {
         super();
-        this.rangeFunction = new SimpleObjectProperty<>(this, "rangeFunction", new SingleRangeFunction(new CurveFunction(), new CurveFunction()));
+        this.rangeFunction = new SimpleObjectProperty<>(this, "rangeFunction", new SingleRangeFunction(new EditableCurveFunction(), new EditableCurveFunction()));
         rangeFunctionProperty().addListener(new ChangeListener<SingleRangeFunction>() {
             @Override
             public void changed(ObservableValue<? extends SingleRangeFunction> observable, SingleRangeFunction oldValue, SingleRangeFunction newValue) {

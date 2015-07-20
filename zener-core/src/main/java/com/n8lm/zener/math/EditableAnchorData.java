@@ -3,7 +3,7 @@ package com.n8lm.zener.math;
 /**
  * Created by Alchemist0823 on 7/14/2015.
  */
-public class EditableCurveAnchor2f extends CurveAnchor2f {
+public class EditableAnchorData {
 
     public enum ControlType {
         VECTOR,
@@ -17,27 +17,14 @@ public class EditableCurveAnchor2f extends CurveAnchor2f {
     protected ControlType type2;
     protected boolean selectedP, selected1, selected2;
 
-    public EditableCurveAnchor2f(Vector2f point) {
-        this(point, new Vector2f(point.x - 1f, point.y));
+    public EditableAnchorData() {
+        this(ControlType.ALIGN, ControlType.ALIGN);
     }
 
-    public EditableCurveAnchor2f(Vector2f point, Vector2f control1) {
-        this(point, control1, new Vector2f(point.x * 2 - control1.x, point.y * 2 - control1.y));
-    }
-
-    public EditableCurveAnchor2f(Vector2f point, Vector2f control1, Vector2f control2) {
-        this(point, control1, control2, ControlType.ALIGN, ControlType.ALIGN);
-    }
-
-    public EditableCurveAnchor2f(Vector2f point, Vector2f control1, Vector2f control2, ControlType type1, ControlType type2) {
-        super(point, control1, control2);
+    public EditableAnchorData(ControlType type1, ControlType type2) {
         this.type1 = type1;
         this.type2 = type2;
         this.selected1 = this.selected2 = this.selectedP = false;
-    }
-
-    public EditableCurveAnchor2f(Vector2f point, ControlType type1, ControlType type2) {
-        this(point, new Vector2f(point), new Vector2f(point), type1, type2);
     }
 
     public ControlType getType1() {

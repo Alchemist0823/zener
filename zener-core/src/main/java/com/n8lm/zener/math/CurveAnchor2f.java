@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Alchemist
  */
-public class CurveAnchor2f implements Serializable {
+final public class CurveAnchor2f implements Serializable {
 
     protected final Vector2f point;
     protected final Vector2f control1;

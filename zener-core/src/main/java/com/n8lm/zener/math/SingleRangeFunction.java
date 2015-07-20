@@ -4,26 +4,26 @@ package com.n8lm.zener.math;
  * Created by Alchemist0823 on 6/7/2015.
  */
 public class SingleRangeFunction {
-    private CurveFunction upper;
-    private CurveFunction lower;
+    private EditableCurveFunction upper;
+    private EditableCurveFunction lower;
 
-    public CurveFunction getUpper() {
+    public EditableCurveFunction getUpper() {
         return upper;
     }
 
-    public void setUpper(CurveFunction upper) {
+    public void setUpper(EditableCurveFunction upper) {
         this.upper = upper;
     }
 
-    public CurveFunction getLower() {
+    public EditableCurveFunction getLower() {
         return lower;
     }
 
-    public void setLower(CurveFunction lower) {
+    public void setLower(EditableCurveFunction lower) {
         this.lower = lower;
     }
 
-    public SingleRangeFunction(CurveFunction lower, CurveFunction upper) {
+    public SingleRangeFunction(EditableCurveFunction lower, EditableCurveFunction upper) {
         this.lower = lower;
         this.upper = upper;
     }

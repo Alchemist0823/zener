@@ -117,6 +117,29 @@ public class CurveSegment2D {
         return r;
     }
 
+    public Range getXBound(Range r) {
+        r.l = Math.min(sampleX(0), sampleX(1));
+        r.u = Math.max(sampleX(0), sampleX(1));
+
+        float a, b, c, delta, t, s1, s2;
+        a = 3.0f * this.ax;
+        b = 2.0f * this.bx;
+        c = this.cx;
+        delta = b * b - 4 * a * c;
+
+        if (delta >= 0) {
+            t = MathUtil.sqrt(delta);
+            s1 = (b + t) / (-2 * a);
+            s2 = (b - t) / (-2 * a);
+
+            r.l = Math.min(sampleX(s1), r.l);
+            r.l = Math.min(sampleX(s2), r.l);
+            r.u = Math.max(sampleX(s1), r.u);
+            r.u = Math.max(sampleX(s2), r.u);
+        }
+        return r;
+    }
+
     public float sampleX(float t) {
         return ((this.ax * t + this.bx) * t + this.cx) * t + this.dx;
     }

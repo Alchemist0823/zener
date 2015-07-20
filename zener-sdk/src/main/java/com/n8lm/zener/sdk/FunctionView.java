@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
+import com.n8lm.zener.math.EditableCurveFunction;
 import com.n8lm.zener.math.Range;
 import com.n8lm.zener.math.Vector2f;
 import javafx.beans.InvalidationListener;
@@ -25,7 +25,7 @@ public class FunctionView extends Pane {
 
     protected double functionScaleX;
     protected double functionScaleY;
-    protected List<CurveFunction> beziers;
+    protected List<EditableCurveFunction> beziers;
 
     protected int selectedIndex = -1;
     protected int selectedPoint = -1;
@@ -65,7 +65,7 @@ public class FunctionView extends Pane {
         float endX = beziers.get(0).getEndX(), startX = beziers.get(0).getStartX();
         Range rangeY = new Range(Float.MIN_VALUE, Float.MAX_VALUE);
         Range r = new Range();
-        for (CurveFunction bezier : beziers) {
+        for (EditableCurveFunction bezier : beziers) {
             if (bezier.getEndX() > endX)
                 endX = bezier.getEndX();
             if (bezier.getStartX() > startX)
@@ -93,7 +93,7 @@ public class FunctionView extends Pane {
         gc.setFill(Color.LIGHTYELLOW);
         gc.fillRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
 
-        for (CurveFunction bezier : beziers) {
+        for (EditableCurveFunction bezier : beziers) {
             if (bezier.getAnchorCount() == 0)
                 continue;
             gc.beginPath();
@@ -159,7 +159,7 @@ public class FunctionView extends Pane {
         this.draw();
     }
 
-    public void replace(CurveFunction oldValue, CurveFunction newValue) {
+    public void replace(EditableCurveFunction oldValue, EditableCurveFunction newValue) {
         for (int i = 0; i < beziers.size(); i++)
             if (beziers.get(i) == oldValue) {
                 beziers.set(i, newValue);
@@ -168,7 +168,7 @@ public class FunctionView extends Pane {
             }
     }
 
-    public void addFunction(CurveFunction functionValue) {
+    public void addFunction(EditableCurveFunction functionValue) {
         beziers.add(functionValue);
         updateScale();
     }

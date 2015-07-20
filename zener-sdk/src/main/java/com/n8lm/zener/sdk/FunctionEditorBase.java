@@ -1,6 +1,6 @@
 package com.n8lm.zener.sdk;
 
-import com.n8lm.zener.math.CurveFunction;
+import com.n8lm.zener.math.EditableCurveFunction;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -62,7 +62,7 @@ public class FunctionEditorBase extends BorderPane {
     public FunctionEditorBase() {
         super();
 
-        ArrayList<CurveFunction> beziers = new ArrayList<>();
+        ArrayList<EditableCurveFunction> beziers = new ArrayList<>();
 
         this.functionView = new EditableFunctionView();
 
