@@ -11,10 +11,11 @@
     </parent>
 
     <groupId>zener</groupId>
-    <artifactId>zener-core</artifactId>
+    <artifactId>zener-nifty</artifactId>
+    <description>NiftyGUI plugin for Zener</description>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Zener Core</name>
+    <name>Zener NiftyGui</name>
     <url>http://zener.me</url>
 
     <developers>
@@ -30,16 +31,20 @@
     </developers>
 
     <dependencies>
-
         <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>kryonet</artifactId>
-            <version>2.22.0-RC1</version>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty-lwjgl-renderer</artifactId>
+            <version>${nifty.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>kryo</artifactId>
-            <version>3.0.2</version>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty</artifactId>
+            <version>${nifty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>lessvoid</groupId>
+            <artifactId>nifty-default-controls</artifactId>
+            <version>${nifty.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -56,11 +61,6 @@
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl_util</artifactId>
             <version>${lwjgl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4</artifactId>
-            <version>4.3</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.soundlibs</groupId>

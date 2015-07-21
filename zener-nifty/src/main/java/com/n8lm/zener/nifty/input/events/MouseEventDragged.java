@@ -18,17 +18,15 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.NiftyInputConsumer;
 import com.n8lm.zener.input.InputListener;
-
-
+import de.lessvoid.nifty.NiftyInputConsumer;
 
 /**
- * This mouse event is used to store the event generated in case the mouse cursor is moved.
+ * This mouse event is used to store the event generated in case the mouse cursor is moved with one button pressed.
  *
  * @author Martin Karing &lt;nitram@illarion.org&gt;
  */
-public final class MouseEventMoved extends AbstractMouseEvent {
+public final class MouseEventDragged extends AbstractMouseEventButton {
   /**
    * The X coordinate where the movement stopped.
    */
@@ -40,15 +38,16 @@ public final class MouseEventMoved extends AbstractMouseEvent {
   private final int targetY;
 
   /**
-   * Create a mouse moved event.
+   * Create a mouse dragged event.
    *
-   * @param startX the X coordinate of the location where the movement started
-   * @param startY the Y coordinate of the location where the movement started
-   * @param endX   the X coordinate of the location where the movement stopped
-   * @param endY   the Y coordinate of the location where the movement stopped
+   * @param mouseButton the mouse button that was used
+   * @param startX      the X coordinate of the location where the movement started
+   * @param startY      the Y coordinate of the location where the movement started
+   * @param endX        the X coordinate of the location where the movement stopped
+   * @param endY        the Y coordinate of the location where the movement stopped
    */
-  public MouseEventMoved(final int startX, final int startY, final int endX, final int endY) {
-    super(startX, startY);
+  public MouseEventDragged(final int mouseButton, final int startX, final int startY, final int endX, final int endY) {
+    super(startX, startY, mouseButton);
     targetX = endX;
     targetY = endY;
   }
@@ -58,7 +57,7 @@ public final class MouseEventMoved extends AbstractMouseEvent {
    */
   @Override
   public boolean sendToNifty( final NiftyInputConsumer consumer) {
-    return consumer.processMouseEvent(targetX, targetY, 0, -1, false);
+    return consumer.processMouseEvent(targetX, targetY, 0, getButton(), true);
   }
 
   /**
@@ -66,8 +65,8 @@ public final class MouseEventMoved extends AbstractMouseEvent {
    */
   @Override
   public boolean sendToZener( final InputListener listener) {
-    listener.mouseMoved(getX(), getY(), targetX, targetY);
-    return false;
+    listener.mouseDragged(getX(), getY(), targetX, targetY);
+    return true;
   }
 
 }

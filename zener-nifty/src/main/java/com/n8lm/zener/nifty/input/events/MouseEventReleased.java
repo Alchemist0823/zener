@@ -18,8 +18,8 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.NiftyInputConsumer;
 import com.n8lm.zener.input.InputListener;
+import de.lessvoid.nifty.NiftyInputConsumer;
 
 
 

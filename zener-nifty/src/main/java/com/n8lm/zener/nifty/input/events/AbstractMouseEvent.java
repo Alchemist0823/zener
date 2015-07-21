@@ -22,7 +22,6 @@ import com.n8lm.zener.nifty.input.ForwardingMode;
 import com.n8lm.zener.nifty.input.InputState;
 
 
-
 /**
  * This is the abstract mouse event that stores only the data all mouse events have in common.
  *

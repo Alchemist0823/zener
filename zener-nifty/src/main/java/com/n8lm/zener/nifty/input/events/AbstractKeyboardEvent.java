@@ -18,10 +18,9 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.input.keyboard.KeyboardInputEvent;
-
 import com.n8lm.zener.nifty.input.ForwardingMode;
 import com.n8lm.zener.nifty.input.InputState;
+import de.lessvoid.nifty.input.keyboard.KeyboardInputEvent;
 
 /**
  * This is the abstract keyboard event that stores the data all keyboard events got in common.

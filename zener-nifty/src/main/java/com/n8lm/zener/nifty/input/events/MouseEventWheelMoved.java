@@ -18,26 +18,32 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.NiftyInputConsumer;
 import com.n8lm.zener.input.InputListener;
+import de.lessvoid.nifty.NiftyInputConsumer;
+
+
 
 /**
- * This class stores the data generated when releasing a key.
+ * This mouse event is used to store the event generated in case the mouse wheel got moved.
  *
  * @author Martin Karing &lt;nitram@illarion.org&gt;
  */
-public final class KeyboardEventReleased extends AbstractKeyboardEvent {
+public final class MouseEventWheelMoved extends AbstractMouseEvent {
   /**
-   * Create this new event key released event.
-   *
-   * @param keyId       the ID of the key that was used
-   * @param keyChar     the character assigned to the used key
-   * @param shiftDown   {@code true} in case shift is pressed down at the same time
-   * @param controlDown {@code true} in case control is pressed down at the same time
+   * The delta value that defines how much and into what direction the mouse wheel got moved.
    */
-  public KeyboardEventReleased(
-      final int keyId, final char keyChar, final boolean shiftDown, final boolean controlDown) {
-    super(keyId, keyChar, false, shiftDown, controlDown);
+  private final int wheelDelta;
+
+  /**
+   * Create a new mouse wheel event and store the delta value.
+   *
+   * @param x     the x coordinate
+   * @param y     the y coordinate
+   * @param delta the delta of the mouse wheel movement
+   */
+  public MouseEventWheelMoved(final int x, final int y, final int delta) {
+    super(x, y);
+    wheelDelta = delta;
   }
 
   /**
@@ -45,7 +51,7 @@ public final class KeyboardEventReleased extends AbstractKeyboardEvent {
    */
   @Override
   public boolean sendToNifty( final NiftyInputConsumer consumer) {
-    return consumer.processKeyboardEvent(this);
+    return consumer.processMouseEvent(getX(), getY(), wheelDelta, -1, false);
   }
 
   /**
@@ -53,7 +59,7 @@ public final class KeyboardEventReleased extends AbstractKeyboardEvent {
    */
   @Override
   public boolean sendToZener( final InputListener listener) {
-    listener.keyReleased(getKey(), getCharacter());
+    listener.mouseWheelMoved(wheelDelta);
     return true;
   }
 

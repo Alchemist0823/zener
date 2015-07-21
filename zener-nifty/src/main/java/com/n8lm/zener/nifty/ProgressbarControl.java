@@ -18,8 +18,6 @@
 
 package com.n8lm.zener.nifty;
 
-import java.util.Properties;
-
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.controls.Parameters;
@@ -28,7 +26,6 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
-import de.lessvoid.xml.xpp3.Attributes;
 
 public class ProgressbarControl implements Controller {
 	private Element progressBarElement;

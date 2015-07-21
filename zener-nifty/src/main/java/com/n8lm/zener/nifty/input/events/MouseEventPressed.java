@@ -18,12 +18,9 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.NiftyInputConsumer;
-import com.n8lm.zener.nifty.input.InputState;
-
-
-
 import com.n8lm.zener.input.InputListener;
+import com.n8lm.zener.nifty.input.InputState;
+import de.lessvoid.nifty.NiftyInputConsumer;
 
 /**
  * This mouse event is used to store the event generated in case a mouse button is pressed down.

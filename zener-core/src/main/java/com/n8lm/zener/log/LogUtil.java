@@ -18,9 +18,6 @@
 
 package com.n8lm.zener.log;
 
-import com.n8lm.zener.nifty.NiftyLogHandler;
-import de.lessvoid.nifty.controls.Console;
-
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -31,7 +28,7 @@ public class LogUtil {
     }
 
 	private static MemoryHandler memoryLogHandler;
-	private static NiftyLogHandler niftyLogHandler;
+	//private static NiftyLogHandler niftyLogHandler;
 
     public static void disableNiftyInfoLog() {
         Logger.getLogger("de.lessvoid.nifty").setLevel(Level.WARNING);
@@ -60,14 +57,14 @@ public class LogUtil {
             //Logger.getLogger("de.lessvoid.nifty").addHandler(fileTxt);
 		    
 		    //for (Handler handle : logger.getHandlers()
-		    
+		    /*
 		    if (isNiftyConsoleLog) {
 			    niftyLogHandler = new NiftyLogHandler();
 			    niftyLogHandler.setFormatter(new ShortLogFormatter());
 			    
 			    memoryLogHandler = new MemoryHandler(niftyLogHandler, 10000, Level.OFF);
 			    logger.addHandler(memoryLogHandler);
-		    }
+		    }*/
 		    
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
@@ -77,11 +74,11 @@ public class LogUtil {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
 	public static void setupNiftyLogConsole(Console console) {
 		niftyLogHandler.setController(console);
 		memoryLogHandler.push();
 		memoryLogHandler.setPushLevel(Level.ALL);
-	}
+	}*/
 
 }

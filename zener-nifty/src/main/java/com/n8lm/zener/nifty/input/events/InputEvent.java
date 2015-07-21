@@ -18,11 +18,10 @@
 
 package com.n8lm.zener.nifty.input.events;
 
-import de.lessvoid.nifty.NiftyInputConsumer;
-
 import com.n8lm.zener.input.InputListener;
 import com.n8lm.zener.nifty.input.ForwardingMode;
 import com.n8lm.zener.nifty.input.InputState;
+import de.lessvoid.nifty.NiftyInputConsumer;
 
 
 public interface InputEvent {

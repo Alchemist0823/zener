@@ -12,6 +12,7 @@
 
     <modules>
         <module>zener-core</module>
+        <module>zener-nifty</module>
         <module>zener-examples</module>
         <module>zener-sdk</module>
     </modules>
