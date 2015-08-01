@@ -525,8 +525,16 @@ public class ViewRenderSystem extends EntitySystem {
 		*/
     }
 
-    public Matrix4f getModelViewProjectionMatrix() {
-        return projectionMat.mult(viewMat.mult(modelMat));
+    public Matrix4f getModelViewProjectionMatrix(Matrix4f mat) {
+        if (mat == null)
+            mat = new Matrix4f();
+        return projectionMat.mult(viewMat.mult(modelMat, mat), mat);
+    }
+
+    public Matrix4f getModelViewMatrix(Matrix4f mat) {
+        if (mat == null)
+            mat = new Matrix4f();
+        return viewMat.mult(modelMat, mat);
     }
 
 }

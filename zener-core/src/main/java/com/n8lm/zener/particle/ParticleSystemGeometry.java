@@ -26,14 +26,10 @@ import com.n8lm.zener.graphics.VertexBuffer.Type;
 import com.n8lm.zener.graphics.VertexBuffer.Usage;
 import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.graphics.geom.InstancingGeometry;
-import com.n8lm.zener.math.Matrix4f;
-import com.n8lm.zener.math.Transform;
-import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
 import com.n8lm.zener.utils.TempVars;
 import org.lwjgl.BufferUtils;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 
@@ -68,25 +64,25 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 	private void generate(Mesh particle) {
         FloatBuffer vertices = null;
         FloatBuffer textureCoordinates = null;
-        ByteBuffer textureIndex = null;
+        FloatBuffer textureRect = null;
         FloatBuffer matrices = null;
         FloatBuffer colors = null;
 
         vertexCount = particle.faces.size() * 3;
-        
-        vertices = BufferTools.reserveData(vertexCount * 3);
+
+        vertices = BufferUtils.createFloatBuffer(vertexCount * 3);
         if (particle.hasTextureCoordinates()) {
-            textureCoordinates = BufferTools.reserveData(vertexCount * 2);
+            textureCoordinates = BufferUtils.createFloatBuffer(vertexCount * 2);
         }
 
         for (Face face : particle.faces) {
-            vertices.put(BufferTools.asFloats(particle.vertices.get(face.getVertexIndices()[0] - 1)));
-            vertices.put(BufferTools.asFloats(particle.vertices.get(face.getVertexIndices()[1] - 1)));
-            vertices.put(BufferTools.asFloats(particle.vertices.get(face.getVertexIndices()[2] - 1)));
+            BufferTools.fillBuffer(particle.vertices.get(face.getVertexIndices()[0] - 1), vertices);
+            BufferTools.fillBuffer(particle.vertices.get(face.getVertexIndices()[1] - 1), vertices);
+            BufferTools.fillBuffer(particle.vertices.get(face.getVertexIndices()[2] - 1), vertices);
             if (particle.hasTextureCoordinates()) {
-            	textureCoordinates.put(BufferTools.asFloats(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[0] - 1)));
-            	textureCoordinates.put(BufferTools.asFloats(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[1] - 1)));
-            	textureCoordinates.put(BufferTools.asFloats(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[2] - 1)));
+                BufferTools.fillBuffer(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[0] - 1), textureCoordinates);
+                BufferTools.fillBuffer(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[1] - 1), textureCoordinates);
+                BufferTools.fillBuffer(particle.textureCoordinates.get(face.getTextureCoordinateIndices()[2] - 1), textureCoordinates);
             }
         }
 
@@ -101,11 +97,13 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         int maxCount = particleSystem.getMaxCount();
 
 
-        textureIndex = BufferUtils.createByteBuffer(maxCount * 1);
-        matrices = BufferTools.reserveData(maxCount * 16);
-        colors = BufferTools.reserveData(maxCount * 4);
+        if (particle.hasTextureCoordinates()) {
+            textureRect = BufferUtils.createFloatBuffer(maxCount * 4);
+        }
+        matrices = BufferUtils.createFloatBuffer(maxCount * 16);
+        colors = BufferUtils.createFloatBuffer(maxCount * 4);
 
-        this.vbs.put(Type.Custom, new VertexBuffer(Type.Custom, Usage.Stream, DataType.Float, 1, maxCount, textureIndex, false));
+        this.vbs.put(Type.Custom, new VertexBuffer(Type.Custom, Usage.Stream, DataType.Float, 4, maxCount, textureRect, false));
         this.vbs.put(Type.ParticleMatrix, new VertexBuffer(Type.ParticlePos, Usage.Stream, DataType.Float, 16, maxCount, matrices, false));
         this.vbs.put(Type.ParticleColor, new VertexBuffer(Type.ParticleColor, Usage.Stream, DataType.Float, 4, maxCount, colors, false));
 
@@ -123,23 +121,16 @@ public class ParticleSystemGeometry extends InstancingGeometry {
      */
 	@Override
 	public void update(ViewRenderSystem subRenderSystem) {
-        ByteBuffer textureIndexs = (ByteBuffer) this.vbs.get(Type.Custom).getData();
+        FloatBuffer textureRect = (FloatBuffer) this.vbs.get(Type.Custom).getData();
         FloatBuffer matrices = (FloatBuffer) this.vbs.get(Type.ParticleMatrix).getData();
 		FloatBuffer colors = (FloatBuffer) this.vbs.get(Type.ParticleColor).getData();
-		//System.out.println(positions.limit());
 
-        textureIndexs.clear();
+        textureRect.clear();
         matrices.clear();
 		colors.clear();
-		
-		Matrix4f modelViewProjectionMatrix = subRenderSystem.getModelViewProjectionMatrix();
-		
-		Particle[] particles = particleSystem.getParticles();
-		int count = particleSystem.getCount();
-		for (int i = 0; i < count; i ++) {
-        	    Vector3f a = modelViewProjectionMatrix.mult(particles[i].position);
-        	    particles[i].order = a.z;
-		}
+
+        Particle[] particles = particleSystem.getParticles();
+        int count = particleSystem.getCount();
 
 		/**
 		 * gl blend sort
@@ -149,19 +140,19 @@ public class ParticleSystemGeometry extends InstancingGeometry {
         TempVars tempVars = TempVars.get();
 
 		for (int i = 0; i < count; i ++) {
-            textureIndexs.put((byte) particles[i].texIndex);
+            BufferTools.fillBuffer(particles[i].textureCoord, textureRect);
             tempVars.tempTF.setTranslation(particles[i].position);
             tempVars.tempTF.setRotation(particles[i].rotation);
             tempVars.tempTF.setScale(tempVars.vect1.set(particles[i].size, particles[i].size, particles[i].size));
             tempVars.tempTF.getModelMatrix(tempVars.tempMat4);
             tempVars.tempMat4.fillFloatBuffer(matrices);
-			colors.put(BufferTools.asFloats(particles[i].color));
-		}
+            BufferTools.fillBuffer(particles[i].color, colors);
+        }
 
         tempVars.release();
 
-        textureIndexs.flip();
-		matrices.flip();
+        textureRect.flip();
+        matrices.flip();
 		colors.flip();
 
         this.vbs.get(Type.Custom).updateSubData(0);
@@ -169,7 +160,6 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 		this.vbs.get(Type.ParticleColor).updateSubData(0);
 		
 		instancesCount = count;
-		//this.instancesCount;
 	}
 
 }

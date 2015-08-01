@@ -1,6 +1,8 @@
 package com.n8lm.zener.particle;
 
-import com.n8lm.zener.math.*;
+import com.n8lm.zener.math.ColorRGBA;
+import com.n8lm.zener.math.SingleRangeFunction;
+import com.n8lm.zener.math.Vector3fRangeFunction;
 import com.n8lm.zener.utils.TempVars;
 
 /**
@@ -14,92 +16,31 @@ import com.n8lm.zener.utils.TempVars;
  */
 public class CustomParticleEmitter implements ParticleEmitter {
 
-    private Vector3fFunction initialPosition = new Vector3fFunction(new ReadonlyCurveFunction(), new ReadonlyCurveFunction(), new ReadonlyCurveFunction());
-    private float initialRotation = 0f;
-    private float rotationScatter = 0f;
-    private float initialSize = 1.0f;
-    private float sizeScatter = 0f;
-    private float initialEmitSpeed = 60;
-    private float emitSpeedScatter = 0;
-    private int atlasCount = 1;
-
+    private Vector3fRangeFunction initialPosition = new Vector3fRangeFunction();
+    private Vector3fRangeFunction initialVelocity = new Vector3fRangeFunction();
+    private SingleRangeFunction initialRotation = new SingleRangeFunction();
+    private SingleRangeFunction initialSize = new SingleRangeFunction();
+    private SingleRangeFunction initialEmitSpeed = new SingleRangeFunction();
+    private SingleRangeFunction initialLife = new SingleRangeFunction();
     private ColorRGBA initialColor = new ColorRGBA();
-    private Vector3fFunction initialVelocity = new Vector3fFunction(new ReadonlyCurveFunction(), new ReadonlyCurveFunction(), new ReadonlyCurveFunction());
-    private Vector3f velocityScatter = new Vector3f();
-    private float initialLife = 3f;
-    private float lifeReducer = 1f;
 
     public CustomParticleEmitter() {
-    }
-
-    public void setInitialPosition(Vector3fFunction initialPosition) {
-        this.initialPosition = initialPosition;
-    }
-
-    public void setInitialRotation(float initialRotation) {
-        this.initialRotation = initialRotation;
-    }
-
-    public void setRotationScatter(float rotationScatter) {
-        this.rotationScatter = rotationScatter;
-    }
-
-    public void setInitialSize(float initialSize) {
-        this.initialSize = initialSize;
-    }
-
-    public void setSizeScatter(float sizeScatter) {
-        this.sizeScatter = sizeScatter;
-    }
-
-    public void setInitialColor(ColorRGBA initialColor) {
-        this.initialColor = initialColor;
-    }
-
-    public void setInitialVelocity(Vector3fFunction initialVelocity) {
-        this.initialVelocity = initialVelocity;
-    }
-
-    public void setVelocityScatter(Vector3f velocityScatter) {
-        this.velocityScatter = velocityScatter;
-    }
-
-    public void setInitialLife(float initialLife) {
-        this.initialLife = initialLife;
-    }
-
-    public void setLifeReducer(float lifeReducer) {
-        this.lifeReducer = lifeReducer;
-    }
-
-    public void setInitialEmitSpeed(float initialEmitSpeed) {
-        this.initialEmitSpeed = initialEmitSpeed;
-    }
-
-    public void setEmitSpeedScatter(float emitSpeedScatter) {
-        this.emitSpeedScatter = emitSpeedScatter;
-    }
-
-    public void setAtlasCount(int atlasCount) {
-        this.atlasCount = atlasCount;
     }
 
     @Override
     public void setNewParticle(Particle p, float time) {
         TempVars tempVars = TempVars.get();
-        //p.rotation = initialRotation + rotationScatter * (MathUtil.nextRandomFloat() - 0.5f);
+        p.rotateAngle = initialRotation.getYFromX(time);
 
-        initialPosition.getVector3f(time, tempVars.vect1);
-        p.position.set(tempVars.vect1);
+        initialPosition.getVector3f(time, p.position);
 
-        initialVelocity.getVector3f(time, tempVars.vect1);
-        p.velocity.set(tempVars.vect1);
+        initialVelocity.getVector3f(time, p.velocity);
 
         p.color.set(initialColor);
 
-        p.life = initialLife - lifeReducer * MathUtil.nextRandomFloat();
+        p.life = initialLife.getYFromX(time);
 
-        p.size = initialSize + sizeScatter * (MathUtil.nextRandomFloat() - 0.5f);
+        p.size = initialSize.getYFromX(time);
 
         //p.texIndex = MathUtil.nextRandomInt(0, atlasCount - 1);
 
@@ -115,16 +56,63 @@ public class CustomParticleEmitter implements ParticleEmitter {
 
     @Override
     public int getEmitSpeed(float time) {
-        return (int) (initialEmitSpeed + emitSpeedScatter * (MathUtil.nextRandomFloat() - 0.5f));
+        return (int) (initialEmitSpeed.getYFromX(time));
     }
 
-    @Override
-    public int getAtlasCount() {
-        return atlasCount;
+    public Vector3fRangeFunction getInitialPosition() {
+        return initialPosition;
     }
 
-    @Override
-    public float getFullLife() {
+    public void setInitialPosition(Vector3fRangeFunction initialPosition) {
+        this.initialPosition = initialPosition;
+    }
+
+    public Vector3fRangeFunction getInitialVelocity() {
+        return initialVelocity;
+    }
+
+    public void setInitialVelocity(Vector3fRangeFunction initialVelocity) {
+        this.initialVelocity = initialVelocity;
+    }
+
+    public SingleRangeFunction getInitialRotation() {
+        return initialRotation;
+    }
+
+    public void setInitialRotation(SingleRangeFunction initialRotation) {
+        this.initialRotation = initialRotation;
+    }
+
+    public SingleRangeFunction getInitialSize() {
+        return initialSize;
+    }
+
+    public void setInitialSize(SingleRangeFunction initialSize) {
+        this.initialSize = initialSize;
+    }
+
+    public SingleRangeFunction getInitialEmitSpeed() {
+        return initialEmitSpeed;
+    }
+
+    public void setInitialEmitSpeed(SingleRangeFunction initialEmitSpeed) {
+        this.initialEmitSpeed = initialEmitSpeed;
+    }
+
+    public SingleRangeFunction getInitialLife() {
         return initialLife;
     }
+
+    public void setInitialLife(SingleRangeFunction initialLife) {
+        this.initialLife = initialLife;
+    }
+
+    public ColorRGBA getInitialColor() {
+        return initialColor;
+    }
+
+    public void setInitialColor(ColorRGBA initialColor) {
+        this.initialColor = initialColor;
+    }
+
 }

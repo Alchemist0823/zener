@@ -14,7 +14,7 @@ public interface ParticleEmitter {
      * @param time when the particle will be generated
      * @return the new particle
      */
-    public Particle newParticle(float time);
+    Particle newParticle(float time);
 
     /**
      * Get the count of particles emitted per second at the specific time
@@ -28,18 +28,5 @@ public interface ParticleEmitter {
      * @param particle the particle will be set.
      * @param time when the particle will be set
      */
-    public void setNewParticle(Particle particle, float time);
-
-
-    /**
-     * @return the atlas texture count
-     */
-    public int getAtlasCount();
-
-    /**
-     * Get the longest life of the particle used for texture
-     * altas calculation
-     * @return the life time in second
-     */
-    public float getFullLife();
+    void setNewParticle(Particle particle, float time);
 }

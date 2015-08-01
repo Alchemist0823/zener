@@ -20,6 +20,7 @@ package com.n8lm.zener.particle;
 
 import com.n8lm.zener.math.ColorRGBA;
 import com.n8lm.zener.math.Quaternion;
+import com.n8lm.zener.math.Rectangle2D;
 import com.n8lm.zener.math.Vector3f;
 
 /**
@@ -32,14 +33,24 @@ public class Particle implements Comparable<Particle> {
 	public final Vector3f velocity = new Vector3f();
     public final Quaternion rotation = new Quaternion();
     public final ColorRGBA color = new ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
-    public int texIndex;
-	public float size;
-	public float life; // Remaining life of the particle. if < 0 : dead and unused.
-	public float order;
+    public final Rectangle2D textureCoord = new Rectangle2D(0.0f, 0.0f, 1.0f, 1.0f);
+    public float size;
+    public float rotateAngle;
+
+    /**
+     * the time since the particle was emitted
+     */
+    public float time;
+
+    /**
+     * the life of the particle
+     */
+    public float life;
+    public float order;
 
     Particle(){
-        texIndex = 0;
         size = 1.0f;
+        time = 0.0f;
         life = 1.0f;
         order = 0;
     }

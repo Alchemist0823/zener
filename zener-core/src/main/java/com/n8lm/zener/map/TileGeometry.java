@@ -38,12 +38,12 @@ public class TileGeometry extends Geometry {
         int faceCount = fragment * fragment * 2;
         vertexCount = faceCount * 3;
 
-        FloatBuffer vertices = BufferTools.reserveData(vertexCount * 3);
-        FloatBuffer normals = BufferTools.reserveData(vertexCount * 3);
+        FloatBuffer vertices = BufferUtils.createFloatBuffer(vertexCount * 3);
+        FloatBuffer normals = BufferUtils.createFloatBuffer(vertexCount * 3);
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertexCount * 4);
         FloatBuffer textureCoordinates[] = new FloatBuffer[4];
         for (int k = 0; k < 4; k ++)
-            textureCoordinates[k] = BufferTools.reserveData(vertexCount * 2);
+            textureCoordinates[k] = BufferUtils.createFloatBuffer(vertexCount * 2);
 
         int x = loc.x;
         int y = loc.y;
@@ -86,20 +86,20 @@ public class TileGeometry extends Geometry {
                 Vector3f n3 = tmrs.getNormal(ti + 1, tj + 1);
                 Vector3f n4 = tmrs.getNormal(ti + 1, tj);
 
-                vertices.put(BufferTools.asFloats(v3));
-                vertices.put(BufferTools.asFloats(v2));
-                vertices.put(BufferTools.asFloats(v1));
+                BufferTools.fillBuffer(v3, vertices);
+                BufferTools.fillBuffer(v2, vertices);
+                BufferTools.fillBuffer(v1, vertices);
 
-                vertices.put(BufferTools.asFloats(v1));
-                vertices.put(BufferTools.asFloats(v4));
-                vertices.put(BufferTools.asFloats(v3));
+                BufferTools.fillBuffer(v1, vertices);
+                BufferTools.fillBuffer(v4, vertices);
+                BufferTools.fillBuffer(v3, vertices);
 
-                normals.put(BufferTools.asFloats(n3));
-                normals.put(BufferTools.asFloats(n2));
-                normals.put(BufferTools.asFloats(n1));
-                normals.put(BufferTools.asFloats(n1));
-                normals.put(BufferTools.asFloats(n4));
-                normals.put(BufferTools.asFloats(n3));
+                BufferTools.fillBuffer(n3, normals);
+                BufferTools.fillBuffer(n2, normals);
+                BufferTools.fillBuffer(n1, normals);
+                BufferTools.fillBuffer(n1, normals);
+                BufferTools.fillBuffer(n4, normals);
+                BufferTools.fillBuffer(n3, normals);
 
                 otc1.set(seamfix + fgw * ii, seamfix + fgw * jj);
                 otc2.set(seamfix + fgw * ii, seamfix + fgw * jj + fgw);
@@ -110,13 +110,13 @@ public class TileGeometry extends Geometry {
 
                     if (texPos[k] == -1) {
                         tempVars.vect2d.set(-1.0f, -1.0f);
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
-                        textureCoordinates[k].put(BufferTools.asFloats(tempVars.vect2d));
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tempVars.vect2d, textureCoordinates[k]);
                     } else {
 
                         tc1.set((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
@@ -128,13 +128,13 @@ public class TileGeometry extends Geometry {
                         tc4.set((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
                                 (texPos[k] / 4) * textureHeight + otc4.y / 4);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc2));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+                        BufferTools.fillBuffer(tc3, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc2, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc1, textureCoordinates[k]);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc4));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
+                        BufferTools.fillBuffer(tc1, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc4, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc3, textureCoordinates[k]);
                     }
                 }
 
@@ -187,12 +187,12 @@ public class TileGeometry extends Geometry {
                     colorV = color[i][j + 1];
                 else if(ii == 1 && jj == 1)
                     colorV = color[i + 1][j + 1];
-                colorBuffer.put(BufferTools.asFloats(colorV));
-                colorBuffer.put(BufferTools.asFloats(colorV));
-                colorBuffer.put(BufferTools.asFloats(colorV));
-                colorBuffer.put(BufferTools.asFloats(colorV));
-                colorBuffer.put(BufferTools.asFloats(colorV));
-                colorBuffer.put(BufferTools.asFloats(colorV));
+                BufferTools.fillBuffer(colorV, colorBuffer);
+                BufferTools.fillBuffer(colorV, colorBuffer);
+                BufferTools.fillBuffer(colorV, colorBuffer);
+                BufferTools.fillBuffer(colorV, colorBuffer);
+                BufferTools.fillBuffer(colorV, colorBuffer);
+                BufferTools.fillBuffer(colorV, colorBuffer);
             }
 
         colorBuffer.flip();
@@ -217,7 +217,7 @@ public class TileGeometry extends Geometry {
 
         FloatBuffer textureCoordinates[] = new FloatBuffer[4];
         for (int k = 0; k < 4; k ++)
-            textureCoordinates[k] = BufferTools.reserveData(vertexCount * 2);
+            textureCoordinates[k] = BufferUtils.createFloatBuffer(vertexCount * 2);
 
         final float seamfix = 1.0f/128;
         final float fgw = (1.0f - seamfix * 2) /fragment;
@@ -235,13 +235,13 @@ public class TileGeometry extends Geometry {
                 for (int k = 0; k < 4; k ++) {
 
                     if (texPos[k] == -1) {
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
-                        textureCoordinates[k].put(BufferTools.asFloats(new Vector2f(-1.0f, -1.0f)));
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
+                        BufferTools.fillBuffer(new Vector2f(-1.0f, -1.0f), textureCoordinates[k]);
                     } else {
                         Vector2f tc1 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc1.x / 8,
                                 (texPos[k] / 4) * textureHeight + otc1.y / 4);
@@ -252,13 +252,13 @@ public class TileGeometry extends Geometry {
                         Vector2f tc4 = new Vector2f((texPos[k] % 4 + textureConstant) * textureWidth + otc4.x / 8,
                                 (texPos[k] / 4) * textureHeight + otc4.y / 4);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc2));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
+                        BufferTools.fillBuffer(tc3, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc2, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc1, textureCoordinates[k]);
 
-                        textureCoordinates[k].put(BufferTools.asFloats(tc1));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc4));
-                        textureCoordinates[k].put(BufferTools.asFloats(tc3));
+                        BufferTools.fillBuffer(tc1, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc4, textureCoordinates[k]);
+                        BufferTools.fillBuffer(tc3, textureCoordinates[k]);
                     }
                 }
 

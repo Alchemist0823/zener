@@ -23,6 +23,7 @@ import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
+import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 
@@ -38,33 +39,33 @@ public class PlaneGeometry extends Geometry {
         FloatBuffer normals = null;
         FloatBuffer textureCoordinates = null;
 
-        vertices = BufferTools.reserveData(4 * 3);
+        vertices = BufferUtils.createFloatBuffer(4 * 3);
 
         if (hasNormal) {
-            normals = BufferTools.reserveData(4 * 3);
+            normals = BufferUtils.createFloatBuffer(4 * 3);
         }
 
         if (hasTextureCoordinates) {
-            textureCoordinates = BufferTools.reserveData(4 * 2);
+            textureCoordinates = BufferUtils.createFloatBuffer(4 * 2);
         }
 
-        vertices.put(BufferTools.asFloats(new Vector3f(-0.5f, -0.5f, 0f)));
-        vertices.put(BufferTools.asFloats(new Vector3f(0.5f, -0.5f, 0f)));
-        vertices.put(BufferTools.asFloats(new Vector3f(-0.5f, 0.5f, 0f)));
-        vertices.put(BufferTools.asFloats(new Vector3f(0.5f, 0.5f, 0f)));
+        BufferTools.fillBuffer(new Vector3f(-0.5f, -0.5f, 0f), vertices);
+        BufferTools.fillBuffer(new Vector3f(0.5f, -0.5f, 0f), vertices);
+        BufferTools.fillBuffer(new Vector3f(-0.5f, 0.5f, 0f), vertices);
+        BufferTools.fillBuffer(new Vector3f(0.5f, 0.5f, 0f), vertices);
 
         if (hasNormal) {
-            normals.put(BufferTools.asFloats(new Vector3f(0f, 0f, 1f)));
-            normals.put(BufferTools.asFloats(new Vector3f(0f, 0f, 1f)));
-            normals.put(BufferTools.asFloats(new Vector3f(0f, 0f, 1f)));
-            normals.put(BufferTools.asFloats(new Vector3f(0f, 0f, 1f)));
+            BufferTools.fillBuffer(new Vector3f(0f, 0f, 1f), normals);
+            BufferTools.fillBuffer(new Vector3f(0f, 0f, 1f), normals);
+            BufferTools.fillBuffer(new Vector3f(0f, 0f, 1f), normals);
+            BufferTools.fillBuffer(new Vector3f(0f, 0f, 1f), normals);
         }
 
         if (hasTextureCoordinates) {
-            textureCoordinates.put(BufferTools.asFloats(new Vector2f(0f, 0f)));
-            textureCoordinates.put(BufferTools.asFloats(new Vector2f(1f, 0f)));
-            textureCoordinates.put(BufferTools.asFloats(new Vector2f(0f, 1f)));
-            textureCoordinates.put(BufferTools.asFloats(new Vector2f(1f, 1f)));
+            BufferTools.fillBuffer(new Vector2f(0f, 0f), textureCoordinates);
+            BufferTools.fillBuffer(new Vector2f(1f, 0f), textureCoordinates);
+            BufferTools.fillBuffer(new Vector2f(0f, 1f), textureCoordinates);
+            BufferTools.fillBuffer(new Vector2f(1f, 1f), textureCoordinates);
         }
 
         vertexCount = 4;

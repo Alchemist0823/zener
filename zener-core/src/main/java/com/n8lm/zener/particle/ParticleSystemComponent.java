@@ -60,7 +60,7 @@ public class ParticleSystemComponent extends Component {
      */
     private final Particle[] particles;
     private final ParticleEmitter emitter;
-    private final Bag<ParticleField> fields;
+    private final Bag<ParticleModifer> fields;
 
     public ParticleSystemComponent(ParticleEmitter emitter) {
         this(emitter, 500);
@@ -81,7 +81,7 @@ public class ParticleSystemComponent extends Component {
         this.countPerSecond = 0;
 	}
 
-    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration, ParticleField field) {
+    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration, ParticleModifer field) {
         this(emitter, maxCount, duration);
         this.fields.add(field);
     }
@@ -136,7 +136,7 @@ public class ParticleSystemComponent extends Component {
         return emitter;
     }
 
-    public Bag<ParticleField> getFields() {
+    public Bag<ParticleModifer> getFields() {
         return fields;
     }
 }

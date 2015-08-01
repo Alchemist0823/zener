@@ -25,6 +25,7 @@ import com.n8lm.zener.graphics.ViewRenderSystem;
 import com.n8lm.zener.math.Vector2f;
 import com.n8lm.zener.math.Vector3f;
 import com.n8lm.zener.utils.BufferTools;
+import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
@@ -129,7 +130,7 @@ public abstract class Geometry extends GLObject {
         FloatBuffer normals = (FloatBuffer) vbs.get(VertexBuffer.Type.Normal).getData();
         FloatBuffer textureCroods = (FloatBuffer) vbs.get(VertexBuffer.Type.TexCoord).getData();
 
-        FloatBuffer tangents = BufferTools.reserveData(vertexCount * 4);
+        FloatBuffer tangents = BufferUtils.createFloatBuffer(vertexCount * 4);
 
         for (int i = 0; i < vertexCount / 3; i++) {
             Vector3f v0 = new Vector3f(vertices.get(), vertices.get(), vertices.get());
@@ -166,7 +167,7 @@ public abstract class Geometry extends GLObject {
                     det = 1.0f;
                 }
 
-                tangents.put(BufferTools.asFloats(tangentNormalised));
+                BufferTools.fillBuffer(tangentNormalised, tangents);
                 tangents.put(det);
             }
             //http://antongerdelan.net/opengl/normal_mapping.html

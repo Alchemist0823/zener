@@ -43,14 +43,14 @@ public class ModelGeometry extends Geometry {
         ByteBuffer boneIndices = null;
         ByteBuffer weights = null;
 
-        vertices = BufferTools.reserveData(mesh.faces.size() * 9);
+        vertices = BufferUtils.createFloatBuffer(mesh.faces.size() * 9);
 
         if (mesh.hasNormals()) {
-            normals = BufferTools.reserveData(mesh.faces.size() * 9);
+            normals = BufferUtils.createFloatBuffer(mesh.faces.size() * 9);
         }
 
         if (mesh.hasTextureCoordinates()) {
-            textureCoordinates = BufferTools.reserveData(mesh.faces.size() * 6);
+            textureCoordinates = BufferUtils.createFloatBuffer(mesh.faces.size() * 6);
         }
 
         if (mesh.hasBoneAssignment()) {
@@ -60,47 +60,29 @@ public class ModelGeometry extends Geometry {
         }
 
         for (Face face : mesh.faces) {
-            vertices.put(BufferTools.asFloats(mesh.vertices.get(face
-                    .getVertexIndices()[0] - 1)));
-            vertices.put(BufferTools.asFloats(mesh.vertices.get(face
-                    .getVertexIndices()[1] - 1)));
-            vertices.put(BufferTools.asFloats(mesh.vertices.get(face
-                    .getVertexIndices()[2] - 1)));
+            BufferTools.fillBuffer(mesh.vertices.get(face.getVertexIndices()[0] - 1), vertices);
+            BufferTools.fillBuffer(mesh.vertices.get(face.getVertexIndices()[1] - 1), vertices);
+            BufferTools.fillBuffer(mesh.vertices.get(face.getVertexIndices()[2] - 1), vertices);
 
             if (mesh.hasBoneAssignment()) {
-                boneIndices.put(BufferTools.asBytes(mesh.boneIndices.get(face
-                        .getVertexIndices()[0] - 1)));
-                boneIndices.put(BufferTools.asBytes(mesh.boneIndices.get(face
-                        .getVertexIndices()[1] - 1)));
-                boneIndices.put(BufferTools.asBytes(mesh.boneIndices.get(face
-                        .getVertexIndices()[2] - 1)));
+                BufferTools.fillBuffer(mesh.boneIndices.get(face.getVertexIndices()[0] - 1), boneIndices);
+                BufferTools.fillBuffer(mesh.boneIndices.get(face.getVertexIndices()[1] - 1), boneIndices);
+                BufferTools.fillBuffer(mesh.boneIndices.get(face.getVertexIndices()[2] - 1), boneIndices);
 
-                weights.put(BufferTools.asBytes(mesh.weights.get(face
-                        .getVertexIndices()[0] - 1)));
-                weights.put(BufferTools.asBytes(mesh.weights.get(face
-                        .getVertexIndices()[1] - 1)));
-                weights.put(BufferTools.asBytes(mesh.weights.get(face
-                        .getVertexIndices()[2] - 1)));
+                BufferTools.fillBuffer(mesh.weights.get(face.getVertexIndices()[0] - 1), weights);
+                BufferTools.fillBuffer(mesh.weights.get(face.getVertexIndices()[1] - 1), weights);
+                BufferTools.fillBuffer(mesh.weights.get(face.getVertexIndices()[2] - 1), weights);
             }
 
             if (mesh.hasNormals()) {
-                normals.put(BufferTools.asFloats(mesh.normals.get(face
-                        .getNormalIndices()[0] - 1)));
-                normals.put(BufferTools.asFloats(mesh.normals.get(face
-                        .getNormalIndices()[1] - 1)));
-                normals.put(BufferTools.asFloats(mesh.normals.get(face
-                        .getNormalIndices()[2] - 1)));
+                BufferTools.fillBuffer(mesh.normals.get(face.getNormalIndices()[0] - 1), normals);
+                BufferTools.fillBuffer(mesh.normals.get(face.getNormalIndices()[1] - 1), normals);
+                BufferTools.fillBuffer(mesh.normals.get(face.getNormalIndices()[2] - 1), normals);
             }
             if (mesh.hasTextureCoordinates()) {
-                textureCoordinates.put(BufferTools
-                        .asFloats(mesh.textureCoordinates.get(face
-                                .getTextureCoordinateIndices()[0] - 1)));
-                textureCoordinates.put(BufferTools
-                        .asFloats(mesh.textureCoordinates.get(face
-                                .getTextureCoordinateIndices()[1] - 1)));
-                textureCoordinates.put(BufferTools
-                        .asFloats(mesh.textureCoordinates.get(face
-                                .getTextureCoordinateIndices()[2] - 1)));
+                BufferTools.fillBuffer(mesh.textureCoordinates.get(face.getTextureCoordinateIndices()[0] - 1), textureCoordinates);
+                BufferTools.fillBuffer(mesh.textureCoordinates.get(face.getTextureCoordinateIndices()[1] - 1), textureCoordinates);
+                BufferTools.fillBuffer(mesh.textureCoordinates.get(face.getTextureCoordinateIndices()[2] - 1), textureCoordinates);
             }
         }
 

@@ -16,10 +16,11 @@ public class Range {
         this.u = u;
     }
 
-    public void combine(Range range) {
+    public Range combine(Range range) {
         if (this.l > range.l)
             this.l = range.l;
         if (this.u < range.u)
             this.u = range.u;
+        return this;
     }
 }

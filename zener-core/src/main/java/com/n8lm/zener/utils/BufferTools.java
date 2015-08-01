@@ -18,35 +18,6 @@
 
 package com.n8lm.zener.utils;
 
-/*
- * Copyright (c) 2013, Oskar Veerhoek
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are those
- * of the authors and should not be interpreted as representing official policies,
- * either expressed or implied, of the FreeBSD Project.
- */
-
 import com.n8lm.zener.math.*;
 import org.lwjgl.BufferUtils;
 
@@ -57,40 +28,43 @@ import java.nio.IntBuffer;
 
 public class BufferTools {
 
-    /**
-     * @param v the vector that is to be turned into an array of floats
-     *
-     * @return a float array where [0] is v.x, [1] is v.y, and [2] is v.z
-     */
-    public static float[] asFloats(Vector4f v) {
-        return new float[]{v.x, v.y, v.z, v.w};
-    }
-    
-    /**
-     * @param v the vector that is to be turned into an array of floats
-     *
-     * @return a float array where [0] is v.x, [1] is v.y, and [2] is v.z
-     */
-    public static float[] asFloats(Vector3f v) {
-        return new float[]{v.x, v.y, v.z};
-    }
-    
-    /**
-     * @param v the vector that is to be turned into an array of floats
-     *
-     * @return a float array where [0] is v.x and [1] is v.y
-     */
-    public static float[] asFloats(Vector2f v) {
-        return new float[]{v.x, v.y};
+    public static void fillBuffer(Vector4f v, FloatBuffer buffer) {
+        buffer.put(v.x);
+        buffer.put(v.y);
+        buffer.put(v.z);
+        buffer.put(v.w);
     }
 
+    public static void fillBuffer(Vector3f v, FloatBuffer buffer) {
+        buffer.put(v.x);
+        buffer.put(v.y);
+        buffer.put(v.z);
+    }
 
-    /**
-     * @param color the color that is to be turned into an array of floats
-     * @return a float array presenting color
-     */
-    public static float[] asFloats(ColorRGBA color) {
-        return new float[]{color.r, color.g, color.b, color.a};
+    public static void fillBuffer(Vector2f v, FloatBuffer buffer) {
+        buffer.put(v.x);
+        buffer.put(v.y);
+    }
+
+    public static void fillBuffer(ColorRGBA v, FloatBuffer buffer) {
+        buffer.put(v.r);
+        buffer.put(v.g);
+        buffer.put(v.b);
+        buffer.put(v.a);
+    }
+
+    public static void fillBuffer(Byte4 v, ByteBuffer buffer) {
+        buffer.put(v.b1);
+        buffer.put(v.b2);
+        buffer.put(v.b3);
+        buffer.put(v.b4);
+    }
+
+    public static void fillBuffer(Rectangle2D rect, FloatBuffer buffer) {
+        buffer.put(rect.x0);
+        buffer.put(rect.y0);
+        buffer.put(rect.x1);
+        buffer.put(rect.y1);
     }
 
     /**
@@ -105,10 +79,6 @@ public class BufferTools {
             }
         }
         return true;
-    }
-    
-    public static byte[] asBytes(Byte4 b) {
-        return new byte[]{b.b1, b.b2, b.b3, b.b4};
     }
     
     /**
@@ -182,15 +152,6 @@ public class BufferTools {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(values.length);
         buffer.put(values);
         return buffer;
-    }
-
-    /**
-     * @param amountOfElements the amount of elements in the FloatBuffers
-     *
-     * @return an empty FloatBuffer with a set amount of elements
-     */
-    public static FloatBuffer reserveData(int amountOfElements) {
-        return BufferUtils.createFloatBuffer(amountOfElements);
     }
 
     /**

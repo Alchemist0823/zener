@@ -38,6 +38,10 @@ public class Vector3fFunction {
         this.zFunction = zFunction;
     }
 
+    public Vector3fFunction() {
+        this(new ReadonlyCurveFunction(), new ReadonlyCurveFunction(), new ReadonlyCurveFunction());
+    }
+
     public Vector3f getVector3f(float x, Vector3f result) {
         if (result == null)
             result = new Vector3f();

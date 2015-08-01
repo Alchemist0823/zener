@@ -7,15 +7,15 @@ import com.n8lm.zener.math.Vector3f;
  *
  * @author Forrest Sun
  */
-public class GravityField implements ParticleField {
+public class GravityModifer implements ParticleModifer {
 
     protected final Vector3f gravity;
 
-    public GravityField() {
+    public GravityModifer() {
         this(new Vector3f(0, 0, -9.8f));
     }
 
-    public GravityField(Vector3f gravity) {
+    public GravityModifer(Vector3f gravity) {
         this.gravity = gravity;
     }
 
@@ -24,5 +24,10 @@ public class GravityField implements ParticleField {
         p.velocity.x += gravity.x * delta;
         p.velocity.y += gravity.y * delta;
         p.velocity.z += gravity.z * delta;
+    }
+
+    @Override
+    public void frameStarted() {
+
     }
 }

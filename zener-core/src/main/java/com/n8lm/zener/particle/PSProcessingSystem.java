@@ -51,7 +51,7 @@ public class PSProcessingSystem extends EntityProcessingSystem {
         ParticleSystemComponent ps = pm.get(e);
 
         ParticleEmitter emitter =  ps.getEmitter();
-        Bag<ParticleField> fields = ps.getFields();
+        Bag<ParticleModifer> modifers = ps.getFields();
 
 		Particle[] particles = ps.getParticles();
 	    float delta = world.getDelta() / 1000f;
@@ -79,6 +79,9 @@ public class PSProcessingSystem extends EntityProcessingSystem {
             ps.setCountPerSecond(ps.getCountPerSecond() + count - lastCount);
         }
 
+        for (int j = 0; j < modifers.size(); j++)
+            modifers.get(j).frameStarted();
+
         TempVars tempVars = TempVars.get();
 		// Simulate all particles
 	    for(int i = 0; i < count; i ++){
@@ -90,10 +93,10 @@ public class PSProcessingSystem extends EntityProcessingSystem {
             if (p.life > 0.0f){
 
                 // Simulate simple physics : gravity only, no collisions
-            	for (int j = 0; j < fields.size(); j ++)
-                    fields.get(j).apply(p, delta);
+                for (int j = 0; j < modifers.size(); j++)
+                    modifers.get(j).apply(p, delta);
 
-                p.texIndex = (int) ((emitter.getFullLife() - p.life) / emitter.getFullLife() * emitter.getAtlasCount());
+                //p.texIndex = (int) ((emitter.getFullLife() - p.life) / emitter.getFullLife() * emitter.getAtlasCount());
                 p.position.addLocal(p.velocity.mult(delta, tempVars.vect1));
 
             } else {
