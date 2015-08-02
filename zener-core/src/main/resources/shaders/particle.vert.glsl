@@ -28,10 +28,6 @@ void main() {
 	int texIndex = int(inTexIndex);
 	texCoord.x = (texIndex % num) * (1.0 / num);
 	texCoord.y = (texIndex / num) * (1.0 / num);
-	/*gl_Position = g_ProjectionMatrix 
-		* (g_ViewMatrix * g_ModelMatrix * vec4(inParticlePosition, 1.0) 
-		+ vec4(inPosition.x * inParticleSize, inPosition.y * inParticleSize, 0.0, 0.0));
-		*/
 	texCoord += inTexCoord / num;
 	particleColor = inParticleColor;
 }

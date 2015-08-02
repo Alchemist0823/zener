@@ -8,25 +8,18 @@ package com.n8lm.zener.particle;
  * @author Forrest Sun
  */
 public interface ParticleEmitter {
-
-    /**
-     * Generate a new particle at specific time
-     * @param time when the particle will be generated
-     * @return the new particle
-     */
-    Particle newParticle(float time);
-
     /**
      * Get the count of particles emitted per second at the specific time
      * @param time the specific time.
+     * @param delta the duration
      * @return the count of new particles per second
      */
-    int getEmitSpeed(float time);
+    int getEmitNumber(float time, float delta);
 
     /**
      * Set the setting of a particle to new generated state
      * @param particle the particle will be set.
      * @param time when the particle will be set
      */
-    void setNewParticle(Particle particle, float time);
+    Particle setNewParticle(Particle particle, float time);
 }

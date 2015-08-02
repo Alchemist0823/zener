@@ -3,116 +3,162 @@ package com.n8lm.zener.particle;
 import com.n8lm.zener.math.ColorRGBA;
 import com.n8lm.zener.math.SingleRangeFunction;
 import com.n8lm.zener.math.Vector3fRangeFunction;
-import com.n8lm.zener.utils.TempVars;
 
 /**
  * CustomParticleEmitter is a particle emitter which has a lots of
  * parameters. it should be defined the User or an class that other
  * Emitters inherited.
- *
+ * <p/>
  * Created on 2014/11/8.
  *
  * @author Forrest Sun
  */
 public class CustomParticleEmitter implements ParticleEmitter {
 
-    private Vector3fRangeFunction initialPosition = new Vector3fRangeFunction();
-    private Vector3fRangeFunction initialVelocity = new Vector3fRangeFunction();
-    private SingleRangeFunction initialRotation = new SingleRangeFunction();
-    private SingleRangeFunction initialSize = new SingleRangeFunction();
-    private SingleRangeFunction initialEmitSpeed = new SingleRangeFunction();
-    private SingleRangeFunction initialLife = new SingleRangeFunction();
-    private ColorRGBA initialColor = new ColorRGBA();
+    private Vector3fRangeFunction initialPositionOverTime;
+    private Vector3fRangeFunction initialVelocityOverTime;
+    private SingleRangeFunction initialRotationOverTime;
+    private SingleRangeFunction initialSizeOverTime;
+    private SingleRangeFunction initialEmitSpeedOverTime;
+    private SingleRangeFunction initialLifeOverTime;
+    private ColorRGBA initialColorOverTime;
 
-    public CustomParticleEmitter() {
+    private float remainParticle;
+
+    public class Builder {
+
+        private Vector3fRangeFunction initialPositionOverTime;
+        private Vector3fRangeFunction initialVelocityOverTime;
+        private SingleRangeFunction initialRotationOverTime;
+        private SingleRangeFunction initialSizeOverTime;
+        private SingleRangeFunction initialEmitSpeedOverTime;
+        private SingleRangeFunction initialLifeOverTime;
+        private ColorRGBA initialColorOverTime;
+
+        public Builder setInitialPositionOverTime(Vector3fRangeFunction initialPositionOverTime) {
+            this.initialPositionOverTime = initialPositionOverTime;
+            return this;
+        }
+
+        public Builder setInitialVelocityOverTime(Vector3fRangeFunction initialVelocityOverTime) {
+            this.initialVelocityOverTime = initialVelocityOverTime;
+            return this;
+        }
+
+        public Builder setInitialRotationOverTime(SingleRangeFunction initialRotationOverTime) {
+            this.initialRotationOverTime = initialRotationOverTime;
+            return this;
+        }
+
+        public Builder setInitialSizeOverTime(SingleRangeFunction initialSizeOverTime) {
+            this.initialSizeOverTime = initialSizeOverTime;
+            return this;
+        }
+
+        public Builder setInitialEmitSpeedOverTime(SingleRangeFunction initialEmitSpeedOverTime) {
+            this.initialEmitSpeedOverTime = initialEmitSpeedOverTime;
+            return this;
+        }
+
+        public Builder setInitialLifeOverTime(SingleRangeFunction initialLifeOverTime) {
+            this.initialLifeOverTime = initialLifeOverTime;
+            return this;
+        }
+
+        public Builder setInitialColorOverTime(ColorRGBA initialColorOverTime) {
+            this.initialColorOverTime = initialColorOverTime;
+            return this;
+        }
+
+        public CustomParticleEmitter createCustomParticleEmitter() {
+            return new CustomParticleEmitter(initialPositionOverTime, initialVelocityOverTime, initialRotationOverTime,
+                    initialSizeOverTime, initialEmitSpeedOverTime, initialLifeOverTime, initialColorOverTime);
+        }
+    }
+
+    public CustomParticleEmitter(Vector3fRangeFunction initialPositionOverTime, Vector3fRangeFunction initialVelocityOverTime,
+                                 SingleRangeFunction initialRotationOverTime, SingleRangeFunction initialSizeOverTime,
+                                 SingleRangeFunction initialEmitSpeedOverTime, SingleRangeFunction initialLifeOverTime,
+                                 ColorRGBA initialColorOverTime) {
+        this.initialPositionOverTime = initialPositionOverTime;
+        this.initialVelocityOverTime = initialVelocityOverTime;
+        this.initialRotationOverTime = initialRotationOverTime;
+        this.initialSizeOverTime = initialSizeOverTime;
+        this.initialEmitSpeedOverTime = initialEmitSpeedOverTime;
+        this.initialLifeOverTime = initialLifeOverTime;
+        this.initialColorOverTime = initialColorOverTime;
     }
 
     @Override
-    public void setNewParticle(Particle p, float time) {
-        TempVars tempVars = TempVars.get();
-        p.rotateAngle = initialRotation.getYFromX(time);
-
-        initialPosition.getVector3f(time, p.position);
-
-        initialVelocity.getVector3f(time, p.velocity);
-
-        p.color.set(initialColor);
-
-        p.life = initialLife.getYFromX(time);
-
-        p.size = initialSize.getYFromX(time);
-
-        //p.texIndex = MathUtil.nextRandomInt(0, atlasCount - 1);
-
-        tempVars.release();
-    }
-
-    @Override
-    public Particle newParticle(float time) {
-        Particle p = new Particle();
-        setNewParticle(p, time);
+    public Particle setNewParticle(Particle p, float time) {
+        p.rotateAngle = initialRotationOverTime.getYFromX(time);
+        initialPositionOverTime.getVector3f(time, p.position);
+        initialVelocityOverTime.getVector3f(time, p.velocity);
+        p.color.set(initialColorOverTime);
+        p.life = initialLifeOverTime.getYFromX(time);
+        p.size = initialSizeOverTime.getYFromX(time);
         return p;
     }
 
     @Override
-    public int getEmitSpeed(float time) {
-        return (int) (initialEmitSpeed.getYFromX(time));
+    public int getEmitNumber(float time, float delta) {
+        return (int) (initialEmitSpeedOverTime.getYFromX(time + delta / 2) * delta);
     }
 
-    public Vector3fRangeFunction getInitialPosition() {
-        return initialPosition;
+    public Vector3fRangeFunction getInitialPositionOverTime() {
+        return initialPositionOverTime;
     }
 
-    public void setInitialPosition(Vector3fRangeFunction initialPosition) {
-        this.initialPosition = initialPosition;
+    public void setInitialPositionOverTime(Vector3fRangeFunction initialPositionOverTime) {
+        this.initialPositionOverTime = initialPositionOverTime;
     }
 
-    public Vector3fRangeFunction getInitialVelocity() {
-        return initialVelocity;
+    public Vector3fRangeFunction getInitialVelocityOverTime() {
+        return initialVelocityOverTime;
     }
 
-    public void setInitialVelocity(Vector3fRangeFunction initialVelocity) {
-        this.initialVelocity = initialVelocity;
+    public void setInitialVelocityOverTime(Vector3fRangeFunction initialVelocityOverTime) {
+        this.initialVelocityOverTime = initialVelocityOverTime;
     }
 
-    public SingleRangeFunction getInitialRotation() {
-        return initialRotation;
+    public SingleRangeFunction getInitialRotationOverTime() {
+        return initialRotationOverTime;
     }
 
-    public void setInitialRotation(SingleRangeFunction initialRotation) {
-        this.initialRotation = initialRotation;
+    public void setInitialRotationOverTime(SingleRangeFunction initialRotationOverTime) {
+        this.initialRotationOverTime = initialRotationOverTime;
     }
 
-    public SingleRangeFunction getInitialSize() {
-        return initialSize;
+    public SingleRangeFunction getInitialSizeOverTime() {
+        return initialSizeOverTime;
     }
 
-    public void setInitialSize(SingleRangeFunction initialSize) {
-        this.initialSize = initialSize;
+    public void setInitialSizeOverTime(SingleRangeFunction initialSizeOverTime) {
+        this.initialSizeOverTime = initialSizeOverTime;
     }
 
-    public SingleRangeFunction getInitialEmitSpeed() {
-        return initialEmitSpeed;
+    public SingleRangeFunction getInitialEmitSpeedOverTime() {
+        return initialEmitSpeedOverTime;
     }
 
-    public void setInitialEmitSpeed(SingleRangeFunction initialEmitSpeed) {
-        this.initialEmitSpeed = initialEmitSpeed;
+    public void setInitialEmitSpeedOverTime(SingleRangeFunction initialEmitSpeedOverTime) {
+        this.initialEmitSpeedOverTime = initialEmitSpeedOverTime;
     }
 
-    public SingleRangeFunction getInitialLife() {
-        return initialLife;
+    public SingleRangeFunction getInitialLifeOverTime() {
+        return initialLifeOverTime;
     }
 
-    public void setInitialLife(SingleRangeFunction initialLife) {
-        this.initialLife = initialLife;
+    public void setInitialLifeOverTime(SingleRangeFunction initialLifeOverTime) {
+        this.initialLifeOverTime = initialLifeOverTime;
     }
 
-    public ColorRGBA getInitialColor() {
-        return initialColor;
+    public ColorRGBA getInitialColorOverTime() {
+        return initialColorOverTime;
     }
 
-    public void setInitialColor(ColorRGBA initialColor) {
-        this.initialColor = initialColor;
+    public void setInitialColorOverTime(ColorRGBA initialColorOverTime) {
+        this.initialColorOverTime = initialColorOverTime;
     }
 
 }

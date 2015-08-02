@@ -48,8 +48,8 @@ public class ParticleSystemGeometry extends InstancingGeometry {
 	private ParticleSystemComponent particleSystem;
 	
 	public ParticleSystemGeometry(String name, ParticleSystemComponent particleSystem, Mesh particle) {
-		super(name, "particle");
-		this.particleSystem = particleSystem;
+        super(name, "particle_new");
+        this.particleSystem = particleSystem;
 		generate(particle);
 	}
 	

@@ -23,7 +23,7 @@ public class ColorGradient {
         /**
          * The position of this control point (0 -> 1)
          */
-        public double pos;
+        public float pos;
 
         /**
          * Create a new control point
@@ -31,7 +31,7 @@ public class ColorGradient {
          * @param col The color at this control point
          * @param pos The position of this control point (0 -> 1)
          */
-        private ControlPoint(ColorRGBA col, double pos) {
+        private ControlPoint(ColorRGBA col, float pos) {
             this.col = col;
             this.pos = pos;
         }
@@ -41,7 +41,7 @@ public class ColorGradient {
         list.remove(selected);
     }
 
-    public void setPointPos(int selected, double newPos) {
+    public void setPointPos(int selected, float newPos) {
         list.get(selected).pos = newPos;
     }
 
@@ -51,7 +51,7 @@ public class ColorGradient {
      * @param pos The position in the gradient (0 -> 1)
      * @param col The color at the new control point
      */
-    public void addPoint(double pos, ColorRGBA col) {
+    public void addPoint(float pos, ColorRGBA col) {
         ControlPoint point = new ControlPoint(col, pos);
         for (int i = 0; i < list.size() - 1; i++) {
             ControlPoint now = list.get(i);
@@ -63,6 +63,18 @@ public class ColorGradient {
         }
     }
 
+    public ColorRGBA getYfromX(float pos, ColorRGBA color) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            ControlPoint now = list.get(i);
+            ControlPoint next = list.get(i + 1);
+            if ((now.pos <= pos) && (next.pos >= pos)) {
+                color.interpolateLocal(now.col, next.col, (pos - now.pos) / (next.pos - now.pos));
+                break;
+            }
+        }
+        return color;
+    }
+
 
     /**
      * Sort the control points based on their position
@@ -70,19 +82,14 @@ public class ColorGradient {
     private void sortPoints() {
         final ControlPoint firstPt = list.get(0);
         final ControlPoint lastPt = list.get(list.size() - 1);
-        Comparator compare = new Comparator() {
-            public int compare(Object first, Object second) {
-                if (first == firstPt) {
-                    return -1;
-                }
-                if (second == lastPt) {
-                    return -1;
-                }
-
-                double a = ((ControlPoint) first).pos;
-                double b = ((ControlPoint) second).pos;
-                return (int) ((a - b) * 10000);
+        Comparator<ControlPoint> compare = (first, second) -> {
+            if (first == firstPt) {
+                return -1;
             }
+            if (second == lastPt) {
+                return -1;
+            }
+            return (int) ((first.pos - second.pos) * 10000);
         };
         Collections.sort(list, compare);
     }
@@ -121,7 +128,7 @@ public class ColorGradient {
      * @param index The index of the control point
      * @return The graident position of the control point
      */
-    public double getPointPos(int index) {
+    public float getPointPos(int index) {
         return list.get(index).pos;
     }
 
@@ -140,7 +147,7 @@ public class ColorGradient {
     /**
      * The list of control points
      */
-    private List<ControlPoint> list = new ArrayList();
+    private List<ControlPoint> list = new ArrayList<>();
 
     public ColorGradient() {
         list.add(0, new ControlPoint(ColorRGBA.White, 0));

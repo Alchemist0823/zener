@@ -5,7 +5,7 @@ import com.n8lm.zener.math.ReadonlyCurveFunction;
 /**
  * Created by Alchemist0823 on 7/21/2015.
  */
-public class TextureAnimationModifier implements ParticleModifer {
+public class TextureAnimationModifier implements ParticleModifier {
 
     private ReadonlyCurveFunction texIndexOverLife;
     private int row, col;

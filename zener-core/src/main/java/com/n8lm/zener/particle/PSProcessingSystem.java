@@ -51,7 +51,7 @@ public class PSProcessingSystem extends EntityProcessingSystem {
         ParticleSystemComponent ps = pm.get(e);
 
         ParticleEmitter emitter =  ps.getEmitter();
-        Bag<ParticleModifer> modifers = ps.getFields();
+        Bag<ParticleModifier> modifers = ps.getFields();
 
 		Particle[] particles = ps.getParticles();
 	    float delta = world.getDelta() / 1000f;
@@ -62,14 +62,14 @@ public class PSProcessingSystem extends EntityProcessingSystem {
 
         // emit new particles
         if (ps.getDuration() == 0 || ps.getTime() < ps.getDuration()) {
-            int numSecond = Math.round(emitter.getEmitSpeed(time) * (time - (int) (time)));
-            int newCount = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitSpeed(ps.getTime()) * delta);
+            int numSecond = Math.round(emitter.getEmitNumber(time, delta) * (time - (int) (time)));
+            int newCount = numSecond - ps.getCountPerSecond();//Math.round(pc.getEmitNumber(ps.getTime()) * delta);
             int lastCount = count;
 
             for (int i = 0; i < newCount; i++) {
                 if (count < maxSize) {
                     if (particles[count] == null)
-                        particles[count++] = emitter.newParticle(time);
+                        particles[count++] = emitter.setNewParticle(new Particle(), time);
                     else
                         emitter.setNewParticle(particles[count++], time);
                 } else
@@ -79,34 +79,30 @@ public class PSProcessingSystem extends EntityProcessingSystem {
             ps.setCountPerSecond(ps.getCountPerSecond() + count - lastCount);
         }
 
-        for (int j = 0; j < modifers.size(); j++)
-            modifers.get(j).frameStarted();
+        // apply modifier
+        for (int j = 0; j < modifers.size(); j++) {
+            ParticleModifier particleModifier = modifers.get(j);
+            particleModifier.frameStarted();
+            for (int i = 0; i < count; i++) {
+                particleModifier.apply(particles[i], delta);
+            }
+        }
 
         TempVars tempVars = TempVars.get();
-		// Simulate all particles
-	    for(int i = 0; i < count; i ++){
-	        Particle p = particles[i]; // shortcut
-	     
+        for (int i = 0; i < count; i++) {
+            // Simulate all particles
+            Particle p = particles[i]; // shortcut
             // Decrease life
             p.life -= delta;
-            
-            if (p.life > 0.0f){
-
-                // Simulate simple physics : gravity only, no collisions
-                for (int j = 0; j < modifers.size(); j++)
-                    modifers.get(j).apply(p, delta);
-
-                //p.texIndex = (int) ((emitter.getFullLife() - p.life) / emitter.getFullLife() * emitter.getAtlasCount());
+            if (p.life > 0.0f) {
                 p.position.addLocal(p.velocity.mult(delta, tempVars.vect1));
-
             } else {
-            	Particle tmp = particles[count - 1];
-            	particles[count - 1] = particles[i];
-            	particles[i] = tmp;
-            	
-            	count --;
+                Particle tmp = particles[count - 1];
+                particles[count - 1] = particles[i];
+                particles[i] = tmp;
+                count--;
             }
-	    }
+        }
 
         tempVars.release();
 

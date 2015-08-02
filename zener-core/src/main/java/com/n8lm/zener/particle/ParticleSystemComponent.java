@@ -31,6 +31,11 @@ import com.artemis.utils.Bag;
 public class ParticleSystemComponent extends Component {
 
     /**
+     * the time speed
+     */
+    private float timeSpeed = 1.0f;
+
+    /**
      * the count of the particles
      */
 	private int count;
@@ -60,7 +65,7 @@ public class ParticleSystemComponent extends Component {
      */
     private final Particle[] particles;
     private final ParticleEmitter emitter;
-    private final Bag<ParticleModifer> fields;
+    private final Bag<ParticleModifier> fields;
 
     public ParticleSystemComponent(ParticleEmitter emitter) {
         this(emitter, 500);
@@ -81,7 +86,7 @@ public class ParticleSystemComponent extends Component {
         this.countPerSecond = 0;
 	}
 
-    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration, ParticleModifer field) {
+    public ParticleSystemComponent(ParticleEmitter emitter, int maxCount, float duration, ParticleModifier field) {
         this(emitter, maxCount, duration);
         this.fields.add(field);
     }
@@ -136,7 +141,7 @@ public class ParticleSystemComponent extends Component {
         return emitter;
     }
 
-    public Bag<ParticleModifer> getFields() {
+    public Bag<ParticleModifier> getFields() {
         return fields;
     }
 }

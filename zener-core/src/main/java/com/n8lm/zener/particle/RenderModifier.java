@@ -8,7 +8,7 @@ import com.n8lm.zener.math.Vector3f;
 /**
  * Created by Alchemist0823 on 7/23/2015.
  */
-public class RenderModifer implements ParticleModifer {
+public class RenderModifier implements ParticleModifier {
 
     public enum RenderMode {
         Billboard,
@@ -35,7 +35,7 @@ public class RenderModifer implements ParticleModifer {
     private Quaternion tempQuat = new Quaternion();
     private Vector3f tvec = new Vector3f();
 
-    public RenderModifer(SortMode sortMode, RenderMode renderMode, ViewRenderSystem subRenderSystem) {
+    public RenderModifier(SortMode sortMode, RenderMode renderMode, ViewRenderSystem subRenderSystem) {
         this.sortMode = sortMode;
         this.renderMode = renderMode;
         this.subRenderSystem = subRenderSystem;
