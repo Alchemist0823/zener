@@ -27,6 +27,8 @@ import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+import static org.lwjgl.opengl.GL42.glTexStorage2D;
 
 public class Texture extends GLObject {
 
@@ -144,8 +146,73 @@ public class Texture extends GLObject {
     }
 
     public enum MinFilter {
-        Nearest,
-        Bilinear;
+        /**
+         * Nearest neighbor interpolation is the fastest and crudest filtering
+         * method - it simply uses the color of the texel closest to the pixel
+         * center for the pixel color. While fast, this results in aliasing and
+         * shimmering during minification. (GL equivalent: GL_NEAREST)
+         */
+        NearestNoMipMaps(false),
+
+        /**
+         * In this method the four nearest texels to the pixel center are
+         * sampled (at texture level 0), and their colors are combined by
+         * weighted averages. Though smoother, without mipmaps it suffers the
+         * same aliasing and shimmering problems as nearest
+         * NearestNeighborNoMipMaps. (GL equivalent: GL_LINEAR)
+         */
+        BilinearNoMipMaps(false),
+
+        /**
+         * Same as NearestNeighborNoMipMaps except that instead of using samples
+         * from texture level 0, the closest mipmap level is chosen based on
+         * distance. This reduces the aliasing and shimmering significantly, but
+         * does not help with blockiness. (GL equivalent:
+         * GL_NEAREST_MIPMAP_NEAREST)
+         */
+        NearestNearestMipMap(true),
+
+        /**
+         * Same as BilinearNoMipMaps except that instead of using samples from
+         * texture level 0, the closest mipmap level is chosen based on
+         * distance. By using mipmapping we avoid the aliasing and shimmering
+         * problems of BilinearNoMipMaps. (GL equivalent:
+         * GL_LINEAR_MIPMAP_NEAREST)
+         */
+        BilinearNearestMipMap(true),
+
+        /**
+         * Similar to NearestNeighborNoMipMaps except that instead of using
+         * samples from texture level 0, a sample is chosen from each of the
+         * closest (by distance) two mipmap levels. A weighted average of these
+         * two samples is returned. (GL equivalent: GL_NEAREST_MIPMAP_LINEAR)
+         */
+        NearestLinearMipMap(true),
+
+        /**
+         * Trilinear filtering is a remedy to a common artifact seen in
+         * mipmapped bilinearly filtered images: an abrupt and very noticeable
+         * change in quality at boundaries where the renderer switches from one
+         * mipmap level to the next. Trilinear filtering solves this by doing a
+         * texture lookup and bilinear filtering on the two closest mipmap
+         * levels (one higher and one lower quality), and then linearly
+         * interpolating the results. This results in a smooth degradation of
+         * texture quality as distance from the viewer increases, rather than a
+         * series of sudden drops. Of course, closer than Level 0 there is only
+         * one mipmap level available, and the algorithm reverts to bilinear
+         * filtering (GL equivalent: GL_LINEAR_MIPMAP_LINEAR)
+         */
+        Trilinear(true);
+
+        private final boolean usesMipMapLevels;
+
+        private MinFilter(boolean usesMipMapLevels) {
+            this.usesMipMapLevels = usesMipMapLevels;
+        }
+
+        public boolean usesMipMapLevels() {
+            return usesMipMapLevels;
+        }
     }
 
     public enum MagFilter {
@@ -274,6 +341,8 @@ public class Texture extends GLObject {
         GreaterOrEqual
     }
 
+
+    private static int MIPMAP_LEVEL = 4;
     /**
      * The image stored in the texture
      */
@@ -288,12 +357,13 @@ public class Texture extends GLObject {
     private String name = null;
 
     private Format format = Format.RGBA8;
-    private MinFilter minificationFilter = MinFilter.Bilinear;
+    private MinFilter minificationFilter = MinFilter.BilinearNoMipMaps;
     private MagFilter magnificationFilter = MagFilter.Bilinear;
     private ShadowCompareMode shadowCompareMode = ShadowCompareMode.Off;
     private WrapMode wrapMode = WrapMode.EdgeClamp;
     private boolean needCompareModeUpdate = false;
     private int anisotropicFilter;
+    private boolean hasMipmaped;
 
     public Texture(int width, int height, Format format) {
         super(glGenTextures());
@@ -358,6 +428,8 @@ public class Texture extends GLObject {
     public Texture(Image image) {
         super(glGenTextures());
 
+        minificationFilter = MinFilter.Trilinear;
+
         init();
 
         this.image = image;
@@ -365,23 +437,28 @@ public class Texture extends GLObject {
         this.width = MathUtil.roundUpPOT(image.getWidth());
         this.height = MathUtil.roundUpPOT(image.getHeight());
 
-
-        if (width != image.getWidth() || height != image.getHeight()) {
+        if (minificationFilter.usesMipMapLevels()) {
+            glTexStorage2D(GL_TEXTURE_2D, MIPMAP_LEVEL, image.getFormat().getTextureFormat().getGLCode(), width, height);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, image.getWidth(), image.getHeight(), image.getFormat().getGLCode(),
+                    GL_UNSIGNED_BYTE, image.getData());
+            glGenerateMipmap(GL_TEXTURE_2D);
+        } else {
             glTexImage2D(GL_TEXTURE_2D, 0,
                     image.getFormat().getTextureFormat().getGLCode(), width, height,
                     0, image.getFormat().getGLCode(), GL_UNSIGNED_BYTE,
                     (ByteBuffer) null);
             if (image.getData() != null) {
-                Util.checkGLError();
                 glTexSubImage2D(GL_TEXTURE_2D, 0,
                         0, 0, image.getWidth(), image.getHeight(), image.getFormat().getGLCode(),
                         GL_UNSIGNED_BYTE, image.getData());
             }
-        } else {
+        }
+        //if (width != image.getWidth() || height != image.getHeight()) {
+        /*} else {
             glTexImage2D(GL_TEXTURE_2D, 0,
                     image.getFormat().getTextureFormat().getGLCode(), width, height,
                     0, image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, image.getData());
-        }
+        }*/
 
         Util.checkGLError();
         this.setFormat(image.getFormat().getTextureFormat());
@@ -393,11 +470,6 @@ public class Texture extends GLObject {
 		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 		glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
 		glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);*/
-
-        glTexImage2D(
-                GL_TEXTURE_2D, 0, format.getGLCode(), width, height, 0,
-                image.getFormat().getGLCode(), GL_UNSIGNED_BYTE, image.getData()
-        );
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
@@ -437,11 +509,23 @@ public class Texture extends GLObject {
         }
 
         switch (minificationFilter) {
-            case Bilinear:
+            case NearestNoMipMaps:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                break;
+            case BilinearNoMipMaps:
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                 break;
-            case Nearest:
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            case NearestNearestMipMap:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                break;
+            case BilinearNearestMipMap:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+                break;
+            case NearestLinearMipMap:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+                break;
+            case Trilinear:
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
                 break;
             default:
                 break;
@@ -516,9 +600,9 @@ public class Texture extends GLObject {
         return minificationFilter;
     }
 
-    public void setMinificationFilter(MinFilter minificationFilter) {
+    /*public void setMinificationFilter(MinFilter minificationFilter) {
         this.minificationFilter = minificationFilter;
-    }
+    }*/
 
     public Format getFormat() {
         return format;
